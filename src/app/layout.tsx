@@ -1,14 +1,20 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { Geist } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
 import { cn } from "@/lib/utils";
+import ClientLayout from "@/components/layout/ClientLayout";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const notoSansKr = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700", "900"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "InfantPedia - 영유아 종합 백과사전",
+  title: "InfantPedia - \uc601\uc720\uc544 \uc885\ud569 \ubc31\uacfc\uc0ac\uc804",
   description:
-    "신생아부터 생후 12개월까지, 아기의 성장 단계에 맞춘 실전 육아 백과사전",
+    "\uc2e0\uc0dd\uc544\ubd80\ud130 \uc0dd\ud6c4 12\uac1c\uc6d4\uae4c\uc9c0, \uc544\uae30\uc758 \uc131\uc7a5 \ub2e8\uacc4\uc5d0 \ub9de\ucd98 \uc2e4\uc804 \uc721\uc544 \ubc31\uacfc\uc0ac\uc804",
 };
 
 export const viewport: Viewport = {
@@ -16,6 +22,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: "#FFF8F0",
 };
 
 export default function RootLayout({
@@ -24,8 +31,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={cn("font-sans", geist.variable)}>
-      <body className="antialiased">{children}</body>
+    <html lang="ko" className={cn("font-sans", notoSansKr.variable)}>
+      <body className="antialiased">
+        <ClientLayout>{children}</ClientLayout>
+      </body>
     </html>
   );
 }
