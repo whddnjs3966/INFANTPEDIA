@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS months_info (
   feed_amount_max INT,
   daily_feed_total INT,
   nap_count VARCHAR(50),
+  total_sleep_hours VARCHAR(50),
+  feed_count VARCHAR(50),
   summary TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );

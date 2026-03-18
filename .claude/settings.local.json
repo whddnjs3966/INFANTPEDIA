@@ -19,7 +19,23 @@
       "mcp__supabase__get_publishable_keys",
       "Bash(npx -y @supabase/mcp-server-supabase@latest --help)",
       "Bash(tr ';' '\\\\n')",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "WebSearch",
+      "WebFetch(domain:baby.tali.kr)",
+      "WebFetch(domain:www.bebesnap.com)",
+      "WebFetch(domain:www.yugacrew.com)",
+      "WebFetch(domain:community.mmtalk.kr)",
+      "WebFetch(domain:huckleberrycare.com)",
+      "WebFetch(domain:www.mybabysleepguide.com)",
+      "WebFetch(domain:health.clevelandclinic.org)",
+      "WebFetch(domain:www.nestedbean.com)",
+      "WebFetch(domain:babymonths.calculated.co.kr)",
+      "WebFetch(domain:thewonderweeks.com)",
+      "WebFetch(domain:babysleepconsultant.co)",
+      "WebFetch(domain:www.whosthatmom.com)",
+      "WebFetch(domain:www.babysleepschedule.net)"
     ]
   }
 }

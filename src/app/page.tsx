@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Clock, Baby, Moon, Info } from "lucide-react";
+import { Clock, Baby, Moon, Utensils, Info } from "lucide-react";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getMonthInfo, getWonderWeeks } from "@/lib/queries/months";
 import DashboardCard from "@/components/home/DashboardCard";
@@ -18,6 +18,8 @@ interface MonthData {
   feed_amount_max: number | null;
   daily_feed_total: number | null;
   nap_count: string | null;
+  total_sleep_hours: string | null;
+  feed_count: string | null;
   summary: string | null;
 }
 
@@ -201,21 +203,21 @@ export default function HomePage() {
                   index={1}
                 />
                 <DashboardCard
-                  title={"\ub0ae\uc7a0 \ud69f\uc218"}
-                  value={monthData?.nap_count || "-"}
-                  subtitle={"\ud558\ub8e8 \uad8c\uc7a5 \ub0ae\uc7a0"}
+                  title="총 수면시간"
+                  value={monthData?.total_sleep_hours ? `${monthData.total_sleep_hours}시간` : "-"}
+                  subtitle="하루 권장 수면"
                   icon={Moon}
                   colorScheme="purple"
-                  emoji={"\ud83c\udf19"}
+                  emoji="😴"
                   index={2}
                 />
                 <DashboardCard
-                  title={"\uc6d4\ub839 \uc815\ubcf4"}
-                  value={`${months}\uac1c\uc6d4`}
-                  subtitle={"\ud604\uc7ac \uc6d4\ub839"}
-                  icon={Info}
+                  title="수유 횟수"
+                  value={monthData?.feed_count || "-"}
+                  subtitle={monthData?.nap_count ? `낮잠 ${monthData.nap_count}` : "하루 권장 횟수"}
+                  icon={Utensils}
                   colorScheme="mint"
-                  emoji={"\ud83d\udcda"}
+                  emoji="🍽️"
                   index={3}
                 />
               </div>
