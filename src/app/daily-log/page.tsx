@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { Plus, ChevronLeft, ChevronRight, Trash2, BarChart3, List } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBabyStore } from "@/lib/store/baby-store";
 import {
@@ -12,6 +12,8 @@ import {
 } from "@/lib/store/daily-log-store";
 import LogForm from "@/components/daily-log/LogForm";
 import DailySummary from "@/components/daily-log/DailySummary";
+import LastActivityTimers from "@/components/daily-log/LastActivityTimers";
+import WeeklyChart from "@/components/daily-log/WeeklyChart";
 
 function toLocalDateStr(d: Date) {
   const y = d.getFullYear();
@@ -85,6 +87,7 @@ export default function DailyLogPage() {
   const [selectedDate, setSelectedDate] = useState(getTodayStr());
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState<LogCategory | "all">("all");
+  const [viewMode, setViewMode] = useState<"daily" | "weekly">("daily");
 
   const profile = useBabyStore((s) => s.profile);
   const allEntries = useDailyLogStore((s) => s.entries);
@@ -126,128 +129,169 @@ export default function DailyLogPage() {
         </p>
       </motion.div>
 
-      {/* Date Selector */}
-      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] px-5 pb-3 pt-2">
-        <div className="flex items-center justify-between rounded-2xl bg-white px-2 py-2 shadow-sm">
+      {/* View mode toggle + Date Selector */}
+      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] px-5 pb-3 pt-2 space-y-2">
+        {/* View toggle */}
+        <div className="flex gap-1 rounded-xl bg-gray-100/80 p-1">
           <button
-            onClick={() => setSelectedDate(getDateStr(-1, selectedDate))}
-            className="rounded-full p-2 hover:bg-gray-100"
-          >
-            <ChevronLeft size={18} className="text-gray-500" />
-          </button>
-          <div className="text-center">
-            <p className="text-sm font-semibold text-gray-800">{formatDate(selectedDate)}</p>
-            {isToday && (
-              <span className="text-[10px] font-medium text-pink-500">오늘</span>
-            )}
-          </div>
-          <button
-            onClick={() => {
-              const next = getDateStr(1, selectedDate);
-              if (next <= getTodayStr()) {
-                setSelectedDate(next);
-              }
-            }}
+            onClick={() => setViewMode("daily")}
             className={cn(
-              "rounded-full p-2",
-              isToday ? "text-gray-200" : "text-gray-500 hover:bg-gray-100"
+              "relative flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-medium transition-all",
+              viewMode === "daily" ? "bg-white text-gray-800 shadow-sm" : "text-gray-400"
             )}
-            disabled={isToday}
           >
-            <ChevronRight size={18} />
+            <List size={14} />
+            일별 기록
+          </button>
+          <button
+            onClick={() => setViewMode("weekly")}
+            className={cn(
+              "relative flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-medium transition-all",
+              viewMode === "weekly" ? "bg-white text-gray-800 shadow-sm" : "text-gray-400"
+            )}
+          >
+            <BarChart3 size={14} />
+            주간 패턴
           </button>
         </div>
+
+        {/* Date selector (daily mode only) */}
+        {viewMode === "daily" && (
+          <div className="flex items-center justify-between rounded-2xl bg-white px-2 py-2 shadow-sm">
+            <button
+              onClick={() => setSelectedDate(getDateStr(-1, selectedDate))}
+              className="rounded-full p-2 hover:bg-gray-100"
+            >
+              <ChevronLeft size={18} className="text-gray-500" />
+            </button>
+            <div className="text-center">
+              <p className="text-sm font-semibold text-gray-800">{formatDate(selectedDate)}</p>
+              {isToday && (
+                <span className="text-[10px] font-medium text-pink-500">오늘</span>
+              )}
+            </div>
+            <button
+              onClick={() => {
+                const next = getDateStr(1, selectedDate);
+                if (next <= getTodayStr()) {
+                  setSelectedDate(next);
+                }
+              }}
+              className={cn(
+                "rounded-full p-2",
+                isToday ? "text-gray-200" : "text-gray-500 hover:bg-gray-100"
+              )}
+              disabled={isToday}
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="px-5 space-y-4">
-        {/* Daily Summary */}
-        <DailySummary entries={entries} />
+        {/* Last activity timers (always visible in daily mode) */}
+        {viewMode === "daily" && (
+          <LastActivityTimers allEntries={allEntries} />
+        )}
 
-        {/* Category Filter */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1">
-          <button
-            onClick={() => setFilter("all")}
-            className={cn(
-              "shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-all",
-              filter === "all" ? "bg-pink-100 text-pink-700 shadow-sm" : "bg-gray-100 text-gray-500"
-            )}
-          >
-            전체 ({entries.length})
-          </button>
-          {categories.map(([key, cfg]) => {
-            const count = entries.filter((e) => e.category === key).length;
-            if (count === 0) return null;
-            return (
+        {/* Weekly chart view */}
+        {viewMode === "weekly" && (
+          <WeeklyChart allEntries={allEntries} />
+        )}
+
+        {/* Daily Summary (daily mode only) */}
+        {viewMode === "daily" && <DailySummary entries={entries} />}
+
+        {/* Category Filter + Timeline (daily mode only) */}
+        {viewMode === "daily" && (
+          <>
+            <div className="flex gap-1.5 overflow-x-auto pb-1">
               <button
-                key={key}
-                onClick={() => setFilter(key)}
+                onClick={() => setFilter("all")}
                 className={cn(
                   "shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-all",
-                  filter === key ? "bg-pink-100 text-pink-700 shadow-sm" : "bg-gray-100 text-gray-500"
+                  filter === "all" ? "bg-pink-100 text-pink-700 shadow-sm" : "bg-gray-100 text-gray-500"
                 )}
               >
-                {cfg.emoji} {count}
+                전체 ({entries.length})
               </button>
-            );
-          })}
-        </div>
-
-        {/* Timeline */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`${selectedDate}-${filter}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="space-y-2"
-          >
-            {filteredEntries.length === 0 ? (
-              <div className="flex flex-col items-center py-12 text-center">
-                <p className="text-4xl">📋</p>
-                <p className="mt-3 text-sm text-gray-400">
-                  {isToday ? "오늘의 첫 기록을 추가해보세요!" : "이 날의 기록이 없습니다"}
-                </p>
-              </div>
-            ) : (
-              filteredEntries.map((entry, i) => {
-                const cfg = LOG_CATEGORY_CONFIG[entry.category];
-                const detail = getEntryDetail(entry);
+              {categories.map(([key, cfg]) => {
+                const count = entries.filter((e) => e.category === key).length;
+                if (count === 0) return null;
                 return (
-                  <motion.div
-                    key={entry.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.03 }}
+                  <button
+                    key={key}
+                    onClick={() => setFilter(key)}
                     className={cn(
-                      "flex items-start gap-3 rounded-2xl border p-3",
-                      CATEGORY_COLORS[entry.category]
+                      "shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-all",
+                      filter === key ? "bg-pink-100 text-pink-700 shadow-sm" : "bg-gray-100 text-gray-500"
                     )}
                   >
-                    <div className="flex flex-col items-center pt-0.5">
-                      <span className="text-lg">{cfg.emoji}</span>
-                      <span className="mt-0.5 text-[10px] font-medium text-gray-400">{entry.time}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-800">{cfg.label}</p>
-                      {detail && (
-                        <p className="mt-0.5 text-xs text-gray-500">{detail}</p>
-                      )}
-                      {entry.note && entry.category !== "memo" && (
-                        <p className="mt-1 text-[10px] text-gray-400 italic">{entry.note}</p>
-                      )}
-                    </div>
-                    <button
-                      onClick={() => deleteEntry(entry.id)}
-                      className="shrink-0 rounded-full p-1.5 text-gray-300 hover:bg-white hover:text-red-400"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </motion.div>
+                    {cfg.emoji} {count}
+                  </button>
                 );
-              })
-            )}
-          </motion.div>
-        </AnimatePresence>
+              })}
+            </div>
+
+            {/* Timeline */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${selectedDate}-${filter}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="space-y-2"
+              >
+                {filteredEntries.length === 0 ? (
+                  <div className="flex flex-col items-center py-12 text-center">
+                    <p className="text-4xl">📋</p>
+                    <p className="mt-3 text-sm text-gray-400">
+                      {isToday ? "오늘의 첫 기록을 추가해보세요!" : "이 날의 기록이 없습니다"}
+                    </p>
+                  </div>
+                ) : (
+                  filteredEntries.map((entry, i) => {
+                    const cfg = LOG_CATEGORY_CONFIG[entry.category];
+                    const detail = getEntryDetail(entry);
+                    return (
+                      <motion.div
+                        key={entry.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.03 }}
+                        className={cn(
+                          "flex items-start gap-3 rounded-2xl border p-3",
+                          CATEGORY_COLORS[entry.category]
+                        )}
+                      >
+                        <div className="flex flex-col items-center pt-0.5">
+                          <span className="text-lg">{cfg.emoji}</span>
+                          <span className="mt-0.5 text-[10px] font-medium text-gray-400">{entry.time}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-800">{cfg.label}</p>
+                          {detail && (
+                            <p className="mt-0.5 text-xs text-gray-500">{detail}</p>
+                          )}
+                          {entry.note && entry.category !== "memo" && (
+                            <p className="mt-1 text-[10px] text-gray-400 italic">{entry.note}</p>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => deleteEntry(entry.id)}
+                          className="shrink-0 rounded-full p-1.5 text-gray-300 hover:bg-white hover:text-red-400"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </motion.div>
+                    );
+                  })
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </>
+        )}
       </div>
 
       {/* FAB */}
