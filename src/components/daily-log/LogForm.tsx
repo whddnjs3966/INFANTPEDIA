@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { X, Save } from "lucide-react";
+import { X, Save, Clock, ChevronUp, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   type LogCategory,
@@ -31,8 +31,104 @@ const BREAST_SIDES: { value: "left" | "right" | "both"; label: string }[] = [
   { value: "both", label: "양쪽" },
 ];
 
+// Custom time picker component
+function TimePicker({
+  value,
+  onChange,
+  label,
+  accentColor = "pink",
+}: {
+  value: string;
+  onChange: (val: string) => void;
+  label: string;
+  accentColor?: string;
+}) {
+  const [h, m] = value ? value.split(":").map(Number) : [0, 0];
+
+  const setNow = () => {
+    const now = new Date();
+    onChange(
+      `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`
+    );
+  };
+
+  const adjust = (field: "h" | "m", delta: number) => {
+    let newH = h;
+    let newM = m;
+    if (field === "h") newH = (h + delta + 24) % 24;
+    else newM = (m + delta + 60) % 60;
+    onChange(`${String(newH).padStart(2, "0")}:${String(newM).padStart(2, "0")}`);
+  };
+
+  const colorMap: Record<string, { bg: string; text: string; ring: string; nowBg: string }> = {
+    pink: { bg: "bg-pink-50", text: "text-pink-700", ring: "ring-pink-200", nowBg: "bg-pink-100" },
+    purple: { bg: "bg-purple-50", text: "text-purple-700", ring: "ring-purple-200", nowBg: "bg-purple-100" },
+  };
+  const c = colorMap[accentColor] || colorMap.pink;
+
+  return (
+    <div className="mb-3">
+      <div className="mb-1.5 flex items-center justify-between">
+        <label className="text-xs text-gray-500">{label}</label>
+        <button
+          type="button"
+          onClick={setNow}
+          className={cn("flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium", c.nowBg, c.text)}
+        >
+          <Clock size={10} />
+          현재 시간
+        </button>
+      </div>
+      <div className={cn("flex items-center justify-center gap-1 rounded-2xl p-3", c.bg)}>
+        {/* Hours */}
+        <div className="flex flex-col items-center gap-1">
+          <button type="button" onClick={() => adjust("h", 1)} className="rounded-lg p-1 hover:bg-white/60">
+            <ChevronUp size={16} className="text-gray-400" />
+          </button>
+          <span className={cn("text-2xl font-bold tabular-nums", c.text)}>
+            {String(h).padStart(2, "0")}
+          </span>
+          <button type="button" onClick={() => adjust("h", -1)} className="rounded-lg p-1 hover:bg-white/60">
+            <ChevronDown size={16} className="text-gray-400" />
+          </button>
+        </div>
+
+        <span className={cn("text-2xl font-bold", c.text)}>:</span>
+
+        {/* Minutes */}
+        <div className="flex flex-col items-center gap-1">
+          <button type="button" onClick={() => adjust("m", 5)} className="rounded-lg p-1 hover:bg-white/60">
+            <ChevronUp size={16} className="text-gray-400" />
+          </button>
+          <span className={cn("text-2xl font-bold tabular-nums", c.text)}>
+            {String(m).padStart(2, "0")}
+          </span>
+          <button type="button" onClick={() => adjust("m", -5)} className="rounded-lg p-1 hover:bg-white/60">
+            <ChevronDown size={16} className="text-gray-400" />
+          </button>
+        </div>
+
+        {/* AM/PM indicator */}
+        <span className={cn("ml-2 rounded-lg px-2 py-1 text-xs font-medium", c.bg, c.text)}>
+          {h < 12 ? "오전" : "오후"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function calcDurationMinutes(start: string, end: string): number {
+  if (!start || !end) return 0;
+  const [sh, sm] = start.split(":").map(Number);
+  const [eh, em] = end.split(":").map(Number);
+  let diff = (eh * 60 + em) - (sh * 60 + sm);
+  if (diff < 0) diff += 24 * 60; // overnight
+  return diff;
+}
+
 export default function LogForm({ date, editEntry, onClose }: LogFormProps) {
-  const { addEntry, updateEntry } = useDailyLogStore();
+  const addEntry = useDailyLogStore((s) => s.addEntry);
+  const updateEntry = useDailyLogStore((s) => s.updateEntry);
 
   const [category, setCategory] = useState<LogCategory>(editEntry?.category || "formula");
   const [time, setTime] = useState(editEntry?.time || new Date().toTimeString().slice(0, 5));
@@ -46,6 +142,14 @@ export default function LogForm({ date, editEntry, onClose }: LogFormProps) {
   const [temperature, setTemperature] = useState(editEntry?.temperature?.toString() || "");
   const [note, setNote] = useState(editEntry?.note || "");
   const [saved, setSaved] = useState(false);
+
+  // Auto-calculate sleep duration when start/end times change
+  useEffect(() => {
+    if (category === "sleep" && time && endTime) {
+      const mins = calcDurationMinutes(time, endTime);
+      if (mins > 0) setDuration(String(mins));
+    }
+  }, [time, endTime, category]);
 
   const handleSave = () => {
     const entry: Omit<LogEntry, "id"> = {
@@ -123,16 +227,13 @@ export default function LogForm({ date, editEntry, onClose }: LogFormProps) {
           </div>
         )}
 
-        {/* Time */}
-        <div className="mb-3">
-          <label className="mb-1 block text-xs text-gray-500">시간</label>
-          <input
-            type="time"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-pink-400 focus:outline-none"
-          />
-        </div>
+        {/* Time - custom picker */}
+        <TimePicker
+          value={time}
+          onChange={setTime}
+          label={category === "sleep" ? "시작 시간" : "시간"}
+          accentColor={category === "sleep" ? "purple" : "pink"}
+        />
 
         {/* Category-specific fields */}
         {category === "breast_feed" && (
@@ -247,24 +348,28 @@ export default function LogForm({ date, editEntry, onClose }: LogFormProps) {
 
         {category === "sleep" && (
           <>
+            <TimePicker
+              value={endTime}
+              onChange={setEndTime}
+              label="종료 시간"
+              accentColor="purple"
+            />
+            {/* Auto-calculated duration display */}
             <div className="mb-3">
-              <label className="mb-1 block text-xs text-gray-500">종료 시간</label>
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-purple-400 focus:outline-none"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="mb-1 block text-xs text-gray-500">수면 시간 (분)</label>
-              <input
-                type="number"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                placeholder="90"
-                className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-purple-400 focus:outline-none"
-              />
+              <label className="mb-1 block text-xs text-gray-500">수면 시간</label>
+              <div className="flex items-center gap-2 rounded-2xl bg-purple-50 px-4 py-3">
+                {duration && parseInt(duration) > 0 ? (
+                  <>
+                    <span className="text-lg">😴</span>
+                    <span className="text-sm font-bold text-purple-700">
+                      {Math.floor(parseInt(duration) / 60)}시간 {parseInt(duration) % 60}분
+                    </span>
+                    <span className="text-xs text-purple-400">({duration}분)</span>
+                  </>
+                ) : (
+                  <span className="text-xs text-purple-400">시작/종료 시간을 설정하면 자동 계산됩니다</span>
+                )}
+              </div>
             </div>
           </>
         )}

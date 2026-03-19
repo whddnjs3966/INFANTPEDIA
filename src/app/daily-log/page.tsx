@@ -13,16 +13,28 @@ import {
 import LogForm from "@/components/daily-log/LogForm";
 import DailySummary from "@/components/daily-log/DailySummary";
 
+function toLocalDateStr(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function getTodayStr() {
+  return toLocalDateStr(new Date());
+}
+
 function formatDate(dateStr: string) {
-  const d = new Date(dateStr + "T00:00:00");
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
   const days = ["일", "월", "화", "수", "목", "금", "토"];
-  return `${d.getMonth() + 1}월 ${d.getDate()}일 (${days[d.getDay()]})`;
+  return `${m}월 ${d}일 (${days[date.getDay()]})`;
 }
 
 function getDateStr(offset: number, base: string) {
-  const d = new Date(base + "T00:00:00");
-  d.setDate(d.getDate() + offset);
-  return d.toISOString().split("T")[0];
+  const [y, m, d] = base.split("-").map(Number);
+  const date = new Date(y, m - 1, d + offset);
+  return toLocalDateStr(date);
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -70,7 +82,7 @@ function getEntryDetail(entry: { category: LogCategory; amount?: number; duratio
 
 export default function DailyLogPage() {
   const [mounted, setMounted] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
+  const [selectedDate, setSelectedDate] = useState(getTodayStr());
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState<LogCategory | "all">("all");
 
@@ -89,7 +101,7 @@ export default function DailyLogPage() {
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) return null;
 
-  const isToday = selectedDate === new Date().toISOString().split("T")[0];
+  const isToday = selectedDate === getTodayStr();
 
   const filteredEntries = filter === "all"
     ? entries
@@ -132,7 +144,7 @@ export default function DailyLogPage() {
           <button
             onClick={() => {
               const next = getDateStr(1, selectedDate);
-              if (next <= new Date().toISOString().split("T")[0]) {
+              if (next <= getTodayStr()) {
                 setSelectedDate(next);
               }
             }}
