@@ -85,9 +85,21 @@ function TimePicker({
           <button type="button" onClick={() => adjust("h", 1)} className="rounded-lg p-1 hover:bg-white/60">
             <ChevronUp size={16} className="text-gray-400" />
           </button>
-          <span className={cn("text-2xl font-bold tabular-nums", c.text)}>
-            {String(h).padStart(2, "0")}
-          </span>
+          <input
+            type="text"
+            inputMode="numeric"
+            maxLength={2}
+            value={String(h).padStart(2, "0")}
+            onChange={(e) => {
+              const v = e.target.value.replace(/\D/g, "");
+              const num = Math.min(parseInt(v || "0", 10), 23);
+              onChange(`${String(num).padStart(2, "0")}:${String(m).padStart(2, "0")}`);
+            }}
+            className={cn(
+              "w-10 bg-transparent text-center text-2xl font-bold tabular-nums outline-none",
+              c.text
+            )}
+          />
           <button type="button" onClick={() => adjust("h", -1)} className="rounded-lg p-1 hover:bg-white/60">
             <ChevronDown size={16} className="text-gray-400" />
           </button>
@@ -100,9 +112,21 @@ function TimePicker({
           <button type="button" onClick={() => adjust("m", 5)} className="rounded-lg p-1 hover:bg-white/60">
             <ChevronUp size={16} className="text-gray-400" />
           </button>
-          <span className={cn("text-2xl font-bold tabular-nums", c.text)}>
-            {String(m).padStart(2, "0")}
-          </span>
+          <input
+            type="text"
+            inputMode="numeric"
+            maxLength={2}
+            value={String(m).padStart(2, "0")}
+            onChange={(e) => {
+              const v = e.target.value.replace(/\D/g, "");
+              const num = Math.min(parseInt(v || "0", 10), 59);
+              onChange(`${String(h).padStart(2, "0")}:${String(num).padStart(2, "0")}`);
+            }}
+            className={cn(
+              "w-10 bg-transparent text-center text-2xl font-bold tabular-nums outline-none",
+              c.text
+            )}
+          />
           <button type="button" onClick={() => adjust("m", -5)} className="rounded-lg p-1 hover:bg-white/60">
             <ChevronDown size={16} className="text-gray-400" />
           </button>
