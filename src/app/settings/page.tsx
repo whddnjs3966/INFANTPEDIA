@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { User, Trash2, Info, Heart, Plus, Check, X, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import SharingSection from "@/components/sharing/SharingSection";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -296,6 +297,11 @@ export default function SettingsPage() {
             </motion.div>
           )}
         </div>
+
+        <Separator className="bg-pink-100" />
+
+        {/* Data Sharing */}
+        <SharingSection />
 
         {/* Remove individual baby (only if more than 1) */}
         {babies.length > 1 && profile && (
