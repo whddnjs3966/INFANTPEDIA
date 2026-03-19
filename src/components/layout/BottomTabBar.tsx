@@ -1,13 +1,15 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { Home, BookOpen, Settings } from "lucide-react";
+import { Home, BookOpen, TrendingUp, ClipboardList, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const tabs = [
   { href: "/", label: "홈", icon: Home },
-  { href: "/encyclopedia", label: "백과사전", icon: BookOpen },
+  { href: "/encyclopedia", label: "백과", icon: BookOpen },
+  { href: "/growth", label: "성장", icon: TrendingUp },
+  { href: "/daily-log", label: "일지", icon: ClipboardList },
   { href: "/settings", label: "설정", icon: Settings },
 ];
 
@@ -30,7 +32,7 @@ export default function BottomTabBar() {
               key={tab.href}
               onClick={() => router.push(tab.href)}
               className={cn(
-                "relative flex min-h-[48px] min-w-[64px] flex-col items-center justify-center gap-1 rounded-xl px-3 py-1.5 transition-colors",
+                "relative flex min-h-[48px] min-w-[48px] flex-col items-center justify-center gap-0.5 rounded-xl px-2 py-1.5 transition-colors",
                 isActive
                   ? "text-[#E88FAC]"
                   : "text-gray-400 hover:text-gray-600"
@@ -48,7 +50,7 @@ export default function BottomTabBar() {
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="relative z-10"
               >
-                <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+                <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
               </motion.div>
               <span
                 className={cn(

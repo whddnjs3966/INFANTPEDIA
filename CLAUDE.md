@@ -11,7 +11,8 @@ InfantPedia (인펀트피디아) — a mobile-first web encyclopedia providing a
 - **Framework:** Next.js 14+ with App Router, TypeScript, React
 - **Styling:** Tailwind CSS (mobile-first) + shadcn/ui components
 - **Database:** Supabase (PostgreSQL), using Supabase client SDK
-- **State:** Zustand or React Context API
+- **Charts:** Recharts (growth charts)
+- **State:** Zustand (persisted to localStorage) for baby profile, measurements, vaccination records, daily logs
 - **Deployment:** Vercel (frontend), Supabase Cloud (database)
 
 ## Build & Dev Commands
@@ -29,16 +30,30 @@ npm run lint         # run ESLint
 - Baby profile (name, birthdate) is stored in browser `localStorage` — no auth required
 - Age calculations (days since birth, months) are computed client-side from stored birthdate
 - Encyclopedia and dashboard data is fetched from Supabase tables based on computed age
+- Growth measurements, vaccination records, daily logs are stored client-side in localStorage via Zustand persist
 
 ### Database Tables (Supabase)
 - `months_info` — per-month metadata: wake windows, feeding amounts, nap counts, summary (keyed by `month` 0–12)
 - `wonder_weeks` — Wonder Weeks periods defined by `start_day`/`end_day` ranges (days since birth)
 - `activities` — detailed content (development, play, sleep, food) linked to `months_info.month`
+- `growth_standards` — WHO growth data (can be seeded via `sql/003_growth_vaccination.sql`)
+- `vaccination_schedule` — KDCA national immunization schedule
+
+### Static Data (Client-side)
+- `src/lib/data/growth-data.ts` — WHO growth standards (height/weight/head circumference, 0–12 months, male/female, 3rd/50th/97th percentiles) + KDCA vaccination schedule (12 vaccines)
+
+### Zustand Stores (localStorage-persisted)
+- `baby-store.ts` — Baby profile (name, birthdate), age calculations
+- `measurement-store.ts` — Baby's actual height/weight/head circumference measurements by month
+- `vaccination-store.ts` — Vaccination completion records (toggle completed, date tracking)
+- `daily-log-store.ts` — Daily activity logs (breast feed, formula, baby food, poop, pee, sleep, temperature, memo)
 
 ### Key UI Structure
-- **Bottom Tab Bar:** Home / Encyclopedia / Settings (fixed on mobile)
-- **Home Tab:** Daily dashboard with age-matched data cards (wake window, feeding, Wonder Weeks alert)
+- **Bottom Tab Bar:** Home / Encyclopedia / Growth / Daily Log / Settings (5 tabs, fixed on mobile)
+- **Home Tab:** Daily dashboard with age-matched data cards (wake window, feeding, Wonder Weeks alert, vaccination reminder)
 - **Encyclopedia Tab:** Month selector (swiper 0m–12m) → accordion/tab content by category
+- **Growth Tab:** Sub-tabs for growth charts (height/weight/head circumference, male/female/comparison, baby overlay) and vaccination schedule (KDCA, completion tracking)
+- **Daily Log Tab:** Date navigation, category-based entry (8 types), daily summary, timeline view
 - **Mobile-first:** optimized for 360–430px viewport, min touch target 48px
 
 ## Language & Locale

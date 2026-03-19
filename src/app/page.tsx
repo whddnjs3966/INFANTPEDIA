@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Clock, Baby, Moon, Utensils, Info } from "lucide-react";
+import { Clock, Baby, Moon, Utensils, Info, Syringe, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getMonthInfo, getWonderWeeks } from "@/lib/queries/months";
+import { getVaccinationsForMonth } from "@/lib/data/growth-data";
+import { useVaccinationStore } from "@/lib/store/vaccination-store";
 import DashboardCard from "@/components/home/DashboardCard";
 import WonderWeekBanner from "@/components/home/WonderWeekBanner";
 import FloatingDecorations from "@/components/layout/FloatingDecorations";
@@ -42,8 +45,10 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const router = useRouter();
   const days = getDaysOld();
   const months = getMonthsOld();
+  const vaccinationStore = useVaccinationStore();
 
   useEffect(() => {
     async function fetchData() {
@@ -222,6 +227,38 @@ export default function HomePage() {
                 />
               </div>
             )}
+
+            {/* Vaccination Alert Card */}
+            {(() => {
+              const upcoming = getVaccinationsForMonth(months);
+              const incomplete = upcoming.filter(
+                (u) => !vaccinationStore.isCompleted(u.vaccine.id, u.dose.doseNumber)
+              );
+              if (incomplete.length === 0) return null;
+              return (
+                <motion.button
+                  variants={child}
+                  onClick={() => router.push("/growth")}
+                  className="w-full rounded-2xl border border-amber-200/50 bg-gradient-to-r from-amber-50 to-orange-50 p-4 text-left shadow-sm"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-xl bg-amber-100 p-2">
+                      <Syringe size={18} className="text-amber-600" />
+                    </span>
+                    <div className="flex-1">
+                      <p className="text-sm font-bold text-gray-700">
+                        {"\ud83d\udcc5"} {"\uc608\ubc29\uc811\uc885"} {"\uc548\ub0b4"}
+                      </p>
+                      <p className="mt-0.5 text-xs text-amber-600">
+                        {months}{"\uac1c\uc6d4"} {"\uc811\uc885"} {"\ub300\uc0c1"}: {incomplete.slice(0, 3).map((u) => u.vaccine.nameEn).join(", ")}
+                        {incomplete.length > 3 && ` {"\uc678"} ${incomplete.length - 3}{"\uac74"}`}
+                      </p>
+                    </div>
+                    <ChevronRight size={16} className="text-amber-400" />
+                  </div>
+                </motion.button>
+              );
+            })()}
 
             {/* Monthly summary card */}
             {monthData?.summary && (
