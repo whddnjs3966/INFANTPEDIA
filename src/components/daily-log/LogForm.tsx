@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { X, Save, Clock, ChevronUp, ChevronDown } from "lucide-react";
+import { X, Save, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   type LogCategory,
@@ -31,7 +31,75 @@ const BREAST_SIDES: { value: "left" | "right" | "both"; label: string }[] = [
   { value: "both", label: "양쪽" },
 ];
 
-// Custom time picker component
+// Scroll-based column for time picker
+function ScrollColumn({
+  items,
+  selected,
+  onSelect,
+  textColor,
+}: {
+  items: string[];
+  selected: number;
+  onSelect: (idx: number) => void;
+  textColor: string;
+}) {
+  const containerRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node) return;
+      // Scroll to selected item on mount
+      const itemH = 40;
+      node.scrollTop = selected * itemH;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [] // only on mount
+  );
+
+  const handleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const el = e.currentTarget;
+      const itemH = 40;
+      const idx = Math.round(el.scrollTop / itemH);
+      if (idx >= 0 && idx < items.length && idx !== selected) {
+        onSelect(idx);
+      }
+    },
+    [items.length, selected, onSelect]
+  );
+
+  return (
+    <div
+      ref={containerRef}
+      onScroll={handleScroll}
+      className="relative h-[120px] w-16 snap-y snap-mandatory overflow-y-auto scrollbar-hide"
+      style={{ scrollSnapType: "y mandatory" }}
+    >
+      {/* Top/bottom spacers so items can center */}
+      <div className="h-10" />
+      {items.map((item, idx) => (
+        <button
+          key={idx}
+          type="button"
+          onClick={() => onSelect(idx)}
+          className={cn(
+            "flex h-10 w-full snap-center items-center justify-center text-lg font-bold tabular-nums transition-all",
+            idx === selected
+              ? `${textColor} scale-110`
+              : "text-gray-300 scale-90"
+          )}
+          style={{ scrollSnapAlign: "center" }}
+        >
+          {item}
+        </button>
+      ))}
+      <div className="h-10" />
+    </div>
+  );
+}
+
+const HOURS_LIST = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
+const MINUTES_LIST = Array.from({ length: 12 }, (_, i) => String(i * 5).padStart(2, "0"));
+
+// Custom time picker component with scroll selection
 function TimePicker({
   value,
   onChange,
@@ -44,6 +112,7 @@ function TimePicker({
   accentColor?: string;
 }) {
   const [h, m] = value ? value.split(":").map(Number) : [0, 0];
+  const minuteIdx = Math.round(m / 5); // snap to nearest 5-minute
 
   const setNow = () => {
     const now = new Date();
@@ -52,17 +121,9 @@ function TimePicker({
     );
   };
 
-  const adjust = (field: "h" | "m", delta: number) => {
-    let newH = h;
-    let newM = m;
-    if (field === "h") newH = (h + delta + 24) % 24;
-    else newM = (m + delta + 60) % 60;
-    onChange(`${String(newH).padStart(2, "0")}:${String(newM).padStart(2, "0")}`);
-  };
-
-  const colorMap: Record<string, { bg: string; text: string; ring: string; nowBg: string }> = {
-    pink: { bg: "bg-pink-50", text: "text-pink-700", ring: "ring-pink-200", nowBg: "bg-pink-100" },
-    purple: { bg: "bg-purple-50", text: "text-purple-700", ring: "ring-purple-200", nowBg: "bg-purple-100" },
+  const colorMap: Record<string, { bg: string; text: string; nowBg: string; highlight: string }> = {
+    pink: { bg: "bg-pink-50", text: "text-pink-700", nowBg: "bg-pink-100", highlight: "bg-pink-100/60" },
+    purple: { bg: "bg-purple-50", text: "text-purple-700", nowBg: "bg-purple-100", highlight: "bg-purple-100/60" },
   };
   const c = colorMap[accentColor] || colorMap.pink;
 
@@ -79,60 +140,32 @@ function TimePicker({
           현재 시간
         </button>
       </div>
-      <div className={cn("flex items-center justify-center gap-1 rounded-2xl p-3", c.bg)}>
-        {/* Hours */}
-        <div className="flex flex-col items-center gap-1">
-          <button type="button" onClick={() => adjust("h", 1)} className="rounded-lg p-1 hover:bg-white/60">
-            <ChevronUp size={16} className="text-gray-400" />
-          </button>
-          <input
-            type="text"
-            inputMode="numeric"
-            maxLength={2}
-            value={String(h).padStart(2, "0")}
-            onChange={(e) => {
-              const v = e.target.value.replace(/\D/g, "");
-              const num = Math.min(parseInt(v || "0", 10), 23);
-              onChange(`${String(num).padStart(2, "0")}:${String(m).padStart(2, "0")}`);
-            }}
-            className={cn(
-              "w-10 bg-transparent text-center text-2xl font-bold tabular-nums outline-none",
-              c.text
-            )}
-          />
-          <button type="button" onClick={() => adjust("h", -1)} className="rounded-lg p-1 hover:bg-white/60">
-            <ChevronDown size={16} className="text-gray-400" />
-          </button>
-        </div>
+      <div className={cn("relative flex items-center justify-center gap-0 rounded-2xl p-2", c.bg)}>
+        {/* Selection highlight bar */}
+        <div className={cn("pointer-events-none absolute left-3 right-3 top-1/2 h-10 -translate-y-1/2 rounded-xl", c.highlight)} />
+
+        <ScrollColumn
+          items={HOURS_LIST}
+          selected={h}
+          onSelect={(idx) =>
+            onChange(`${String(idx).padStart(2, "0")}:${String(m).padStart(2, "0")}`)
+          }
+          textColor={c.text}
+        />
 
         <span className={cn("text-2xl font-bold", c.text)}>:</span>
 
-        {/* Minutes */}
-        <div className="flex flex-col items-center gap-1">
-          <button type="button" onClick={() => adjust("m", 5)} className="rounded-lg p-1 hover:bg-white/60">
-            <ChevronUp size={16} className="text-gray-400" />
-          </button>
-          <input
-            type="text"
-            inputMode="numeric"
-            maxLength={2}
-            value={String(m).padStart(2, "0")}
-            onChange={(e) => {
-              const v = e.target.value.replace(/\D/g, "");
-              const num = Math.min(parseInt(v || "0", 10), 59);
-              onChange(`${String(h).padStart(2, "0")}:${String(num).padStart(2, "0")}`);
-            }}
-            className={cn(
-              "w-10 bg-transparent text-center text-2xl font-bold tabular-nums outline-none",
-              c.text
-            )}
-          />
-          <button type="button" onClick={() => adjust("m", -5)} className="rounded-lg p-1 hover:bg-white/60">
-            <ChevronDown size={16} className="text-gray-400" />
-          </button>
-        </div>
+        <ScrollColumn
+          items={MINUTES_LIST}
+          selected={minuteIdx}
+          onSelect={(idx) => {
+            const newM = idx * 5;
+            onChange(`${String(h).padStart(2, "0")}:${String(newM).padStart(2, "0")}`);
+          }}
+          textColor={c.text}
+        />
 
-        {/* AM/PM indicator */}
+        {/* AM/PM */}
         <span className={cn("ml-2 rounded-lg px-2 py-1 text-xs font-medium", c.bg, c.text)}>
           {h < 12 ? "오전" : "오후"}
         </span>

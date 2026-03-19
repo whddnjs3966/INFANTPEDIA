@@ -294,13 +294,14 @@ export default function DailyLogPage() {
         )}
       </div>
 
-      {/* FAB */}
+      {/* Add record button - fixed above tab bar */}
       <motion.button
-        whileTap={{ scale: 0.9 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() => setShowForm(true)}
-        className="fixed bottom-20 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-pink-500 text-white shadow-lg shadow-pink-200"
+        className="fixed bottom-[76px] left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-pink-300/40"
       >
-        <Plus size={24} />
+        <Plus size={18} />
+        기록 추가
       </motion.button>
 
       {showForm && (
