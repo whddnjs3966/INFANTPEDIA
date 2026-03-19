@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Line,
   XAxis,
@@ -67,7 +67,17 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   const [genderMode, setGenderMode] = useState<GenderMode>("male");
   const [showInput, setShowInput] = useState(false);
 
-  const latestByMonth = useMeasurementStore((s) => s.getLatestByMonth());
+  const measurements = useMeasurementStore((s) => s.measurements);
+  const latestByMonth = useMemo(() => {
+    const map = new Map<number, typeof measurements[number]>();
+    const sorted = [...measurements].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    for (const m of sorted) {
+      if (!map.has(m.month)) map.set(m.month, m);
+    }
+    return map;
+  }, [measurements]);
   const config = chartConfig[chartType];
 
   const isBoth = genderMode === "both";

@@ -24,7 +24,13 @@ function VaccineCard({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const { isCompleted, toggleVaccination, getRecord } = useVaccinationStore();
+  const records = useVaccinationStore((s) => s.records);
+  const toggleVaccination = useVaccinationStore((s) => s.toggleVaccination);
+
+  const isCompleted = (vaccineId: string, doseNumber: number) =>
+    records.some((r) => r.vaccineId === vaccineId && r.doseNumber === doseNumber);
+  const getRecord = (vaccineId: string, doseNumber: number) =>
+    records.find((r) => r.vaccineId === vaccineId && r.doseNumber === doseNumber);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -149,7 +155,7 @@ function VaccineCard({
 
 export default function VaccinationSchedule({ currentMonth }: VaccinationScheduleProps) {
   const [mounted, setMounted] = useState(false);
-  const completedCount = useVaccinationStore((s) => s.getCompletedCount());
+  const completedCount = useVaccinationStore((s) => s.records.length);
 
   useEffect(() => { setMounted(true); }, []);
 

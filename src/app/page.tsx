@@ -48,7 +48,7 @@ export default function HomePage() {
   const router = useRouter();
   const days = getDaysOld();
   const months = getMonthsOld();
-  const vaccinationStore = useVaccinationStore();
+  const vaccinationRecords = useVaccinationStore((s) => s.records);
 
   useEffect(() => {
     async function fetchData() {
@@ -232,7 +232,7 @@ export default function HomePage() {
             {(() => {
               const upcoming = getVaccinationsForMonth(months);
               const incomplete = upcoming.filter(
-                (u) => !vaccinationStore.isCompleted(u.vaccine.id, u.dose.doseNumber)
+                (u) => !vaccinationRecords.some((r) => r.vaccineId === u.vaccine.id && r.doseNumber === u.dose.doseNumber)
               );
               if (incomplete.length === 0) return null;
               return (
