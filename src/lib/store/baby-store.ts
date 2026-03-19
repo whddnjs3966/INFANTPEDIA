@@ -13,7 +13,6 @@ export interface BabyProfile {
 interface BabyStore {
   babies: BabyProfile[];
   activeBabyId: string | null;
-  // Computed - current active profile (for backward compat)
   profile: BabyProfile | null;
   // Actions
   addBaby: (baby: Omit<BabyProfile, 'id'>) => void;
@@ -42,27 +41,31 @@ function getActiveProfile(babies: BabyProfile[], activeBabyId: string | null): B
   return babies[0];
 }
 
+// Helper: compute profile and include it in the returned state
+function withProfile(state: { babies: BabyProfile[]; activeBabyId: string | null }) {
+  return { ...state, profile: getActiveProfile(state.babies, state.activeBabyId) };
+}
+
 export const useBabyStore = create<BabyStore>()(
   persist(
     (set, get) => ({
       babies: [],
       activeBabyId: null,
-      get profile() {
-        return getActiveProfile(get().babies, get().activeBabyId);
-      },
+      profile: null,
 
       addBaby: (baby) => {
         const id = generateId();
         set((s) => {
           const newBabies = [...s.babies, { ...baby, id }];
-          return { babies: newBabies, activeBabyId: id };
+          return withProfile({ babies: newBabies, activeBabyId: id });
         });
       },
 
       updateBaby: (id, updates) =>
-        set((s) => ({
-          babies: s.babies.map((b) => (b.id === id ? { ...b, ...updates } : b)),
-        })),
+        set((s) => {
+          const babies = s.babies.map((b) => (b.id === id ? { ...b, ...updates } : b));
+          return withProfile({ babies, activeBabyId: s.activeBabyId });
+        }),
 
       removeBaby: (id) =>
         set((s) => {
@@ -71,32 +74,35 @@ export const useBabyStore = create<BabyStore>()(
             s.activeBabyId === id
               ? newBabies[0]?.id || null
               : s.activeBabyId;
-          return { babies: newBabies, activeBabyId: newActive };
+          return withProfile({ babies: newBabies, activeBabyId: newActive });
         }),
 
-      setActiveBaby: (id) => set({ activeBabyId: id }),
+      setActiveBaby: (id) =>
+        set((s) => withProfile({ babies: s.babies, activeBabyId: id })),
 
-      clearAll: () => set({ babies: [], activeBabyId: null }),
+      clearAll: () => set({ babies: [], activeBabyId: null, profile: null }),
 
       // Legacy compat: setProfile adds or updates the first baby
       setProfile: (profile) => {
         const state = get();
         if (state.babies.length === 0) {
           const id = generateId();
-          set({ babies: [{ ...profile, id }], activeBabyId: id });
+          const babies = [{ ...profile, id }];
+          set(withProfile({ babies, activeBabyId: id }));
         } else {
           const active = getActiveProfile(state.babies, state.activeBabyId);
           if (active) {
-            set((s) => ({
-              babies: s.babies.map((b) =>
+            set((s) => {
+              const babies = s.babies.map((b) =>
                 b.id === active.id ? { ...b, ...profile } : b
-              ),
-            }));
+              );
+              return withProfile({ babies, activeBabyId: s.activeBabyId });
+            });
           }
         }
       },
 
-      clearProfile: () => set({ babies: [], activeBabyId: null }),
+      clearProfile: () => set({ babies: [], activeBabyId: null, profile: null }),
 
       getDaysOld: () => {
         const profile = getActiveProfile(get().babies, get().activeBabyId);
@@ -128,14 +134,25 @@ export const useBabyStore = create<BabyStore>()(
         if (state && state.profile && !state.babies) {
           const old = state.profile as { name: string; birthdate: string; gender?: BabyGender };
           const id = generateId();
-          return {
-            babies: [{ id, name: old.name, birthdate: old.birthdate, gender: old.gender || 'male' }],
-            activeBabyId: id,
-          };
+          const babies = [{ id, name: old.name, birthdate: old.birthdate, gender: old.gender || 'male' }];
+          return withProfile({ babies, activeBabyId: id });
+        }
+        // Rehydrate: recompute profile from babies/activeBabyId
+        if (state && state.babies) {
+          return withProfile({
+            babies: state.babies as BabyProfile[],
+            activeBabyId: state.activeBabyId as string | null,
+          });
         }
         return state;
       },
       version: 1,
+      // After rehydration, recompute profile from babies + activeBabyId
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.profile = getActiveProfile(state.babies, state.activeBabyId);
+        }
+      },
     }
   )
 );
