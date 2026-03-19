@@ -75,8 +75,16 @@ export default function DailyLogPage() {
   const [filter, setFilter] = useState<LogCategory | "all">("all");
 
   const profile = useBabyStore((s) => s.profile);
-  const entries = useDailyLogStore((s) => s.getEntriesByDate(selectedDate));
+  const allEntries = useDailyLogStore((s) => s.entries);
   const deleteEntry = useDailyLogStore((s) => s.deleteEntry);
+
+  const entries = useMemo(
+    () =>
+      allEntries
+        .filter((e) => e.date === selectedDate)
+        .sort((a, b) => b.time.localeCompare(a.time)),
+    [allEntries, selectedDate]
+  );
 
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) return null;
