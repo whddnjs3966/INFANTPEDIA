@@ -46,6 +46,7 @@ interface DailyLogStore {
   addEntry: (entry: Omit<LogEntry, 'id'>) => void;
   updateEntry: (id: string, updates: Partial<LogEntry>) => void;
   deleteEntry: (id: string) => void;
+  clearAll: () => void;
   getEntriesByDate: (date: string) => LogEntry[];
   getEntriesByDateAndCategory: (date: string, category: LogCategory) => LogEntry[];
 }
@@ -67,6 +68,7 @@ export const useDailyLogStore = create<DailyLogStore>()(
         })),
       deleteEntry: (id) =>
         set((s) => ({ entries: s.entries.filter((e) => e.id !== id) })),
+      clearAll: () => set({ entries: [] }),
       getEntriesByDate: (date) =>
         get()
           .entries.filter((e) => e.date === date)

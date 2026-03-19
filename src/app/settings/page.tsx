@@ -37,6 +37,8 @@ export default function SettingsPage() {
   const [birthdate, setBirthdate] = useState(profile?.birthdate || "");
   const [gender, setGender] = useState<BabyGender>(profile?.gender || "male");
   const [saved, setSaved] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
 
   // Add baby form
   const [showAddForm, setShowAddForm] = useState(false);
@@ -78,7 +80,7 @@ export default function SettingsPage() {
   const activeId = profile?.id || activeBabyId;
 
   return (
-    <div className="min-h-screen px-4 pt-6 pb-28">
+    <div className="min-h-screen px-4 pt-6 pb-4">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -317,7 +319,7 @@ export default function SettingsPage() {
               <p className="mb-3 text-xs text-gray-500">
                 현재 선택된 <span className="font-semibold">{profile.name}</span>의 프로필을 삭제합니다.
               </p>
-              <Dialog>
+              <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                 <DialogTrigger
                   render={
                     <Button
@@ -347,7 +349,10 @@ export default function SettingsPage() {
                     </DialogClose>
                     <Button
                       variant="destructive"
-                      onClick={() => removeBaby(profile.id)}
+                      onClick={() => {
+                        removeBaby(profile.id);
+                        setDeleteDialogOpen(false);
+                      }}
                       className="flex-1 rounded-xl"
                     >
                       삭제
@@ -373,7 +378,7 @@ export default function SettingsPage() {
             모든 아기 정보가 삭제되고 처음 화면으로 돌아갑니다.
           </p>
 
-          <Dialog>
+          <Dialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
             <DialogTrigger
               render={
                 <Button
@@ -402,7 +407,10 @@ export default function SettingsPage() {
                 </DialogClose>
                 <Button
                   variant="destructive"
-                  onClick={handleReset}
+                  onClick={() => {
+                    setResetDialogOpen(false);
+                    handleReset();
+                  }}
                   className="flex-1 rounded-xl"
                 >
                   초기화

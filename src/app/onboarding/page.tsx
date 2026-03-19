@@ -69,75 +69,65 @@ export default function OnboardingPage() {
       return;
     }
 
-    // Add baby to local store
+    // Add baby to local store (Zustand set() is synchronous)
     addBaby({
       name: result.baby.name,
       birthdate: result.baby.birthdate,
       gender: result.baby.gender as BabyGender,
     });
 
-    // Wait for state update, then import data and create mapping
-    setTimeout(() => {
-      const babies = useBabyStore.getState().babies;
-      const newBaby = babies[babies.length - 1];
-      if (newBaby) {
-        useSyncStore.getState().addMapping({
-          localBabyId: newBaby.id,
-          sharedBabyId: result.baby.id,
-          inviteCode: inviteCode.trim().toUpperCase(),
+    // State is already updated — access directly
+    const babies = useBabyStore.getState().babies;
+    const newBaby = babies[babies.length - 1];
+    if (newBaby) {
+      useSyncStore.getState().addMapping({
+        localBabyId: newBaby.id,
+        sharedBabyId: result.baby.id,
+        inviteCode: inviteCode.trim().toUpperCase(),
+      });
+
+      // Import measurements
+      for (const m of result.measurements) {
+        useMeasurementStore.getState().addMeasurement({
+          month: m.month,
+          date: m.date,
+          height: m.height,
+          weight: m.weight,
+          headCircumference: m.headCircumference,
         });
-
-        // Import measurements
-        if (result.measurements.length > 0) {
-          const store = useMeasurementStore.getState();
-          for (const m of result.measurements) {
-            store.addMeasurement({
-              month: m.month,
-              date: m.date,
-              height: m.height,
-              weight: m.weight,
-              headCircumference: m.headCircumference,
-            });
-          }
-        }
-
-        // Import vaccinations
-        if (result.vaccinations.length > 0) {
-          const store = useVaccinationStore.getState();
-          for (const v of result.vaccinations) {
-            if (!store.isCompleted(v.vaccineId, v.doseNumber)) {
-              store.toggleVaccination(v.vaccineId, v.doseNumber, v.completedDate);
-            }
-          }
-        }
-
-        // Import daily logs
-        if (result.dailyLogs.length > 0) {
-          const store = useDailyLogStore.getState();
-          for (const l of result.dailyLogs) {
-            store.addEntry({
-              category: l.category,
-              date: l.date,
-              time: l.time,
-              endTime: l.endTime,
-              amount: l.amount,
-              duration: l.duration,
-              side: l.side,
-              menu: l.menu,
-              color: l.color,
-              consistency: l.consistency,
-              temperature: l.temperature,
-              note: l.note,
-            });
-          }
-        }
-
-        useSyncStore.getState().setLastSync();
       }
 
-      setInviteLoading(false);
-      router.replace("/");
-    }, 100);
+      // Import vaccinations
+      for (const v of result.vaccinations) {
+        const vacStore = useVaccinationStore.getState();
+        if (!vacStore.isCompleted(v.vaccineId, v.doseNumber)) {
+          vacStore.toggleVaccination(v.vaccineId, v.doseNumber, v.completedDate);
+        }
+      }
+
+      // Import daily logs
+      for (const l of result.dailyLogs) {
+        useDailyLogStore.getState().addEntry({
+          category: l.category,
+          date: l.date,
+          time: l.time,
+          endTime: l.endTime,
+          amount: l.amount,
+          duration: l.duration,
+          side: l.side,
+          menu: l.menu,
+          color: l.color,
+          consistency: l.consistency,
+          temperature: l.temperature,
+          note: l.note,
+        });
+      }
+
+      useSyncStore.getState().setLastSync();
+    }
+
+    setInviteLoading(false);
+    router.replace("/");
   };
 
   return (

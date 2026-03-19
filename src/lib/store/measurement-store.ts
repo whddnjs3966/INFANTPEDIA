@@ -15,6 +15,7 @@ interface MeasurementStore {
   addMeasurement: (m: Omit<Measurement, 'id'>) => void;
   updateMeasurement: (id: string, m: Partial<Measurement>) => void;
   deleteMeasurement: (id: string) => void;
+  clearAll: () => void;
   getMeasurementsByMonth: (month: number) => Measurement[];
   getLatestByMonth: () => Map<number, Measurement>;
 }
@@ -40,6 +41,7 @@ export const useMeasurementStore = create<MeasurementStore>()(
         set((s) => ({
           measurements: s.measurements.filter((m) => m.id !== id),
         })),
+      clearAll: () => set({ measurements: [] }),
       getMeasurementsByMonth: (month) =>
         get().measurements.filter((m) => m.month === month),
       getLatestByMonth: () => {

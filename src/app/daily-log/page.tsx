@@ -113,7 +113,7 @@ export default function DailyLogPage() {
   const categories = Object.entries(LOG_CATEGORY_CONFIG) as [LogCategory, typeof LOG_CATEGORY_CONFIG[LogCategory]][];
 
   return (
-    <div className="min-h-screen pb-24">
+    <div className="min-h-screen">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

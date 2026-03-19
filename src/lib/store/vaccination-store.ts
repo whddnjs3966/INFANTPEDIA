@@ -13,6 +13,7 @@ interface VaccinationStore {
   isCompleted: (vaccineId: string, doseNumber: number) => boolean;
   getRecord: (vaccineId: string, doseNumber: number) => VaccinationRecord | undefined;
   getCompletedCount: () => number;
+  clearAll: () => void;
 }
 
 export const useVaccinationStore = create<VaccinationStore>()(
@@ -51,6 +52,7 @@ export const useVaccinationStore = create<VaccinationStore>()(
           (r) => r.vaccineId === vaccineId && r.doseNumber === doseNumber
         ),
       getCompletedCount: () => get().records.length,
+      clearAll: () => set({ records: [] }),
     }),
     { name: 'baby-vaccinations' }
   )
