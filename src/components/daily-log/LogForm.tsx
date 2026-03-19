@@ -183,7 +183,7 @@ export default function LogForm({ date, editEntry, onClose }: LogFormProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/30"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 sm:items-center sm:p-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <motion.div
@@ -191,7 +191,7 @@ export default function LogForm({ date, editEntry, onClose }: LogFormProps) {
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="w-full max-w-md rounded-t-3xl bg-white px-5 pb-8 pt-4"
+        className="w-full max-w-md rounded-t-3xl bg-white px-5 pb-8 pt-4 sm:rounded-3xl sm:mb-0"
         style={{ maxHeight: "85vh", overflowY: "auto" }}
       >
         <div className="mb-4 flex items-center justify-between">

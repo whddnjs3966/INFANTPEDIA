@@ -62,6 +62,26 @@ function getMeasurementKey(chartType: ChartType): "height" | "weight" | "headCir
   return "headCircumference";
 }
 
+// Estimate percentile from p3, p50, p97 using log-normal interpolation
+function estimatePercentile(value: number, p3: number, p50: number, p97: number): number {
+  if (value <= p3) return Math.max(1, Math.round((value / p3) * 3));
+  if (value >= p97) return Math.min(99, Math.round(97 + ((value - p97) / (p97 - p50)) * 3));
+  // Interpolate between p3-p50 or p50-p97
+  if (value <= p50) {
+    const ratio = (value - p3) / (p50 - p3); // 0~1
+    return Math.round(3 + ratio * 47); // 3~50
+  }
+  const ratio = (value - p50) / (p97 - p50); // 0~1
+  return Math.round(50 + ratio * 47); // 50~97
+}
+
+function getPercentileLabel(pct: number): { text: string; color: string } {
+  if (pct >= 75) return { text: `상위 ${100 - pct}%`, color: "text-blue-600" };
+  if (pct >= 50) return { text: `상위 ${100 - pct}%`, color: "text-emerald-600" };
+  if (pct >= 25) return { text: `상위 ${100 - pct}%`, color: "text-amber-600" };
+  return { text: `상위 ${100 - pct}%`, color: "text-orange-600" };
+}
+
 export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   const [chartType, setChartType] = useState<ChartType>("height");
   const [genderMode, setGenderMode] = useState<GenderMode>("male");
@@ -114,6 +134,17 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   const currentBabyValue = currentBabyMeasurement?.[getMeasurementKey(chartType)];
 
   const hasBabyData = chartData.some((d) => d.babyValue !== undefined);
+
+  // Calculate percentile for current month's baby value
+  const babyPercentile = useMemo(() => {
+    if (!currentBabyValue || isBoth) return null;
+    const gender = primaryGender;
+    const rangeData = growthRanges[gender]?.[chartType]?.[currentMonth];
+    const p50 = growthData[currentMonth]?.[getValueKey(chartType, gender)];
+    if (!rangeData || !p50) return null;
+    const pct = estimatePercentile(currentBabyValue, rangeData.p3, p50, rangeData.p97);
+    return getPercentileLabel(pct);
+  }, [currentBabyValue, currentMonth, chartType, primaryGender, isBoth]);
 
   return (
     <div className="space-y-4">
@@ -204,6 +235,11 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
                 {currentBabyValue}
                 <span className="ml-0.5 text-xs font-normal text-gray-400">{config.unit}</span>
               </p>
+              {babyPercentile && (
+                <p className={cn("text-[10px] font-semibold", babyPercentile.color)}>
+                  {babyPercentile.text}
+                </p>
+              )}
             </div>
           )}
         </motion.div>
