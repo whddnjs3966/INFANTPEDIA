@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { useBabyStore } from "@/lib/store/baby-store";
+import { useBabyStore, type BabyGender } from "@/lib/store/baby-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,42 +18,73 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { User, Trash2, Info, Heart } from "lucide-react";
+import { User, Trash2, Info, Heart, Plus, Check, X, UserPlus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function SettingsPage() {
   const router = useRouter();
   const profile = useBabyStore((s) => s.profile);
-  const setProfile = useBabyStore((s) => s.setProfile);
-  const clearProfile = useBabyStore((s) => s.clearProfile);
+  const babies = useBabyStore((s) => s.babies);
+  const activeBabyId = useBabyStore((s) => s.activeBabyId);
+  const updateBaby = useBabyStore((s) => s.updateBaby);
+  const addBaby = useBabyStore((s) => s.addBaby);
+  const removeBaby = useBabyStore((s) => s.removeBaby);
+  const setActiveBaby = useBabyStore((s) => s.setActiveBaby);
+  const clearAll = useBabyStore((s) => s.clearAll);
 
   const [name, setName] = useState(profile?.name || "");
   const [birthdate, setBirthdate] = useState(profile?.birthdate || "");
+  const [gender, setGender] = useState<BabyGender>(profile?.gender || "male");
   const [saved, setSaved] = useState(false);
+
+  // Add baby form
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newBirthdate, setNewBirthdate] = useState("");
+  const [newGender, setNewGender] = useState<BabyGender>("male");
+
+  // Sync form when active baby changes
+  useEffect(() => {
+    if (profile) {
+      setName(profile.name);
+      setBirthdate(profile.birthdate);
+      setGender(profile.gender || "male");
+    }
+  }, [profile]);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !birthdate) return;
-    setProfile({ name: name.trim(), birthdate });
+    if (!name.trim() || !birthdate || !profile) return;
+    updateBaby(profile.id, { name: name.trim(), birthdate, gender });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
+  const handleAddBaby = () => {
+    if (!newName.trim() || !newBirthdate) return;
+    addBaby({ name: newName.trim(), birthdate: newBirthdate, gender: newGender });
+    setNewName("");
+    setNewBirthdate("");
+    setNewGender("male");
+    setShowAddForm(false);
+  };
+
   const handleReset = () => {
-    clearProfile();
+    clearAll();
     router.replace("/onboarding");
   };
 
+  const activeId = profile?.id || activeBabyId;
+
   return (
-    <div className="min-h-screen px-4 pt-6">
+    <div className="min-h-screen px-4 pt-6 pb-28">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className="text-xl font-bold text-gray-800">
-          {"\u2699\ufe0f"} {"\uc124\uc815"}
-        </h1>
+        <h1 className="text-xl font-bold text-gray-800">⚙️ 설정</h1>
         <p className="mt-1 text-sm text-gray-500">
-          {"\uc544\uae30 \uc815\ubcf4\ub97c"} {"\uc218\uc815\ud558\uac70\ub098"} {"\uc571 \uc124\uc815\uc744"} {"\ubcc0\uacbd\ud558\uc138\uc694"}
+          아기 정보를 수정하거나 앱 설정을 변경하세요
         </p>
       </motion.div>
 
@@ -63,21 +94,55 @@ export default function SettingsPage() {
         transition={{ delay: 0.1 }}
         className="mt-6 space-y-6"
       >
+        {/* Baby Switcher */}
+        {babies.length > 1 && (
+          <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-4 shadow-sm">
+            <p className="mb-3 text-xs font-medium text-gray-500">아기 선택</p>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {babies.map((baby) => (
+                <motion.button
+                  key={baby.id}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setActiveBaby(baby.id)}
+                  className={cn(
+                    "flex shrink-0 items-center gap-2 rounded-2xl border-2 px-4 py-2.5 transition-all",
+                    baby.id === activeId
+                      ? "border-pink-300 bg-pink-50 shadow-sm"
+                      : "border-gray-200 bg-white"
+                  )}
+                >
+                  <span className="text-lg">{baby.gender === "female" ? "👧" : "👦"}</span>
+                  <div className="text-left">
+                    <p className={cn(
+                      "text-sm font-semibold",
+                      baby.id === activeId ? "text-pink-700" : "text-gray-600"
+                    )}>
+                      {baby.name}
+                    </p>
+                    <p className="text-[10px] text-gray-400">{baby.birthdate}</p>
+                  </div>
+                  {baby.id === activeId && (
+                    <Check size={14} className="text-pink-500" />
+                  )}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Profile edit */}
         <div className="rounded-2xl border border-pink-200/50 bg-white/80 p-5 shadow-sm">
           <div className="mb-4 flex items-center gap-2">
             <div className="rounded-lg bg-pink-100 p-2">
               <User size={18} className="text-pink-500" />
             </div>
-            <h2 className="text-base font-bold text-gray-700">
-              {"\uc544\uae30 \ud504\ub85c\ud544"}
-            </h2>
+            <h2 className="text-base font-bold text-gray-700">아기 프로필</h2>
           </div>
 
           <form onSubmit={handleSave} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="settings-name" className="text-sm font-medium text-gray-600">
-                {"\uc544\uae30 \uc774\ub984"}
+                아기 이름
               </Label>
               <Input
                 id="settings-name"
@@ -88,9 +153,40 @@ export default function SettingsPage() {
               />
             </div>
 
+            {/* Gender */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-600">성별</Label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setGender("male")}
+                  className={cn(
+                    "flex items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-medium transition-all",
+                    gender === "male"
+                      ? "border-blue-300 bg-blue-50 text-blue-700"
+                      : "border-gray-200 text-gray-400"
+                  )}
+                >
+                  👦 남아
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setGender("female")}
+                  className={cn(
+                    "flex items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-medium transition-all",
+                    gender === "female"
+                      ? "border-pink-300 bg-pink-50 text-pink-700"
+                      : "border-gray-200 text-gray-400"
+                  )}
+                >
+                  👧 여아
+                </button>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="settings-birth" className="text-sm font-medium text-gray-600">
-                {"\uc0dd\ub144\uc6d4\uc77c"}
+                생년월일
               </Label>
               <Input
                 id="settings-birth"
@@ -107,11 +203,155 @@ export default function SettingsPage() {
                 type="submit"
                 className="h-11 w-full rounded-xl bg-gradient-to-r from-pink-400 to-purple-400 font-semibold text-white"
               >
-                {saved ? "\u2705 \uc800\uc7a5\ub418\uc5c8\uc5b4\uc694!" : "\uc800\uc7a5\ud558\uae30"}
+                {saved ? "✅ 저장되었어요!" : "저장하기"}
               </Button>
             </motion.div>
           </form>
         </div>
+
+        <Separator className="bg-pink-100" />
+
+        {/* Add Baby */}
+        <div className="rounded-2xl border border-blue-200/50 bg-white/80 p-5 shadow-sm">
+          <div className="mb-3 flex items-center gap-2">
+            <div className="rounded-lg bg-blue-100 p-2">
+              <UserPlus size={18} className="text-blue-500" />
+            </div>
+            <h2 className="text-base font-bold text-gray-700">아이 추가</h2>
+          </div>
+
+          {!showAddForm ? (
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={() => setShowAddForm(true)}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50/30 py-3 text-sm font-medium text-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-50"
+            >
+              <Plus size={16} />
+              둘째 아기 등록하기
+            </motion.button>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              className="space-y-3"
+            >
+              <Input
+                type="text"
+                placeholder="아기 이름"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                className="h-11 rounded-xl border-blue-200 bg-blue-50/30"
+              />
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setNewGender("male")}
+                  className={cn(
+                    "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2 text-xs font-medium transition-all",
+                    newGender === "male"
+                      ? "border-blue-300 bg-blue-50 text-blue-700"
+                      : "border-gray-200 text-gray-400"
+                  )}
+                >
+                  👦 남아
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNewGender("female")}
+                  className={cn(
+                    "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2 text-xs font-medium transition-all",
+                    newGender === "female"
+                      ? "border-pink-300 bg-pink-50 text-pink-700"
+                      : "border-gray-200 text-gray-400"
+                  )}
+                >
+                  👧 여아
+                </button>
+              </div>
+              <Input
+                type="date"
+                value={newBirthdate}
+                onChange={(e) => setNewBirthdate(e.target.value)}
+                max={new Date().toISOString().split("T")[0]}
+                className="h-11 rounded-xl border-blue-200 bg-blue-50/30"
+              />
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowAddForm(false)}
+                  className="h-10 flex-1 rounded-xl"
+                >
+                  취소
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleAddBaby}
+                  disabled={!newName.trim() || !newBirthdate}
+                  className="h-10 flex-1 rounded-xl bg-blue-500 font-semibold text-white hover:bg-blue-600"
+                >
+                  등록
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Remove individual baby (only if more than 1) */}
+        {babies.length > 1 && profile && (
+          <>
+            <Separator className="bg-pink-100" />
+            <div className="rounded-2xl border border-orange-200/50 bg-white/80 p-5 shadow-sm">
+              <div className="mb-3 flex items-center gap-2">
+                <div className="rounded-lg bg-orange-100 p-2">
+                  <X size={18} className="text-orange-500" />
+                </div>
+                <h2 className="text-base font-bold text-gray-700">아이 삭제</h2>
+              </div>
+              <p className="mb-3 text-xs text-gray-500">
+                현재 선택된 <span className="font-semibold">{profile.name}</span>의 프로필을 삭제합니다.
+              </p>
+              <Dialog>
+                <DialogTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      className="h-10 w-full rounded-xl border-orange-200 text-orange-600 hover:bg-orange-50"
+                    />
+                  }
+                >
+                  {profile.name} 프로필 삭제
+                </DialogTrigger>
+                <DialogContent className="max-w-[340px] rounded-2xl">
+                  <DialogHeader>
+                    <DialogTitle className="text-center">
+                      {profile.name} 프로필을 삭제할까요?
+                    </DialogTitle>
+                    <DialogDescription className="text-center">
+                      이 아기의 프로필 정보가 삭제됩니다.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className="flex gap-2 sm:flex-row">
+                    <DialogClose
+                      render={
+                        <Button variant="outline" className="flex-1 rounded-xl" />
+                      }
+                    >
+                      취소
+                    </DialogClose>
+                    <Button
+                      variant="destructive"
+                      onClick={() => removeBaby(profile.id)}
+                      className="flex-1 rounded-xl"
+                    >
+                      삭제
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </>
+        )}
 
         <Separator className="bg-pink-100" />
 
@@ -121,12 +361,10 @@ export default function SettingsPage() {
             <div className="rounded-lg bg-red-100 p-2">
               <Trash2 size={18} className="text-red-400" />
             </div>
-            <h2 className="text-base font-bold text-gray-700">
-              {"\ub370\uc774\ud130"} {"\ucd08\uae30\ud654"}
-            </h2>
+            <h2 className="text-base font-bold text-gray-700">전체 초기화</h2>
           </div>
           <p className="mb-4 text-sm text-gray-500">
-            {"\ubaa8\ub4e0"} {"\uc544\uae30"} {"\uc815\ubcf4\uac00"} {"\uc0ad\uc81c\ub418\uace0"} {"\ucc98\uc74c"} {"\ud654\uba74\uc73c\ub85c"} {"\ub3cc\uc544\uac11\ub2c8\ub2e4."}
+            모든 아기 정보가 삭제되고 처음 화면으로 돌아갑니다.
           </p>
 
           <Dialog>
@@ -138,16 +376,14 @@ export default function SettingsPage() {
                 />
               }
             >
-              {"\ub370\uc774\ud130"} {"\ucd08\uae30\ud654\ud558\uae30"}
+              전체 초기화하기
             </DialogTrigger>
             <DialogContent className="max-w-[340px] rounded-2xl">
               <DialogHeader>
-                <DialogTitle className="text-center">
-                  {"\uc815\ub9d0"} {"\ucd08\uae30\ud654\ud560\uae4c\uc694?"}
-                </DialogTitle>
+                <DialogTitle className="text-center">정말 초기화할까요?</DialogTitle>
                 <DialogDescription className="text-center">
-                  {"\uc800\uc7a5\ub41c"} {"\uc544\uae30"} {"\uc815\ubcf4\uac00"} {"\ubaa8\ub450"} {"\uc0ad\uc81c\ub429\ub2c8\ub2e4."}{"\n"}
-                  {"\uc774"} {"\uc791\uc5c5\uc740"} {"\ub418\ub3cc\ub9b4"} {"\uc218"} {"\uc5c6\uc5b4\uc694."}
+                  저장된 모든 아기 정보가 삭제됩니다.{"\n"}
+                  이 작업은 되돌릴 수 없어요.
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter className="flex gap-2 sm:flex-row">
@@ -156,14 +392,14 @@ export default function SettingsPage() {
                     <Button variant="outline" className="flex-1 rounded-xl" />
                   }
                 >
-                  {"\ucde8\uc18c"}
+                  취소
                 </DialogClose>
                 <Button
                   variant="destructive"
                   onClick={handleReset}
                   className="flex-1 rounded-xl"
                 >
-                  {"\ucd08\uae30\ud654"}
+                  초기화
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -178,17 +414,15 @@ export default function SettingsPage() {
             <div className="rounded-lg bg-purple-100 p-2">
               <Info size={18} className="text-purple-500" />
             </div>
-            <h2 className="text-base font-bold text-gray-700">
-              {"\uc571"} {"\uc815\ubcf4"}
-            </h2>
+            <h2 className="text-base font-bold text-gray-700">앱 정보</h2>
           </div>
           <div className="space-y-2 text-sm text-gray-500">
             <div className="flex justify-between">
-              <span>{"\ubc84\uc804"}</span>
-              <span className="font-medium text-gray-700">0.1.0</span>
+              <span>버전</span>
+              <span className="font-medium text-gray-700">0.2.0</span>
             </div>
             <div className="flex justify-between">
-              <span>{"\uc571"} {"\uc774\ub984"}</span>
+              <span>앱 이름</span>
               <span className="font-medium text-gray-700">InfantPedia</span>
             </div>
           </div>

@@ -3,17 +3,19 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { useBabyStore } from "@/lib/store/baby-store";
+import { useBabyStore, type BabyGender } from "@/lib/store/baby-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import FloatingDecorations from "@/components/layout/FloatingDecorations";
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const setProfile = useBabyStore((s) => s.setProfile);
+  const addBaby = useBabyStore((s) => s.addBaby);
   const [name, setName] = useState("");
   const [birthdate, setBirthdate] = useState("");
+  const [gender, setGender] = useState<BabyGender>("male");
   const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,22 +23,22 @@ export default function OnboardingPage() {
     setError("");
 
     if (!name.trim()) {
-      setError("\uc544\uae30 \uc774\ub984\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694");
+      setError("아기 이름을 입력해 주세요");
       return;
     }
     if (!birthdate) {
-      setError("\uc0dd\ub144\uc6d4\uc77c\uc744 \uc120\ud0dd\ud574 \uc8fc\uc138\uc694");
+      setError("생년월일을 선택해 주세요");
       return;
     }
 
     const birth = new Date(birthdate);
     const today = new Date();
     if (birth > today) {
-      setError("\uc0dd\ub144\uc6d4\uc77c\uc774 \ubbf8\ub798 \ub0a0\uc9dc\uc785\ub2c8\ub2e4");
+      setError("생년월일이 미래 날짜입니다");
       return;
     }
 
-    setProfile({ name: name.trim(), birthdate });
+    addBaby({ name: name.trim(), birthdate, gender });
     router.replace("/");
   };
 
@@ -50,7 +52,7 @@ export default function OnboardingPage() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative z-10 w-full max-w-sm"
       >
-        {/* Hero illustration */}
+        {/* Hero */}
         <motion.div
           className="mb-8 flex flex-col items-center"
           initial={{ scale: 0.8, opacity: 0 }}
@@ -62,22 +64,22 @@ export default function OnboardingPage() {
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
-            <span>{"\ud83d\udc76"}</span>
-            <span>{"\ud83c\udf7c"}</span>
-            <span>{"\u2b50"}</span>
+            <span>👶</span>
+            <span>🍼</span>
+            <span>⭐</span>
           </motion.div>
 
           <h1 className="text-center text-2xl font-bold text-gray-800">
-            {"\uc778\ud380\ud2b8\ud53c\ub514\uc544\uc5d0"}
+            인펀트피디아에
             <br />
-            {"\uc624\uc2e0 \uac83\uc744 \ud658\uc601\ud569\ub2c8\ub2e4!"}
+            오신 것을 환영합니다!
           </h1>
           <p className="mt-2 text-center text-sm text-gray-500">
-            {"\uc544\uae30\uc758 \uc131\uc7a5\uc744 \ud568\uaed8 \uae30\ub85d\ud558\uace0 \uc54c\uc544\uac00\uc694"} {"\ud83d\udc95"}
+            아기의 성장을 함께 기록하고 알아가요 💕
           </p>
         </motion.div>
 
-        {/* Form card */}
+        {/* Form */}
         <motion.form
           onSubmit={handleSubmit}
           className="rounded-3xl border border-pink-100 bg-white/80 p-6 shadow-lg backdrop-blur-sm"
@@ -88,21 +90,58 @@ export default function OnboardingPage() {
           <div className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="name" className="text-sm font-semibold text-gray-700">
-                {"\ud83d\udc76"} {"\uc544\uae30 \uc774\ub984"}
+                👶 아기 이름
               </Label>
               <Input
                 id="name"
                 type="text"
-                placeholder={"\uc608: \uc11c\uc5f0\uc774"}
+                placeholder="예: 서연이"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="h-12 rounded-xl border-pink-200 bg-pink-50/50 text-base placeholder:text-gray-300 focus:border-pink-300 focus:ring-pink-200"
               />
             </div>
 
+            {/* Gender selection */}
+            <div className="space-y-2">
+              <Label className="text-sm font-semibold text-gray-700">
+                👧👦 성별
+              </Label>
+              <div className="grid grid-cols-2 gap-3">
+                <motion.button
+                  type="button"
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setGender("male")}
+                  className={cn(
+                    "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
+                    gender === "male"
+                      ? "border-blue-300 bg-blue-50 text-blue-700 shadow-sm"
+                      : "border-gray-200 bg-white text-gray-400"
+                  )}
+                >
+                  <span className="text-xl">👦</span>
+                  남아
+                </motion.button>
+                <motion.button
+                  type="button"
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setGender("female")}
+                  className={cn(
+                    "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
+                    gender === "female"
+                      ? "border-pink-300 bg-pink-50 text-pink-700 shadow-sm"
+                      : "border-gray-200 bg-white text-gray-400"
+                  )}
+                >
+                  <span className="text-xl">👧</span>
+                  여아
+                </motion.button>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="birthdate" className="text-sm font-semibold text-gray-700">
-                {"\ud83c\udf82"} {"\uc0dd\ub144\uc6d4\uc77c"}
+                🎂 생년월일
               </Label>
               <Input
                 id="birthdate"
@@ -129,7 +168,7 @@ export default function OnboardingPage() {
                 type="submit"
                 className="h-12 w-full rounded-xl bg-gradient-to-r from-pink-400 to-purple-400 text-base font-bold text-white shadow-md hover:from-pink-500 hover:to-purple-500"
               >
-                {"\uc2dc\uc791\ud558\uae30"} {"\ud83d\ude80"}
+                시작하기 🚀
               </Button>
             </motion.div>
           </div>
@@ -141,7 +180,7 @@ export default function OnboardingPage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          {"\ubaa8\ub4e0 \ub370\uc774\ud130\ub294 \uc774 \uae30\uae30\uc5d0\ub9cc \uc800\uc7a5\ub429\ub2c8\ub2e4"} {"\ud83d\udd12"}
+          모든 데이터는 이 기기에만 저장됩니다 🔒
         </motion.p>
       </motion.div>
     </div>

@@ -17,6 +17,7 @@ import { Ruler, Weight, Circle, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { growthData, growthRanges } from "@/lib/data/growth-data";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
+import { useBabyStore } from "@/lib/store/baby-store";
 import MeasurementInput from "./MeasurementInput";
 
 interface GrowthChartProps {
@@ -83,8 +84,9 @@ function getPercentileLabel(pct: number): { text: string; color: string } {
 }
 
 export default function GrowthChart({ currentMonth }: GrowthChartProps) {
+  const babyGender = useBabyStore((s) => s.profile?.gender);
   const [chartType, setChartType] = useState<ChartType>("height");
-  const [genderMode, setGenderMode] = useState<GenderMode>("male");
+  const [genderMode, setGenderMode] = useState<GenderMode>(babyGender || "male");
   const [showInput, setShowInput] = useState(false);
 
   const measurements = useMeasurementStore((s) => s.measurements);
