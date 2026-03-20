@@ -8,33 +8,33 @@ type ColorScheme = "blue" | "pink" | "purple" | "mint" | "yellow" | "peach";
 
 const colorMap: Record<ColorScheme, { bg: string; border: string; icon: string }> = {
   blue: {
-    bg: "bg-gradient-to-br from-blue-50 to-sky-100",
-    border: "border-blue-200/50",
+    bg: "bg-gradient-to-br from-blue-50 to-sky-100 dark:from-blue-950/50 dark:to-sky-950/50",
+    border: "border-blue-200/50 dark:border-blue-800/50",
     icon: "text-blue-400",
   },
   pink: {
-    bg: "bg-gradient-to-br from-pink-50 to-rose-100",
-    border: "border-pink-200/50",
+    bg: "bg-gradient-to-br from-pink-50 to-rose-100 dark:from-pink-950/50 dark:to-rose-950/50",
+    border: "border-pink-200/50 dark:border-pink-800/50",
     icon: "text-pink-400",
   },
   purple: {
-    bg: "bg-gradient-to-br from-purple-50 to-violet-100",
-    border: "border-purple-200/50",
+    bg: "bg-gradient-to-br from-purple-50 to-violet-100 dark:from-purple-950/50 dark:to-violet-950/50",
+    border: "border-purple-200/50 dark:border-purple-800/50",
     icon: "text-purple-400",
   },
   mint: {
-    bg: "bg-gradient-to-br from-emerald-50 to-teal-100",
-    border: "border-emerald-200/50",
+    bg: "bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-emerald-950/50 dark:to-teal-950/50",
+    border: "border-emerald-200/50 dark:border-emerald-800/50",
     icon: "text-emerald-400",
   },
   yellow: {
-    bg: "bg-gradient-to-br from-yellow-50 to-amber-100",
-    border: "border-yellow-200/50",
+    bg: "bg-gradient-to-br from-yellow-50 to-amber-100 dark:from-yellow-950/50 dark:to-amber-950/50",
+    border: "border-yellow-200/50 dark:border-yellow-800/50",
     icon: "text-yellow-500",
   },
   peach: {
-    bg: "bg-gradient-to-br from-orange-50 to-rose-100",
-    border: "border-orange-200/50",
+    bg: "bg-gradient-to-br from-orange-50 to-rose-100 dark:from-orange-950/50 dark:to-rose-950/50",
+    border: "border-orange-200/50 dark:border-orange-800/50",
     icon: "text-orange-400",
   },
 };
@@ -79,15 +79,15 @@ export default function DashboardCard({
 
       <div className="relative z-10">
         <div className="mb-2 flex items-center gap-2">
-          <div className={cn("rounded-lg bg-white/60 p-1.5", colors.icon)}>
+          <div className={cn("rounded-lg bg-white/60 dark:bg-white/10 p-1.5", colors.icon)}>
             <Icon size={18} />
           </div>
-          <span className="text-xs font-semibold text-gray-600">{title}</span>
+          <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">{title}</span>
           {emoji && <span className="text-sm">{emoji}</span>}
         </div>
-        <p className="text-xl font-extrabold text-gray-900">{value}</p>
+        <p className="text-xl font-extrabold text-gray-900 dark:text-white">{value}</p>
         {subtitle && (
-          <p className="mt-0.5 text-[13px] font-medium text-gray-600">{subtitle}</p>
+          <p className="mt-0.5 text-[13px] font-medium text-gray-600 dark:text-gray-400">{subtitle}</p>
         )}
       </div>
     </motion.div>

@@ -15,14 +15,14 @@ export default function TodaysTipCard() {
       transition={{ delay: 0.4 }}
       className="mx-4 mb-6"
     >
-      <div className="rounded-2xl border border-yellow-200/60 bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 p-5 shadow-sm">
+      <div className="rounded-2xl border border-yellow-200/60 bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 p-5 shadow-sm dark:border-yellow-800/40 dark:from-yellow-950/40 dark:via-amber-950/40 dark:to-orange-950/40">
         {/* Header */}
         <div className="mb-3 flex items-center gap-2">
           <div className="rounded-xl bg-yellow-100 p-2">
             <Sparkles size={18} className="text-yellow-500" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-gray-700">
+            <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200">
               {"오늘의 꿀팁! ✨"}
             </h3>
             <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-[10px] font-semibold text-yellow-600">
@@ -32,12 +32,12 @@ export default function TodaysTipCard() {
         </div>
 
         {/* Title */}
-        <h4 className="text-[16px] font-extrabold leading-snug text-gray-900 mb-2">
+        <h4 className="text-[16px] font-extrabold leading-snug text-gray-900 dark:text-gray-100 mb-2">
           {tip.title}
         </h4>
 
         {/* Content */}
-        <p className="text-[14px] leading-relaxed text-gray-700">
+        <p className="text-[14px] leading-relaxed text-gray-700 dark:text-gray-300">
           {tip.content}
         </p>
 

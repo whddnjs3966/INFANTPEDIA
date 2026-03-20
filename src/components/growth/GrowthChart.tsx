@@ -18,7 +18,62 @@ import { cn } from "@/lib/utils";
 import { growthData, growthRanges } from "@/lib/data/growth-data";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
 import { useBabyStore } from "@/lib/store/baby-store";
+import { useThemeStore } from "@/lib/store/theme-store";
 import MeasurementInput from "./MeasurementInput";
+
+// Custom tooltip with Korean labels and proper colors
+const dataKeyLabels: Record<string, { label: string; color: string }> = {
+  maleValue: { label: "남아 평균", color: "#3B82F6" },
+  femaleValue: { label: "여아 평균", color: "#EC4899" },
+  babyValue: { label: "우리 아기", color: "#10B981" },
+  maleP97: { label: "남아 상한 (97%)", color: "#93C5FD" },
+  maleP3: { label: "남아 하한 (3%)", color: "#93C5FD" },
+  femaleP97: { label: "여아 상한 (97%)", color: "#F9A8D4" },
+  femaleP3: { label: "여아 하한 (3%)", color: "#F9A8D4" },
+};
+
+function CustomTooltip({ active, payload, label, isDark }: {
+  active?: boolean;
+  payload?: Array<{ dataKey: string; value: number; color?: string }>;
+  label?: number;
+  isDark: boolean;
+}) {
+  if (!active || !payload?.length) return null;
+
+  // Filter out the P3 entries (they're used to "cut out" the band, not real data)
+  const items = payload.filter((p) => !String(p.dataKey).endsWith("P3"));
+
+  return (
+    <div
+      style={{
+        borderRadius: 12,
+        boxShadow: isDark ? "0 4px 16px rgba(0,0,0,0.5)" : "0 4px 12px rgba(0,0,0,0.12)",
+        backgroundColor: isDark ? "#1F2937" : "#fff",
+        padding: "10px 14px",
+        fontSize: 12,
+      }}
+    >
+      <p style={{ color: isDark ? "#D1D5DB" : "#6B7280", fontWeight: 600, marginBottom: 6 }}>
+        {label}개월
+      </p>
+      {items.map((entry) => {
+        const info = dataKeyLabels[entry.dataKey];
+        if (!info) return null;
+        return (
+          <div key={entry.dataKey} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: info.color, flexShrink: 0 }} />
+            <span style={{ color: isDark ? "#E5E7EB" : "#374151" }}>
+              {info.label}:
+            </span>
+            <span style={{ fontWeight: 700, color: info.color }}>
+              {typeof entry.value === "number" ? entry.value.toFixed(1) : entry.value}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 interface GrowthChartProps {
   currentMonth: number;
@@ -90,6 +145,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   const [showInput, setShowInput] = useState(false);
 
   const measurements = useMeasurementStore((s) => s.measurements);
+  const isDark = useThemeStore((s) => s.theme === "dark");
   const latestByMonth = useMemo(() => {
     const map = new Map<number, typeof measurements[number]>();
     const sorted = [...measurements].sort(
@@ -151,7 +207,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   return (
     <div className="space-y-4">
       {/* Chart Type Toggle */}
-      <div className="flex gap-1.5 rounded-2xl bg-gray-100/80 p-1.5">
+      <div className="flex gap-1.5 rounded-2xl bg-gray-100/80 dark:bg-gray-800 p-1.5">
         {(["height", "weight", "head"] as ChartType[]).map((type) => {
           const Icon = chartConfig[type].icon;
           const isActive = chartType === type;
@@ -161,13 +217,13 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               onClick={() => setChartType(type)}
               className={cn(
                 "relative flex flex-1 items-center justify-center gap-1 rounded-xl py-2 text-xs font-medium transition-all",
-                isActive ? "text-gray-800" : "text-gray-400"
+                isActive ? "text-gray-800 dark:text-gray-100" : "text-gray-400 dark:text-gray-500"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="chart-type-bg"
-                  className="absolute inset-0 rounded-xl bg-white shadow-sm"
+                  className="absolute inset-0 rounded-xl bg-white dark:bg-gray-700 shadow-sm"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -195,7 +251,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               "rounded-full px-3 py-1.5 text-xs font-medium transition-all",
               genderMode === key
                 ? `${activeClass} shadow-sm`
-                : "text-gray-400 hover:text-gray-600"
+                : "text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
             )}
           >
             {label}
@@ -217,7 +273,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               <p className="text-[10px] text-blue-400">{currentMonth}개월 남아</p>
               <p className="text-xl font-bold text-blue-500">
                 {currentMaleValue}
-                <span className="ml-0.5 text-xs font-normal text-gray-400">{config.unit}</span>
+                <span className="ml-0.5 text-xs font-normal text-gray-400 dark:text-gray-500">{config.unit}</span>
               </p>
             </div>
           )}
@@ -226,7 +282,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               <p className="text-[10px] text-pink-400">{currentMonth}개월 여아</p>
               <p className="text-xl font-bold text-pink-500">
                 {currentFemaleValue}
-                <span className="ml-0.5 text-xs font-normal text-gray-400">{config.unit}</span>
+                <span className="ml-0.5 text-xs font-normal text-gray-400 dark:text-gray-500">{config.unit}</span>
               </p>
             </div>
           )}
@@ -235,7 +291,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               <p className="text-[10px] text-emerald-500">우리 아기</p>
               <p className="text-xl font-bold text-emerald-600">
                 {currentBabyValue}
-                <span className="ml-0.5 text-xs font-normal text-gray-400">{config.unit}</span>
+                <span className="ml-0.5 text-xs font-normal text-gray-400 dark:text-gray-500">{config.unit}</span>
               </p>
               {babyPercentile && (
                 <p className={cn("text-[10px] font-semibold", babyPercentile.color)}>
@@ -248,25 +304,25 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       </AnimatePresence>
 
       {/* Chart */}
-      <div className="rounded-2xl bg-white p-3 shadow-sm">
+      <div className="rounded-2xl bg-white dark:bg-gray-800 p-3 shadow-sm">
         <ResponsiveContainer width="100%" height={240}>
           <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
             <defs>
               <linearGradient id="band-male" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#60A5FA" stopOpacity={0.08} />
-                <stop offset="100%" stopColor="#60A5FA" stopOpacity={0.02} />
+                <stop offset="0%" stopColor="#60A5FA" stopOpacity={isDark ? 0.25 : 0.2} />
+                <stop offset="100%" stopColor="#60A5FA" stopOpacity={isDark ? 0.08 : 0.05} />
               </linearGradient>
               <linearGradient id="band-female" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#F472B6" stopOpacity={0.08} />
-                <stop offset="100%" stopColor="#F472B6" stopOpacity={0.02} />
+                <stop offset="0%" stopColor="#F472B6" stopOpacity={isDark ? 0.25 : 0.2} />
+                <stop offset="100%" stopColor="#F472B6" stopOpacity={isDark ? 0.08 : 0.05} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#374151" : "#f0f0f0"} />
             <XAxis
               dataKey="month"
-              tick={{ fontSize: 11, fill: "#9CA3AF" }}
+              tick={{ fontSize: 11, fill: isDark ? "#9CA3AF" : "#9CA3AF" }}
               tickFormatter={(v) => `${v}m`}
-              axisLine={{ stroke: "#E5E7EB" }}
+              axisLine={{ stroke: isDark ? "#374151" : "#E5E7EB" }}
               tickLine={false}
             />
             <YAxis
@@ -275,23 +331,20 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               tickLine={false}
               domain={["auto", "auto"]}
             />
-            <Tooltip
-              contentStyle={{ borderRadius: 12, border: "none", boxShadow: "0 4px 12px rgba(0,0,0,0.08)", fontSize: 12 }}
-              labelFormatter={(label) => `${label}개월`}
-            />
+            <Tooltip content={<CustomTooltip isDark={isDark} />} />
 
             {/* Male band & line */}
             {(isBoth || genderMode === "male") && (
               <>
-                <Area dataKey="maleP97" stroke="none" fill="url(#band-male)" fillOpacity={1} />
-                <Area dataKey="maleP3" stroke="none" fill="#FFF8F0" fillOpacity={1} />
+                <Area dataKey="maleP97" stroke="none" fill="url(#band-male)" fillOpacity={1} name="남아 상한 (97%)" />
+                <Area dataKey="maleP3" stroke="none" fill={isDark ? "#1F2937" : "#FFF8F0"} fillOpacity={1} name="남아 하한 (3%)" />
                 <Line
                   type="monotone"
                   dataKey="maleValue"
-                  stroke="#60A5FA"
-                  strokeWidth={2}
-                  dot={{ r: 2, fill: "#60A5FA", strokeWidth: 0 }}
-                  activeDot={{ r: 4, fill: "#60A5FA", strokeWidth: 2, stroke: "#fff" }}
+                  stroke="#3B82F6"
+                  strokeWidth={2.5}
+                  dot={{ r: 3, fill: "#3B82F6", strokeWidth: 0 }}
+                  activeDot={{ r: 5, fill: "#3B82F6", strokeWidth: 2, stroke: isDark ? "#1F2937" : "#fff" }}
                   name="남아 평균"
                 />
               </>
@@ -300,15 +353,15 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
             {/* Female band & line */}
             {(isBoth || genderMode === "female") && (
               <>
-                <Area dataKey="femaleP97" stroke="none" fill="url(#band-female)" fillOpacity={1} />
-                <Area dataKey="femaleP3" stroke="none" fill="#FFF8F0" fillOpacity={1} />
+                <Area dataKey="femaleP97" stroke="none" fill="url(#band-female)" fillOpacity={1} name="여아 상한 (97%)" />
+                <Area dataKey="femaleP3" stroke="none" fill={isDark ? "#1F2937" : "#FFF8F0"} fillOpacity={1} name="여아 하한 (3%)" />
                 <Line
                   type="monotone"
                   dataKey="femaleValue"
-                  stroke="#F472B6"
-                  strokeWidth={2}
-                  dot={{ r: 2, fill: "#F472B6", strokeWidth: 0 }}
-                  activeDot={{ r: 4, fill: "#F472B6", strokeWidth: 2, stroke: "#fff" }}
+                  stroke="#EC4899"
+                  strokeWidth={2.5}
+                  dot={{ r: 3, fill: "#EC4899", strokeWidth: 0 }}
+                  activeDot={{ r: 5, fill: "#EC4899", strokeWidth: 2, stroke: isDark ? "#1F2937" : "#fff" }}
                   name="여아 평균"
                 />
               </>
@@ -331,25 +384,25 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
 
             {/* Current month indicators */}
             {(isBoth || genderMode === "male") && currentMaleValue && (
-              <ReferenceDot x={currentMonth} y={currentMaleValue} r={6} fill="#60A5FA" stroke="#fff" strokeWidth={2} />
+              <ReferenceDot x={currentMonth} y={currentMaleValue} r={6} fill="#3B82F6" stroke={isDark ? "#1F2937" : "#fff"} strokeWidth={2} />
             )}
             {(isBoth || genderMode === "female") && currentFemaleValue && (
-              <ReferenceDot x={currentMonth} y={currentFemaleValue} r={6} fill="#F472B6" stroke="#fff" strokeWidth={2} />
+              <ReferenceDot x={currentMonth} y={currentFemaleValue} r={6} fill="#EC4899" stroke={isDark ? "#1F2937" : "#fff"} strokeWidth={2} />
             )}
           </ComposedChart>
         </ResponsiveContainer>
 
         {/* Legend */}
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 text-[10px] text-gray-400">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 text-[10px] text-gray-400 dark:text-gray-500">
           {(isBoth || genderMode === "male") && (
             <span className="flex items-center gap-1">
-              <span className="inline-block h-2 w-2 rounded-full bg-blue-400" />
+              <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
               남아 평균
             </span>
           )}
           {(isBoth || genderMode === "female") && (
             <span className="flex items-center gap-1">
-              <span className="inline-block h-2 w-2 rounded-full bg-pink-400" />
+              <span className="inline-block h-2 w-2 rounded-full bg-pink-500" />
               여아 평균
             </span>
           )}
@@ -370,13 +423,13 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       <motion.button
         whileTap={{ scale: 0.97 }}
         onClick={() => setShowInput(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/50 py-3 text-sm font-medium text-emerald-600 transition-colors hover:border-emerald-300 hover:bg-emerald-50"
+        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:shadow-lg active:shadow-sm dark:from-emerald-600 dark:to-teal-600"
       >
-        <Plus size={16} />
+        <Plus size={18} strokeWidth={2.5} />
         우리 아기 실측 데이터 입력
       </motion.button>
 
-      <p className="text-center text-[10px] text-gray-400">
+      <p className="text-center text-[10px] text-gray-400 dark:text-gray-500">
         * WHO 영유아 성장 기준 (WHO Child Growth Standards) 기반
       </p>
 

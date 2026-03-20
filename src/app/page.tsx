@@ -11,6 +11,7 @@ import { useVaccinationStore } from "@/lib/store/vaccination-store";
 import DashboardCard from "@/components/home/DashboardCard";
 import WonderWeekBanner from "@/components/home/WonderWeekBanner";
 import FloatingDecorations from "@/components/layout/FloatingDecorations";
+import GrowthAlertCard from "@/components/home/GrowthAlertCard";
 import { DashboardSkeleton } from "@/components/ui/LoadingSkeleton";
 
 interface MonthData {
@@ -97,10 +98,10 @@ export default function HomePage() {
           transition={{ duration: 0.5 }}
           className="mb-5"
         >
-          <h1 className="text-xl font-bold text-gray-800">
+          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
             {"\uc548\ub155\ud558\uc138\uc694"}, {profile.name} {"\ub9d8/\ub300\ub514!"} {"\ud83d\udc4b"}
           </h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             {"\uc624\ub298\ub3c4"} {profile.name}{"\uc758"} {"\ud558\ub8e8\ub97c"} {"\uc751\uc6d0\ud574\uc694"} {"\ud83d\udc95"}
           </p>
         </motion.div>
@@ -167,62 +168,66 @@ export default function HomePage() {
             {error ? (
               <motion.div
                 variants={child}
-                className="rounded-2xl border border-pink-200/50 bg-white/80 p-6 text-center"
+                className="rounded-2xl border border-pink-200/50 bg-white/80 p-6 text-center dark:border-gray-700 dark:bg-gray-800/80"
               >
                 <p className="text-3xl">{"\ud83d\ude22"}</p>
-                <p className="mt-2 text-sm text-gray-500">{error}</p>
-                <p className="mt-1 text-xs text-gray-400">
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{error}</p>
+                <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
                   {"\ub124\ud2b8\uc6cc\ud06c\ub97c"} {"\ud655\uc778\ud558\uace0"} {"\ub2e4\uc2dc"} {"\uc2dc\ub3c4\ud574"} {"\uc8fc\uc138\uc694"}
                 </p>
               </motion.div>
             ) : (
               <div className="grid grid-cols-2 gap-3">
                 <DashboardCard
-                  title="깨시 시간"
-                  value={
-                    monthData?.wake_window_min != null && monthData?.wake_window_max != null
-                      ? `${monthData.wake_window_min}~${monthData.wake_window_max}분`
-                      : "-"
-                  }
-                  subtitle="권장 깨어있는 시간"
-                  icon={Clock}
-                  colorScheme="blue"
-                  emoji="⏰"
-                  index={0}
-                />
-                <DashboardCard
-                  title="수유량"
+                  title="1회 수유량"
                   value={
                     monthData?.feed_amount_min != null && monthData?.feed_amount_max != null
                       ? `${monthData.feed_amount_min}~${monthData.feed_amount_max}ml`
                       : "-"
                   }
                   subtitle={
-                    monthData?.daily_feed_total
-                      ? `하루 총 ${monthData.daily_feed_total}ml`
-                      : "하루 권장량"
+                    monthData?.feed_count
+                      ? `하루 ${monthData.feed_count}`
+                      : "1회 권장량"
                   }
                   icon={Baby}
                   colorScheme="pink"
                   emoji="🍼"
+                  index={0}
+                />
+                <DashboardCard
+                  title="하루 총 수유량"
+                  value={
+                    monthData?.daily_feed_total
+                      ? `${monthData.daily_feed_total}ml`
+                      : "-"
+                  }
+                  subtitle="하루 권장 총량"
+                  icon={Utensils}
+                  colorScheme="mint"
+                  emoji="🍽️"
                   index={1}
                 />
                 <DashboardCard
-                  title="총 수면시간"
+                  title="수면 시간"
                   value={monthData?.total_sleep_hours ? `${monthData.total_sleep_hours}시간` : "-"}
-                  subtitle="하루 권장 수면"
+                  subtitle={monthData?.nap_count ? `낮잠 ${monthData.nap_count}` : "하루 권장 수면"}
                   icon={Moon}
                   colorScheme="purple"
                   emoji="😴"
                   index={2}
                 />
                 <DashboardCard
-                  title="수유 횟수"
-                  value={monthData?.feed_count || "-"}
-                  subtitle={monthData?.nap_count ? `낮잠 ${monthData.nap_count}` : "하루 권장 횟수"}
-                  icon={Utensils}
-                  colorScheme="mint"
-                  emoji="🍽️"
+                  title="깨어있는 시간"
+                  value={
+                    monthData?.wake_window_min != null && monthData?.wake_window_max != null
+                      ? `${monthData.wake_window_min}~${monthData.wake_window_max}분`
+                      : "-"
+                  }
+                  subtitle="낮잠 사이 활동 시간"
+                  icon={Clock}
+                  colorScheme="blue"
+                  emoji="⏰"
                   index={3}
                 />
               </div>
@@ -239,17 +244,17 @@ export default function HomePage() {
                 <motion.button
                   variants={child}
                   onClick={() => router.push("/growth")}
-                  className="w-full rounded-2xl border border-amber-200/50 bg-gradient-to-r from-amber-50 to-orange-50 p-4 text-left shadow-sm"
+                  className="w-full rounded-2xl border border-amber-200/50 bg-gradient-to-r from-amber-50 to-orange-50 p-4 text-left shadow-sm dark:border-amber-800/50 dark:from-amber-950/40 dark:to-orange-950/40"
                 >
                   <div className="flex items-center gap-3">
                     <span className="rounded-xl bg-amber-100 p-2">
                       <Syringe size={18} className="text-amber-600" />
                     </span>
                     <div className="flex-1">
-                      <p className="text-sm font-bold text-gray-700">
+                      <p className="text-sm font-bold text-gray-700 dark:text-gray-200">
                         {"\ud83d\udcc5"} {"\uc608\ubc29\uc811\uc885"} {"\uc548\ub0b4"}
                       </p>
-                      <p className="mt-0.5 text-[13px] font-medium text-amber-700">
+                      <p className="mt-0.5 text-[13px] font-medium text-amber-700 dark:text-amber-400">
                         {months}{"\uac1c\uc6d4"} {"\uc811\uc885"} {"\ub300\uc0c1"}: {incomplete.slice(0, 3).map((u) => u.vaccine.nameEn).join(", ")}
                         {incomplete.length > 3 && ` {"\uc678"} ${incomplete.length - 3}{"\uac74"}`}
                       </p>
@@ -260,21 +265,26 @@ export default function HomePage() {
               );
             })()}
 
+            {/* Growth Alert Card */}
+            <motion.div variants={child}>
+              <GrowthAlertCard months={months} />
+            </motion.div>
+
             {/* Monthly summary card */}
             {monthData?.summary && (
               <motion.div
                 variants={child}
-                className="rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 shadow-sm"
+                className="rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 shadow-sm dark:border-emerald-800/50 dark:from-emerald-950/40 dark:to-teal-950/40"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <span className="rounded-lg bg-emerald-100 p-1.5">
                     <Info size={16} className="text-emerald-500" />
                   </span>
-                  <h3 className="text-sm font-bold text-gray-700">
+                  <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200">
                     {"\ud83d\udcd6"} {months}{"\uac1c\uc6d4"} {"\uc544\uae30"} {"\uc694\uc57d"}
                   </h3>
                 </div>
-                <p className="text-[14px] leading-relaxed text-gray-700">
+                <p className="text-[14px] leading-relaxed text-gray-700 dark:text-gray-300">
                   {monthData.summary}
                 </p>
               </motion.div>

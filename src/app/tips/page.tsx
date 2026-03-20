@@ -57,18 +57,18 @@ export default function TipsPage() {
         className="px-4 pt-6 pb-3"
       >
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-800">
+          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
             {"\uc721\uc544 \uaf41\ud301"} {"\ud83d\udca1"}
           </h1>
           <button
             onClick={() => router.push("/search")}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 text-amber-500 active:scale-95 transition-transform"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 text-amber-500 active:scale-95 transition-transform dark:bg-amber-900/30 dark:text-amber-400"
             aria-label="검색"
           >
             <Search size={20} />
           </button>
         </div>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           {"\uc6d4\ub839\ubcc4 \uc721\uc544 \ub178\ud558\uc6b0\ub97c \ud655\uc778\ud558\uc138\uc694"}
         </p>
       </motion.div>

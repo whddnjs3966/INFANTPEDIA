@@ -100,10 +100,10 @@ export default function CategoryAccordion({
                 <Icon size={20} />
               </div>
               <div className="flex-1">
-                <span className="text-sm font-bold text-gray-700">
+                <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
                   {cat.emoji} {cat.label}
                 </span>
-                <span className="ml-2 text-xs text-gray-500">
+                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
                   {catActivities.length > 0
                     ? `${catActivities.length}\uac1c \ud56d\ubaa9`
                     : "\ub370\uc774\ud130 \uc5c6\uc74c"}
@@ -138,12 +138,12 @@ export default function CategoryAccordion({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm"
+                          className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
                         >
-                          <h4 className="text-[15px] font-bold text-gray-800">
+                          <h4 className="text-[15px] font-bold text-gray-800 dark:text-gray-100">
                             {activity.title}
                           </h4>
-                          <p className="mt-1.5 text-[13px] leading-relaxed text-gray-600">
+                          <p className="mt-1.5 text-[13px] leading-relaxed text-gray-600 dark:text-gray-300">
                             {activity.content}
                           </p>
                         </motion.div>

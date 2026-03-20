@@ -25,7 +25,7 @@ export default function WonderWeekBanner({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -10 }}
           transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
-          className="relative overflow-hidden rounded-2xl border border-yellow-200/60 bg-gradient-to-r from-yellow-50 via-amber-50 to-orange-50 p-4 shadow-sm"
+          className="relative overflow-hidden rounded-2xl border border-yellow-200/60 bg-gradient-to-r from-yellow-50 via-amber-50 to-orange-50 p-4 shadow-sm dark:border-yellow-800/40 dark:from-yellow-950/40 dark:via-amber-950/40 dark:to-orange-950/40"
         >
           {/* Sparkle decorations */}
           <motion.span
@@ -49,7 +49,7 @@ export default function WonderWeekBanner({
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold text-yellow-800">
+                <h3 className="text-sm font-bold text-yellow-800 dark:text-yellow-300">
                   {"\ud83c\udf1f"} {title}
                 </h3>
                 {leapNumber && (
@@ -58,7 +58,7 @@ export default function WonderWeekBanner({
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-[13px] leading-relaxed text-yellow-800">
+              <p className="mt-1 text-[13px] leading-relaxed text-yellow-800 dark:text-yellow-200">
                 {description}
               </p>
             </div>

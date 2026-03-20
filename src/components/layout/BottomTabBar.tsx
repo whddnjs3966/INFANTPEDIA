@@ -35,13 +35,13 @@ export default function BottomTabBar() {
                 "relative flex min-h-[48px] min-w-[48px] flex-col items-center justify-center gap-0.5 rounded-xl px-2 py-1.5 transition-colors",
                 isActive
                   ? "text-[#E88FAC]"
-                  : "text-gray-400 hover:text-gray-600"
+                  : "text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="tab-indicator"
-                  className="absolute inset-0 rounded-xl bg-pink-50"
+                  className="absolute inset-0 rounded-xl bg-pink-50 dark:bg-pink-950/40"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}

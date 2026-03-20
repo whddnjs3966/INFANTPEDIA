@@ -147,7 +147,7 @@ export default function SettingsPage() {
 
           <form onSubmit={handleSave} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="settings-name" className="text-sm font-medium text-gray-600">
+              <Label htmlFor="settings-name" className="text-sm font-medium text-gray-600 dark:text-gray-300">
                 아기 이름
               </Label>
               <Input
@@ -161,7 +161,7 @@ export default function SettingsPage() {
 
             {/* Gender */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-600">성별</Label>
+              <Label className="text-sm font-medium text-gray-600 dark:text-gray-300">성별</Label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
@@ -170,7 +170,7 @@ export default function SettingsPage() {
                     "flex items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-medium transition-all",
                     gender === "male"
                       ? "border-blue-300 bg-blue-50 text-blue-700"
-                      : "border-gray-200 text-gray-400"
+                      : "border-gray-200 text-gray-400 dark:border-gray-600 dark:text-gray-500"
                   )}
                 >
                   👦 남아
@@ -182,7 +182,7 @@ export default function SettingsPage() {
                     "flex items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-medium transition-all",
                     gender === "female"
                       ? "border-pink-300 bg-pink-50 text-pink-700"
-                      : "border-gray-200 text-gray-400"
+                      : "border-gray-200 text-gray-400 dark:border-gray-600 dark:text-gray-500"
                   )}
                 >
                   👧 여아
@@ -191,7 +191,7 @@ export default function SettingsPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="settings-birth" className="text-sm font-medium text-gray-600">
+              <Label htmlFor="settings-birth" className="text-sm font-medium text-gray-600 dark:text-gray-300">
                 생년월일
               </Label>
               <Input
@@ -257,12 +257,12 @@ export default function SettingsPage() {
         <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* Add Baby */}
-        <div className="rounded-2xl border border-blue-200/50 bg-white/80 p-5 shadow-sm">
+        <div className="rounded-2xl border border-blue-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
           <div className="mb-3 flex items-center gap-2">
-            <div className="rounded-lg bg-blue-100 p-2">
-              <UserPlus size={18} className="text-blue-500" />
+            <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900/50">
+              <UserPlus size={18} className="text-blue-500 dark:text-blue-400" />
             </div>
-            <h2 className="text-base font-bold text-gray-700">아이 추가</h2>
+            <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">아이 추가</h2>
           </div>
 
           {!showAddForm ? (
@@ -295,7 +295,7 @@ export default function SettingsPage() {
                     "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2 text-xs font-medium transition-all",
                     newGender === "male"
                       ? "border-blue-300 bg-blue-50 text-blue-700"
-                      : "border-gray-200 text-gray-400"
+                      : "border-gray-200 text-gray-400 dark:border-gray-600 dark:text-gray-500"
                   )}
                 >
                   👦 남아
@@ -307,7 +307,7 @@ export default function SettingsPage() {
                     "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2 text-xs font-medium transition-all",
                     newGender === "female"
                       ? "border-pink-300 bg-pink-50 text-pink-700"
-                      : "border-gray-200 text-gray-400"
+                      : "border-gray-200 text-gray-400 dark:border-gray-600 dark:text-gray-500"
                   )}
                 >
                   👧 여아
@@ -342,7 +342,7 @@ export default function SettingsPage() {
           )}
         </div>
 
-        <Separator className="bg-pink-100" />
+        <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* Data Sharing */}
         <SharingSection />
@@ -350,15 +350,15 @@ export default function SettingsPage() {
         {/* Remove individual baby (only if more than 1) */}
         {babies.length > 1 && profile && (
           <>
-            <Separator className="bg-pink-100" />
-            <div className="rounded-2xl border border-orange-200/50 bg-white/80 p-5 shadow-sm">
+            <Separator className="bg-pink-100 dark:bg-gray-700" />
+            <div className="rounded-2xl border border-orange-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
               <div className="mb-3 flex items-center gap-2">
-                <div className="rounded-lg bg-orange-100 p-2">
-                  <X size={18} className="text-orange-500" />
+                <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900/50">
+                  <X size={18} className="text-orange-500 dark:text-orange-400" />
                 </div>
-                <h2 className="text-base font-bold text-gray-700">아이 삭제</h2>
+                <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">아이 삭제</h2>
               </div>
-              <p className="mb-3 text-xs text-gray-500">
+              <p className="mb-3 text-xs text-gray-500 dark:text-gray-400">
                 현재 선택된 <span className="font-semibold">{profile.name}</span>의 프로필을 삭제합니다.
               </p>
               <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
@@ -406,17 +406,17 @@ export default function SettingsPage() {
           </>
         )}
 
-        <Separator className="bg-pink-100" />
+        <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* Data reset */}
-        <div className="rounded-2xl border border-red-200/50 bg-white/80 p-5 shadow-sm">
+        <div className="rounded-2xl border border-red-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
           <div className="mb-3 flex items-center gap-2">
-            <div className="rounded-lg bg-red-100 p-2">
+            <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900/50">
               <Trash2 size={18} className="text-red-400" />
             </div>
-            <h2 className="text-base font-bold text-gray-700">전체 초기화</h2>
+            <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">전체 초기화</h2>
           </div>
-          <p className="mb-4 text-sm text-gray-500">
+          <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
             모든 아기 정보가 삭제되고 처음 화면으로 돌아갑니다.
           </p>
 
@@ -462,30 +462,30 @@ export default function SettingsPage() {
           </Dialog>
         </div>
 
-        <Separator className="bg-pink-100" />
+        <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* App info */}
-        <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-5 shadow-sm">
+        <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
           <div className="mb-3 flex items-center gap-2">
-            <div className="rounded-lg bg-purple-100 p-2">
-              <Info size={18} className="text-purple-500" />
+            <div className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900/50">
+              <Info size={18} className="text-purple-500 dark:text-purple-400" />
             </div>
-            <h2 className="text-base font-bold text-gray-700">앱 정보</h2>
+            <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">앱 정보</h2>
           </div>
-          <div className="space-y-2 text-sm text-gray-500">
+          <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
             <div className="flex justify-between">
               <span>버전</span>
-              <span className="font-medium text-gray-700">0.2.0</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">0.3.0</span>
             </div>
             <div className="flex justify-between">
               <span>앱 이름</span>
-              <span className="font-medium text-gray-700">InfantPedia</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">InfantPedia</span>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-center gap-1 pb-8 text-xs text-gray-400">
+        <div className="flex items-center justify-center gap-1 pb-8 text-xs text-gray-400 dark:text-gray-500">
           <span>Made with</span>
           <Heart size={12} className="fill-pink-400 text-pink-400" />
           <span>for parents</span>

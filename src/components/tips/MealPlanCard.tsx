@@ -34,10 +34,10 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
           <UtensilsCrossed size={20} className="text-orange-500" />
         </div>
         <div className="flex-1">
-          <span className="text-sm font-bold text-gray-700">
+          <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
             {"🍽️"} {plan.stage}
           </span>
-          <p className="text-xs text-gray-400 mt-0.5">{plan.texture}</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{plan.texture}</p>
         </div>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
@@ -56,7 +56,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="rounded-2xl border border-orange-100 bg-white/80 mt-2 p-4 shadow-sm">
+            <div className="rounded-2xl border border-orange-100 bg-white/80 mt-2 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
               {/* Description */}
               <p className="text-[13px] text-gray-600 mb-3">{plan.description}</p>
 

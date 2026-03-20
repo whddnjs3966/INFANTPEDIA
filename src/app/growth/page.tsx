@@ -37,18 +37,18 @@ export default function GrowthPage() {
         animate={{ opacity: 1, y: 0 }}
         className="px-5 pb-2 pt-12"
       >
-        <h1 className="text-xl font-bold text-gray-800">
+        <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
           성장 & 건강 📊
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           {profile?.name ? `${profile.name}의 ` : "우리 아기의 "}
           성장 기록과 예방접종 일정
         </p>
       </motion.div>
 
       {/* Sub-Tab Switcher */}
-      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] px-5 pb-3 pt-2">
-        <div className="flex gap-2 rounded-2xl bg-gray-100/80 p-1.5">
+      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-5 pb-3 pt-2">
+        <div className="flex gap-2 rounded-2xl bg-gray-100/80 dark:bg-gray-800 p-1.5">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -58,13 +58,13 @@ export default function GrowthPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
                   "relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-medium transition-all",
-                  isActive ? "text-gray-800" : "text-gray-400"
+                  isActive ? "text-gray-800 dark:text-gray-100" : "text-gray-400 dark:text-gray-500"
                 )}
               >
                 {isActive && (
                   <motion.div
                     layoutId="growth-tab-bg"
-                    className="absolute inset-0 rounded-xl bg-white shadow-sm"
+                    className="absolute inset-0 rounded-xl bg-white dark:bg-gray-700 shadow-sm"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
