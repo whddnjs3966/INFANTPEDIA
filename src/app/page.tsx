@@ -249,7 +249,7 @@ export default function HomePage() {
                       <p className="text-sm font-bold text-gray-700">
                         {"\ud83d\udcc5"} {"\uc608\ubc29\uc811\uc885"} {"\uc548\ub0b4"}
                       </p>
-                      <p className="mt-0.5 text-xs text-amber-600">
+                      <p className="mt-0.5 text-[13px] font-medium text-amber-700">
                         {months}{"\uac1c\uc6d4"} {"\uc811\uc885"} {"\ub300\uc0c1"}: {incomplete.slice(0, 3).map((u) => u.vaccine.nameEn).join(", ")}
                         {incomplete.length > 3 && ` {"\uc678"} ${incomplete.length - 3}{"\uac74"}`}
                       </p>
@@ -274,7 +274,7 @@ export default function HomePage() {
                     {"\ud83d\udcd6"} {months}{"\uac1c\uc6d4"} {"\uc544\uae30"} {"\uc694\uc57d"}
                   </h3>
                 </div>
-                <p className="text-sm leading-relaxed text-gray-600">
+                <p className="text-[14px] leading-relaxed text-gray-700">
                   {monthData.summary}
                 </p>
               </motion.div>

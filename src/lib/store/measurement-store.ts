@@ -8,6 +8,7 @@ export interface Measurement {
   height?: number; // cm
   weight?: number; // kg
   headCircumference?: number; // cm
+  memo?: string; // optional notes
 }
 
 interface MeasurementStore {

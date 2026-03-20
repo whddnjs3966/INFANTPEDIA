@@ -2,7 +2,6 @@ import { supabase } from '@/lib/supabase';
 import type { BabyProfile } from '@/lib/store/baby-store';
 import type { Measurement } from '@/lib/store/measurement-store';
 import type { VaccinationRecord } from '@/lib/store/vaccination-store';
-import type { LogEntry } from '@/lib/store/daily-log-store';
 
 // Generate a 6-character alphanumeric invite code
 function generateInviteCode(): string {
@@ -55,30 +54,11 @@ function mapVaccinations(rows: Record<string, unknown>[]): VaccinationRecord[] {
   }));
 }
 
-function mapDailyLogs(rows: Record<string, unknown>[]): LogEntry[] {
-  return rows.map((l) => ({
-    id: syncId(),
-    date: l.date as string,
-    time: l.time as string,
-    endTime: (l.end_time as string) || undefined,
-    category: l.category as LogEntry['category'],
-    amount: (l.amount as number) || undefined,
-    duration: (l.duration as number) || undefined,
-    side: (l.side as LogEntry['side']) || undefined,
-    menu: (l.menu as string) || undefined,
-    color: (l.color as string) || undefined,
-    consistency: (l.consistency as string) || undefined,
-    temperature: (l.temperature as number) || undefined,
-    note: (l.note as string) || undefined,
-  }));
-}
-
 // ─── Share baby (create invite code) ───
 export async function shareBaby(
   baby: BabyProfile,
   measurements: Measurement[],
-  vaccinations: VaccinationRecord[],
-  dailyLogs: LogEntry[]
+  vaccinations: VaccinationRecord[]
 ): Promise<{ code: string; sharedBabyId: string } | { error: string }> {
   const deviceId = getDeviceId();
   const MAX_RETRIES = 3;
@@ -153,27 +133,6 @@ export async function shareBaby(
     if (error) console.error('Vaccination upload failed:', error.message);
   }
 
-  if (dailyLogs.length > 0) {
-    const { error } = await supabase.from('shared_daily_logs').insert(
-      dailyLogs.map((l) => ({
-        baby_id: babyId,
-        date: l.date,
-        time: l.time,
-        end_time: l.endTime || null,
-        category: l.category,
-        amount: l.amount || null,
-        duration: l.duration || null,
-        side: l.side || null,
-        menu: l.menu || null,
-        color: l.color || null,
-        consistency: l.consistency || null,
-        temperature: l.temperature || null,
-        note: l.note || null,
-      }))
-    );
-    if (error) console.error('Daily log upload failed:', error.message);
-  }
-
   return { code: inviteCode, sharedBabyId: babyId };
 }
 
@@ -184,7 +143,6 @@ export async function joinByInviteCode(
   baby: { id: string; name: string; birthdate: string; gender: string };
   measurements: Measurement[];
   vaccinations: VaccinationRecord[];
-  dailyLogs: LogEntry[];
 } | { error: string }> {
   const normalized = code.toUpperCase().trim();
   if (!isValidInviteCode(normalized)) {
@@ -212,10 +170,9 @@ export async function joinByInviteCode(
   );
 
   // Fetch all data (handle individual errors gracefully)
-  const [measRes, vacRes, logRes] = await Promise.all([
+  const [measRes, vacRes] = await Promise.all([
     supabase.from('shared_measurements').select('*').eq('baby_id', babyId),
     supabase.from('shared_vaccinations').select('*').eq('baby_id', babyId),
-    supabase.from('shared_daily_logs').select('*').eq('baby_id', babyId),
   ]);
 
   return {
@@ -227,7 +184,6 @@ export async function joinByInviteCode(
     },
     measurements: mapMeasurements(measRes.data || []),
     vaccinations: mapVaccinations(vacRes.data || []),
-    dailyLogs: mapDailyLogs(logRes.data || []),
   };
 }
 
@@ -236,8 +192,7 @@ export async function pushToCloud(
   sharedBabyId: string,
   baby: BabyProfile,
   measurements: Measurement[],
-  vaccinations: VaccinationRecord[],
-  dailyLogs: LogEntry[]
+  vaccinations: VaccinationRecord[]
 ): Promise<{ error?: string }> {
   try {
     // Update baby profile
@@ -285,29 +240,6 @@ export async function pushToCloud(
       if (error) return { error: `예방접종 업로드 실패: ${error.message}` };
     }
 
-    // Replace daily logs
-    await supabase.from('shared_daily_logs').delete().eq('baby_id', sharedBabyId);
-    if (dailyLogs.length > 0) {
-      const { error } = await supabase.from('shared_daily_logs').insert(
-        dailyLogs.map((l) => ({
-          baby_id: sharedBabyId,
-          date: l.date,
-          time: l.time,
-          end_time: l.endTime || null,
-          category: l.category,
-          amount: l.amount || null,
-          duration: l.duration || null,
-          side: l.side || null,
-          menu: l.menu || null,
-          color: l.color || null,
-          consistency: l.consistency || null,
-          temperature: l.temperature || null,
-          note: l.note || null,
-        }))
-      );
-      if (error) return { error: `일지 업로드 실패: ${error.message}` };
-    }
-
     return {};
   } catch (e: unknown) {
     return { error: `동기화 실패: ${e instanceof Error ? e.message : '알 수 없는 오류'}` };
@@ -321,7 +253,6 @@ export async function pullFromCloud(
   baby: { name: string; birthdate: string; gender: string };
   measurements: Measurement[];
   vaccinations: VaccinationRecord[];
-  dailyLogs: LogEntry[];
 } | { error: string }> {
   try {
     const { data: sharedBaby, error } = await supabase
@@ -334,10 +265,9 @@ export async function pullFromCloud(
       return { error: '공유 데이터를 불러올 수 없습니다' };
     }
 
-    const [measRes, vacRes, logRes] = await Promise.all([
+    const [measRes, vacRes] = await Promise.all([
       supabase.from('shared_measurements').select('*').eq('baby_id', sharedBabyId),
       supabase.from('shared_vaccinations').select('*').eq('baby_id', sharedBabyId),
-      supabase.from('shared_daily_logs').select('*').eq('baby_id', sharedBabyId),
     ]);
 
     return {
@@ -348,7 +278,6 @@ export async function pullFromCloud(
       },
       measurements: mapMeasurements(measRes.data || []),
       vaccinations: mapVaccinations(vacRes.data || []),
-      dailyLogs: mapDailyLogs(logRes.data || []),
     };
   } catch (e: unknown) {
     return { error: `데이터 불러오기 실패: ${e instanceof Error ? e.message : '알 수 없는 오류'}` };

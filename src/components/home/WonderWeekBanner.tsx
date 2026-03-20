@@ -58,7 +58,7 @@ export default function WonderWeekBanner({
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-xs leading-relaxed text-yellow-700/80">
+              <p className="mt-1 text-[13px] leading-relaxed text-yellow-800">
                 {description}
               </p>
             </div>

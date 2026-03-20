@@ -18,8 +18,9 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { User, Trash2, Info, Heart, Plus, Check, X, UserPlus } from "lucide-react";
+import { User, Trash2, Info, Heart, Plus, Check, X, UserPlus, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useThemeStore } from "@/lib/store/theme-store";
 import SharingSection from "@/components/sharing/SharingSection";
 
 export default function SettingsPage() {
@@ -32,6 +33,8 @@ export default function SettingsPage() {
   const removeBaby = useBabyStore((s) => s.removeBaby);
   const setActiveBaby = useBabyStore((s) => s.setActiveBaby);
   const clearAll = useBabyStore((s) => s.clearAll);
+  const theme = useThemeStore((s) => s.theme);
+  const toggleTheme = useThemeStore((s) => s.toggleTheme);
 
   const [name, setName] = useState(profile?.name || "");
   const [birthdate, setBirthdate] = useState(profile?.birthdate || "");
@@ -85,8 +88,8 @@ export default function SettingsPage() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className="text-xl font-bold text-gray-800">⚙️ 설정</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">⚙️ 설정</h1>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           아기 정보를 수정하거나 앱 설정을 변경하세요
         </p>
       </motion.div>
@@ -99,8 +102,8 @@ export default function SettingsPage() {
       >
         {/* Baby Switcher */}
         {babies.length > 1 && (
-          <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-4 shadow-sm">
-            <p className="mb-3 text-xs font-medium text-gray-500">아기 선택</p>
+          <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+            <p className="mb-3 text-xs font-medium text-gray-500 dark:text-gray-400">아기 선택</p>
             <div className="flex gap-2 overflow-x-auto pb-1">
               {babies.map((baby) => (
                 <motion.button
@@ -110,19 +113,19 @@ export default function SettingsPage() {
                   className={cn(
                     "flex shrink-0 items-center gap-2 rounded-2xl border-2 px-4 py-2.5 transition-all",
                     baby.id === activeId
-                      ? "border-pink-300 bg-pink-50 shadow-sm"
-                      : "border-gray-200 bg-white"
+                      ? "border-pink-300 bg-pink-50 shadow-sm dark:border-pink-600 dark:bg-pink-900/30"
+                      : "border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700"
                   )}
                 >
                   <span className="text-lg">{baby.gender === "female" ? "👧" : "👦"}</span>
                   <div className="text-left">
                     <p className={cn(
                       "text-sm font-semibold",
-                      baby.id === activeId ? "text-pink-700" : "text-gray-600"
+                      baby.id === activeId ? "text-pink-700 dark:text-pink-300" : "text-gray-600 dark:text-gray-300"
                     )}>
                       {baby.name}
                     </p>
-                    <p className="text-[10px] text-gray-400">{baby.birthdate}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500">{baby.birthdate}</p>
                   </div>
                   {baby.id === activeId && (
                     <Check size={14} className="text-pink-500" />
@@ -134,12 +137,12 @@ export default function SettingsPage() {
         )}
 
         {/* Profile edit */}
-        <div className="rounded-2xl border border-pink-200/50 bg-white/80 p-5 shadow-sm">
+        <div className="rounded-2xl border border-pink-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
           <div className="mb-4 flex items-center gap-2">
-            <div className="rounded-lg bg-pink-100 p-2">
-              <User size={18} className="text-pink-500" />
+            <div className="rounded-lg bg-pink-100 p-2 dark:bg-pink-900/50">
+              <User size={18} className="text-pink-500 dark:text-pink-400" />
             </div>
-            <h2 className="text-base font-bold text-gray-700">아기 프로필</h2>
+            <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">아기 프로필</h2>
           </div>
 
           <form onSubmit={handleSave} className="space-y-4">
@@ -212,7 +215,46 @@ export default function SettingsPage() {
           </form>
         </div>
 
-        <Separator className="bg-pink-100" />
+        <Separator className="bg-pink-100 dark:bg-gray-700" />
+
+        {/* Dark Mode Toggle */}
+        <div className="rounded-2xl border border-indigo-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-indigo-100 p-2 dark:bg-indigo-900/50">
+                {theme === "dark" ? (
+                  <Moon size={18} className="text-indigo-500 dark:text-indigo-400" />
+                ) : (
+                  <Sun size={18} className="text-indigo-500" />
+                )}
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">다크 모드</h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {theme === "dark" ? "어두운 테마 사용 중" : "밝은 테마 사용 중"}
+                </p>
+              </div>
+            </div>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={toggleTheme}
+              className={cn(
+                "relative h-8 w-14 rounded-full transition-colors",
+                theme === "dark"
+                  ? "bg-indigo-500"
+                  : "bg-gray-300"
+              )}
+            >
+              <motion.div
+                className="absolute top-1 h-6 w-6 rounded-full bg-white shadow-sm"
+                animate={{ left: theme === "dark" ? "1.75rem" : "0.25rem" }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              />
+            </motion.button>
+          </div>
+        </div>
+
+        <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* Add Baby */}
         <div className="rounded-2xl border border-blue-200/50 bg-white/80 p-5 shadow-sm">

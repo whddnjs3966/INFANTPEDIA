@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { Home, BookOpen, TrendingUp, ClipboardList, Settings } from "lucide-react";
+import { Home, BookOpen, TrendingUp, Lightbulb, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -9,7 +9,7 @@ const tabs = [
   { href: "/", label: "홈", icon: Home },
   { href: "/encyclopedia", label: "백과", icon: BookOpen },
   { href: "/growth", label: "성장", icon: TrendingUp },
-  { href: "/daily-log", label: "일지", icon: ClipboardList },
+  { href: "/tips", label: "꿀팁", icon: Lightbulb },
   { href: "/settings", label: "설정", icon: Settings },
 ];
 

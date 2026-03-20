@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { useBabyStore, type BabyGender } from "@/lib/store/baby-store";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
 import { useVaccinationStore } from "@/lib/store/vaccination-store";
-import { useDailyLogStore } from "@/lib/store/daily-log-store";
 import { useSyncStore } from "@/lib/store/sync-store";
 import { joinByInviteCode } from "@/lib/sync/sync-service";
 import { Button } from "@/components/ui/button";
@@ -103,24 +102,6 @@ export default function OnboardingPage() {
         if (!vacStore.isCompleted(v.vaccineId, v.doseNumber)) {
           vacStore.toggleVaccination(v.vaccineId, v.doseNumber, v.completedDate);
         }
-      }
-
-      // Import daily logs
-      for (const l of result.dailyLogs) {
-        useDailyLogStore.getState().addEntry({
-          category: l.category,
-          date: l.date,
-          time: l.time,
-          endTime: l.endTime,
-          amount: l.amount,
-          duration: l.duration,
-          side: l.side,
-          menu: l.menu,
-          color: l.color,
-          consistency: l.consistency,
-          temperature: l.temperature,
-          note: l.note,
-        });
       }
 
       useSyncStore.getState().setLastSync();

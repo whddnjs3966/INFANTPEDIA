@@ -19,7 +19,6 @@ import { cn } from "@/lib/utils";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
 import { useVaccinationStore } from "@/lib/store/vaccination-store";
-import { useDailyLogStore } from "@/lib/store/daily-log-store";
 import { useSyncStore } from "@/lib/store/sync-store";
 import { shareBaby, joinByInviteCode, pushToCloud, pullFromCloud } from "@/lib/sync/sync-service";
 import type { BabyGender } from "@/lib/store/baby-store";
@@ -32,8 +31,6 @@ export default function SharingSection() {
 
   const measurements = useMeasurementStore((s) => s.measurements);
   const vaccinationRecords = useVaccinationStore((s) => s.records);
-  const dailyLogEntries = useDailyLogStore((s) => s.entries);
-
   const mappings = useSyncStore((s) => s.mappings);
   const addMapping = useSyncStore((s) => s.addMapping);
   const removeMapping = useSyncStore((s) => s.removeMapping);
@@ -57,7 +54,7 @@ export default function SharingSection() {
     setLoading(true);
     setGeneratedCode(null);
 
-    const result = await shareBaby(profile, measurements, vaccinationRecords, dailyLogEntries);
+    const result = await shareBaby(profile, measurements, vaccinationRecords);
 
     if ("error" in result) {
       alert(result.error);
@@ -71,7 +68,7 @@ export default function SharingSection() {
       setLastSync();
     }
     setLoading(false);
-  }, [profile, measurements, vaccinationRecords, dailyLogEntries, addMapping, setLastSync]);
+  }, [profile, measurements, vaccinationRecords, addMapping, setLastSync]);
 
   // ─── Copy code ───
   const handleCopy = useCallback(async (code: string) => {
@@ -148,24 +145,6 @@ export default function SharingSection() {
           }
         }
 
-        // Import daily logs
-        for (const l of result.dailyLogs) {
-          useDailyLogStore.getState().addEntry({
-            category: l.category,
-            date: l.date,
-            time: l.time,
-            endTime: l.endTime,
-            amount: l.amount,
-            duration: l.duration,
-            side: l.side,
-            menu: l.menu,
-            color: l.color,
-            consistency: l.consistency,
-            temperature: l.temperature,
-            note: l.note,
-          });
-        }
-
         setLastSync();
       }
       setJoinSuccess(true);
@@ -182,8 +161,7 @@ export default function SharingSection() {
       currentMapping.sharedBabyId,
       profile,
       measurements,
-      vaccinationRecords,
-      dailyLogEntries
+      vaccinationRecords
     );
     if (result.error) {
       setSyncStatus("error");
@@ -192,7 +170,7 @@ export default function SharingSection() {
       setSyncStatus("done");
     }
     setTimeout(() => setSyncStatus("idle"), 2000);
-  }, [profile, currentMapping, measurements, vaccinationRecords, dailyLogEntries, setLastSync]);
+  }, [profile, currentMapping, measurements, vaccinationRecords, setLastSync]);
 
   // ─── Pull sync ───
   const handlePull = useCallback(async () => {
@@ -224,24 +202,6 @@ export default function SharingSection() {
       useVaccinationStore.getState().clearAll();
       for (const v of result.vaccinations) {
         useVaccinationStore.getState().toggleVaccination(v.vaccineId, v.doseNumber, v.completedDate);
-      }
-
-      useDailyLogStore.getState().clearAll();
-      for (const l of result.dailyLogs) {
-        useDailyLogStore.getState().addEntry({
-          category: l.category,
-          date: l.date,
-          time: l.time,
-          endTime: l.endTime,
-          amount: l.amount,
-          duration: l.duration,
-          side: l.side,
-          menu: l.menu,
-          color: l.color,
-          consistency: l.consistency,
-          temperature: l.temperature,
-          note: l.note,
-        });
       }
 
       setLastSync();

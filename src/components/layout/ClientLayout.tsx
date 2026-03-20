@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useBabyStore } from "@/lib/store/baby-store";
+import { useThemeStore } from "@/lib/store/theme-store";
 import BottomTabBar from "./BottomTabBar";
 import { useEffect, useState } from "react";
 
@@ -13,11 +14,21 @@ export default function ClientLayout({
   const pathname = usePathname();
   const router = useRouter();
   const profile = useBabyStore((s) => s.profile);
+  const theme = useThemeStore((s) => s.theme);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  // Apply dark class to html element
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
 
   useEffect(() => {
     if (hydrated && !profile && pathname !== "/onboarding") {
@@ -30,7 +41,7 @@ export default function ClientLayout({
     return (
       <div
         className="flex min-h-screen items-center justify-center"
-        style={{ backgroundColor: "#FFF8F0" }}
+        style={{ backgroundColor: "var(--cream-bg)" }}
       >
         <div className="animate-pulse-soft text-4xl">{"\ud83d\udc76"}</div>
       </div>
@@ -45,7 +56,7 @@ export default function ClientLayout({
     return (
       <div
         className="flex min-h-screen items-center justify-center"
-        style={{ backgroundColor: "#FFF8F0" }}
+        style={{ backgroundColor: "var(--cream-bg)" }}
       >
         <div className="animate-pulse-soft text-4xl">{"\ud83d\udc76"}</div>
       </div>
@@ -55,7 +66,7 @@ export default function ClientLayout({
   return (
     <div
       className="mx-auto min-h-screen max-w-md"
-      style={{ backgroundColor: "#FFF8F0" }}
+      style={{ backgroundColor: "var(--cream-bg)" }}
     >
       <main className={showTabBar ? "pb-24" : ""}>{children}</main>
       {showTabBar && <BottomTabBar />}

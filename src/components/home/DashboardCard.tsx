@@ -82,12 +82,12 @@ export default function DashboardCard({
           <div className={cn("rounded-lg bg-white/60 p-1.5", colors.icon)}>
             <Icon size={18} />
           </div>
-          <span className="text-xs font-medium text-gray-500">{title}</span>
+          <span className="text-xs font-semibold text-gray-600">{title}</span>
           {emoji && <span className="text-sm">{emoji}</span>}
         </div>
-        <p className="text-lg font-bold text-gray-800">{value}</p>
+        <p className="text-xl font-extrabold text-gray-900">{value}</p>
         {subtitle && (
-          <p className="mt-0.5 text-xs text-gray-500">{subtitle}</p>
+          <p className="mt-0.5 text-[13px] font-medium text-gray-600">{subtitle}</p>
         )}
       </div>
     </motion.div>
