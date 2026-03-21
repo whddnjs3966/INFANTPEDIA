@@ -144,7 +144,6 @@ export async function GET(request: Request) {
 
     const { error: verifyError } = await supabase.auth.verifyOtp({
       type: "magiclink",
-      email,
       token_hash: linkData.properties.hashed_token,
     });
 
