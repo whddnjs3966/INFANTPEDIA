@@ -14,6 +14,7 @@ import {
   Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import FormattedContent from "@/components/ui/FormattedContent";
 import {
   getDentalGuide,
   getTeethForMonth,
@@ -297,13 +298,13 @@ export default function DentalGuide({ month }: DentalGuideProps) {
           transition={{ delay: 0.3 }}
           className="mt-3 rounded-xl bg-teal-50 dark:bg-teal-950/30 border border-teal-200/50 dark:border-teal-800/30 p-3"
         >
-          <p className="text-[12px] text-teal-700 dark:text-teal-300 leading-relaxed flex items-start gap-2">
+          <div className="flex items-start gap-2">
             <Sparkles
               size={14}
               className="text-teal-400 shrink-0 mt-0.5"
             />
-            {monthlyNote}
-          </p>
+            <FormattedContent content={monthlyNote} className="text-[12px] [&_p]:text-teal-700 [&_p]:dark:text-teal-300" />
+          </div>
         </motion.div>
       </motion.div>
 
@@ -482,9 +483,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                             : "⭐⭐"}
                         </span>
                       </div>
-                      <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed">
-                        {remedy.description}
-                      </p>
+                      <FormattedContent content={remedy.description} className="text-[11px]" />
                     </div>
                   </div>
                 </motion.div>
@@ -526,9 +525,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
             <p className="text-[11px] font-bold text-cyan-700 dark:text-cyan-300 mb-1 flex items-center gap-1">
               <Sparkles size={12} /> 불소 치약 안내
             </p>
-            <p className="text-[11px] text-gray-600 dark:text-gray-300 leading-relaxed">
-              {guide.brushingGuide.fluorideNote}
-            </p>
+            <FormattedContent content={guide.brushingGuide.fluorideNote} className="text-[11px]" />
           </div>
 
           {/* Steps */}
@@ -579,9 +576,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
               <p className="text-[11px] font-bold text-violet-700 dark:text-violet-300 mb-1">
                 📅 첫 치과 방문
               </p>
-              <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
-                {guide.dentalVisit.firstVisit}
-              </p>
+              <FormattedContent content={guide.dentalVisit.firstVisit} className="text-[12px]" />
             </div>
 
             {/* Frequency */}
@@ -652,9 +647,9 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                   <span>{item.emoji}</span>
                   {item.issue}
                 </p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed pl-6">
-                  {item.solution}
-                </p>
+                <div className="pl-6">
+                  <FormattedContent content={item.solution} className="text-[11px]" />
+                </div>
               </motion.div>
             ))}
           </div>

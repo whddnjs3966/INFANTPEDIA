@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Clock, ChevronDown, Package, Brain } from "lucide-react";
 import { cn } from "@/lib/utils";
+import FormattedContent from "@/components/ui/FormattedContent";
 import {
   getActivitiesForMonth,
   type RecommendedActivity,
@@ -66,7 +67,7 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
           </div>
 
           <div className="flex-1 min-w-0">
-            <h3 className="text-[15px] font-bold text-gray-800 dark:text-gray-100 truncate">
+            <h3 className="text-base font-bold text-gray-800 dark:text-gray-100 truncate">
               {activity.title}
             </h3>
             <div className="mt-0.5 flex items-center gap-2">
@@ -104,9 +105,7 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
                 <div className="h-px bg-gray-100 dark:bg-gray-700" />
 
                 {/* Description */}
-                <p className="text-[13px] leading-relaxed text-gray-600 dark:text-gray-300">
-                  {activity.description}
-                </p>
+                <FormattedContent content={activity.description} />
 
                 {/* Materials */}
                 {activity.materials.length > 0 && (

@@ -11,6 +11,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import FormattedContent from "@/components/ui/FormattedContent";
 import {
   getSleepGuideForMonth,
   getSuitableMethodsForMonth,
@@ -158,9 +159,7 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
             className="overflow-hidden"
           >
             <div className="space-y-4 border-t border-gray-100 bg-white/80 p-4 dark:border-gray-800 dark:bg-gray-900/50">
-              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-                {method.description}
-              </p>
+              <FormattedContent content={method.description} />
 
               <div>
                 <h4 className="mb-2 text-xs font-semibold text-green-600 dark:text-green-400">
@@ -259,9 +258,7 @@ function IssueAccordion({ issue }: { issue: SleepIssue }) {
             className="overflow-hidden"
           >
             <div className="border-t border-purple-100 bg-white/80 px-4 py-3 dark:border-purple-900/50 dark:bg-gray-900/50">
-              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-                {issue.solution}
-              </p>
+              <FormattedContent content={issue.solution} />
             </div>
           </motion.div>
         )}

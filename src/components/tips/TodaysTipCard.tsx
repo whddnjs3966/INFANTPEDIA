@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { useState } from "react";
+import FormattedContent from "@/components/ui/FormattedContent";
 import { getRandomTip } from "@/lib/data/daily-tips-data";
 
 export default function TodaysTipCard() {
@@ -37,9 +38,7 @@ export default function TodaysTipCard() {
         </h4>
 
         {/* Content */}
-        <p className="text-[14px] leading-relaxed text-gray-700 dark:text-gray-300">
-          {tip.content}
-        </p>
+        <FormattedContent content={tip.content} className="text-[14px]" />
 
         {/* Footer */}
         <div className="mt-3 border-t border-yellow-200/50 pt-2">

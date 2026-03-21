@@ -48,30 +48,40 @@ export default function GrowthPage() {
 
       {/* Sub-Tab Switcher */}
       <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-5 pb-3 pt-2">
-        <div className="flex gap-2 rounded-2xl bg-gray-100/80 dark:bg-gray-800 p-1.5">
+        <div className="flex gap-3">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
+            const emoji = tab.id === "growth" ? "📈" : "💉";
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-medium transition-all",
-                  isActive ? "text-gray-800 dark:text-gray-100" : "text-gray-400 dark:text-gray-500"
+                  "relative flex flex-1 flex-col items-center gap-1.5 rounded-2xl py-3.5 transition-all",
+                  isActive
+                    ? "bg-white dark:bg-gray-700 shadow-md border border-gray-200/60 dark:border-gray-600"
+                    : "bg-gray-100/60 dark:bg-gray-800/60 border border-transparent"
                 )}
               >
+                <span className={cn("text-xl transition-transform", isActive && "scale-110")}>
+                  {emoji}
+                </span>
+                <span className={cn(
+                  "text-sm font-bold transition-colors",
+                  isActive
+                    ? "text-gray-800 dark:text-gray-100"
+                    : "text-gray-400 dark:text-gray-500"
+                )}>
+                  {tab.label}
+                </span>
                 {isActive && (
                   <motion.div
-                    layoutId="growth-tab-bg"
-                    className="absolute inset-0 rounded-xl bg-white dark:bg-gray-700 shadow-sm"
+                    layoutId="growth-tab-dot"
+                    className="absolute -bottom-0.5 h-1 w-6 rounded-full bg-cyan-400 dark:bg-cyan-500"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10 flex items-center gap-1.5">
-                  <Icon size={16} />
-                  {tab.label}
-                </span>
               </button>
             );
           })}

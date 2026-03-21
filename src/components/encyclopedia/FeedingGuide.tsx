@@ -13,6 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import FormattedContent from "@/components/ui/FormattedContent";
 import {
   getFeedingGuideForMonth,
   type FeedingPosition,
@@ -211,9 +212,9 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                     </span>
                   </div>
                 </div>
-                <p className="mt-2 text-[12px] leading-relaxed text-gray-600 dark:text-gray-300">
-                  {pos.description}
-                </p>
+                <div className="mt-2">
+                  <FormattedContent content={pos.description} className="text-[12px]" />
+                </div>
               </motion.div>
             ))}
           </div>
@@ -388,9 +389,9 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                           {item.issue}
                         </p>
                       </div>
-                      <p className="mt-1 text-[12px] leading-relaxed text-gray-600 dark:text-gray-300">
-                        {item.solution}
-                      </p>
+                      <div className="mt-1">
+                        <FormattedContent content={item.solution} className="text-[12px]" />
+                      </div>
                     </div>
                   </div>
                 </motion.div>

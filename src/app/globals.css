@@ -311,6 +311,15 @@ body {
   scrollbar-width: none;
 }
 
+/* Hide scrollbar utility (Tailwind-compatible) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Swiper overrides */
 .swiper-slide {
   width: auto !important;

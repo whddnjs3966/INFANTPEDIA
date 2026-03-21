@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import FormattedContent from "@/components/ui/FormattedContent";
 import {
   getBabyFoodGuide,
   getStageForMonth,
@@ -248,9 +249,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
               </div>
             </div>
 
-            <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
-              {currentStage.description}
-            </p>
+            <FormattedContent content={currentStage.description} className="text-[12px]" />
 
             {/* Key info badges */}
             <div className="flex flex-wrap gap-1.5">
@@ -417,9 +416,9 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
           gradientTo="to-rose-50 dark:to-rose-950/20"
           borderColor="border-red-200/50 dark:border-red-800/30"
         >
-          <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed mb-3">
-            {guide.allergyGuide.description}
-          </p>
+          <div className="mb-3">
+            <FormattedContent content={guide.allergyGuide.description} className="text-[12px]" />
+          </div>
 
           {/* High Risk Foods */}
           <div className="mb-4">
@@ -444,9 +443,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
             <p className="text-[11px] font-bold text-amber-700 dark:text-amber-300 mb-1 flex items-center gap-1">
               <Lightbulb size={12} /> 알레르기 테스트 방법
             </p>
-            <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
-              {guide.allergyGuide.testingMethod}
-            </p>
+            <FormattedContent content={guide.allergyGuide.testingMethod} className="text-[12px]" />
           </div>
 
           {/* Emergency Signs */}

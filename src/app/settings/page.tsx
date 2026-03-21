@@ -18,10 +18,11 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { User, Trash2, Info, Heart, Plus, Check, X, UserPlus, Moon, Sun } from "lucide-react";
+import { User, Trash2, Info, Heart, Plus, Check, X, UserPlus, Moon, Sun, LogIn, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useThemeStore } from "@/lib/store/theme-store";
 import SharingSection from "@/components/sharing/SharingSection";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -35,8 +36,10 @@ export default function SettingsPage() {
   const clearAll = useBabyStore((s) => s.clearAll);
   const theme = useThemeStore((s) => s.theme);
   const toggleTheme = useThemeStore((s) => s.toggleTheme);
+  const { user, loading: authLoading, signOut } = useAuth();
 
   const [name, setName] = useState(profile?.name || "");
+  const [loggingOut, setLoggingOut] = useState(false);
   const [birthdate, setBirthdate] = useState(profile?.birthdate || "");
   const [gender, setGender] = useState<BabyGender>(profile?.gender || "male");
   const [saved, setSaved] = useState(false);
@@ -100,6 +103,88 @@ export default function SettingsPage() {
         transition={{ delay: 0.1 }}
         className="mt-6 space-y-6"
       >
+        {/* Account Section */}
+        <div className="rounded-2xl border border-green-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+          <div className="mb-3 flex items-center gap-2">
+            <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900/50">
+              {user ? (
+                <User size={18} className="text-green-500 dark:text-green-400" />
+              ) : (
+                <LogIn size={18} className="text-green-500 dark:text-green-400" />
+              )}
+            </div>
+            <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">계정</h2>
+          </div>
+
+          {authLoading ? (
+            <div className="flex items-center justify-center py-3">
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-green-300 border-t-transparent" />
+            </div>
+          ) : user ? (
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 rounded-xl bg-green-50/50 px-4 py-3 dark:bg-green-900/20">
+                {user.user_metadata?.avatar_url ? (
+                  <img
+                    src={user.user_metadata.avatar_url}
+                    alt=""
+                    className="h-10 w-10 rounded-full"
+                  />
+                ) : (
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-200 dark:bg-green-800">
+                    <User size={20} className="text-green-600 dark:text-green-300" />
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold text-gray-700 dark:text-gray-200">
+                    {user.user_metadata?.full_name || user.user_metadata?.name || "사용자"}
+                  </p>
+                  <p className="truncate text-xs text-gray-400 dark:text-gray-500">
+                    {user.email}
+                  </p>
+                </div>
+                <span className="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-medium text-green-600 dark:bg-green-900/50 dark:text-green-400">
+                  로그인됨
+                </span>
+              </div>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={async () => {
+                  setLoggingOut(true);
+                  await signOut();
+                  setLoggingOut(false);
+                }}
+                disabled={loggingOut}
+                className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
+              >
+                {loggingOut ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-transparent" />
+                ) : (
+                  <>
+                    <LogOut size={14} />
+                    로그아웃
+                  </>
+                )}
+              </motion.button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                로그인하면 기기를 바꿔도 데이터가 안전하게 유지돼요
+              </p>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={() => router.push("/login")}
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-green-400 to-emerald-400 text-sm font-semibold text-white"
+              >
+                <LogIn size={16} />
+                소셜 로그인하기
+              </motion.button>
+            </div>
+          )}
+        </div>
+
+        <Separator className="bg-pink-100 dark:bg-gray-700" />
+
         {/* Baby Switcher */}
         {babies.length > 1 && (
           <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">

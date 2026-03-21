@@ -10,6 +10,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import FormattedContent from "@/components/ui/FormattedContent";
 import {
   getFAQsForMonth,
   searchFAQs,
@@ -237,7 +238,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
 
                   <div className="flex-1 min-w-0">
                     {/* Question */}
-                    <p className="text-[13px] font-bold text-gray-800 dark:text-gray-100 leading-snug">
+                    <p className="text-sm font-bold text-gray-800 dark:text-gray-100 leading-snug">
                       {faq.emoji} {faq.question}
                     </p>
 
@@ -270,9 +271,9 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <p className="mt-2.5 text-[12px] leading-relaxed text-gray-600 dark:text-gray-300 border-t border-gray-200/50 dark:border-gray-600/50 pt-2.5">
-                            {faq.answer}
-                          </p>
+                          <div className="mt-2.5 border-t border-gray-200/50 dark:border-gray-600/50 pt-2.5">
+                            <FormattedContent content={faq.answer} />
+                          </div>
                           {faq.tags.length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1">
                               {faq.tags.map((tag) => (

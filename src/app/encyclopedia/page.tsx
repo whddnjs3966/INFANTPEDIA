@@ -13,6 +13,7 @@ import {
   Baby,
   Smile,
   HeartPulse,
+  Info,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBabyStore } from "@/lib/store/baby-store";
@@ -27,6 +28,7 @@ import FeedingGuide from "@/components/encyclopedia/FeedingGuide";
 import DentalGuide from "@/components/encyclopedia/DentalGuide";
 import HealthFAQ from "@/components/encyclopedia/HealthFAQ";
 import { EncyclopediaSkeleton } from "@/components/ui/LoadingSkeleton";
+import FormattedContent from "@/components/ui/FormattedContent";
 
 type SubTab =
   | "encyclopedia"
@@ -55,14 +57,14 @@ interface Activity {
 }
 
 const subTabs = [
-  { id: "encyclopedia" as SubTab, label: "백과사전", icon: BookOpen },
-  { id: "milestone" as SubTab, label: "발달 체크", icon: ClipboardCheck },
-  { id: "activities" as SubTab, label: "추천 놀이", icon: Gamepad2 },
-  { id: "babyfood" as SubTab, label: "이유식", icon: UtensilsCrossed },
-  { id: "sleep" as SubTab, label: "수면", icon: Moon },
-  { id: "feeding" as SubTab, label: "수유", icon: Baby },
-  { id: "dental" as SubTab, label: "치아", icon: Smile },
-  { id: "health" as SubTab, label: "건강 FAQ", icon: HeartPulse },
+  { id: "encyclopedia" as SubTab, label: "백과사전", icon: BookOpen, emoji: "📚", color: "text-rose-500" },
+  { id: "milestone" as SubTab, label: "발달 체크", icon: ClipboardCheck, emoji: "✅", color: "text-emerald-500" },
+  { id: "activities" as SubTab, label: "추천 놀이", icon: Gamepad2, emoji: "🎯", color: "text-blue-500" },
+  { id: "babyfood" as SubTab, label: "이유식", icon: UtensilsCrossed, emoji: "🥣", color: "text-orange-500" },
+  { id: "sleep" as SubTab, label: "수면", icon: Moon, emoji: "🌙", color: "text-indigo-500" },
+  { id: "feeding" as SubTab, label: "수유", icon: Baby, emoji: "🍼", color: "text-pink-500" },
+  { id: "dental" as SubTab, label: "치아", icon: Smile, emoji: "🦷", color: "text-teal-500" },
+  { id: "health" as SubTab, label: "건강 FAQ", icon: HeartPulse, emoji: "💊", color: "text-red-500" },
 ];
 
 export default function EncyclopediaPage() {
@@ -125,33 +127,60 @@ export default function EncyclopediaPage() {
       </motion.div>
 
       {/* Sub-Tab Switcher */}
-      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-4 pb-2 pt-1">
-        <div className="flex gap-1 rounded-2xl bg-gray-100/80 dark:bg-gray-800 p-1 overflow-x-auto no-scrollbar">
+      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-4 pb-3 pt-1">
+        <div
+          className="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5 cursor-grab active:cursor-grabbing"
+          style={{ WebkitOverflowScrolling: "touch" }}
+          onMouseDown={(e) => {
+            const el = e.currentTarget;
+            const startX = e.pageX - el.offsetLeft;
+            const scrollLeft = el.scrollLeft;
+            const onMove = (ev: MouseEvent) => {
+              const x = ev.pageX - el.offsetLeft;
+              el.scrollLeft = scrollLeft - (x - startX);
+            };
+            const onUp = () => {
+              document.removeEventListener("mousemove", onMove);
+              document.removeEventListener("mouseup", onUp);
+            };
+            document.addEventListener("mousemove", onMove);
+            document.addEventListener("mouseup", onUp);
+          }}
+        >
           {subTabs.map((tab) => {
-            const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "relative flex shrink-0 items-center justify-center gap-1 rounded-xl px-3 py-2 text-xs font-medium transition-all whitespace-nowrap",
+                  "relative flex shrink-0 flex-col items-center gap-1 rounded-2xl px-3.5 py-2.5 transition-all min-w-[64px]",
+                  isActive
+                    ? "bg-white dark:bg-gray-700 shadow-md border border-gray-200/60 dark:border-gray-600"
+                    : "bg-gray-100/60 dark:bg-gray-800/60 border border-transparent"
+                )}
+              >
+                <span className={cn(
+                  "text-lg transition-transform",
+                  isActive && "scale-110"
+                )}>
+                  {tab.emoji}
+                </span>
+                <span className={cn(
+                  "text-[11px] font-bold whitespace-nowrap transition-colors",
                   isActive
                     ? "text-gray-800 dark:text-gray-100"
                     : "text-gray-400 dark:text-gray-500"
-                )}
-              >
+                )}>
+                  {tab.label}
+                </span>
                 {isActive && (
                   <motion.div
-                    layoutId="enc-tab-bg"
-                    className="absolute inset-0 rounded-xl bg-white dark:bg-gray-700 shadow-sm"
+                    layoutId="enc-tab-dot"
+                    className="absolute -bottom-0.5 h-1 w-5 rounded-full bg-rose-400 dark:bg-rose-500"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10 flex items-center gap-1">
-                  <Icon size={14} />
-                  {tab.label}
-                </span>
               </button>
             );
           })}
@@ -187,32 +216,89 @@ export default function EncyclopediaPage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mx-4 mb-4 rounded-2xl border border-pink-200/50 bg-gradient-to-r from-pink-50 to-purple-50 p-4 dark:border-pink-800/50 dark:from-pink-950/40 dark:to-purple-950/40"
+                className="mx-4 mb-4 rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-teal-50 p-5 shadow-sm dark:border-emerald-800/50 dark:from-emerald-950/40 dark:to-teal-950/40"
               >
-                <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">
-                  🌟 {selectedMonth}개월 요약
-                </h2>
+                <div className="mb-3 flex items-center gap-2.5">
+                  <span className="rounded-xl bg-emerald-100 dark:bg-emerald-900/50 p-2">
+                    <Info size={18} className="text-emerald-500" />
+                  </span>
+                  <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">
+                    📖 {selectedMonth}개월 아기 발달 요약
+                  </h2>
+                </div>
+
                 {monthData.summary && (
-                  <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-                    {monthData.summary}
-                  </p>
+                  <FormattedContent content={monthData.summary} />
                 )}
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {monthData.wake_window && (
-                    <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
-                      ⏰ 깨시 {monthData.wake_window}
-                    </span>
-                  )}
+
+                {/* 핵심 정보 그리드 — 4칸 */}
+                <div className="mt-4 pt-3 border-t border-emerald-200/40 dark:border-emerald-700/30 grid grid-cols-4 gap-2">
                   {monthData.feeding_amount && (
-                    <span className="rounded-full bg-pink-100 px-3 py-1 text-xs font-medium text-pink-700 dark:bg-pink-900/40 dark:text-pink-300">
-                      🍼 수유 {monthData.feeding_amount}
-                    </span>
+                    <div className="rounded-xl bg-pink-50/80 dark:bg-pink-950/30 border border-pink-200/40 dark:border-pink-800/30 p-2.5 text-center">
+                      <p className="text-lg mb-0.5">🍼</p>
+                      <p className="text-xs font-bold text-pink-700 dark:text-pink-300">
+                        {monthData.feeding_amount}
+                      </p>
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">수유량</p>
+                    </div>
                   )}
-                  {monthData.nap_count && (
-                    <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700 dark:bg-purple-900/40 dark:text-purple-300">
-                      🌙 낮잠 {monthData.nap_count}
-                    </span>
+                  {monthData.wake_window && (
+                    <div className="rounded-xl bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200/40 dark:border-blue-800/30 p-2.5 text-center">
+                      <p className="text-lg mb-0.5">⏰</p>
+                      <p className="text-xs font-bold text-blue-700 dark:text-blue-300">
+                        {monthData.wake_window}
+                      </p>
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">활동 시간</p>
+                    </div>
                   )}
+                  <div className="rounded-xl bg-indigo-50/80 dark:bg-indigo-950/30 border border-indigo-200/40 dark:border-indigo-800/30 p-2.5 text-center">
+                    <p className="text-lg mb-0.5">😴</p>
+                    <p className="text-xs font-bold text-indigo-700 dark:text-indigo-300">
+                      {monthData.nap_count || "-"}
+                    </p>
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">총 수면</p>
+                  </div>
+                  <div className="rounded-xl bg-orange-50/80 dark:bg-orange-950/30 border border-orange-200/40 dark:border-orange-800/30 p-2.5 text-center">
+                    <p className="text-lg mb-0.5">🥣</p>
+                    <p className="text-xs font-bold text-orange-700 dark:text-orange-300">
+                      {selectedMonth < 4 ? "시작 전"
+                        : selectedMonth <= 5 ? "초기"
+                        : selectedMonth <= 8 ? "중기"
+                        : selectedMonth <= 11 ? "후기"
+                        : "완료기"}
+                    </p>
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">이유식</p>
+                  </div>
+                </div>
+
+                {/* 월령별 핵심 발달 포인트 */}
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <div className="rounded-xl bg-emerald-100/50 dark:bg-emerald-900/30 p-2.5 text-center">
+                    <p className="text-lg mb-0.5">🏋️</p>
+                    <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300">
+                      {selectedMonth <= 1 ? "고개 들기 연습"
+                        : selectedMonth <= 3 ? "목 가누기"
+                        : selectedMonth <= 5 ? "뒤집기"
+                        : selectedMonth <= 7 ? "혼자 앉기"
+                        : selectedMonth <= 9 ? "기어다니기"
+                        : selectedMonth <= 11 ? "붙잡고 서기"
+                        : "첫 걸음마"}
+                    </p>
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">대근육 발달</p>
+                  </div>
+                  <div className="rounded-xl bg-teal-100/50 dark:bg-teal-900/30 p-2.5 text-center">
+                    <p className="text-lg mb-0.5">🗣️</p>
+                    <p className="text-xs font-bold text-teal-700 dark:text-teal-300">
+                      {selectedMonth <= 1 ? "울음으로 소통"
+                        : selectedMonth <= 3 ? "옹알이 시작"
+                        : selectedMonth <= 5 ? "소리에 반응"
+                        : selectedMonth <= 7 ? "모음 소리 내기"
+                        : selectedMonth <= 9 ? "자음 옹알이"
+                        : selectedMonth <= 11 ? "맘마·빠빠"
+                        : "단어 1~3개"}
+                    </p>
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">언어 발달</p>
+                  </div>
                 </div>
               </motion.div>
             )}

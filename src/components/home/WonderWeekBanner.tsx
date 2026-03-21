@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, X } from "lucide-react";
 import { useState } from "react";
+import FormattedContent from "@/components/ui/FormattedContent";
 
 interface WonderWeekBannerProps {
   title: string;
@@ -58,9 +59,9 @@ export default function WonderWeekBanner({
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-[13px] leading-relaxed text-yellow-800 dark:text-yellow-200">
-                {description}
-              </p>
+              <div className="mt-1">
+                <FormattedContent content={description} className="[&_p]:text-yellow-800 [&_p]:dark:text-yellow-200" />
+              </div>
             </div>
           </div>
 
