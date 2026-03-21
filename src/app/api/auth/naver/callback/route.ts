@@ -6,13 +6,19 @@ import { cookies } from "next/headers";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://infantpedia.vercel.app";
 
+function loginError(step: string, detail?: string) {
+  const msg = encodeURIComponent(detail || step);
+  console.error(`[Naver Auth] ${step}:`, detail);
+  return NextResponse.redirect(`${SITE_URL}/login?error=naver&detail=${msg}`);
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
   const error = searchParams.get("error");
 
   if (error || !code) {
-    return NextResponse.redirect(`${SITE_URL}/login?error=auth`);
+    return loginError("no_code", error || "authorization code missing");
   }
 
   try {
@@ -31,8 +37,7 @@ export async function GET(request: Request) {
     const tokenData = await tokenRes.json();
 
     if (tokenData.error || !tokenData.access_token) {
-      console.error("Naver token error:", tokenData);
-      return NextResponse.redirect(`${SITE_URL}/login?error=auth`);
+      return loginError("token_exchange", tokenData.error_description || tokenData.error);
     }
 
     // 2. Fetch Naver user profile
@@ -43,24 +48,48 @@ export async function GET(request: Request) {
     const profileData = await profileRes.json();
 
     if (profileData.resultcode !== "00" || !profileData.response) {
-      console.error("Naver profile error:", profileData);
-      return NextResponse.redirect(`${SITE_URL}/login?error=auth`);
+      return loginError("profile_fetch", profileData.message);
     }
 
     const naverUser = profileData.response;
     const email = naverUser.email;
 
     if (!email) {
-      return NextResponse.redirect(`${SITE_URL}/login?error=auth`);
+      return loginError("no_email", "네이버 계정에 이메일 정보가 없습니다");
     }
 
     // 3. Create or find user in Supabase via admin API
     const adminClient = createAdminClient();
 
-    const { data: existingUsers } = await adminClient.auth.admin.listUsers();
-    let user = existingUsers?.users?.find((u) => u.email === email);
+    // Try to find existing user by email (more reliable than listUsers)
+    let userId: string | null = null;
 
-    if (!user) {
+    const { data: existingUsers, error: listError } =
+      await adminClient.auth.admin.listUsers({ page: 1, perPage: 1000 });
+
+    if (listError) {
+      return loginError("list_users", listError.message);
+    }
+
+    const existingUser = existingUsers?.users?.find((u) => u.email === email);
+
+    if (existingUser) {
+      userId = existingUser.id;
+      // Update metadata
+      await adminClient.auth.admin.updateUserById(userId, {
+        user_metadata: {
+          ...existingUser.user_metadata,
+          full_name:
+            naverUser.name ||
+            naverUser.nickname ||
+            existingUser.user_metadata?.full_name,
+          avatar_url:
+            naverUser.profile_image || existingUser.user_metadata?.avatar_url,
+          provider: "naver",
+          naver_id: naverUser.id,
+        },
+      });
+    } else {
       // Create new user
       const { data: newUser, error: createError } =
         await adminClient.auth.admin.createUser({
@@ -75,26 +104,10 @@ export async function GET(request: Request) {
         });
 
       if (createError || !newUser.user) {
-        console.error("Supabase create user error:", createError);
-        return NextResponse.redirect(`${SITE_URL}/login?error=auth`);
+        return loginError("create_user", createError?.message);
       }
 
-      user = newUser.user;
-    } else {
-      // Update metadata for existing user
-      await adminClient.auth.admin.updateUserById(user.id, {
-        user_metadata: {
-          ...user.user_metadata,
-          full_name:
-            naverUser.name ||
-            naverUser.nickname ||
-            user.user_metadata?.full_name,
-          avatar_url:
-            naverUser.profile_image || user.user_metadata?.avatar_url,
-          provider: "naver",
-          naver_id: naverUser.id,
-        },
-      });
+      userId = newUser.user.id;
     }
 
     // 4. Generate a magic link to create a session
@@ -105,8 +118,7 @@ export async function GET(request: Request) {
       });
 
     if (linkError || !linkData.properties?.hashed_token) {
-      console.error("Supabase magic link error:", linkError);
-      return NextResponse.redirect(`${SITE_URL}/login?error=auth`);
+      return loginError("magic_link", linkError?.message);
     }
 
     // 5. Verify the token server-side to set session cookies
@@ -132,17 +144,17 @@ export async function GET(request: Request) {
 
     const { error: verifyError } = await supabase.auth.verifyOtp({
       type: "magiclink",
+      email,
       token_hash: linkData.properties.hashed_token,
     });
 
     if (verifyError) {
-      console.error("Supabase verify error:", verifyError);
-      return NextResponse.redirect(`${SITE_URL}/login?error=auth`);
+      return loginError("verify_otp", verifyError.message);
     }
 
     return response;
   } catch (err) {
-    console.error("Naver auth error:", err);
-    return NextResponse.redirect(`${SITE_URL}/login?error=auth`);
+    const message = err instanceof Error ? err.message : String(err);
+    return loginError("unexpected", message);
   }
 }

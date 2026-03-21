@@ -51,9 +51,13 @@ function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState<Provider | null>(null);
-  const [error, setError] = useState<string | null>(
-    searchParams.get("error") === "auth" ? "로그인에 실패했어요. 다시 시도해주세요." : null
-  );
+  const [error, setError] = useState<string | null>(() => {
+    const errorParam = searchParams.get("error");
+    if (!errorParam) return null;
+    const detail = searchParams.get("detail");
+    if (detail) return `로그인 실패: ${decodeURIComponent(detail)}`;
+    return "로그인에 실패했어요. 다시 시도해주세요.";
+  });
 
   const handleSignIn = async (provider: Provider) => {
     setLoading(provider);
