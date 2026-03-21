@@ -12,7 +12,6 @@ import { useMeasurementStore } from "@/lib/store/measurement-store";
 // DashboardCard no longer used — replaced by inline full-width cards
 import WonderWeekBanner from "@/components/home/WonderWeekBanner";
 import FloatingDecorations from "@/components/layout/FloatingDecorations";
-import GrowthAlertCard from "@/components/home/GrowthAlertCard";
 import FormattedContent from "@/components/ui/FormattedContent";
 import { DashboardSkeleton } from "@/components/ui/LoadingSkeleton";
 
@@ -435,11 +434,6 @@ export default function HomePage() {
                 <ChevronRight size={16} className="text-cyan-400" />
               </div>
             </motion.button>
-
-            {/* Growth Alert Card */}
-            <motion.div variants={child}>
-              <GrowthAlertCard months={months} />
-            </motion.div>
 
             {/* Monthly summary card */}
             {monthData?.summary && (

@@ -59,27 +59,19 @@ function LoginContent() {
     setLoading(provider);
     setError(null);
 
+    if (provider === "naver") {
+      // Naver uses custom API route (not Supabase built-in)
+      window.location.href = "/api/auth/naver";
+      return;
+    }
+
     const supabase = createClient();
     const redirectTo = `${window.location.origin}/auth/callback`;
 
-    let result;
-
-    if (provider === "naver") {
-      // Naver — custom OIDC provider configured in Supabase
-      result = await supabase.auth.signInWithOAuth({
-        provider: "keycloak" as "google",
-        options: {
-          redirectTo,
-          scopes: "openid profile email",
-          queryParams: { kc_idp_hint: "naver" },
-        },
-      });
-    } else {
-      result = await supabase.auth.signInWithOAuth({
-        provider,
-        options: { redirectTo },
-      });
-    }
+    const result = await supabase.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo },
+    });
 
     if (result.error) {
       setError(result.error.message);
