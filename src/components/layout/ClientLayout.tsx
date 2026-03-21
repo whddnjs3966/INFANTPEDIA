@@ -31,7 +31,7 @@ export default function ClientLayout({
   }, [theme]);
 
   useEffect(() => {
-    if (hydrated && !profile && pathname !== "/onboarding" && pathname !== "/login" && !pathname.startsWith("/auth")) {
+    if (hydrated && !profile && pathname !== "/onboarding" && pathname !== "/login" && pathname !== "/privacy" && !pathname.startsWith("/auth")) {
       router.replace("/onboarding");
     }
   }, [hydrated, profile, pathname, router]);
@@ -49,11 +49,11 @@ export default function ClientLayout({
   }
 
   const isOnboarding = pathname === "/onboarding";
-  const isAuthPage = pathname === "/login" || pathname.startsWith("/auth");
-  const showTabBar = !!profile && !isOnboarding && !isAuthPage;
+  const isSpecialPage = pathname === "/login" || pathname === "/privacy" || pathname.startsWith("/auth");
+  const showTabBar = !!profile && !isOnboarding && !isSpecialPage;
 
   // Show loading while redirecting
-  if (!profile && !isOnboarding && !isAuthPage) {
+  if (!profile && !isOnboarding && !isSpecialPage) {
     return (
       <div
         className="flex min-h-screen items-center justify-center"

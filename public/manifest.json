@@ -1,12 +1,15 @@
 {
   "name": "인펀트피디아 - 아기 백과사전",
   "short_name": "인펀트피디아",
-  "description": "0~12개월 아기 성장 백과사전",
+  "description": "0~12개월 아기 성장 백과사전. 월령별 수유, 수면, 이유식, 예방접종 정보를 한눈에.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#FFF8F0",
   "theme_color": "#F472B6",
   "orientation": "portrait",
+  "lang": "ko",
+  "categories": ["health", "lifestyle"],
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
