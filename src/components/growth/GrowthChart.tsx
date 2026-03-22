@@ -205,7 +205,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   }, [currentBabyValue, currentMonth, chartType, primaryGender, isBoth]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-4">
       {/* Chart Type Toggle */}
       <div className="flex gap-1.5 rounded-2xl bg-gray-100/80 dark:bg-gray-800 p-1.5">
         {(["height", "weight", "head"] as ChartType[]).map((type) => {

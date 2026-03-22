@@ -18,15 +18,17 @@ import {
 import { cn } from "@/lib/utils";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getMonthInfo, getActivities } from "@/lib/queries/months";
+import dynamic from "next/dynamic";
 import MonthSelector from "@/components/encyclopedia/MonthSelector";
 import CategoryAccordion from "@/components/encyclopedia/CategoryAccordion";
-import MilestoneChecklist from "@/components/encyclopedia/MilestoneChecklist";
-import RecommendedActivities from "@/components/encyclopedia/RecommendedActivities";
-import BabyFoodGuide from "@/components/encyclopedia/BabyFoodGuide";
-import SleepGuide from "@/components/encyclopedia/SleepGuide";
-import FeedingGuide from "@/components/encyclopedia/FeedingGuide";
-import DentalGuide from "@/components/encyclopedia/DentalGuide";
-import HealthFAQ from "@/components/encyclopedia/HealthFAQ";
+
+const MilestoneChecklist = dynamic(() => import("@/components/encyclopedia/MilestoneChecklist"), { ssr: false });
+const RecommendedActivities = dynamic(() => import("@/components/encyclopedia/RecommendedActivities"), { ssr: false });
+const BabyFoodGuide = dynamic(() => import("@/components/encyclopedia/BabyFoodGuide"), { ssr: false });
+const SleepGuide = dynamic(() => import("@/components/encyclopedia/SleepGuide"), { ssr: false });
+const FeedingGuide = dynamic(() => import("@/components/encyclopedia/FeedingGuide"), { ssr: false });
+const DentalGuide = dynamic(() => import("@/components/encyclopedia/DentalGuide"), { ssr: false });
+const HealthFAQ = dynamic(() => import("@/components/encyclopedia/HealthFAQ"), { ssr: false });
 import { EncyclopediaSkeleton } from "@/components/ui/LoadingSkeleton";
 import FormattedContent from "@/components/ui/FormattedContent";
 

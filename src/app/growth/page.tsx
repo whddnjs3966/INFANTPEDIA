@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, Syringe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBabyStore } from "@/lib/store/baby-store";
-import GrowthChart from "@/components/growth/GrowthChart";
-import VaccinationSchedule from "@/components/growth/VaccinationSchedule";
+import dynamic from "next/dynamic";
+
+const GrowthChart = dynamic(() => import("@/components/growth/GrowthChart"), { ssr: false });
+const VaccinationSchedule = dynamic(() => import("@/components/growth/VaccinationSchedule"), { ssr: false });
 
 type TabType = "growth" | "vaccination";
 

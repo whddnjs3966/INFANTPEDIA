@@ -1,5 +1,10 @@
-const CACHE_NAME = 'infantpedia-v1';
-const STATIC_ASSETS = ['/', '/encyclopedia', '/growth', '/tips', '/settings'];
+const CACHE_NAME = 'infantpedia-v2';
+const STATIC_ASSETS = [
+  '/',
+  '/offline.html',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -23,8 +28,15 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (request.method !== 'GET') return;
 
-  // Network-first for API and Supabase calls
-  if (request.url.includes('supabase') || request.url.includes('/api/')) {
+  // Skip chrome-extension and other non-http(s) requests
+  if (!request.url.startsWith('http')) return;
+
+  // Network-first for API, Supabase, and auth calls
+  if (
+    request.url.includes('supabase') ||
+    request.url.includes('/api/') ||
+    request.url.includes('/auth/')
+  ) {
     event.respondWith(
       fetch(request)
         .then((response) => {
@@ -37,12 +49,27 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Navigation requests (HTML pages) - network first with offline fallback
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          return response;
+        })
+        .catch(() =>
+          caches.match(request).then((cached) => cached || caches.match('/offline.html'))
+        )
+    );
+    return;
+  }
+
   // Cache-first for static assets
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
       return fetch(request).then((response) => {
-        // Cache successful responses for next time
         if (response.status === 200) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));

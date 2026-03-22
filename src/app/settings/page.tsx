@@ -45,6 +45,8 @@ export default function SettingsPage() {
   const [saved, setSaved] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
+  const [accountDeleteDialogOpen, setAccountDeleteDialogOpen] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
 
   // Add baby form
   const [showAddForm, setShowAddForm] = useState(false);
@@ -81,6 +83,22 @@ export default function SettingsPage() {
   const handleReset = () => {
     clearAll();
     router.replace("/onboarding");
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeletingAccount(true);
+    try {
+      const res = await fetch("/api/account/delete", { method: "DELETE" });
+      if (res.ok) {
+        clearAll();
+        router.replace("/onboarding");
+      }
+    } catch {
+      // ignore
+    } finally {
+      setDeletingAccount(false);
+      setAccountDeleteDialogOpen(false);
+    }
   };
 
   const activeId = profile?.id || activeBabyId;
@@ -549,6 +567,62 @@ export default function SettingsPage() {
 
         <Separator className="bg-pink-100 dark:bg-gray-700" />
 
+        {/* Account deletion - Google Play requirement */}
+        {user && (
+          <div className="rounded-2xl border border-red-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+            <div className="mb-3 flex items-center gap-2">
+              <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900/50">
+                <Trash2 size={18} className="text-red-400" />
+              </div>
+              <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">계정 삭제</h2>
+            </div>
+            <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
+              계정과 모든 클라우드 데이터가 영구적으로 삭제됩니다.
+            </p>
+
+            <Dialog open={accountDeleteDialogOpen} onOpenChange={setAccountDeleteDialogOpen}>
+              <DialogTrigger
+                render={
+                  <Button
+                    variant="destructive"
+                    className="h-11 w-full rounded-xl font-semibold"
+                  />
+                }
+              >
+                계정 삭제하기
+              </DialogTrigger>
+              <DialogContent className="max-w-[340px] rounded-2xl">
+                <DialogHeader>
+                  <DialogTitle className="text-center">정말 계정을 삭제할까요?</DialogTitle>
+                  <DialogDescription className="text-center">
+                    계정이 영구적으로 삭제되며{"\n"}
+                    저장된 모든 데이터를 복구할 수 없습니다.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="flex gap-2 sm:flex-row">
+                  <DialogClose
+                    render={
+                      <Button variant="outline" className="flex-1 rounded-xl" />
+                    }
+                  >
+                    취소
+                  </DialogClose>
+                  <Button
+                    variant="destructive"
+                    onClick={handleDeleteAccount}
+                    disabled={deletingAccount}
+                    className="flex-1 rounded-xl"
+                  >
+                    {deletingAccount ? "삭제 중..." : "삭제"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
+
+        <Separator className="bg-pink-100 dark:bg-gray-700" />
+
         {/* App info */}
         <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
           <div className="mb-3 flex items-center gap-2">
@@ -560,12 +634,19 @@ export default function SettingsPage() {
           <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
             <div className="flex justify-between">
               <span>버전</span>
-              <span className="font-medium text-gray-700 dark:text-gray-300">0.3.0</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">1.0.0</span>
             </div>
             <div className="flex justify-between">
               <span>앱 이름</span>
               <span className="font-medium text-gray-700 dark:text-gray-300">InfantPedia</span>
             </div>
+            <button
+              onClick={() => router.push("/privacy")}
+              className="flex w-full justify-between pt-1"
+            >
+              <span>개인정보처리방침</span>
+              <span className="font-medium text-pink-400">보기</span>
+            </button>
           </div>
         </div>
 

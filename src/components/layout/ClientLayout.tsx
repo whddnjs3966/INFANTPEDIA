@@ -19,6 +19,11 @@ export default function ClientLayout({
 
   useEffect(() => {
     setHydrated(true);
+
+    // Register service worker for PWA
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    }
   }, []);
 
   // Apply dark class to html element

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오프라인 - 인펀트피디아</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #FFF8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      text-align: center;
+    }
+    .container { max-width: 360px; }
+    .emoji { font-size: 64px; margin-bottom: 16px; }
+    h1 { font-size: 20px; color: #374151; margin-bottom: 8px; }
+    p { font-size: 14px; color: #6B7280; line-height: 1.6; margin-bottom: 24px; }
+    button {
+      background: linear-gradient(135deg, #F472B6, #EC4899);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 14px 32px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="emoji">📡</div>
+    <h1>인터넷 연결을 확인해 주세요</h1>
+    <p>현재 오프라인 상태입니다.<br>인터넷에 연결된 후 다시 시도해 주세요.</p>
+    <button onclick="location.reload()">다시 시도</button>
+  </div>
+</body>
+</html>

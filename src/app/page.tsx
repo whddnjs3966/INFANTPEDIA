@@ -11,7 +11,9 @@ import { useVaccinationStore } from "@/lib/store/vaccination-store";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
 // DashboardCard no longer used — replaced by inline full-width cards
 import WonderWeekBanner from "@/components/home/WonderWeekBanner";
-import FloatingDecorations from "@/components/layout/FloatingDecorations";
+import dynamic from "next/dynamic";
+
+const FloatingDecorations = dynamic(() => import("@/components/layout/FloatingDecorations"), { ssr: false });
 import FormattedContent from "@/components/ui/FormattedContent";
 import { DashboardSkeleton } from "@/components/ui/LoadingSkeleton";
 

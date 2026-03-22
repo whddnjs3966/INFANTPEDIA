@@ -7,10 +7,12 @@ import { Search } from "lucide-react";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getParentingTips } from "@/lib/queries/months";
 import MonthSelector from "@/components/encyclopedia/MonthSelector";
-import TipsCategoryAccordion from "@/components/tips/TipsCategoryAccordion";
-import DailyScheduleCard from "@/components/tips/DailyScheduleCard";
-import MealPlanCard from "@/components/tips/MealPlanCard";
-import TodaysTipCard from "@/components/tips/TodaysTipCard";
+import dynamic from "next/dynamic";
+
+const TipsCategoryAccordion = dynamic(() => import("@/components/tips/TipsCategoryAccordion"), { ssr: false });
+const DailyScheduleCard = dynamic(() => import("@/components/tips/DailyScheduleCard"), { ssr: false });
+const MealPlanCard = dynamic(() => import("@/components/tips/MealPlanCard"), { ssr: false });
+const TodaysTipCard = dynamic(() => import("@/components/tips/TodaysTipCard"), { ssr: false });
 import { EncyclopediaSkeleton } from "@/components/ui/LoadingSkeleton";
 
 interface Tip {
