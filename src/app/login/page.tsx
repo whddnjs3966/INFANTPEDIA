@@ -198,7 +198,7 @@ function LoginContent() {
       </motion.button>
 
       {/* Footer */}
-      <p className="mt-auto pt-8 text-center text-[10px] leading-relaxed text-gray-300 dark:text-gray-600">
+      <p className="mt-auto pt-8 text-center text-[10px] leading-relaxed text-gray-400 dark:text-gray-500">
         소셜 로그인 시 서비스 이용약관 및<br />
         개인정보 처리방침에 동의하게 됩니다.
       </p>

@@ -76,9 +76,10 @@ export interface SearchResult {
 }
 
 export async function searchContent(keyword: string): Promise<SearchResult[]> {
-  if (!keyword.trim()) return [];
+  const trimmed = keyword.trim();
+  if (!trimmed || trimmed.length > 100) return [];
 
-  const safeKeyword = keyword.replace(/[%_]/g, '\\$&');
+  const safeKeyword = trimmed.replace(/[%_]/g, '\\$&');
 
   const [activitiesResult, tipsResult] = await Promise.all([
     supabase

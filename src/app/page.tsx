@@ -36,7 +36,7 @@ interface WonderWeekData {
   description: string;
   start_day: number;
   end_day: number;
-  leap_number: number;
+  week_number: number;
 }
 
 export default function HomePage() {
@@ -106,7 +106,7 @@ export default function HomePage() {
           className="mb-5"
         >
           <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
-            {"\uc548\ub155\ud558\uc138\uc694"}, {profile.name} {"\ub9d8/\ub300\ub514!"} {"\ud83d\udc4b"}
+            {"\uc548\ub155\ud558\uc138\uc694"}, {profile.name} {"\ubd80\ubaa8\ub2d8!"} {"\ud83d\udc4b"}
           </h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             {"\uc624\ub298\ub3c4"} {profile.name}{"\uc758"} {"\ud558\ub8e8\ub97c"} {"\uc751\uc6d0\ud574\uc694"} {"\ud83d\udc95"}
@@ -161,12 +161,12 @@ export default function HomePage() {
             {wonderWeeks.length > 0 && (
               <motion.div variants={child}>
                 <WonderWeekBanner
-                  title={wonderWeeks[0].title || `\uc6d0\ub354\uc705\uc2a4 ${wonderWeeks[0].leap_number || ""}\ubc88\uc9f8 \ub3c4\uc57d`}
+                  title={wonderWeeks[0].title || `\uc6d0\ub354\uc705\uc2a4 ${wonderWeeks[0].week_number || ""}\ubc88\uc9f8 \ub3c4\uc57d`}
                   description={
                     wonderWeeks[0].description ||
                     "\uc544\uae30\uac00 \uc9c0\uae08 \uc131\uc7a5 \ub3c4\uc57d\uae30\uc5d0 \uc788\uc5b4\uc694. \ubcf4\ucc44\uace0 \uce6d\ucc2c\uc73c\ub85c \ub3c4\uc640\uc8fc\uc138\uc694!"
                   }
-                  leapNumber={wonderWeeks[0].leap_number}
+                  leapNumber={wonderWeeks[0].week_number}
                 />
               </motion.div>
             )}
@@ -222,7 +222,7 @@ export default function HomePage() {
 
                       {/* 하루 총량 */}
                       <div className="rounded-xl bg-white/70 dark:bg-gray-800/60 p-3 text-center">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">하루 총 수유량</p>
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1 break-keep">하루 총 수유량</p>
                         <p className="text-lg font-black text-gray-900 dark:text-white">
                           {monthData?.daily_feed_total || "-"}
                         </p>
@@ -326,7 +326,7 @@ export default function HomePage() {
 
                       {/* 깨어있는 시간 */}
                       <div className="rounded-xl bg-white/70 dark:bg-gray-800/60 p-3 text-center">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">깨어있는 시간</p>
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1 break-keep">깨어있는 시간</p>
                         <p className="text-lg font-black text-gray-900 dark:text-white">
                           {monthData?.wake_window_min != null && monthData?.wake_window_max != null
                             ? `${monthData.wake_window_min}~${monthData.wake_window_max}`

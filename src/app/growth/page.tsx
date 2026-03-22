@@ -37,7 +37,7 @@ export default function GrowthPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="px-5 pb-2 pt-12"
+        className="px-5 pb-2 pt-6"
       >
         <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
           성장 & 건강 📊

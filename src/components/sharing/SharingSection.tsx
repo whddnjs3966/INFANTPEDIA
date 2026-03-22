@@ -222,34 +222,34 @@ export default function SharingSection() {
   return (
     <div className="space-y-4">
       {/* Share / Connected status */}
-      <div className="rounded-2xl border border-green-200/50 bg-white/80 p-5 shadow-sm">
+      <div className="rounded-2xl border border-green-200/50 bg-white/80 dark:border-green-800/50 dark:bg-gray-800/80 p-5 shadow-sm">
         <div className="mb-3 flex items-center gap-2">
           <div className="rounded-lg bg-green-100 p-2">
             <Share2 size={18} className="text-green-500" />
           </div>
-          <h2 className="text-base font-bold text-gray-700">데이터 공유</h2>
+          <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">데이터 공유</h2>
         </div>
 
         {currentMapping ? (
           // Already shared
           <div className="space-y-3">
-            <div className="rounded-xl bg-green-50 p-3">
-              <p className="mb-1 text-xs text-green-600">
+            <div className="rounded-xl bg-green-50 dark:bg-green-900/30 p-3">
+              <p className="mb-1 text-xs text-green-600 dark:text-green-400">
                 <Link size={12} className="mr-1 inline" />
                 공유 연결됨
               </p>
               <div className="flex items-center gap-2">
-                <span className="font-mono text-lg font-bold tracking-widest text-green-700">
+                <span className="font-mono text-lg font-bold tracking-widest text-green-700 dark:text-green-300">
                   {currentMapping.inviteCode}
                 </span>
                 <button
                   onClick={() => handleCopy(currentMapping.inviteCode)}
-                  className="rounded-lg p-1.5 text-green-500 hover:bg-green-100"
+                  className="rounded-lg p-1.5 text-green-500 hover:bg-green-100 dark:hover:bg-green-900/50"
                 >
                   {copied ? <Check size={14} /> : <Copy size={14} />}
                 </button>
               </div>
-              <p className="mt-1 text-[10px] text-green-500">
+              <p className="mt-1 text-[10px] text-green-500 dark:text-green-400">
                 이 코드를 상대방에게 공유하세요
               </p>
             </div>
@@ -263,8 +263,8 @@ export default function SharingSection() {
                 className={cn(
                   "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2.5 text-xs font-medium transition-all",
                   syncStatus === "pushing"
-                    ? "border-blue-300 bg-blue-50 text-blue-600"
-                    : "border-gray-200 text-gray-600 hover:border-blue-200"
+                    ? "border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                    : "border-gray-200 text-gray-600 hover:border-blue-200 dark:border-gray-700 dark:text-gray-400 dark:hover:border-blue-800"
                 )}
               >
                 <RefreshCw size={14} className={syncStatus === "pushing" ? "animate-spin" : ""} />
@@ -277,8 +277,8 @@ export default function SharingSection() {
                 className={cn(
                   "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2.5 text-xs font-medium transition-all",
                   syncStatus === "pulling"
-                    ? "border-purple-300 bg-purple-50 text-purple-600"
-                    : "border-gray-200 text-gray-600 hover:border-purple-200"
+                    ? "border-purple-300 bg-purple-50 text-purple-600 dark:border-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                    : "border-gray-200 text-gray-600 hover:border-purple-200 dark:border-gray-700 dark:text-gray-400 dark:hover:border-purple-800"
                 )}
               >
                 <Download size={14} className={syncStatus === "pulling" ? "animate-spin" : ""} />
@@ -342,7 +342,7 @@ export default function SharingSection() {
         ) : (
           // Not shared yet
           <div className="space-y-3">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               초대코드를 생성하면 다른 기기에서 같은 아기 데이터를 볼 수 있어요.
             </p>
 
@@ -350,21 +350,21 @@ export default function SharingSection() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-xl bg-green-50 p-4 text-center"
+                className="rounded-xl bg-green-50 dark:bg-green-900/30 p-4 text-center"
               >
-                <p className="mb-1 text-xs text-green-600">초대코드가 생성되었어요!</p>
+                <p className="mb-1 text-xs text-green-600 dark:text-green-400">초대코드가 생성되었어요!</p>
                 <div className="flex items-center justify-center gap-2">
-                  <span className="font-mono text-2xl font-bold tracking-[0.3em] text-green-700">
+                  <span className="font-mono text-2xl font-bold tracking-[0.3em] text-green-700 dark:text-green-300">
                     {generatedCode}
                   </span>
                   <button
                     onClick={() => handleCopy(generatedCode)}
-                    className="rounded-lg p-2 text-green-500 hover:bg-green-100"
+                    className="rounded-lg p-2 text-green-500 hover:bg-green-100 dark:hover:bg-green-900/50"
                   >
                     {copied ? <Check size={16} /> : <Copy size={16} />}
                   </button>
                 </div>
-                <p className="mt-2 text-[10px] text-green-500">
+                <p className="mt-2 text-[10px] text-green-500 dark:text-green-400">
                   이 코드를 배우자에게 보내주세요
                 </p>
               </motion.div>
@@ -390,14 +390,14 @@ export default function SharingSection() {
 
       {/* Join by invite code */}
       {!currentMapping && (
-        <div className="rounded-2xl border border-indigo-200/50 bg-white/80 p-5 shadow-sm">
+        <div className="rounded-2xl border border-indigo-200/50 bg-white/80 dark:border-indigo-800/50 dark:bg-gray-800/80 p-5 shadow-sm">
           <div className="mb-3 flex items-center gap-2">
             <div className="rounded-lg bg-indigo-100 p-2">
               <Link size={18} className="text-indigo-500" />
             </div>
-            <h2 className="text-base font-bold text-gray-700">초대코드 입력</h2>
+            <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">초대코드 입력</h2>
           </div>
-          <p className="mb-3 text-xs text-gray-500">
+          <p className="mb-3 text-xs text-gray-500 dark:text-gray-400">
             배우자가 공유한 초대코드를 입력하면 같은 데이터를 볼 수 있어요.
           </p>
 

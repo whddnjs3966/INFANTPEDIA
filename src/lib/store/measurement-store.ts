@@ -1,8 +1,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { useBabyStore } from './baby-store';
 
 export interface Measurement {
   id: string;
+  babyId?: string; // links to BabyProfile.id
   month: number;
   date: string; // ISO date
   height?: number; // cm
@@ -13,7 +15,7 @@ export interface Measurement {
 
 interface MeasurementStore {
   measurements: Measurement[];
-  addMeasurement: (m: Omit<Measurement, 'id'>) => void;
+  addMeasurement: (m: Omit<Measurement, 'id' | 'babyId'>) => void;
   updateMeasurement: (id: string, m: Partial<Measurement>) => void;
   deleteMeasurement: (id: string) => void;
   clearAll: () => void;
@@ -21,17 +23,30 @@ interface MeasurementStore {
   getLatestByMonth: () => Map<number, Measurement>;
 }
 
+/** Get measurements filtered by active baby (backward-compat: include records without babyId) */
+function filterByActiveBaby(measurements: Measurement[]): Measurement[] {
+  const activeBabyId = useBabyStore.getState().activeBabyId;
+  if (!activeBabyId) return measurements;
+  return measurements.filter((m) => !m.babyId || m.babyId === activeBabyId);
+}
+
 export const useMeasurementStore = create<MeasurementStore>()(
   persist(
     (set, get) => ({
       measurements: [],
-      addMeasurement: (m) =>
+      addMeasurement: (m) => {
+        const activeBabyId = useBabyStore.getState().activeBabyId;
         set((s) => ({
           measurements: [
             ...s.measurements,
-            { ...m, id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}` },
+            {
+              ...m,
+              id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+              babyId: activeBabyId || undefined,
+            },
           ],
-        })),
+        }));
+      },
       updateMeasurement: (id, updates) =>
         set((s) => ({
           measurements: s.measurements.map((m) =>
@@ -44,10 +59,11 @@ export const useMeasurementStore = create<MeasurementStore>()(
         })),
       clearAll: () => set({ measurements: [] }),
       getMeasurementsByMonth: (month) =>
-        get().measurements.filter((m) => m.month === month),
+        filterByActiveBaby(get().measurements).filter((m) => m.month === month),
       getLatestByMonth: () => {
         const map = new Map<number, Measurement>();
-        const sorted = [...get().measurements].sort(
+        const filtered = filterByActiveBaby(get().measurements);
+        const sorted = [...filtered].sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
         for (const m of sorted) {

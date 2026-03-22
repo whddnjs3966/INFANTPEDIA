@@ -642,7 +642,7 @@ export default function SettingsPage() {
             </div>
             <button
               onClick={() => router.push("/privacy")}
-              className="flex w-full justify-between pt-1"
+              className="flex w-full justify-between pt-1 py-2"
             >
               <span>개인정보처리방침</span>
               <span className="font-medium text-pink-400">보기</span>

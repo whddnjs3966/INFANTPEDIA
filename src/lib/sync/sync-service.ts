@@ -23,12 +23,14 @@ function isValidInviteCode(code: string): boolean {
   return /^[A-Z2-9]{6}$/.test(code);
 }
 
-// Get or create a device ID
+// Get or create a device ID (cryptographically secure)
 export function getDeviceId(): string {
   const key = 'infantpedia-device-id';
   let id = localStorage.getItem(key);
   if (!id) {
-    id = `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+    id = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
     localStorage.setItem(key, id);
   }
   return id;

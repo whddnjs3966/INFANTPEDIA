@@ -42,7 +42,7 @@ function highlightKeyword(text: string, keyword: string): React.ReactNode {
 
   return parts.map((part, i) =>
     regex.test(part) ? (
-      <mark key={i} className="bg-yellow-200 text-gray-800 rounded-sm px-0.5">
+      <mark key={i} className="bg-yellow-200 text-gray-800 dark:bg-yellow-900/60 dark:text-yellow-200 rounded-sm px-0.5">
         {part}
       </mark>
     ) : (
@@ -74,7 +74,7 @@ function ResultSkeleton() {
       {Array.from({ length: 4 }).map((_, i) => (
         <div
           key={i}
-          className="animate-pulse rounded-2xl border border-pink-100/50 bg-gradient-to-r from-pink-50/60 via-purple-50/40 to-pink-50/60 p-4"
+          className="animate-pulse rounded-2xl border border-pink-100/50 dark:border-gray-700 bg-gradient-to-r from-pink-50/60 via-purple-50/40 to-pink-50/60 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 p-4"
         >
           <div className="flex gap-2 mb-2">
             <div className="h-5 w-12 rounded-full bg-pink-100/80" />
@@ -103,7 +103,7 @@ export default function SearchResults({
     return (
       <div className="flex flex-col items-center justify-center pt-24 px-8 text-center">
         <p className="text-4xl mb-3">{"🔍"}</p>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           백과사전과 꿀팁에서 원하는 정보를 검색해 보세요
         </p>
       </div>
@@ -114,10 +114,10 @@ export default function SearchResults({
     return (
       <div className="flex flex-col items-center justify-center pt-24 px-8 text-center">
         <p className="text-4xl mb-3">{"🔍"}</p>
-        <p className="text-sm font-medium text-gray-700 mb-1">
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           검색 결과가 없어요
         </p>
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-gray-400 dark:text-gray-500">
           다른 검색어로 다시 시도해 보세요
         </p>
       </div>
@@ -180,10 +180,10 @@ function ResultGroup({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.03 }}
-            className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm"
+            className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm"
           >
             <div className="flex flex-wrap gap-1.5 mb-2">
-              <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[11px] font-medium text-gray-600">
+              <span className="rounded-full bg-gray-100 dark:bg-gray-700 px-2.5 py-0.5 text-[11px] font-medium text-gray-600 dark:text-gray-300">
                 {result.month_id}개월
               </span>
               <span
@@ -194,10 +194,10 @@ function ResultGroup({
                 {categoryLabels[result.category] || result.category}
               </span>
             </div>
-            <h4 className="text-[15px] font-bold text-gray-800">
+            <h4 className="text-[15px] font-bold text-gray-800 dark:text-gray-100">
               {highlightKeyword(result.title, keyword)}
             </h4>
-            <p className="mt-1 text-[13px] leading-relaxed text-gray-600">
+            <p className="mt-1 text-[13px] leading-relaxed text-gray-600 dark:text-gray-300">
               {highlightKeyword(
                 truncateContent(result.content, keyword),
                 keyword

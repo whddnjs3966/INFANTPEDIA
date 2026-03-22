@@ -25,12 +25,12 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "flex w-full min-h-[56px] items-center gap-3 rounded-2xl border bg-gradient-to-r p-4 text-left transition-all",
-          "from-orange-50 to-amber-50 border-orange-200/50",
+          "from-orange-50 to-amber-50 border-orange-200/50 dark:from-orange-950/40 dark:to-amber-950/40 dark:border-orange-800/50",
           isOpen && "shadow-md"
         )}
         whileTap={{ scale: 0.98 }}
       >
-        <div className="rounded-xl bg-orange-100 p-2">
+        <div className="rounded-xl bg-orange-100 dark:bg-orange-900/50 p-2">
           <UtensilsCrossed size={20} className="text-orange-500" />
         </div>
         <div className="flex-1">
@@ -58,14 +58,14 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
           >
             <div className="rounded-2xl border border-orange-100 bg-white/80 mt-2 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
               {/* Description */}
-              <p className="text-[13px] text-gray-600 mb-3">{plan.description}</p>
+              <p className="text-[13px] text-gray-600 dark:text-gray-300 mb-3">{plan.description}</p>
 
               {/* Total per meal & frequency badges */}
               <div className="flex flex-wrap gap-2 mb-3">
-                <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold text-orange-700">
+                <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 dark:bg-orange-900/40 px-2.5 py-1 text-[11px] font-semibold text-orange-700 dark:text-orange-300">
                   📏 한끼 {plan.totalPerMeal}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-semibold text-amber-700">
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-900/40 px-2.5 py-1 text-[11px] font-semibold text-amber-700 dark:text-amber-300">
                   🕐 {plan.dailyFrequency}
                 </span>
               </div>
@@ -77,10 +77,10 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                     key={day.day}
                     onClick={() => setSelectedDay(idx)}
                     className={cn(
-                      "min-w-[40px] rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all",
+                      "min-w-[44px] min-h-[44px] rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all flex items-center justify-center",
                       selectedDay === idx
                         ? "bg-orange-400 text-white shadow-sm"
-                        : "bg-orange-50 text-orange-600 hover:bg-orange-100"
+                        : "bg-orange-50 text-orange-600 hover:bg-orange-100 dark:bg-orange-900/30 dark:text-orange-300 dark:hover:bg-orange-900/50"
                     )}
                   >
                     {day.day}
@@ -96,7 +96,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.05 }}
-                    className="rounded-xl border border-orange-100 bg-orange-50/50 p-3"
+                    className="rounded-xl border border-orange-100 bg-orange-50/50 dark:border-gray-700 dark:bg-orange-950/20 p-3"
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{meal.emoji}</span>
@@ -104,7 +104,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                         <p className="text-[11px] font-bold text-orange-600 uppercase">
                           {meal.meal}
                         </p>
-                        <p className="text-[14px] font-semibold text-gray-800">
+                        <p className="text-[14px] font-semibold text-gray-800 dark:text-gray-100">
                           {meal.menu}
                         </p>
                       </div>
@@ -115,7 +115,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                         {meal.ingredients.map((ing, ingIdx) => (
                           <span
                             key={ingIdx}
-                            className="inline-flex items-center gap-0.5 rounded-md bg-white border border-orange-200/60 px-1.5 py-0.5 text-[10px] font-medium text-gray-600"
+                            className="inline-flex items-center gap-0.5 rounded-md bg-white dark:bg-gray-700 border border-orange-200/60 dark:border-gray-600 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:text-gray-300"
                           >
                             <span className="text-[10px]">{ing.emoji}</span>
                             {ing.name} {ing.amount}
@@ -132,16 +132,16 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                 {plan.tips.map((tip, idx) => (
                   <div key={idx} className="flex items-start gap-1.5">
                     <span className="text-[10px] mt-0.5">{"💡"}</span>
-                    <p className="text-[12px] text-gray-600 leading-relaxed">{tip}</p>
+                    <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">{tip}</p>
                   </div>
                 ))}
               </div>
 
               {/* Allergy note */}
               {plan.allergyNote && (
-                <div className="mt-3 flex items-start gap-2 rounded-xl bg-red-50 p-2.5">
+                <div className="mt-3 flex items-start gap-2 rounded-xl bg-red-50 dark:bg-red-950/30 p-2.5">
                   <AlertTriangle size={14} className="text-red-400 shrink-0 mt-0.5" />
-                  <p className="text-[12px] text-red-700 leading-relaxed font-medium">
+                  <p className="text-[12px] text-red-700 dark:text-red-400 leading-relaxed font-medium">
                     {plan.allergyNote}
                   </p>
                 </div>

@@ -131,7 +131,7 @@ export default function EncyclopediaPage() {
       {/* Sub-Tab Switcher */}
       <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-4 pb-3 pt-1">
         <div
-          className="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5 cursor-grab active:cursor-grabbing"
+          className="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5 cursor-grab active:cursor-grabbing mask-fade-right"
           style={{ WebkitOverflowScrolling: "touch" }}
           onMouseDown={(e) => {
             const el = e.currentTarget;

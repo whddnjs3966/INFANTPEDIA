@@ -9,7 +9,10 @@ import { getParentingTips } from "@/lib/queries/months";
 import MonthSelector from "@/components/encyclopedia/MonthSelector";
 import dynamic from "next/dynamic";
 
-const TipsCategoryAccordion = dynamic(() => import("@/components/tips/TipsCategoryAccordion"), { ssr: false });
+const TipsCategoryAccordion = dynamic(() => import("@/components/tips/TipsCategoryAccordion"), {
+  ssr: false,
+  loading: () => <EncyclopediaSkeleton />,
+});
 const DailyScheduleCard = dynamic(() => import("@/components/tips/DailyScheduleCard"), { ssr: false });
 const MealPlanCard = dynamic(() => import("@/components/tips/MealPlanCard"), { ssr: false });
 const TodaysTipCard = dynamic(() => import("@/components/tips/TodaysTipCard"), { ssr: false });

@@ -320,6 +320,12 @@ body {
   scrollbar-width: none;
 }
 
+/* Scroll fade hint on the right edge */
+.mask-fade-right {
+  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
 /* Swiper overrides */
 .swiper-slide {
   width: auto !important;

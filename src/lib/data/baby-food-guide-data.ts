@@ -73,7 +73,7 @@ const allIngredients: IngredientInfo[] = [
   // 11-12개월
   { name: '우유(조리용)', emoji: '🥛', startMonth: 11, category: 'dairy', allergyRisk: true, tip: '조리용으로만 사용하고, 돌 이후 음용 가능합니다' },
   { name: '새우', emoji: '🦐', startMonth: 11, category: 'protein', allergyRisk: true, tip: '잘게 다져 소량부터 시작, 알레르기 주의하세요' },
-  { name: '견과류(갈아서)', emoji: '🥜', startMonth: 11, category: 'grain', allergyRisk: true, tip: '곱게 갈아 소량만 사용하세요. 통째로 주면 질식 위험!' },
+  { name: '견과류(갈아서)', emoji: '🥜', startMonth: 11, category: 'protein', allergyRisk: true, tip: '곱게 갈아 소량만 사용하세요. 통째로 주면 질식 위험!' },
   { name: '토마토', emoji: '🍅', startMonth: 11, category: 'fruit', allergyRisk: false, tip: '껍질과 씨를 제거하고 익혀서 사용하세요' },
 ];
 

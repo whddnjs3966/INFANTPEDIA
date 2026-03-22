@@ -138,12 +138,12 @@ export default function OnboardingPage() {
             <span>⭐</span>
           </motion.div>
 
-          <h1 className="text-center text-2xl font-bold text-gray-800">
+          <h1 className="text-center text-2xl font-bold text-gray-800 dark:text-gray-100">
             인펀트피디아에
             <br />
             오신 것을 환영합니다!
           </h1>
-          <p className="mt-2 text-center text-sm text-gray-500">
+          <p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
             아기의 성장을 함께 기록하고 알아가요 💕
           </p>
         </motion.div>
@@ -153,14 +153,14 @@ export default function OnboardingPage() {
             {/* New baby form */}
             <motion.form
               onSubmit={handleSubmit}
-              className="rounded-3xl border border-pink-100 bg-white/80 p-6 shadow-lg backdrop-blur-sm"
+              className="rounded-3xl border border-pink-100 bg-white/80 dark:border-gray-700 dark:bg-gray-800/80 p-6 shadow-lg backdrop-blur-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
               <div className="space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-sm font-semibold text-gray-700">
+                  <Label htmlFor="name" className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                     👶 아기 이름
                   </Label>
                   <Input
@@ -175,7 +175,7 @@ export default function OnboardingPage() {
 
                 {/* Gender selection */}
                 <div className="space-y-2">
-                  <Label className="text-sm font-semibold text-gray-700">
+                  <Label className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                     👧👦 성별
                   </Label>
                   <div className="grid grid-cols-2 gap-3">
@@ -186,8 +186,8 @@ export default function OnboardingPage() {
                       className={cn(
                         "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
                         gender === "male"
-                          ? "border-blue-300 bg-blue-50 text-blue-700 shadow-sm"
-                          : "border-gray-200 bg-white text-gray-400"
+                          ? "border-blue-300 bg-blue-50 text-blue-700 shadow-sm dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                          : "border-gray-200 bg-white text-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
                       )}
                     >
                       <span className="text-xl">👦</span>
@@ -200,8 +200,8 @@ export default function OnboardingPage() {
                       className={cn(
                         "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
                         gender === "female"
-                          ? "border-pink-300 bg-pink-50 text-pink-700 shadow-sm"
-                          : "border-gray-200 bg-white text-gray-400"
+                          ? "border-pink-300 bg-pink-50 text-pink-700 shadow-sm dark:border-pink-700 dark:bg-pink-900/30 dark:text-pink-400"
+                          : "border-gray-200 bg-white text-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
                       )}
                     >
                       <span className="text-xl">👧</span>
@@ -211,7 +211,7 @@ export default function OnboardingPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="birthdate" className="text-sm font-semibold text-gray-700">
+                  <Label htmlFor="birthdate" className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                     🎂 생년월일
                   </Label>
                   <Input
@@ -262,7 +262,7 @@ export default function OnboardingPage() {
           <>
             {/* Invite code form */}
             <motion.div
-              className="rounded-3xl border border-indigo-100 bg-white/80 p-6 shadow-lg backdrop-blur-sm"
+              className="rounded-3xl border border-indigo-100 bg-white/80 dark:border-gray-700 dark:bg-gray-800/80 p-6 shadow-lg backdrop-blur-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
@@ -273,13 +273,13 @@ export default function OnboardingPage() {
                     <Link size={18} className="text-indigo-500" />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-gray-700">초대코드 입력</h2>
-                    <p className="text-xs text-gray-500">배우자가 공유한 코드를 입력하세요</p>
+                    <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">초대코드 입력</h2>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">배우자가 공유한 코드를 입력하세요</p>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="invite-code" className="text-sm font-semibold text-gray-700">
+                  <Label htmlFor="invite-code" className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                     🔗 초대코드
                   </Label>
                   <Input
@@ -341,7 +341,7 @@ export default function OnboardingPage() {
         )}
 
         <motion.p
-          className="mt-4 text-center text-xs text-gray-400"
+          className="mt-4 text-center text-xs text-gray-400 dark:text-gray-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}

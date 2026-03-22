@@ -37,10 +37,10 @@ export const dailySchedules: DailySchedule[] = [
     napCount: '4~5회',
     items: [
       { time: '07:00', activity: '기상 / 수유', emoji: '🍼', type: 'feed', duration: '20~30분', tip: '아침에 햇빛을 잠깐 보여주면 낮밤 구분에 도움이 돼요.' },
-      { time: '08:00', activity: '잠깐 놀이 / 터미타임', emoji: '🎮', type: 'play', duration: '10~15분', tip: '터미타임은 하루에 3~5분씩 여러 번 나눠서 해주세요.' },
+      { time: '08:00', activity: '잠깐 놀이 / 터미타임', emoji: '🎮', type: 'play', duration: '5~10분', tip: '1개월 아기 터미타임은 1~2분씩, 하루 3~5회 나눠서 해주세요. 고개를 못 들어도 괜찮아요.' },
       { time: '08:30', activity: '낮잠 1', emoji: '😴', type: 'nap', duration: '1~1.5시간', tip: '깨어 있는 시간이 45분~1시간을 넘지 않도록 해주세요.' },
       { time: '10:00', activity: '수유', emoji: '🍼', type: 'feed', duration: '20~30분', tip: '수유 후 트림을 시켜주세요. 어깨에 올려 등을 토닥여 주세요.' },
-      { time: '10:30', activity: '놀이 / 터미타임', emoji: '🎮', type: 'play', duration: '15~20분', tip: '흑백 모빌이나 흑백 카드를 보여주면 시각 발달에 좋아요.' },
+      { time: '10:30', activity: '놀이 / 시각 자극', emoji: '🎮', type: 'play', duration: '10~15분', tip: '흑백 모빌이나 흑백 카드를 보여주면 시각 발달에 좋아요.' },
       { time: '11:00', activity: '낮잠 2', emoji: '😴', type: 'nap', duration: '1~2시간', tip: '조용하고 어두운 환경을 만들어주세요. 백색소음도 도움이 돼요.' },
       { time: '13:00', activity: '수유', emoji: '🍼', type: 'feed', duration: '20~30분', tip: '조용한 환경에서 수유해주세요. 눈을 맞추며 교감하세요.' },
       { time: '13:30', activity: '놀이', emoji: '🎮', type: 'play', duration: '15~20분', tip: '부드러운 목소리로 말을 걸어주면 청각 발달에 좋아요.' },
@@ -60,7 +60,7 @@ export const dailySchedules: DailySchedule[] = [
     napCount: '3~4회',
     items: [
       { time: '07:00', activity: '기상 / 수유', emoji: '🍼', type: 'feed', duration: '20~30분', tip: '커튼을 열고 밝은 환경에서 시작하면 생체리듬에 도움이 돼요.' },
-      { time: '08:00', activity: '놀이 / 터미타임', emoji: '🎮', type: 'play', duration: '20~30분', tip: '터미타임을 5~10분씩 늘려보세요. 고개 들기 연습이 중요해요.' },
+      { time: '08:00', activity: '놀이 / 터미타임', emoji: '🎮', type: 'play', duration: '15~20분', tip: '터미타임을 5분씩 늘려보세요. 고개 들기 연습이 시작되는 시기예요.' },
       { time: '08:30', activity: '낮잠 1 (1~1.5시간)', emoji: '😴', type: 'nap', duration: '1~1.5시간', tip: '졸린 신호(하품, 눈 비비기)가 보이면 바로 재워주세요.' },
       { time: '10:00', activity: '수유', emoji: '🍼', type: 'feed', duration: '20~30분', tip: '한쪽 가슴에 충분히 먹인 후 반대쪽으로 바꿔주세요.' },
       { time: '10:30', activity: '놀이 / 모빌 보기', emoji: '🎮', type: 'play', duration: '20~30분', tip: '컬러 모빌로 바꿔주세요. 시각 발달이 빠르게 진행돼요.' },

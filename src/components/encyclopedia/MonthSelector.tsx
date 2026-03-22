@@ -69,12 +69,12 @@ export default function MonthSelector({
                   "relative flex min-h-[44px] min-w-[56px] items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                   isSelected
                     ? cn(pastelColors[month], "shadow-md scale-110 border-2")
-                    : "border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+                    : "border-gray-200 bg-white text-gray-500 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
                 )}
               >
                 {month}{"개월"}
                 {isCurrent && !isSelected && (
-                  <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-pink-400" />
+                  <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white dark:border-gray-800 bg-pink-400" />
                 )}
               </motion.button>
             </SwiperSlide>
