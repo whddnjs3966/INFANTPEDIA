@@ -35,7 +35,28 @@
       "WebFetch(domain:thewonderweeks.com)",
       "WebFetch(domain:babysleepconsultant.co)",
       "WebFetch(domain:www.whosthatmom.com)",
-      "WebFetch(domain:www.babysleepschedule.net)"
+      "WebFetch(domain:www.babysleepschedule.net)",
+      "WebFetch(domain:www.yangcheon.go.kr)",
+      "WebFetch(domain:www.geumcheon.go.kr)",
+      "WebFetch(domain:www.gbmg.go.kr)",
+      "WebFetch(domain:nip.kdca.go.kr)",
+      "WebFetch(domain:www.cheonan.go.kr)",
+      "Bash(npx next:*)",
+      "Bash(grep:*)",
+      "Bash(gh repo:*)",
+      "Bash(find /d/workplace/03-INFANTPEDIA -type f -name *.sql)",
+      "Bash(find /d/workplace/03-INFANTPEDIA -name manifest* -o -name service-worker* -o -name *pwa*)",
+      "Bash(find /d/workplace/03-INFANTPEDIA -name *.test.* -o -name *.spec.* -o -name __tests__ -type d)",
+      "Bash(ls:*)",
+      "Bash(find /d/workplace/03-INFANTPEDIA/src -type f \\\\\\(-name *auth* -o -name *sharing* -o -name *firebase* \\\\\\) -o -path */sharing/*)",
+      "Bash(npx --yes sharp-cli --version)",
+      "Bash(npx sharp-cli:*)",
+      "Bash(wc -l /d/workplace/03-INFANTPEDIA/src/lib/data/*.ts)",
+      "Bash(head -1 /d/workplace/03-INFANTPEDIA/src/components/encyclopedia/*.tsx)",
+      "Bash(find /d/workplace/03-INFANTPEDIA/src/lib/data -name \"*.ts\" -exec wc -l {} +)",
+      "Bash(find /d/workplace/03-INFANTPEDIA -type f -name manifest.* -o -name assetlinks.json -o -name *twa* -o -name bubblewrap*)",
+      "Bash(find /d/workplace/03-INFANTPEDIA -name *play* -o -name *store* -o -name *twa* -o -name *twа*)",
+      "Bash(xargs cat:*)"
     ]
   }
 }

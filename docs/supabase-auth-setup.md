@@ -3,7 +3,7 @@
 ## 사전 준비
 
 - Supabase 프로젝트 URL과 Anon Key가 `.env.local`에 설정되어 있어야 함
-- 배포 도메인 확정 필요 (예: `https://infantpedia.vercel.app`)
+- 배포 도메인: `https://infantpedia.vercel.app`
 
 ---
 
@@ -13,8 +13,8 @@ Supabase Dashboard > Authentication > URL Configuration
 
 | 항목 | 값 |
 |------|------|
-| Site URL | `https://your-domain.com` |
-| Redirect URLs | `https://your-domain.com/auth/callback` |
+| Site URL | `https://infantpedia.vercel.app` |
+| Redirect URLs | `https://infantpedia.vercel.app/auth/callback` |
 
 > 개발 환경도 추가: `http://localhost:3000/auth/callback`
 
@@ -28,10 +28,10 @@ Supabase Dashboard > Authentication > URL Configuration
 3. **APIs & Services > Credentials > Create Credentials > OAuth 2.0 Client ID**
 4. Application type: **Web application**
 5. Authorized JavaScript origins:
-   - `https://your-domain.com`
+   - `https://infantpedia.vercel.app`
    - `http://localhost:3000` (개발용)
 6. Authorized redirect URIs:
-   - `https://<project-ref>.supabase.co/auth/v1/callback`
+   - `https://bhqzkvmbkgmltpjumofr.supabase.co/auth/v1/callback`
 7. Client ID와 Client Secret 복사
 
 ### Supabase 설정
@@ -49,11 +49,11 @@ Supabase Dashboard > Authentication > URL Configuration
 2. **내 애플리케이션 > 애플리케이션 추가하기**
 3. 앱 이름: `InfantPedia`
 4. **앱 설정 > 플랫폼 > Web** > 사이트 도메인 추가:
-   - `https://your-domain.com`
+   - `https://infantpedia.vercel.app`
    - `http://localhost:3000`
 5. **제품 설정 > 카카오 로그인** > 활성화 ON
 6. **Redirect URI** 추가:
-   - `https://<project-ref>.supabase.co/auth/v1/callback`
+   - `https://bhqzkvmbkgmltpjumofr.supabase.co/auth/v1/callback`
 7. **동의항목** 설정:
    - 닉네임: 필수
    - 프로필 사진: 선택
@@ -93,7 +93,7 @@ Supabase Dashboard > Authentication > URL Configuration
 1. [Naver Developers](https://developers.naver.com/) > 애플리케이션 등록
 2. 사용 API: **네이버 로그인 (네아로)**
 3. 환경: PC 웹
-4. 서비스 URL: `https://your-domain.com`
+4. 서비스 URL: `https://infantpedia.vercel.app`
 5. Callback URL: (방법에 따라 다름)
 6. Client ID / Client Secret 복사
 

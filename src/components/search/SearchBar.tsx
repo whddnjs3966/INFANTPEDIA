@@ -56,12 +56,12 @@ export default function SearchBar({ onSearch, initialValue = "" }: SearchBarProp
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-4 pt-4 pb-3 border-b border-pink-100/50"
+      className="sticky top-0 z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-4 pt-4 pb-3 border-b border-pink-100/50 dark:border-gray-700/50"
     >
       <div className="flex items-center gap-3">
         <button
           onClick={() => router.back()}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-600 active:scale-95 transition-transform"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 active:scale-95 transition-transform"
         >
           <ArrowLeft size={20} />
         </button>
@@ -77,7 +77,7 @@ export default function SearchBar({ onSearch, initialValue = "" }: SearchBarProp
             value={value}
             onChange={handleChange}
             placeholder="검색어를 입력하세요"
-            className="w-full rounded-full border border-pink-200/60 bg-pink-50/30 py-2.5 pl-10 pr-10 text-sm text-gray-700 placeholder-gray-400 outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-200/50 transition-all"
+            className="w-full rounded-full border border-pink-200/60 dark:border-gray-600 bg-pink-50/30 dark:bg-gray-800 py-2.5 pl-10 pr-10 text-sm text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none focus:border-pink-300 dark:focus:border-pink-500 focus:ring-2 focus:ring-pink-200/50 dark:focus:ring-pink-800/50 transition-all"
           />
           {value && (
             <button

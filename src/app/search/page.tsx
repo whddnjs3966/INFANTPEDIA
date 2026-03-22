@@ -35,7 +35,7 @@ export default function SearchPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-pink-50/30">
+    <div className="min-h-screen bg-gradient-to-b from-white to-pink-50/30 dark:from-gray-900 dark:to-gray-900">
       <SearchBar onSearch={handleSearch} />
       <SearchResults
         results={results}

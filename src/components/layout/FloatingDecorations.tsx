@@ -1,5 +1,7 @@
 "use client";
 
+import { memo } from "react";
+
 interface FloatingItem {
   emoji: string;
   x: string;
@@ -12,15 +14,12 @@ const items: FloatingItem[] = [
   { emoji: "\ud83d\udc96", x: "85%", y: "10%", size: 16 },
   { emoji: "\u2601\ufe0f", x: "70%", y: "25%", size: 22 },
   { emoji: "\ud83c\udf1f", x: "20%", y: "35%", size: 14 },
-  { emoji: "\ud83d\udc9b", x: "90%", y: "40%", size: 18 },
   { emoji: "\u2728", x: "5%", y: "50%", size: 16 },
-  { emoji: "\ud83c\udf08", x: "75%", y: "55%", size: 20 },
-  { emoji: "\ud83e\uddf8", x: "15%", y: "65%", size: 18 },
 ];
 
-export default function FloatingDecorations() {
+export default memo(function FloatingDecorations() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
       {items.map((item, i) => (
         <div
           key={i}
@@ -29,8 +28,10 @@ export default function FloatingDecorations() {
             left: item.x,
             top: item.y,
             fontSize: item.size,
-            opacity: 0.15,
-            animationDelay: `${i * 0.5}s`,
+            opacity: 0.12,
+            animationDelay: `${i * 0.7}s`,
+            willChange: "transform",
+            contain: "layout style paint",
           }}
         >
           {item.emoji}
@@ -38,4 +39,5 @@ export default function FloatingDecorations() {
       ))}
     </div>
   );
-}
+});
+

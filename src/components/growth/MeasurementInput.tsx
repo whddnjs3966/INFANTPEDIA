@@ -99,22 +99,22 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="w-full max-w-md rounded-t-3xl bg-white px-5 pb-8 pt-4 sm:rounded-3xl sm:mb-0"
+        className="w-full max-w-md rounded-t-3xl bg-white dark:bg-gray-900 px-5 pb-8 pt-4 sm:rounded-3xl sm:mb-0"
         style={{ maxHeight: "85vh", overflowY: "auto" }}
       >
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-bold text-gray-800">
+          <h3 className="text-base font-bold text-gray-800 dark:text-gray-100">
             {editingId ? "기록 수정" : "실측 데이터 입력"}
           </h3>
-          <button onClick={onClose} className="rounded-full p-2 hover:bg-gray-100">
+          <button onClick={onClose} className="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
             <X size={18} className="text-gray-400" />
           </button>
         </div>
 
         {/* Month selector */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs text-gray-500">월령</label>
+          <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">월령</label>
           <div className="flex gap-1.5 overflow-x-auto pb-1">
             {Array.from({ length: 13 }, (_, i) => i).map((m) => (
               <button
@@ -123,7 +123,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                 className={`min-w-[44px] rounded-full px-3 py-1.5 text-xs font-medium transition-all ${
                   month === m
                     ? "bg-emerald-500 text-white shadow-sm"
-                    : "bg-gray-100 text-gray-500"
+                    : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                 }`}
               >
                 {m}m
@@ -134,64 +134,67 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
 
         {/* Date */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs text-gray-500">측정일</label>
+          <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">측정일</label>
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+            className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
           />
         </div>
 
         {/* Input fields */}
         <div className="mb-4 grid grid-cols-3 gap-3">
           <div>
-            <label className="mb-1 block text-xs text-gray-500">키 (cm)</label>
+            <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">키 (cm)</label>
             <input
               type="number"
+              inputMode="decimal"
               step="0.1"
               value={height}
               onChange={(e) => setHeight(e.target.value)}
               placeholder="0.0"
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-center text-sm focus:border-emerald-400 focus:outline-none"
+              className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs text-gray-500">몸무게 (kg)</label>
+            <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">몸무게 (kg)</label>
             <input
               type="number"
+              inputMode="decimal"
               step="0.1"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
               placeholder="0.0"
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-center text-sm focus:border-emerald-400 focus:outline-none"
+              className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs text-gray-500">머리둘레 (cm)</label>
+            <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">머리둘레 (cm)</label>
             <input
               type="number"
+              inputMode="decimal"
               step="0.1"
               value={headCirc}
               onChange={(e) => setHeadCirc(e.target.value)}
               placeholder="0.0"
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-center text-sm focus:border-emerald-400 focus:outline-none"
+              className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
             />
           </div>
         </div>
 
         {/* Memo */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs text-gray-500">메모 (선택)</label>
+          <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">메모 (선택)</label>
           <textarea
             value={memo}
             onChange={(e) => setMemo(e.target.value.slice(0, 100))}
             placeholder="예: 아침 수유 후 측정"
             maxLength={100}
             rows={2}
-            className="w-full resize-none rounded-xl border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+            className="w-full resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
           />
-          <p className="mt-0.5 text-right text-[10px] text-gray-300">{memo.length}/100</p>
+          <p className="mt-0.5 text-right text-[10px] text-gray-400 dark:text-gray-500">{memo.length}/100</p>
         </div>
 
         {/* Save / Cancel buttons */}
@@ -200,7 +203,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
             <motion.button
               whileTap={{ scale: 0.97 }}
               onClick={handleCancelEdit}
-              className="flex items-center justify-center gap-1 rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-500 transition-all hover:bg-gray-50"
+              className="flex items-center justify-center gap-1 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm font-medium text-gray-500 dark:text-gray-400 transition-all hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               취소
             </motion.button>
@@ -213,7 +216,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
               saved
                 ? "bg-emerald-500 text-white"
                 : !height && !weight && !headCirc
-                ? "bg-gray-100 text-gray-400"
+                ? "bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-500"
                 : "bg-emerald-500 text-white shadow-md"
             }`}
           >
@@ -225,7 +228,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
         {/* Existing records for this month */}
         {existingForMonth.length > 0 && (
           <div>
-            <p className="mb-2 text-xs font-medium text-gray-500">
+            <p className="mb-2 text-xs font-medium text-gray-500 dark:text-gray-400">
               {month}개월 기록 ({existingForMonth.length})
             </p>
             <div className="max-h-48 space-y-2 overflow-y-auto">
@@ -234,33 +237,33 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                   <div
                     className={`rounded-xl border px-3 py-2.5 transition-all ${
                       editingId === m.id
-                        ? "border-emerald-300 bg-emerald-50"
-                        : "border-transparent bg-gray-50"
+                        ? "border-emerald-300 bg-emerald-50 dark:border-emerald-700 dark:bg-emerald-950/30"
+                        : "border-transparent bg-gray-50 dark:bg-gray-800"
                     }`}
                   >
                     <div className="flex items-start gap-2">
                       <div className="flex-1 min-w-0">
-                        <span className="text-[10px] text-gray-400">{m.date}</span>
-                        <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs text-gray-600 mt-0.5">
+                        <span className="text-[10px] text-gray-400 dark:text-gray-500">{m.date}</span>
+                        <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs text-gray-600 dark:text-gray-300 mt-0.5">
                           {m.height && <span>키 {m.height}cm</span>}
                           {m.weight && <span>몸무게 {m.weight}kg</span>}
                           {m.headCircumference && <span>머리 {m.headCircumference}cm</span>}
                         </div>
                         {m.memo && (
-                          <p className="mt-1 text-[11px] text-gray-400 truncate">{m.memo}</p>
+                          <p className="mt-1 text-[11px] text-gray-400 dark:text-gray-500 truncate">{m.memo}</p>
                         )}
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
                         <button
                           onClick={() => handleEdit(m)}
-                          className="rounded-full p-1.5 text-gray-300 hover:bg-emerald-50 hover:text-emerald-500 transition-colors"
+                          className="rounded-full p-1.5 text-gray-300 dark:text-gray-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-500 transition-colors"
                           title="수정"
                         >
                           <Pencil size={13} />
                         </button>
                         <button
                           onClick={() => setDeleteConfirmId(m.id)}
-                          className="rounded-full p-1.5 text-gray-300 hover:bg-red-50 hover:text-red-400 transition-colors"
+                          className="rounded-full p-1.5 text-gray-300 dark:text-gray-600 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-400 transition-colors"
                           title="삭제"
                         >
                           <Trash2 size={13} />
@@ -278,12 +281,12 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                       >
-                        <div className="mt-1 flex items-center gap-2 rounded-xl bg-red-50 px-3 py-2.5">
+                        <div className="mt-1 flex items-center gap-2 rounded-xl bg-red-50 dark:bg-red-950/30 px-3 py-2.5">
                           <AlertTriangle size={14} className="shrink-0 text-red-400" />
-                          <span className="flex-1 text-xs text-red-600">이 기록을 삭제할까요?</span>
+                          <span className="flex-1 text-xs text-red-600 dark:text-red-400">이 기록을 삭제할까요?</span>
                           <button
                             onClick={() => setDeleteConfirmId(null)}
-                            className="rounded-lg px-2.5 py-1 text-xs font-medium text-gray-500 hover:bg-white transition-colors"
+                            className="rounded-lg px-2.5 py-1 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-800 transition-colors"
                           >
                             취소
                           </button>

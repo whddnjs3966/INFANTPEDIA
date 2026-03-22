@@ -11,8 +11,44 @@
   "orientation": "portrait",
   "lang": "ko",
   "dir": "ltr",
-  "categories": ["health", "lifestyle"],
+  "categories": ["health", "lifestyle", "parenting"],
   "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.infantpedia.app",
+      "id": "com.infantpedia.app"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "백과사전",
+      "short_name": "백과사전",
+      "description": "월령별 육아 백과사전 보기",
+      "url": "/encyclopedia",
+      "icons": [
+        { "src": "/icons/icon-96.png", "sizes": "96x96", "type": "image/png" }
+      ]
+    },
+    {
+      "name": "성장 기록",
+      "short_name": "성장",
+      "description": "아기 성장 기록 및 WHO 차트",
+      "url": "/growth",
+      "icons": [
+        { "src": "/icons/icon-96.png", "sizes": "96x96", "type": "image/png" }
+      ]
+    },
+    {
+      "name": "육아 꿀팁",
+      "short_name": "꿀팁",
+      "description": "수면, 수유, 이유식 팁",
+      "url": "/tips",
+      "icons": [
+        { "src": "/icons/icon-96.png", "sizes": "96x96", "type": "image/png" }
+      ]
+    }
+  ],
   "icons": [
     { "src": "/icons/icon-48.png", "sizes": "48x48", "type": "image/png" },
     { "src": "/icons/icon-72.png", "sizes": "72x72", "type": "image/png" },

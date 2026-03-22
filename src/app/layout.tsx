@@ -42,6 +42,8 @@ export default function RootLayout({
   return (
     <html lang="ko" className={cn("font-sans", notoSansKr.variable)} suppressHydrationWarning>
       <head>
+        <link rel="dns-prefetch" href="https://bhqzkvmbkgmltpjumofr.supabase.co" />
+        <link rel="preconnect" href="https://bhqzkvmbkgmltpjumofr.supabase.co" crossOrigin="anonymous" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
