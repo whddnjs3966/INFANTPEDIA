@@ -1,8 +1,14 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.infantpedia.app",
-    "sha256_cert_fingerprints": ["TODO:REPLACE_WITH_ACTUAL_FINGERPRINT"]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.infantpedia.app",
+      "sha256_cert_fingerprints": [
+        "71:5C:D7:45:42:E3:24:9D:3E:50:7C:D2:3C:68:98:FE:29:D2:9A:D9:BE:1F:C7:BA:50:F4:2B:45:CF:0F:80:06"
+      ]
+    }
   }
-}]
+]
