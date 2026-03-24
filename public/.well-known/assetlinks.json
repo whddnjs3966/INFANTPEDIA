@@ -7,7 +7,8 @@
       "namespace": "android_app",
       "package_name": "com.infantpedia.app",
       "sha256_cert_fingerprints": [
-        "71:5C:D7:45:42:E3:24:9D:3E:50:7C:D2:3C:68:98:FE:29:D2:9A:D9:BE:1F:C7:BA:50:F4:2B:45:CF:0F:80:06"
+        "71:5C:D7:45:42:E3:24:9D:3E:50:7C:D2:3C:68:98:FE:29:D2:9A:D9:BE:1F:C7:BA:50:F4:2B:45:CF:0F:80:06",
+        "EC:AF:71:3B:7E:26:69:14:3A:16:0B:63:79:75:E4:44:E9:BC:AE:DF:C7:01:15:F9:2F:FD:D9:ED:F5:22:57:66"
       ]
     }
   }
