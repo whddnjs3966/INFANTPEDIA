@@ -61,7 +61,8 @@ export default function SearchBar({ onSearch, initialValue = "" }: SearchBarProp
       <div className="flex items-center gap-3">
         <button
           onClick={() => router.back()}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 active:scale-95 transition-transform"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 active:scale-95 transition-transform"
+          aria-label="뒤로가기"
         >
           <ArrowLeft size={20} />
         </button>
@@ -82,7 +83,8 @@ export default function SearchBar({ onSearch, initialValue = "" }: SearchBarProp
           {value && (
             <button
               onClick={handleClear}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 active:scale-90 transition-transform"
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 active:scale-90 transition-transform"
+              aria-label="검색어 지우기"
             >
               <X size={18} />
             </button>

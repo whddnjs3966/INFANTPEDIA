@@ -104,7 +104,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50/80 dark:bg-gray-950">
-      <div className="px-5 pt-7 pb-6">
+      <div className="px-4 pt-6 pb-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -8 }}
@@ -115,7 +115,7 @@ export default function HomePage() {
           <p className="text-sm font-medium text-gray-400 dark:text-gray-500">
             오늘도 함께하는 육아
           </p>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+          <h1 className="mt-1 text-xl font-bold text-gray-900 dark:text-white tracking-tight">
             안녕하세요, {profile.name} 부모님
           </h1>
         </motion.div>

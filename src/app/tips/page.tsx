@@ -78,11 +78,6 @@ export default function TipsPage() {
         </p>
       </motion.div>
 
-      {/* Today's tip — always visible, pinned to top */}
-      <div className="pb-4">
-        <TodaysTipCard />
-      </div>
-
       {/* Month selector */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -96,6 +91,11 @@ export default function TipsPage() {
           onSelect={setSelectedMonth}
         />
       </motion.div>
+
+      {/* Today's tip */}
+      <div className="pb-4">
+        <TodaysTipCard />
+      </div>
 
       {/* Schedule & Meal Plan cards (always visible) */}
       <DailyScheduleCard month={selectedMonth} />

@@ -37,7 +37,7 @@ export default function GrowthPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="px-5 pb-2 pt-6"
+        className="px-4 pb-2 pt-6"
       >
         <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
           성장 & 건강 📊
@@ -49,7 +49,7 @@ export default function GrowthPage() {
       </motion.div>
 
       {/* Sub-Tab Switcher */}
-      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-5 pb-3 pt-2">
+      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-4 pb-3 pt-2">
         <div className="flex gap-3">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -91,7 +91,7 @@ export default function GrowthPage() {
       </div>
 
       {/* Content */}
-      <div className="px-5">
+      <div className="px-4">
         <AnimatePresence mode="wait">
           {activeTab === "growth" ? (
             <motion.div

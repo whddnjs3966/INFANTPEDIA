@@ -7,7 +7,7 @@ export async function getMonthInfo(month: number) {
     .eq('month', month)
     .single();
   if (error) {
-    console.warn('getMonthInfo error:', error.message);
+    if (process.env.NODE_ENV === 'development') console.warn('getMonthInfo error:', error.message);
     return null;
   }
   return data;
@@ -19,7 +19,7 @@ export async function getAllMonthsInfo() {
     .select('*')
     .order('month');
   if (error) {
-    console.warn('getAllMonthsInfo error:', error.message);
+    if (process.env.NODE_ENV === 'development') console.warn('getAllMonthsInfo error:', error.message);
     return [];
   }
   return data;
@@ -32,7 +32,7 @@ export async function getWonderWeeks(days: number) {
     .lte('start_day', days)
     .gte('end_day', days);
   if (error) {
-    console.warn('getWonderWeeks error:', error.message);
+    if (process.env.NODE_ENV === 'development') console.warn('getWonderWeeks error:', error.message);
     return [];
   }
   return data;
@@ -44,7 +44,7 @@ export async function getAllWonderWeeks() {
     .select('*')
     .order('start_day');
   if (error) {
-    console.warn('getAllWonderWeeks error:', error.message);
+    if (process.env.NODE_ENV === 'development') console.warn('getAllWonderWeeks error:', error.message);
     return [];
   }
   return data;
@@ -60,7 +60,7 @@ export async function getActivities(month: number, category?: string) {
   }
   const { data, error } = await query;
   if (error) {
-    console.warn('getActivities error:', error.message);
+    if (process.env.NODE_ENV === 'development') console.warn('getActivities error:', error.message);
     return [];
   }
   return data;
@@ -93,10 +93,10 @@ export async function searchContent(keyword: string): Promise<SearchResult[]> {
   ]);
 
   if (activitiesResult.error) {
-    console.warn('searchContent activities error:', activitiesResult.error.message);
+    if (process.env.NODE_ENV === 'development') console.warn('searchContent activities error:', activitiesResult.error.message);
   }
   if (tipsResult.error) {
-    console.warn('searchContent tips error:', tipsResult.error.message);
+    if (process.env.NODE_ENV === 'development') console.warn('searchContent tips error:', tipsResult.error.message);
   }
 
   const activities: SearchResult[] = (activitiesResult.data || []).map((item) => ({
@@ -122,7 +122,7 @@ export async function getParentingTips(month: number, category?: string) {
   }
   const { data, error } = await query;
   if (error) {
-    console.warn('getParentingTips error:', error.message);
+    if (process.env.NODE_ENV === 'development') console.warn('getParentingTips error:', error.message);
     return [];
   }
   return data;

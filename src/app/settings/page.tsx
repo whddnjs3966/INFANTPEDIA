@@ -428,7 +428,7 @@ export default function SettingsPage() {
                   type="button"
                   variant="outline"
                   onClick={() => setShowAddForm(false)}
-                  className="h-10 flex-1 rounded-xl"
+                  className="h-11 flex-1 rounded-xl"
                 >
                   취소
                 </Button>
@@ -436,7 +436,7 @@ export default function SettingsPage() {
                   type="button"
                   onClick={handleAddBaby}
                   disabled={!newName.trim() || !newBirthdate}
-                  className="h-10 flex-1 rounded-xl bg-blue-500 font-semibold text-white hover:bg-blue-600"
+                  className="h-11 flex-1 rounded-xl bg-blue-500 font-semibold text-white hover:bg-blue-600"
                 >
                   등록
                 </Button>

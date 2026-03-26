@@ -82,6 +82,27 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "성장 그래프 - WHO 기준 비교"
+    },
+    {
+      "src": "/screenshots/vaccination.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "예방접종 - KDCA 기준 접종 관리"
+    },
+    {
+      "src": "/screenshots/tips.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "육아 꿀팁 - 월령별 노하우"
+    },
+    {
+      "src": "/screenshots/dark-mode.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "다크 모드 - 야간 수유 시 편안한 화면"
     }
   ]
 }

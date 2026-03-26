@@ -3,19 +3,17 @@ import type { BabyProfile } from '@/lib/store/baby-store';
 import type { Measurement } from '@/lib/store/measurement-store';
 import type { VaccinationRecord } from '@/lib/store/vaccination-store';
 
-// Generate a 6-character alphanumeric invite code
+// Generate a 6-character alphanumeric invite code (cryptographically secure)
 function generateInviteCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let code = '';
-  for (let i = 0; i < 6; i++) {
-    code += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return code;
+  const array = new Uint8Array(6);
+  crypto.getRandomValues(array);
+  return Array.from(array, (b) => chars[b % chars.length]).join('');
 }
 
 // Generate unique IDs for synced records
 function syncId(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  return crypto.randomUUID();
 }
 
 // Validate invite code format: 6 chars, alphanumeric only

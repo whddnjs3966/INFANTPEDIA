@@ -54,9 +54,15 @@ function LoginContent() {
   const [error, setError] = useState<string | null>(() => {
     const errorParam = searchParams.get("error");
     if (!errorParam) return null;
-    const detail = searchParams.get("detail");
-    if (detail) return `로그인 실패: ${decodeURIComponent(detail)}`;
-    return "로그인에 실패했어요. 다시 시도해주세요.";
+    const errorMessages: Record<string, string> = {
+      naver: "네이버 로그인에 실패했어요. 다시 시도해주세요.",
+      google: "Google 로그인에 실패했어요. 다시 시도해주세요.",
+      kakao: "카카오 로그인에 실패했어요. 다시 시도해주세요.",
+      state_mismatch: "보안 검증에 실패했어요. 다시 시도해주세요.",
+      token: "인증 토큰 발급에 실패했어요. 다시 시도해주세요.",
+      profile: "프로필 정보를 불러오지 못했어요. 다시 시도해주세요.",
+    };
+    return errorMessages[errorParam] || "로그인에 실패했어요. 다시 시도해주세요.";
   });
 
   const handleSignIn = async (provider: Provider) => {

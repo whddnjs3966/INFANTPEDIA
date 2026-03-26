@@ -25,6 +25,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
   const [saved, setSaved] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const existingForMonth = measurements
     .filter((m) => m.month === month)
@@ -64,12 +65,31 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
   const handleSave = () => {
     if (!height && !weight && !headCirc) return;
 
+    const h = height ? parseFloat(height) : undefined;
+    const w = weight ? parseFloat(weight) : undefined;
+    const hc = headCirc ? parseFloat(headCirc) : undefined;
+
+    // 영유아(0~12개월) 현실적인 범위 검증
+    if (h !== undefined && (h < 30 || h > 90)) {
+      setValidationError("키는 30~90cm 범위로 입력해 주세요");
+      return;
+    }
+    if (w !== undefined && (w < 1 || w > 20)) {
+      setValidationError("몸무게는 1~20kg 범위로 입력해 주세요");
+      return;
+    }
+    if (hc !== undefined && (hc < 25 || hc > 55)) {
+      setValidationError("머리둘레는 25~55cm 범위로 입력해 주세요");
+      return;
+    }
+    setValidationError(null);
+
     const data = {
       month,
       date,
-      height: height ? parseFloat(height) : undefined,
-      weight: weight ? parseFloat(weight) : undefined,
-      headCircumference: headCirc ? parseFloat(headCirc) : undefined,
+      height: h,
+      weight: w,
+      headCircumference: hc,
       memo: memo.trim() || undefined,
     };
 
@@ -196,6 +216,13 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
           />
           <p className="mt-0.5 text-right text-[10px] text-gray-400 dark:text-gray-500">{memo.length}/100</p>
         </div>
+
+        {/* Validation error */}
+        {validationError && (
+          <div className="mb-3 rounded-xl bg-red-50 dark:bg-red-950/30 px-3 py-2 text-xs text-red-600 dark:text-red-400">
+            {validationError}
+          </div>
+        )}
 
         {/* Save / Cancel buttons */}
         <div className="mb-4 flex gap-2">
