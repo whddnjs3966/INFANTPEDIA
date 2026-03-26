@@ -72,7 +72,9 @@ const subTabs = [
 export default function EncyclopediaPage() {
   const router = useRouter();
   const getMonthsOld = useBabyStore((s) => s.getMonthsOld);
+  const getRealMonthsOld = useBabyStore((s) => s.getRealMonthsOld);
   const currentMonth = getMonthsOld();
+  const realMonths = getRealMonthsOld();
 
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [activeTab, setActiveTab] = useState<SubTab>("encyclopedia");
@@ -203,6 +205,15 @@ export default function EncyclopediaPage() {
         />
       </motion.div>
 
+      {/* 12개월 이상 안내 */}
+      {realMonths > 12 && selectedMonth === 12 && (
+        <div className="mx-4 mb-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/50 dark:border-purple-900/40 px-4 py-2.5">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
+          </p>
+        </div>
+      )}
+
       {/* Content */}
       <AnimatePresence mode="wait">
         {activeTab === "encyclopedia" && (
@@ -234,42 +245,42 @@ export default function EncyclopediaPage() {
                 )}
 
                 {/* 핵심 정보 그리드 — 4칸 */}
-                <div className="mt-4 pt-3 border-t border-emerald-200/40 dark:border-emerald-700/30 grid grid-cols-4 gap-2">
+                <div className="mt-4 pt-3 border-t border-emerald-200/40 dark:border-emerald-700/30 grid grid-cols-4 gap-1.5">
                   {monthData.feeding_amount && (
-                    <div className="rounded-xl bg-pink-50/80 dark:bg-pink-950/30 border border-pink-200/40 dark:border-pink-800/30 p-2.5 text-center">
+                    <div className="rounded-xl bg-pink-50/80 dark:bg-pink-950/30 border border-pink-200/40 dark:border-pink-800/30 p-2 text-center min-w-0">
                       <p className="text-lg mb-0.5">🍼</p>
-                      <p className="text-xs font-bold text-pink-700 dark:text-pink-300">
+                      <p className="text-[11px] font-bold text-pink-700 dark:text-pink-300 truncate">
                         {monthData.feeding_amount}
                       </p>
-                      <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">수유량</p>
+                      <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">수유량</p>
                     </div>
                   )}
                   {monthData.wake_window && (
-                    <div className="rounded-xl bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200/40 dark:border-blue-800/30 p-2.5 text-center">
+                    <div className="rounded-xl bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200/40 dark:border-blue-800/30 p-2 text-center min-w-0">
                       <p className="text-lg mb-0.5">⏰</p>
-                      <p className="text-xs font-bold text-blue-700 dark:text-blue-300">
+                      <p className="text-[11px] font-bold text-blue-700 dark:text-blue-300 truncate">
                         {monthData.wake_window}
                       </p>
-                      <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">활동 시간</p>
+                      <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">활동시간</p>
                     </div>
                   )}
-                  <div className="rounded-xl bg-indigo-50/80 dark:bg-indigo-950/30 border border-indigo-200/40 dark:border-indigo-800/30 p-2.5 text-center">
+                  <div className="rounded-xl bg-indigo-50/80 dark:bg-indigo-950/30 border border-indigo-200/40 dark:border-indigo-800/30 p-2 text-center min-w-0">
                     <p className="text-lg mb-0.5">😴</p>
-                    <p className="text-xs font-bold text-indigo-700 dark:text-indigo-300">
+                    <p className="text-[11px] font-bold text-indigo-700 dark:text-indigo-300 truncate">
                       {monthData.nap_count || "-"}
                     </p>
-                    <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">총 수면</p>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">총 수면</p>
                   </div>
-                  <div className="rounded-xl bg-orange-50/80 dark:bg-orange-950/30 border border-orange-200/40 dark:border-orange-800/30 p-2.5 text-center">
+                  <div className="rounded-xl bg-orange-50/80 dark:bg-orange-950/30 border border-orange-200/40 dark:border-orange-800/30 p-2 text-center min-w-0">
                     <p className="text-lg mb-0.5">🥣</p>
-                    <p className="text-xs font-bold text-orange-700 dark:text-orange-300">
+                    <p className="text-[11px] font-bold text-orange-700 dark:text-orange-300 truncate">
                       {selectedMonth < 4 ? "시작 전"
                         : selectedMonth <= 5 ? "초기"
                         : selectedMonth <= 8 ? "중기"
                         : selectedMonth <= 11 ? "후기"
                         : "완료기"}
                     </p>
-                    <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">이유식</p>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">이유식</p>
                   </div>
                 </div>
 

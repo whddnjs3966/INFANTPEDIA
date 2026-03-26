@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue, useTransform, useAnimation, PanInfo } from "framer-motion";
-import { X, Save, Trash2, Pencil, AlertTriangle } from "lucide-react";
-import { useMeasurementStore, Measurement } from "@/lib/store/measurement-store";
+import { motion, useMotionValue, useTransform, useAnimation, PanInfo } from "framer-motion";
+import { X, Save } from "lucide-react";
+import { useMeasurementStore } from "@/lib/store/measurement-store";
 
 interface MeasurementInputProps {
   currentMonth: number;
@@ -12,9 +12,6 @@ interface MeasurementInputProps {
 
 export default function MeasurementInput({ currentMonth, onClose }: MeasurementInputProps) {
   const addMeasurement = useMeasurementStore((s) => s.addMeasurement);
-  const updateMeasurement = useMeasurementStore((s) => s.updateMeasurement);
-  const measurements = useMeasurementStore((s) => s.measurements);
-  const deleteMeasurement = useMeasurementStore((s) => s.deleteMeasurement);
 
   const [month, setMonth] = useState(currentMonth);
   const [height, setHeight] = useState("");
@@ -23,8 +20,6 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [memo, setMemo] = useState("");
   const [saved, setSaved] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
 
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -48,39 +43,12 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
     }
   };
 
-  const existingForMonth = measurements
-    .filter((m) => m.month === month)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
   const resetForm = () => {
     setHeight("");
     setWeight("");
     setHeadCirc("");
     setDate(new Date().toISOString().split("T")[0]);
     setMemo("");
-    setEditingId(null);
-  };
-
-  const handleEdit = (m: Measurement) => {
-    setEditingId(m.id);
-    setMonth(m.month);
-    setDate(m.date);
-    setHeight(m.height?.toString() ?? "");
-    setWeight(m.weight?.toString() ?? "");
-    setHeadCirc(m.headCircumference?.toString() ?? "");
-    setMemo(m.memo ?? "");
-  };
-
-  const handleCancelEdit = () => {
-    resetForm();
-  };
-
-  const handleDelete = (id: string) => {
-    deleteMeasurement(id);
-    setDeleteConfirmId(null);
-    if (editingId === id) {
-      resetForm();
-    }
   };
 
   const handleSave = () => {
@@ -114,11 +82,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
       memo: memo.trim() || undefined,
     };
 
-    if (editingId) {
-      updateMeasurement(editingId, data);
-    } else {
-      addMeasurement(data);
-    }
+    addMeasurement(data);
 
     setSaved(true);
     setTimeout(() => {
@@ -165,7 +129,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-base font-bold text-gray-800 dark:text-gray-100">
-            {editingId ? "기록 수정" : "실측 데이터 입력"}
+            실측 데이터 입력
           </h3>
           <button onClick={onClose} className="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
             <X size={18} className="text-gray-400" />
@@ -179,7 +143,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
             {Array.from({ length: 13 }, (_, i) => i).map((m) => (
               <button
                 key={m}
-                onClick={() => { setMonth(m); if (!editingId) setDeleteConfirmId(null); }}
+                onClick={() => setMonth(m)}
                 className={`min-w-[44px] rounded-full px-3 py-1.5 text-xs font-medium transition-all ${
                   month === m
                     ? "bg-emerald-500 text-white shadow-sm"
@@ -264,22 +228,13 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
           </div>
         )}
 
-        {/* Save / Cancel buttons */}
-        <div className="mb-4 flex gap-2">
-          {editingId && (
-            <motion.button
-              whileTap={{ scale: 0.97 }}
-              onClick={handleCancelEdit}
-              className="flex items-center justify-center gap-1 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm font-medium text-gray-500 dark:text-gray-400 transition-all hover:bg-gray-50 dark:hover:bg-gray-800"
-            >
-              취소
-            </motion.button>
-          )}
+        {/* Save button */}
+        <div className="mb-4">
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={handleSave}
             disabled={!height && !weight && !headCirc}
-            className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-all ${
+            className={`flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-all ${
               saved
                 ? "bg-emerald-500 text-white"
                 : !height && !weight && !headCirc
@@ -288,90 +243,10 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
             }`}
           >
             <Save size={16} />
-            {saved ? "저장 완료!" : editingId ? "수정" : "저장"}
+            {saved ? "저장 완료!" : "저장"}
           </motion.button>
         </div>
 
-        {/* Existing records for this month */}
-        {existingForMonth.length > 0 && (
-          <div>
-            <p className="mb-2 text-xs font-medium text-gray-500 dark:text-gray-400">
-              {month}개월 기록 ({existingForMonth.length})
-            </p>
-            <div className="max-h-48 space-y-2 overflow-y-auto">
-              {existingForMonth.map((m) => (
-                <div key={m.id}>
-                  <div
-                    className={`rounded-xl border px-3 py-2.5 transition-all ${
-                      editingId === m.id
-                        ? "border-emerald-300 bg-emerald-50 dark:border-emerald-700 dark:bg-emerald-950/30"
-                        : "border-transparent bg-gray-50 dark:bg-gray-800"
-                    }`}
-                  >
-                    <div className="flex items-start gap-2">
-                      <div className="flex-1 min-w-0">
-                        <span className="text-[10px] text-gray-400 dark:text-gray-500">{m.date}</span>
-                        <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs text-gray-600 dark:text-gray-300 mt-0.5">
-                          {m.height && <span>키 {m.height}cm</span>}
-                          {m.weight && <span>몸무게 {m.weight}kg</span>}
-                          {m.headCircumference && <span>머리 {m.headCircumference}cm</span>}
-                        </div>
-                        {m.memo && (
-                          <p className="mt-1 text-[11px] text-gray-400 dark:text-gray-500 truncate">{m.memo}</p>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-1 shrink-0">
-                        <button
-                          onClick={() => handleEdit(m)}
-                          className="rounded-full p-1.5 text-gray-300 dark:text-gray-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-500 transition-colors"
-                          title="수정"
-                        >
-                          <Pencil size={13} />
-                        </button>
-                        <button
-                          onClick={() => setDeleteConfirmId(m.id)}
-                          className="rounded-full p-1.5 text-gray-300 dark:text-gray-600 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-400 transition-colors"
-                          title="삭제"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Inline delete confirmation */}
-                  <AnimatePresence>
-                    {deleteConfirmId === m.id && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-1 flex items-center gap-2 rounded-xl bg-red-50 dark:bg-red-950/30 px-3 py-2.5">
-                          <AlertTriangle size={14} className="shrink-0 text-red-400" />
-                          <span className="flex-1 text-xs text-red-600 dark:text-red-400">이 기록을 삭제할까요?</span>
-                          <button
-                            onClick={() => setDeleteConfirmId(null)}
-                            className="rounded-lg px-2.5 py-1 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-800 transition-colors"
-                          >
-                            취소
-                          </button>
-                          <button
-                            onClick={() => handleDelete(m.id)}
-                            className="rounded-lg bg-red-500 px-2.5 py-1 text-xs font-medium text-white hover:bg-red-600 transition-colors"
-                          >
-                            삭제
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         </div>{/* end scrollable content */}
       </motion.div>

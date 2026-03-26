@@ -29,7 +29,9 @@ interface Tip {
 export default function TipsPage() {
   const router = useRouter();
   const getMonthsOld = useBabyStore((s) => s.getMonthsOld);
+  const getRealMonthsOld = useBabyStore((s) => s.getRealMonthsOld);
   const currentMonth = getMonthsOld();
+  const realMonths = getRealMonthsOld();
 
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [tips, setTips] = useState<Tip[]>([]);
@@ -91,6 +93,15 @@ export default function TipsPage() {
           onSelect={setSelectedMonth}
         />
       </motion.div>
+
+      {/* 12개월 이상 안내 */}
+      {realMonths > 12 && selectedMonth === 12 && (
+        <div className="mx-4 mb-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/50 dark:border-purple-900/40 px-4 py-2.5">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
+          </p>
+        </div>
+      )}
 
       {/* Today's tip */}
       <div className="pb-4">

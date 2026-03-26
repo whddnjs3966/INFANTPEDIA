@@ -26,6 +26,7 @@ interface BabyStore {
   // Getters
   getDaysOld: () => number;
   getMonthsOld: () => number;
+  getRealMonthsOld: () => number;
 }
 
 function generateId() {
@@ -127,6 +128,20 @@ export const useBabyStore = create<BabyStore>()(
           months -= 1;
         }
         return Math.min(Math.max(months, 0), 12);
+      },
+
+      getRealMonthsOld: () => {
+        const profile = getActiveProfile(get().babies, get().activeBabyId);
+        if (!profile) return 0;
+        const birth = new Date(profile.birthdate);
+        const today = new Date();
+        let months =
+          (today.getFullYear() - birth.getFullYear()) * 12 +
+          (today.getMonth() - birth.getMonth());
+        if (today.getDate() < birth.getDate()) {
+          months -= 1;
+        }
+        return Math.max(months, 0);
       },
     }),
     {

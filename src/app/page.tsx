@@ -51,6 +51,7 @@ export default function HomePage() {
   const profile = useBabyStore((s) => s.profile);
   const getDaysOld = useBabyStore((s) => s.getDaysOld);
   const getMonthsOld = useBabyStore((s) => s.getMonthsOld);
+  const getRealMonthsOld = useBabyStore((s) => s.getRealMonthsOld);
 
   const [monthData, setMonthData] = useState<MonthData | null>(null);
   const [wonderWeeks, setWonderWeeks] = useState<WonderWeekData[]>([]);
@@ -60,6 +61,8 @@ export default function HomePage() {
   const router = useRouter();
   const days = getDaysOld();
   const months = getMonthsOld();
+  const realMonths = getRealMonthsOld();
+  const isOver12 = realMonths > 12;
   const vaccinationRecords = useVaccinationStore((s) => s.records);
   const measurements = useMeasurementStore((s) => s.measurements);
   const latestMeasurement =
@@ -153,7 +156,7 @@ export default function HomePage() {
                     </motion.span>
                   </div>
                   <p className="mt-1.5 text-sm font-medium text-white/60">
-                    {months}개월 차 아기
+                    {isOver12 ? `${realMonths}개월 (만 1세+)` : `${months}개월 차 아기`}
                   </p>
                 </div>
                 <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm">
@@ -179,6 +182,29 @@ export default function HomePage() {
               </motion.div>
             )}
 
+            {/* 12개월 이상 안내 */}
+            {isOver12 && (
+              <motion.div
+                variants={child}
+                className="rounded-2xl border border-purple-200/50 bg-purple-50/60 p-4 dark:border-purple-900/40 dark:bg-purple-950/30"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-purple-100 dark:bg-purple-900/50">
+                    <Sparkles size={18} className="text-purple-500" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-800 dark:text-gray-100">
+                      우리 아기가 벌써 {realMonths}개월!
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                      12개월 이후 정보는 12개월 기준으로 제공돼요.
+                      성장 기록과 예방접종은 계속 이용할 수 있어요.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
             {/* Error state */}
             {error ? (
               <motion.div
@@ -197,10 +223,10 @@ export default function HomePage() {
                 {/* Feeding Card */}
                 <motion.div
                   variants={child}
-                  className="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+                  className="rounded-2xl border border-rose-200/50 bg-rose-50/60 p-5 shadow-sm dark:border-rose-900/40 dark:bg-rose-950/30"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 dark:bg-rose-950/40">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-100 dark:bg-rose-900/50">
                       <Droplets size={20} className="text-rose-500" />
                     </div>
                     <div>
@@ -247,10 +273,10 @@ export default function HomePage() {
                 {/* Sleep Card */}
                 <motion.div
                   variants={child}
-                  className="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+                  className="rounded-2xl border border-indigo-200/50 bg-indigo-50/60 p-5 shadow-sm dark:border-indigo-900/40 dark:bg-indigo-950/30"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-900/50">
                       <Moon size={20} className="text-indigo-500" />
                     </div>
                     <div>
@@ -277,7 +303,7 @@ export default function HomePage() {
                       accent="text-indigo-500"
                     />
                     <StatItem
-                      label="깨어있는 시간"
+                      label="활동 시간"
                       value={
                         monthData?.wake_window_min != null &&
                         monthData?.wake_window_max != null
@@ -464,11 +490,11 @@ function StatItem({
   accent: string;
 }) {
   return (
-    <div className="rounded-xl bg-gray-50 dark:bg-gray-800/50 p-3 text-center">
-      <p className="text-[11px] font-medium text-gray-400 dark:text-gray-500 mb-1.5">
+    <div className="rounded-xl bg-white/70 dark:bg-gray-800/50 p-2.5 text-center min-w-0">
+      <p className="text-[11px] font-medium text-gray-400 dark:text-gray-500 mb-1.5 truncate">
         {label}
       </p>
-      <p className="text-xl font-extrabold text-gray-900 dark:text-white leading-none">
+      <p className="text-lg font-extrabold text-gray-900 dark:text-white leading-none truncate">
         {value}
       </p>
       <p className={`text-[11px] font-semibold mt-1 ${accent}`}>{unit}</p>
