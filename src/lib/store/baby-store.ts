@@ -119,9 +119,13 @@ export const useBabyStore = create<BabyStore>()(
         if (!profile) return 0;
         const birth = new Date(profile.birthdate);
         const today = new Date();
-        const months =
+        let months =
           (today.getFullYear() - birth.getFullYear()) * 12 +
           (today.getMonth() - birth.getMonth());
+        // 만 나이 기준: 생일 날짜가 아직 안 지났으면 1개월 차감
+        if (today.getDate() < birth.getDate()) {
+          months -= 1;
+        }
         return Math.min(Math.max(months, 0), 12);
       },
     }),

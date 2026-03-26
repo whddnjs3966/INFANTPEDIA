@@ -43,7 +43,7 @@ export default function SettingsPage() {
   const [birthdate, setBirthdate] = useState(profile?.birthdate || "");
   const [gender, setGender] = useState<BabyGender>(profile?.gender || "male");
   const [saved, setSaved] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteBabyTargetId, setDeleteBabyTargetId] = useState<string | null>(null);
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
   const [accountDeleteDialogOpen, setAccountDeleteDialogOpen] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
@@ -375,7 +375,7 @@ export default function SettingsPage() {
               className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50/30 py-3 text-sm font-medium text-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-50"
             >
               <Plus size={16} />
-              둘째 아기 등록하기
+              {babies.length === 1 ? "둘째" : `${babies.length + 1}째`} 아기 등록하기
             </motion.button>
           ) : (
             <motion.div
@@ -451,60 +451,79 @@ export default function SettingsPage() {
         <SharingSection />
 
         {/* Remove individual baby (only if more than 1) */}
-        {babies.length > 1 && profile && (
+        {babies.length > 1 && (
           <>
             <Separator className="bg-pink-100 dark:bg-gray-700" />
             <div className="rounded-2xl border border-orange-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
               <div className="mb-3 flex items-center gap-2">
                 <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900/50">
-                  <X size={18} className="text-orange-500 dark:text-orange-400" />
+                  <Trash2 size={18} className="text-orange-500 dark:text-orange-400" />
                 </div>
-                <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">아이 삭제</h2>
+                <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">아이 데이터 삭제</h2>
               </div>
               <p className="mb-3 text-xs text-gray-500 dark:text-gray-400">
-                현재 선택된 <span className="font-semibold">{profile.name}</span>의 프로필을 삭제합니다.
+                삭제할 아이를 선택하세요. 해당 아이의 모든 데이터가 삭제됩니다.
               </p>
-              <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                <DialogTrigger
-                  render={
-                    <Button
-                      variant="outline"
-                      className="h-10 w-full rounded-xl border-orange-200 text-orange-600 hover:bg-orange-50"
-                    />
-                  }
-                >
-                  {profile.name} 프로필 삭제
-                </DialogTrigger>
-                <DialogContent className="max-w-[340px] rounded-2xl">
-                  <DialogHeader>
-                    <DialogTitle className="text-center">
-                      {profile.name} 프로필을 삭제할까요?
-                    </DialogTitle>
-                    <DialogDescription className="text-center">
-                      이 아기의 프로필 정보가 삭제됩니다.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter className="flex gap-2 sm:flex-row">
-                    <DialogClose
-                      render={
-                        <Button variant="outline" className="flex-1 rounded-xl" />
-                      }
+              <div className="space-y-2">
+                {babies.map((baby) => (
+                  <div
+                    key={baby.id}
+                    className="flex items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-800"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="text-lg">{baby.gender === "female" ? "👧" : "👦"}</span>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 truncate">
+                          {baby.name}
+                        </p>
+                        <p className="text-[10px] text-gray-400 dark:text-gray-500">{baby.birthdate}</p>
+                      </div>
+                    </div>
+                    <Dialog
+                      open={deleteBabyTargetId === baby.id}
+                      onOpenChange={(open) => setDeleteBabyTargetId(open ? baby.id : null)}
                     >
-                      취소
-                    </DialogClose>
-                    <Button
-                      variant="destructive"
-                      onClick={() => {
-                        removeBaby(profile.id);
-                        setDeleteDialogOpen(false);
-                      }}
-                      className="flex-1 rounded-xl"
-                    >
-                      삭제
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                      <DialogTrigger
+                        render={
+                          <button className="shrink-0 rounded-lg border border-orange-200 px-3 py-1.5 text-xs font-medium text-orange-500 transition-colors hover:bg-orange-50 dark:border-orange-800 dark:text-orange-400 dark:hover:bg-orange-950/30" />
+                        }
+                      >
+                        삭제
+                      </DialogTrigger>
+                      <DialogContent className="max-w-[340px] rounded-2xl">
+                        <DialogHeader>
+                          <DialogTitle className="text-center">
+                            {baby.name}의 데이터를 삭제할까요?
+                          </DialogTitle>
+                          <DialogDescription className="text-center">
+                            이 아기의 프로필과 모든 기록이 삭제됩니다.{"\n"}
+                            이 작업은 되돌릴 수 없어요.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className="flex gap-2 sm:flex-row">
+                          <DialogClose
+                            render={
+                              <Button variant="outline" className="flex-1 rounded-xl" />
+                            }
+                          >
+                            취소
+                          </DialogClose>
+                          <Button
+                            variant="destructive"
+                            onClick={() => {
+                              removeBaby(baby.id);
+                              setDeleteBabyTargetId(null);
+                            }}
+                            className="flex-1 rounded-xl"
+                          >
+                            삭제
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                ))}
+              </div>
             </div>
           </>
         )}

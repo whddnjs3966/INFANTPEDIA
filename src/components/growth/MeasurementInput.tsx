@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useMotionValue, useTransform, useAnimation, PanInfo } from "framer-motion";
 import { X, Save, Trash2, Pencil, AlertTriangle } from "lucide-react";
 import { useMeasurementStore, Measurement } from "@/lib/store/measurement-store";
 
@@ -26,6 +26,27 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
+
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const dragY = useMotionValue(0);
+  const controls = useAnimation();
+  const backdropOpacity = useTransform(dragY, [0, 300], [1, 0]);
+
+  // Lock body scroll when modal is open + animate in
+  useEffect(() => {
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    controls.start({ y: 0 });
+    return () => { document.body.style.overflow = original; };
+  }, [controls]);
+
+  const handleDragEnd = (_: unknown, info: PanInfo) => {
+    if (info.offset.y > 100 || info.velocity.y > 500) {
+      controls.start({ y: "100%" }).then(onClose);
+    } else {
+      controls.start({ y: 0 });
+    }
+  };
 
   const existingForMonth = measurements
     .filter((m) => m.month === month)
@@ -111,17 +132,36 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/30 sm:items-center sm:p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
+      {/* Backdrop */}
       <motion.div
+        className="absolute inset-0 bg-black/30"
+        style={{ opacity: backdropOpacity }}
+      />
+
+      <motion.div
+        ref={sheetRef}
         initial={{ y: "100%" }}
-        animate={{ y: 0 }}
+        animate={controls}
         exit={{ y: "100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="w-full max-w-md rounded-t-3xl bg-white dark:bg-gray-900 px-5 pb-8 pt-4 sm:rounded-3xl sm:mb-0"
-        style={{ maxHeight: "85vh", overflowY: "auto" }}
+        drag="y"
+        dragConstraints={{ top: 0 }}
+        dragElastic={0.2}
+        onDragEnd={handleDragEnd}
+        style={{ y: dragY, maxHeight: "92vh" }}
+        className="relative z-10 flex w-full max-w-md flex-col rounded-t-3xl bg-white dark:bg-gray-900 pb-8 sm:rounded-3xl sm:mb-0"
       >
+        {/* Drag handle */}
+        <div className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
+          <div className="h-1 w-10 rounded-full bg-gray-300 dark:bg-gray-600" />
+        </div>
+
+        {/* Scrollable content */}
+        <div className="overflow-y-auto px-5 overscroll-contain">
+
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-base font-bold text-gray-800 dark:text-gray-100">
@@ -332,6 +372,8 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
             </div>
           </div>
         )}
+
+        </div>{/* end scrollable content */}
       </motion.div>
     </motion.div>
   );
