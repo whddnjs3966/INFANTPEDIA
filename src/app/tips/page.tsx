@@ -78,6 +78,11 @@ export default function TipsPage() {
         </p>
       </motion.div>
 
+      {/* Today's tip — always visible, pinned to top */}
+      <div className="pb-4">
+        <TodaysTipCard />
+      </div>
+
       {/* Month selector */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -117,10 +122,7 @@ export default function TipsPage() {
         </motion.div>
       )}
 
-      {/* Today's tip (always visible, not month-specific) */}
-      <div className="mt-6 pb-24">
-        <TodaysTipCard />
-      </div>
+      <div className="pb-24" />
     </div>
   );
 }
