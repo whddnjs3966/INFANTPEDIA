@@ -65,7 +65,7 @@ export default function TipsPage() {
       >
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
-            {"\uc721\uc544 \uaf41\ud301"} {"\ud83d\udca1"}
+            꿀팁 {"\ud83d\udca1"}
           </h1>
           <button
             onClick={() => router.push("/search")}
@@ -94,6 +94,11 @@ export default function TipsPage() {
         />
       </motion.div>
 
+      {/* Today's tip */}
+      <div className="pb-4">
+        <TodaysTipCard />
+      </div>
+
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
         <div className="mx-4 mb-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/50 dark:border-purple-900/40 px-4 py-2.5">
@@ -102,11 +107,6 @@ export default function TipsPage() {
           </p>
         </div>
       )}
-
-      {/* Today's tip */}
-      <div className="pb-4">
-        <TodaysTipCard />
-      </div>
 
       {/* Schedule & Meal Plan cards (always visible) */}
       <DailyScheduleCard month={selectedMonth} />

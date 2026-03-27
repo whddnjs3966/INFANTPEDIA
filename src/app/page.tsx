@@ -14,6 +14,9 @@ import {
   Droplets,
   BedDouble,
   Sun,
+  Heart,
+  Star,
+  Calendar,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBabyStore } from "@/lib/store/baby-store";
@@ -135,32 +138,78 @@ export default function HomePage() {
             {/* Hero D-day Card */}
             <motion.div
               variants={child}
-              className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 p-6 text-white shadow-lg shadow-purple-500/20"
+              className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-500 p-6 pb-5 text-white shadow-xl shadow-purple-500/25"
             >
-              <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10" />
-              <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-white/5" />
+              {/* Decorative background elements */}
+              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-sm" />
+              <div className="absolute right-16 top-4 h-20 w-20 rounded-full bg-fuchsia-400/15 blur-md" />
+              <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-violet-400/10 blur-sm" />
+              <div className="absolute bottom-12 right-8 h-3 w-3 rounded-full bg-white/30" />
+              <div className="absolute top-8 left-[40%] h-2 w-2 rounded-full bg-white/20" />
 
-              <div className="relative z-10 flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-white/70">
-                    {profile.name}의 성장 기록
-                  </p>
-                  <div className="mt-2 flex items-baseline gap-1.5">
-                    <motion.span
-                      className="text-5xl font-extrabold tracking-tight"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ type: "spring", stiffness: 200, delay: 0.3 }}
+              <div className="relative z-10">
+                {/* Top row: label + baby icon */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <motion.div
+                      animate={{ scale: [1, 1.15, 1] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      D+{days}
-                    </motion.span>
+                      <Heart size={14} className="text-pink-300" fill="currentColor" />
+                    </motion.div>
+                    <p className="text-sm font-semibold text-white/80 tracking-wide">
+                      {profile.name}의 성장 여정
+                    </p>
                   </div>
-                  <p className="mt-1.5 text-sm font-medium text-white/60">
-                    {isOver12 ? `${realMonths}개월 (만 1세+)` : `${months}개월 차 아기`}
-                  </p>
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm border border-white/10">
+                    <Baby size={28} className="text-white/90" />
+                  </div>
                 </div>
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm">
-                  <Baby size={32} className="text-white/90" />
+
+                {/* D-day number */}
+                <div className="flex items-baseline gap-2">
+                  <motion.span
+                    className="text-[56px] font-black tracking-tighter leading-none"
+                    style={{ fontVariantNumeric: "tabular-nums" }}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 180, delay: 0.3 }}
+                  >
+                    D+{days}
+                  </motion.span>
+                  <span className="text-lg font-bold text-white/40 mb-1">일</span>
+                </div>
+
+                {/* Sub info row */}
+                <div className="mt-3 flex items-center gap-2.5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white/90">
+                    <Calendar size={12} />
+                    {isOver12 ? `${realMonths}개월 (만 1세+)` : `${months}개월 차`}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white/90">
+                    <Star size={12} />
+                    {Math.floor(days / 7)}주 {days % 7}일
+                  </span>
+                </div>
+
+                {/* Month progress bar */}
+                <div className="mt-4">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[11px] font-medium text-white/50">
+                      {months}개월 진행률
+                    </span>
+                    <span className="text-[11px] font-bold text-white/70">
+                      {days % 30}/30일
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-white/15 overflow-hidden">
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-white/80 to-white/50"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${Math.min(((days % 30) / 30) * 100, 100)}%` }}
+                      transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+                    />
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -223,7 +272,7 @@ export default function HomePage() {
                 {/* Feeding Card */}
                 <motion.div
                   variants={child}
-                  className="rounded-2xl border border-rose-200/50 bg-rose-50/60 p-5 shadow-sm dark:border-rose-900/40 dark:bg-rose-950/30"
+                  className="rounded-2xl border border-rose-200 bg-rose-50/60 p-5 shadow-md shadow-rose-100/50 dark:border-rose-800/50 dark:bg-rose-950/30 dark:shadow-rose-950/20"
                 >
                   <div className="flex items-center gap-3 mb-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-100 dark:bg-rose-900/50">
@@ -273,7 +322,7 @@ export default function HomePage() {
                 {/* Sleep Card */}
                 <motion.div
                   variants={child}
-                  className="rounded-2xl border border-indigo-200/50 bg-indigo-50/60 p-5 shadow-sm dark:border-indigo-900/40 dark:bg-indigo-950/30"
+                  className="rounded-2xl border border-indigo-200 bg-indigo-50/60 p-5 shadow-md shadow-indigo-100/50 dark:border-indigo-800/50 dark:bg-indigo-950/30 dark:shadow-indigo-950/20"
                 >
                   <div className="flex items-center gap-3 mb-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-900/50">
@@ -334,7 +383,7 @@ export default function HomePage() {
                 <motion.button
                   variants={child}
                   onClick={() => router.push("/growth")}
-                  className="w-full rounded-2xl border border-amber-200/60 bg-amber-50 p-4 text-left dark:border-amber-800/40 dark:bg-amber-950/30"
+                  className="w-full rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left shadow-md shadow-amber-100/50 dark:border-amber-800/50 dark:bg-amber-950/30 dark:shadow-amber-950/20"
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/50">
@@ -367,10 +416,10 @@ export default function HomePage() {
             <motion.button
               variants={child}
               onClick={() => router.push("/growth")}
-              className="w-full rounded-2xl border border-gray-200/80 bg-white p-4 text-left shadow-sm dark:border-gray-800 dark:bg-gray-900"
+              className="w-full rounded-2xl border border-cyan-200 bg-cyan-50/60 p-4 text-left shadow-md shadow-cyan-100/50 dark:border-cyan-800/50 dark:bg-cyan-950/30 dark:shadow-cyan-950/20"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 dark:bg-cyan-950/40">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-100 dark:bg-cyan-900/50">
                   <Ruler size={20} className="text-cyan-600 dark:text-cyan-400" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -380,30 +429,30 @@ export default function HomePage() {
                   {latestMeasurement ? (
                     <div className="mt-1.5 flex flex-wrap gap-2">
                       {latestMeasurement.height && (
-                        <span className="inline-flex items-center gap-1 rounded-lg bg-gray-100 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
+                        <span className="inline-flex items-center gap-1 rounded-lg bg-white/70 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
                           키 {latestMeasurement.height}cm
                         </span>
                       )}
                       {latestMeasurement.weight && (
-                        <span className="inline-flex items-center gap-1 rounded-lg bg-gray-100 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
+                        <span className="inline-flex items-center gap-1 rounded-lg bg-white/70 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
                           몸무게 {latestMeasurement.weight}kg
                         </span>
                       )}
                       {latestMeasurement.headCircumference && (
-                        <span className="inline-flex items-center gap-1 rounded-lg bg-gray-100 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
+                        <span className="inline-flex items-center gap-1 rounded-lg bg-white/70 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
                           머리둘레 {latestMeasurement.headCircumference}cm
                         </span>
                       )}
                     </div>
                   ) : (
-                    <p className="mt-0.5 text-sm text-gray-400 dark:text-gray-500">
+                    <p className="mt-0.5 text-sm text-cyan-600/70 dark:text-cyan-400/70">
                       탭하여 키·몸무게를 기록하세요
                     </p>
                   )}
                 </div>
                 <ChevronRight
                   size={18}
-                  className="shrink-0 text-gray-300 dark:text-gray-600"
+                  className="shrink-0 text-cyan-400 dark:text-cyan-600"
                 />
               </div>
             </motion.button>
@@ -412,10 +461,10 @@ export default function HomePage() {
             {monthData?.summary && (
               <motion.div
                 variants={child}
-                className="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+                className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-5 shadow-md shadow-emerald-100/50 dark:border-emerald-800/50 dark:bg-emerald-950/30 dark:shadow-emerald-950/20"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/40">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/50">
                     <BookOpen size={20} className="text-emerald-500" />
                   </div>
                   <h3 className="text-[15px] font-bold text-gray-900 dark:text-white">
@@ -427,7 +476,7 @@ export default function HomePage() {
 
                 {/* Development milestones */}
                 <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-3.5">
+                  <div className="rounded-xl bg-white/70 dark:bg-gray-800/60 p-3.5">
                     <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-1">
                       대근육 발달
                     </p>
@@ -447,7 +496,7 @@ export default function HomePage() {
                                   : "첫 걸음마"}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-3.5">
+                  <div className="rounded-xl bg-white/70 dark:bg-gray-800/60 p-3.5">
                     <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-1">
                       언어 발달
                     </p>
