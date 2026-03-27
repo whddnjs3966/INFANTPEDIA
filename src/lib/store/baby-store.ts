@@ -116,32 +116,14 @@ export const useBabyStore = create<BabyStore>()(
       },
 
       getMonthsOld: () => {
-        const profile = getActiveProfile(get().babies, get().activeBabyId);
-        if (!profile) return 0;
-        const birth = new Date(profile.birthdate);
-        const today = new Date();
-        let months =
-          (today.getFullYear() - birth.getFullYear()) * 12 +
-          (today.getMonth() - birth.getMonth());
-        // 만 나이 기준: 생일 날짜가 아직 안 지났으면 1개월 차감
-        if (today.getDate() < birth.getDate()) {
-          months -= 1;
-        }
-        return Math.min(Math.max(months, 0), 12);
+        const days = get().getDaysOld();
+        // 일수 기반 월령 계산 (30일 = 1개월)
+        return Math.min(Math.floor(days / 30), 12);
       },
 
       getRealMonthsOld: () => {
-        const profile = getActiveProfile(get().babies, get().activeBabyId);
-        if (!profile) return 0;
-        const birth = new Date(profile.birthdate);
-        const today = new Date();
-        let months =
-          (today.getFullYear() - birth.getFullYear()) * 12 +
-          (today.getMonth() - birth.getMonth());
-        if (today.getDate() < birth.getDate()) {
-          months -= 1;
-        }
-        return Math.max(months, 0);
+        const days = get().getDaysOld();
+        return Math.floor(days / 30);
       },
     }),
     {
