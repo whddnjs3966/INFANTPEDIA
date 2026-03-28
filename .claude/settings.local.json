@@ -56,7 +56,11 @@
       "Bash(find /d/workplace/03-INFANTPEDIA/src/lib/data -name \"*.ts\" -exec wc -l {} +)",
       "Bash(find /d/workplace/03-INFANTPEDIA -type f -name manifest.* -o -name assetlinks.json -o -name *twa* -o -name bubblewrap*)",
       "Bash(find /d/workplace/03-INFANTPEDIA -name *play* -o -name *store* -o -name *twa* -o -name *twа*)",
-      "Bash(xargs cat:*)"
+      "Bash(xargs cat:*)",
+      "Bash(git rm:*)",
+      "Bash(find /d/workplace/03-INFANTPEDIA/src -name *.css -type f)",
+      "WebFetch(domain:babybilly.app)",
+      "WebFetch(domain:babybilly.co)"
     ]
   }
 }

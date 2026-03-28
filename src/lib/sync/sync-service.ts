@@ -54,11 +54,13 @@ function mapVaccinations(rows: Record<string, unknown>[]): VaccinationRecord[] {
   }));
 }
 
-// ─── Share baby (create invite code) ───
+// ─── Share baby (create invite code or auto-sync) ───
 export async function shareBaby(
   baby: BabyProfile,
   measurements: Measurement[],
-  vaccinations: VaccinationRecord[]
+  vaccinations: VaccinationRecord[],
+  creatorId?: string,
+  creatorEmail?: string
 ): Promise<{ code: string; sharedBabyId: string } | { error: string }> {
   const deviceId = getDeviceId();
   const MAX_RETRIES = 3;
@@ -76,6 +78,8 @@ export async function shareBaby(
         name: baby.name,
         birthdate: baby.birthdate,
         gender: baby.gender,
+        creator_id: creatorId || null,
+        creator_email: creatorEmail || null,
       })
       .select('id')
       .single();
@@ -192,7 +196,9 @@ export async function pushToCloud(
   sharedBabyId: string,
   baby: BabyProfile,
   measurements: Measurement[],
-  vaccinations: VaccinationRecord[]
+  vaccinations: VaccinationRecord[],
+  creatorId?: string,
+  creatorEmail?: string
 ): Promise<{ error?: string }> {
   try {
     // Update baby profile
@@ -203,6 +209,8 @@ export async function pushToCloud(
         birthdate: baby.birthdate,
         gender: baby.gender,
         updated_at: new Date().toISOString(),
+        ...(creatorId ? { creator_id: creatorId } : {}),
+        ...(creatorEmail ? { creator_email: creatorEmail } : {}),
       })
       .eq('id', sharedBabyId);
 
