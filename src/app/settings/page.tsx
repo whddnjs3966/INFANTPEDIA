@@ -119,7 +119,7 @@ export default function SettingsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="mt-6 space-y-4"
+        className="mt-6 space-y-3"
       >
         {/* Account Section */}
         <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
@@ -653,11 +653,11 @@ export default function SettingsPage() {
           <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
             <div className="flex justify-between">
               <span>버전</span>
-              <span className="font-medium text-gray-700 dark:text-gray-300">1.0.0</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">1.1.0</span>
             </div>
             <div className="flex justify-between">
               <span>앱 이름</span>
-              <span className="font-medium text-gray-700 dark:text-gray-300">InfantPedia</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">인펀트피디아 - 영유아 백과사전</span>
             </div>
             <button
               onClick={() => router.push("/privacy")}
