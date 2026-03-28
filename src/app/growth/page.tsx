@@ -35,60 +35,48 @@ export default function GrowthPage() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen dark:bg-gray-950">
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         className="px-4 pb-2 pt-6"
       >
-        <h1 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
-          성장 & 건강 📊
-        </h1>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          {profile?.name ? `${profile.name}의 ` : "우리 아기의 "}
-          성장 기록과 예방접종 일정
+        <p className="text-[12px] font-medium text-gray-400 dark:text-gray-500">
+          {profile?.name ? `${profile.name}의 ` : ""}성장 기록
         </p>
+        <h1 className="mt-0.5 text-[22px] font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
+          성장 & 건강
+        </h1>
       </motion.div>
 
       {/* Sub-Tab Switcher */}
-      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-4 pb-3 pt-2">
-        <div className="flex gap-3">
+      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-950 px-4 pb-3 pt-1">
+        <div className="flex gap-2 rounded-2xl bg-gray-100/80 dark:bg-gray-800 p-1.5">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
-            const emoji = tab.id === "growth" ? "📈" : "💉";
             return (
-              <motion.button
+              <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                whileTap={{ scale: 0.95 }}
                 className={cn(
-                  "relative flex flex-1 flex-col items-center gap-1.5 rounded-2xl py-3.5 transition-all",
-                  isActive
-                    ? "bg-white dark:bg-gray-700 shadow-md"
-                    : "bg-gray-100/60 dark:bg-gray-800/60"
+                  "relative flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-bold transition-all",
+                  isActive ? "text-gray-800 dark:text-gray-100" : "text-gray-400 dark:text-gray-500"
                 )}
               >
-                <span className={cn("text-xl transition-transform", isActive && "scale-110")}>
-                  {emoji}
-                </span>
-                <span className={cn(
-                  "text-sm font-bold transition-colors",
-                  isActive
-                    ? "text-gray-800 dark:text-gray-100"
-                    : "text-gray-400 dark:text-gray-500"
-                )}>
-                  {tab.label}
-                </span>
                 {isActive && (
                   <motion.div
-                    layoutId="growth-tab-dot"
-                    className="absolute -bottom-0.5 h-1 w-6 rounded-full bg-cyan-400 dark:bg-cyan-500"
+                    layoutId="growth-tab-bg"
+                    className="absolute inset-0 rounded-xl bg-white dark:bg-gray-700 shadow-sm"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-              </motion.button>
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <Icon size={15} />
+                  {tab.label}
+                </span>
+              </button>
             );
           })}
         </div>

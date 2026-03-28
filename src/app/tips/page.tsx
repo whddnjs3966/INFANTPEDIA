@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, Lightbulb } from "lucide-react";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getParentingTips } from "@/lib/queries/months";
 import MonthSelector from "@/components/encyclopedia/MonthSelector";
@@ -30,6 +30,7 @@ export default function TipsPage() {
   const router = useRouter();
   const getMonthsOld = useBabyStore((s) => s.getMonthsOld);
   const getRealMonthsOld = useBabyStore((s) => s.getRealMonthsOld);
+  const profile = useBabyStore((s) => s.profile);
   const currentMonth = getMonthsOld();
   const realMonths = getRealMonthsOld();
 
@@ -46,7 +47,7 @@ export default function TipsPage() {
         const data = await getParentingTips(selectedMonth);
         setTips((data as Tip[]) || []);
       } catch {
-        setError("\ub370\uc774\ud130\ub97c \ubd88\ub7ec\uc624\ub294 \uc911 \ubb38\uc81c\uac00 \ubc1c\uc0dd\ud588\uc5b4\uc694");
+        setError("데이터를 불러오는 중 문제가 발생했어요");
         setTips([]);
       } finally {
         setLoading(false);
@@ -56,7 +57,7 @@ export default function TipsPage() {
   }, [selectedMonth]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen dark:bg-gray-950">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -64,20 +65,22 @@ export default function TipsPage() {
         className="px-4 pt-6 pb-3"
       >
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
-            꿀팁 {"\ud83d\udca1"}
-          </h1>
+          <div>
+            <p className="text-[12px] font-medium text-gray-400 dark:text-gray-500">
+              {profile?.name ? `${profile.name}에게 맞는 ` : ""}월령별 노하우
+            </p>
+            <h1 className="mt-0.5 text-[22px] font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
+              육아 꿀팁
+            </h1>
+          </div>
           <button
             onClick={() => router.push("/search")}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 text-amber-500 active:scale-95 transition-transform dark:bg-amber-900/30 dark:text-amber-400"
+            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 active:scale-95 transition-transform"
             aria-label="검색"
           >
-            <Search size={20} />
+            <Search size={18} />
           </button>
         </div>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          {"\uc6d4\ub839\ubcc4 \uc721\uc544 \ub178\ud558\uc6b0\ub97c \ud655\uc778\ud558\uc138\uc694"}
-        </p>
       </motion.div>
 
       {/* Month selector */}
@@ -101,14 +104,14 @@ export default function TipsPage() {
 
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
-        <div className="mx-4 mb-3 rounded-[28px] bg-purple-50 dark:bg-purple-950/30 px-4 py-3 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
+        <div className="mx-4 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200/40 dark:border-purple-800/30 px-4 py-3">
           <p className="text-xs text-gray-500 dark:text-gray-400">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>
         </div>
       )}
 
-      {/* Schedule & Meal Plan cards (always visible) */}
+      {/* Schedule & Meal Plan cards */}
       <DailyScheduleCard month={selectedMonth} />
       <MealPlanCard month={selectedMonth} />
 
@@ -116,12 +119,9 @@ export default function TipsPage() {
       {loading ? (
         <EncyclopediaSkeleton />
       ) : error ? (
-        <div className="mx-4 rounded-[28px] bg-white p-6 text-center shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:bg-gray-800">
-          <p className="text-3xl">{"\ud83d\ude22"}</p>
-          <p className="mt-2 text-sm text-gray-500">{error}</p>
-          <p className="mt-1 text-xs text-gray-400">
-            {"\ub124\ud2b8\uc6cc\ud06c\ub97c"} {"\ud655\uc778\ud558\uace0"} {"\ub2e4\uc2dc"} {"\uc2dc\ub3c4\ud574"} {"\uc8fc\uc138\uc694"}
-          </p>
+        <div className="mx-4 rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
+          <p className="text-sm text-gray-500 dark:text-gray-400">{error}</p>
+          <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">네트워크를 확인하고 다시 시도해 주세요</p>
         </div>
       ) : (
         <motion.div

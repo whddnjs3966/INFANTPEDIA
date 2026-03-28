@@ -5,11 +5,19 @@ import {
   UtensilsCrossed,
   AlertTriangle,
   ChevronDown,
-  Sparkles,
   Leaf,
   ShieldAlert,
   Lightbulb,
   ChefHat,
+  Clock,
+  Ruler,
+  Apple,
+  Wheat,
+  Carrot,
+  Beef,
+  Milk,
+  CircleDot,
+  Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -27,69 +35,50 @@ interface BabyFoodGuideProps {
   month: number;
 }
 
-const categoryColors: Record<string, { bg: string; text: string }> = {
-  grain: { bg: 'bg-amber-50 dark:bg-amber-950/30', text: 'text-amber-700 dark:text-amber-300' },
-  vegetable: { bg: 'bg-green-50 dark:bg-green-950/30', text: 'text-green-700 dark:text-green-300' },
-  fruit: { bg: 'bg-pink-50 dark:bg-pink-950/30', text: 'text-pink-700 dark:text-pink-300' },
-  protein: { bg: 'bg-red-50 dark:bg-red-950/30', text: 'text-red-700 dark:text-red-300' },
-  dairy: { bg: 'bg-sky-50 dark:bg-sky-950/30', text: 'text-sky-700 dark:text-sky-300' },
+const categoryConfig: Record<string, { label: string; icon: React.ElementType; color: string; bg: string; text: string }> = {
+  grain: { label: "곡류", icon: Wheat, color: "text-amber-500", bg: "bg-amber-50 dark:bg-amber-950/30", text: "text-amber-700 dark:text-amber-300" },
+  vegetable: { label: "채소", icon: Carrot, color: "text-green-500", bg: "bg-green-50 dark:bg-green-950/30", text: "text-green-700 dark:text-green-300" },
+  fruit: { label: "과일", icon: Apple, color: "text-pink-500", bg: "bg-pink-50 dark:bg-pink-950/30", text: "text-pink-700 dark:text-pink-300" },
+  protein: { label: "단백질", icon: Beef, color: "text-red-500", bg: "bg-red-50 dark:bg-red-950/30", text: "text-red-700 dark:text-red-300" },
+  dairy: { label: "유제품", icon: Milk, color: "text-sky-500", bg: "bg-sky-50 dark:bg-sky-950/30", text: "text-sky-700 dark:text-sky-300" },
 };
 
-const categoryLabels: Record<string, string> = {
-  grain: '곡류',
-  vegetable: '채소',
-  fruit: '과일',
-  protein: '단백질',
-  dairy: '유제품',
-};
-
-function ExpandableSection({
+function AccordionSection({
   title,
   icon: Icon,
+  iconBg,
   iconColor,
-  gradientFrom,
-  gradientTo,
-  borderColor,
   children,
   defaultOpen = false,
 }: {
   title: string;
   icon: React.ElementType;
+  iconBg: string;
   iconColor: string;
-  gradientFrom: string;
-  gradientTo: string;
-  borderColor: string;
   children: React.ReactNode;
   defaultOpen?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div>
-      <motion.button
+    <div className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_2px_12px_rgb(0,0,0,0.04)] overflow-hidden">
+      <button
         onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          "flex w-full min-h-[48px] items-center gap-3 rounded-[28px] bg-gradient-to-r p-3.5 text-left transition-all",
-          gradientFrom,
-          gradientTo,
-          borderColor,
-          isOpen && ""
-        )}
-        whileTap={{ scale: 0.98 }}
+        className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
       >
-        <div className={cn("rounded-2xl p-2", iconColor)}>
-          <Icon size={18} />
+        <div className={cn("flex h-9 w-9 items-center justify-center rounded-xl shrink-0", iconBg)}>
+          <Icon size={17} className={iconColor} />
         </div>
-        <span className="flex-1 text-sm font-bold text-gray-700 dark:text-gray-200">
+        <span className="flex-1 text-[14px] font-bold text-gray-800 dark:text-gray-100">
           {title}
         </span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
         >
-          <ChevronDown size={18} className="text-gray-400" />
+          <ChevronDown size={16} className="text-gray-400" />
         </motion.div>
-      </motion.button>
+      </button>
 
       <AnimatePresence>
         {isOpen && (
@@ -97,10 +86,10 @@ function ExpandableSection({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="rounded-[28px] border border-gray-100 bg-white dark:border-gray-700/50 dark:bg-gray-800 mt-2 p-4">
+            <div className="px-4 pb-4 pt-0">
               {children}
             </div>
           </motion.div>
@@ -110,26 +99,23 @@ function ExpandableSection({
   );
 }
 
-function StageProgressBar({ stages, currentStage }: { stages: StageInfo[]; currentStage?: StageInfo }) {
+function StageProgress({ stages, currentStage }: { stages: StageInfo[]; currentStage?: StageInfo }) {
   return (
-    <div className="flex items-center gap-1 mb-4">
-      {stages.map((stage, idx) => {
+    <div className="flex items-center gap-1.5">
+      {stages.map((stage) => {
         const isCurrent = currentStage?.stage === stage.stage;
         const isPast = currentStage && stage.endMonth < currentStage.startMonth;
         return (
-          <div key={stage.stage} className="flex-1 flex flex-col items-center gap-1">
-            <motion.div
+          <div key={stage.stage} className="flex-1 flex flex-col items-center gap-1.5">
+            <div
               className={cn(
-                "w-full h-2 rounded-full transition-colors",
+                "w-full h-1.5 rounded-full transition-colors",
                 isCurrent
                   ? "bg-orange-400 dark:bg-orange-500"
                   : isPast
                     ? "bg-orange-200 dark:bg-orange-800"
                     : "bg-gray-200 dark:bg-gray-700"
               )}
-              initial={isCurrent ? { scale: 0.8 } : {}}
-              animate={isCurrent ? { scale: [0.8, 1.1, 1] } : {}}
-              transition={{ duration: 0.5 }}
             />
             <span
               className={cn(
@@ -139,7 +125,7 @@ function StageProgressBar({ stages, currentStage }: { stages: StageInfo[]; curre
                   : "text-gray-400 dark:text-gray-500"
               )}
             >
-              {stage.emoji} {stage.stage.replace('초기 ', '').replace('단계', '')}
+              {stage.stage.replace("초기 ", "").replace("단계", "")}
             </span>
           </div>
         );
@@ -148,31 +134,36 @@ function StageProgressBar({ stages, currentStage }: { stages: StageInfo[]; curre
   );
 }
 
-function IngredientChip({ ingredient, isNew }: { ingredient: IngredientInfo; isNew: boolean }) {
-  const colors = categoryColors[ingredient.category];
+function IngredientTag({ ingredient, isNew }: { ingredient: IngredientInfo; isNew: boolean }) {
+  const config = categoryConfig[ingredient.category];
   return (
-    <motion.div
-      initial={isNew ? { scale: 0.8, opacity: 0 } : { opacity: 1 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.3 }}
+    <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-2xl px-2.5 py-1.5 text-[11px] font-medium relative",
-        colors.bg,
-        colors.text,
-        isNew && "ring-2 ring-orange-300 dark:ring-orange-600"
+        "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-medium",
+        config.bg,
+        config.text,
+        isNew && "ring-1 ring-orange-300 dark:ring-orange-700"
       )}
     >
-      {isNew && (
-        <Sparkles size={10} className="text-orange-400 absolute -top-1.5 -right-1.5" />
-      )}
-      <span className="text-sm">{ingredient.emoji}</span>
-      <span>{ingredient.name}</span>
-      {ingredient.allergyRisk && (
-        <AlertTriangle size={10} className="text-red-400 ml-0.5" />
-      )}
-    </motion.div>
+      {ingredient.name}
+      {isNew && <span className="text-[9px] text-orange-500 font-bold">NEW</span>}
+      {ingredient.allergyRisk && <AlertTriangle size={9} className="text-red-400" />}
+    </span>
   );
 }
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
   const guide = getBabyFoodGuide();
@@ -180,7 +171,6 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
   const availableIngredients = getAvailableIngredients(month);
   const newIngredients = getNewIngredients(month);
 
-  // Group ingredients by category
   const groupedIngredients = availableIngredients.reduce<Record<string, IngredientInfo[]>>(
     (acc, ing) => {
       if (!acc[ing.category]) acc[ing.category] = [];
@@ -192,13 +182,15 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
 
   if (month < 4) {
     return (
-      <div className="mx-4 mb-4">
-        <div className="rounded-[28px] bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 dark:p-5 text-center">
-          <span className="text-3xl mb-2 block">🍼</span>
-          <p className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">
+      <div className="mb-4">
+        <div className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-50 dark:bg-orange-950/40 mx-auto mb-3">
+            <UtensilsCrossed size={22} className="text-orange-400" />
+          </div>
+          <p className="text-[14px] font-bold text-gray-800 dark:text-gray-100 mb-1">
             아직 이유식 시작 전이에요
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-[12px] text-gray-500 dark:text-gray-400 leading-relaxed">
             이유식은 만 4~6개월 사이에 시작하는 것이 좋습니다.
             <br />
             목을 가눌 수 있고 음식에 관심을 보일 때 시작하세요.
@@ -209,98 +201,103 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
   }
 
   return (
-    <div className="mx-4 mb-4 space-y-3">
-      {/* Section 1: Current Stage Card */}
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="mb-4 space-y-3"
+    >
+      {/* Current Stage Card */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="rounded-[28px] dark:bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-950/20 dark:via-amber-950/20 dark:to-yellow-950/20 p-4 "
+        variants={itemVariants}
+        className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
       >
-        <div className="flex items-center gap-2 mb-3">
-          <div className="rounded-2xl bg-orange-100 dark:bg-orange-900/50 p-2">
-            <UtensilsCrossed size={20} className="text-orange-500 dark:text-orange-400" />
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-950/40">
+            <UtensilsCrossed size={17} className="text-orange-500" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-gray-800 dark:text-gray-100">
+            <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
               이유식 종합 가이드
             </h3>
             <p className="text-[11px] text-gray-500 dark:text-gray-400">
-              {currentStage ? `현재 단계: ${currentStage.stage}` : '완료기 이후'}
+              {currentStage ? `현재: ${currentStage.stage}` : "완료기 이후"}
             </p>
           </div>
         </div>
 
-        {/* Stage Progress */}
-        <StageProgressBar stages={guide.stages} currentStage={currentStage} />
+        <StageProgress stages={guide.stages} currentStage={currentStage} />
 
         {currentStage && (
-          <div className="space-y-2.5">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{currentStage.emoji}</span>
-              <div>
-                <p className="text-[13px] font-bold text-orange-700 dark:text-orange-300">
-                  {currentStage.stage}
-                </p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                  {currentStage.monthRange}
-                </p>
+          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+            <p className="text-[13px] font-bold text-gray-800 dark:text-gray-100 mb-1">
+              {currentStage.stage}
+              <span className="text-[11px] font-normal text-gray-400 ml-2">{currentStage.monthRange}</span>
+            </p>
+
+            <FormattedContent content={currentStage.description} className="text-[12px] mb-3" />
+
+            {/* Key stats */}
+            <div className="grid grid-cols-3 gap-2">
+              <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+                <UtensilsCrossed size={13} className="mx-auto mb-1 text-orange-500" />
+                <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{currentStage.texture}</p>
+                <p className="text-[9px] text-gray-400 mt-0.5">형태</p>
               </div>
-            </div>
-
-            <FormattedContent content={currentStage.description} className="text-[12px]" />
-
-            {/* Key info badges */}
-            <div className="flex flex-wrap gap-1.5">
-              <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 dark:bg-orange-900/40 px-2.5 py-1 text-[10px] font-semibold text-orange-700 dark:text-orange-300">
-                🥣 {currentStage.texture}
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-900/40 px-2.5 py-1 text-[10px] font-semibold text-amber-700 dark:text-amber-300">
-                🕐 {currentStage.frequency}
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 dark:bg-yellow-900/40 px-2.5 py-1 text-[10px] font-semibold text-yellow-700 dark:text-yellow-300">
-                📏 {currentStage.amount}
-              </span>
+              <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+                <Clock size={13} className="mx-auto mb-1 text-blue-500" />
+                <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{currentStage.frequency}</p>
+                <p className="text-[9px] text-gray-400 mt-0.5">횟수</p>
+              </div>
+              <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+                <Ruler size={13} className="mx-auto mb-1 text-green-500" />
+                <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{currentStage.amount}</p>
+                <p className="text-[9px] text-gray-400 mt-0.5">1회량</p>
+              </div>
             </div>
           </div>
         )}
       </motion.div>
 
-      {/* Section 2: Available Ingredients */}
+      {/* Ingredients Card */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="rounded-[28px] dark:bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 p-4 "
+        variants={itemVariants}
+        className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
       >
-        <div className="flex items-center gap-2 mb-3">
-          <div className="rounded-2xl bg-green-100 dark:bg-green-900/50 p-2">
-            <Leaf size={18} className="text-green-500 dark:text-green-400" />
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-50 dark:bg-green-950/40">
+            <Leaf size={17} className="text-green-500" />
           </div>
           <div className="flex-1">
-            <h3 className="text-sm font-bold text-gray-800 dark:text-gray-100">
+            <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
               사용 가능한 식재료
             </h3>
             <p className="text-[11px] text-gray-500 dark:text-gray-400">
-              {availableIngredients.length}가지 식재료
-              {newIngredients.length > 0 && ` (새로 추가: ${newIngredients.length}가지)`}
+              {availableIngredients.length}가지
+              {newIngredients.length > 0 && (
+                <span className="text-orange-500 font-medium"> +{newIngredients.length} 새 재료</span>
+              )}
             </p>
           </div>
         </div>
 
-        {/* Category groups */}
         <div className="space-y-3">
-          {(['grain', 'vegetable', 'fruit', 'protein', 'dairy'] as const).map((cat) => {
+          {(["grain", "vegetable", "fruit", "protein", "dairy"] as const).map((cat) => {
             const items = groupedIngredients[cat];
             if (!items || items.length === 0) return null;
+            const config = categoryConfig[cat];
+            const CatIcon = config.icon;
             return (
               <div key={cat}>
-                <p className={cn("text-[10px] font-bold mb-1.5 uppercase tracking-wider", categoryColors[cat].text)}>
-                  {categoryLabels[cat]}
-                </p>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <CatIcon size={12} className={config.color} />
+                  <p className={cn("text-[11px] font-bold", config.text)}>
+                    {config.label}
+                  </p>
+                </div>
                 <div className="flex flex-wrap gap-1.5">
                   {items.map((ing) => (
-                    <IngredientChip
+                    <IngredientTag
                       key={ing.name}
                       ingredient={ing}
                       isNew={newIngredients.some((n) => n.name === ing.name)}
@@ -313,62 +310,52 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-3 mt-3 pt-2.5">
-          <span className="inline-flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400">
-            <Sparkles size={10} className="text-orange-400" /> 이번 달 새 재료
+        <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
+          <span className="inline-flex items-center gap-1 text-[10px] text-gray-400 dark:text-gray-500">
+            <span className="text-[9px] text-orange-500 font-bold">NEW</span> 이번 달 새 재료
           </span>
-          <span className="inline-flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400">
-            <AlertTriangle size={10} className="text-red-400" /> 알레르기 주의
+          <span className="inline-flex items-center gap-1 text-[10px] text-gray-400 dark:text-gray-500">
+            <AlertTriangle size={9} className="text-red-400" /> 알레르기 주의
           </span>
         </div>
       </motion.div>
 
-      {/* Section 3: Stage Details (expandable) */}
+      {/* Cooking Tips & Caution */}
       {currentStage && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-        >
-          <ExpandableSection
-            title={`${currentStage.emoji} ${currentStage.stage} 조리법 & 주의사항`}
+        <motion.div variants={itemVariants}>
+          <AccordionSection
+            title={`${currentStage.stage} 조리법 & 주의사항`}
             icon={ChefHat}
-            iconColor="bg-amber-100 dark:bg-amber-900/50 text-amber-500 dark:text-amber-400"
-            gradientFrom="from-amber-50 dark:from-amber-950/20"
-            gradientTo="to-orange-50 dark:to-orange-950/20"
-            borderColor=""
+            iconBg="bg-amber-50 dark:bg-amber-950/40"
+            iconColor="text-amber-500"
           >
             {/* Cooking Tips */}
             <div className="mb-4">
-              <p className="text-[11px] font-bold text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1">
-                <Lightbulb size={12} /> 조리 팁
-              </p>
-              <div className="space-y-1.5">
+              <div className="flex items-center gap-1.5 mb-2.5">
+                <Lightbulb size={13} className="text-amber-500" />
+                <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">조리 팁</p>
+              </div>
+              <div className="space-y-2">
                 {currentStage.cookingTips.map((tip, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, x: -5 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className="flex items-start gap-2"
-                  >
-                    <span className="text-[10px] text-amber-400 mt-0.5">&#9679;</span>
+                  <div key={idx} className="flex items-start gap-2">
+                    <CircleDot size={8} className="text-amber-400 shrink-0 mt-1.5" />
                     <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
                       {tip}
                     </p>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
 
             {/* Caution Points */}
             <div className="mb-4">
-              <p className="text-[11px] font-bold text-red-600 dark:text-red-400 mb-2 flex items-center gap-1">
-                <ShieldAlert size={12} /> 주의사항
-              </p>
+              <div className="flex items-center gap-1.5 mb-2.5">
+                <ShieldAlert size={13} className="text-red-500" />
+                <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">주의사항</p>
+              </div>
               <div className="space-y-1.5">
                 {currentStage.cautionPoints.map((point, idx) => (
-                  <div key={idx} className="flex items-start gap-2 rounded-lg bg-red-50/50 dark:bg-red-950/20 p-2">
+                  <div key={idx} className="flex items-start gap-2 rounded-xl bg-red-50/60 dark:bg-red-950/20 p-2.5">
                     <AlertTriangle size={11} className="text-red-400 shrink-0 mt-0.5" />
                     <p className="text-[12px] text-red-700 dark:text-red-300 leading-relaxed">
                       {point}
@@ -380,57 +367,47 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
 
             {/* Sample Menu */}
             <div>
-              <p className="text-[11px] font-bold text-orange-700 dark:text-orange-300 mb-2 flex items-center gap-1">
-                <UtensilsCrossed size={12} /> 추천 메뉴 예시
-              </p>
+              <div className="flex items-center gap-1.5 mb-2.5">
+                <UtensilsCrossed size={13} className="text-orange-500" />
+                <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">추천 메뉴</p>
+              </div>
               <div className="flex flex-wrap gap-1.5">
                 {currentStage.sampleMenu.map((menu, idx) => (
-                  <motion.span
+                  <span
                     key={idx}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className="inline-flex items-center rounded-full bg-orange-100 dark:bg-orange-900/40 px-2.5 py-1 text-[11px] font-medium text-orange-700 dark:text-orange-300"
+                    className="inline-flex items-center rounded-lg bg-orange-50 dark:bg-orange-950/30 px-2.5 py-1 text-[11px] font-medium text-orange-700 dark:text-orange-300"
                   >
                     {menu}
-                  </motion.span>
+                  </span>
                 ))}
               </div>
             </div>
-          </ExpandableSection>
+          </AccordionSection>
         </motion.div>
       )}
 
-      {/* Section 4: Allergy Guide (expandable) */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.3 }}
-      >
-        <ExpandableSection
+      {/* Allergy Guide */}
+      <motion.div variants={itemVariants}>
+        <AccordionSection
           title="알레르기 안전 가이드"
           icon={ShieldAlert}
-          iconColor="bg-red-100 dark:bg-red-900/50 text-red-500 dark:text-red-400"
-          gradientFrom="from-red-50 dark:from-red-950/20"
-          gradientTo="to-rose-50 dark:to-rose-950/20"
-          borderColor=""
+          iconBg="bg-red-50 dark:bg-red-950/40"
+          iconColor="text-red-500"
         >
-          <div className="mb-3">
-            <FormattedContent content={guide.allergyGuide.description} className="text-[12px]" />
-          </div>
+          <FormattedContent content={guide.allergyGuide.description} className="text-[12px] mb-4" />
 
           {/* High Risk Foods */}
           <div className="mb-4">
-            <p className="text-[11px] font-bold text-red-600 dark:text-red-400 mb-2">
+            <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200 mb-2">
               고위험 식품
             </p>
             <div className="flex flex-wrap gap-1.5">
               {guide.allergyGuide.highRiskFoods.map((food, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1 rounded-full bg-red-50 dark:bg-red-950/30 dark:px-2.5 py-1 text-[11px] font-medium text-red-700 dark:text-red-300"
+                  className="inline-flex items-center gap-1 rounded-lg bg-red-50 dark:bg-red-950/30 px-2.5 py-1 text-[11px] font-medium text-red-700 dark:text-red-300"
                 >
-                  <AlertTriangle size={10} />
+                  <AlertTriangle size={9} />
                   {food}
                 </span>
               ))}
@@ -438,25 +415,27 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
           </div>
 
           {/* Testing Method */}
-          <div className="mb-4 rounded-2xl bg-amber-50 dark:bg-amber-950/20 dark:p-3">
-            <p className="text-[11px] font-bold text-amber-700 dark:text-amber-300 mb-1 flex items-center gap-1">
-              <Lightbulb size={12} /> 알레르기 테스트 방법
-            </p>
+          <div className="mb-4 rounded-xl bg-amber-50/60 dark:bg-amber-950/20 p-3">
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <Lightbulb size={12} className="text-amber-500" />
+              <p className="text-[12px] font-bold text-amber-700 dark:text-amber-300">테스트 방법</p>
+            </div>
             <FormattedContent content={guide.allergyGuide.testingMethod} className="text-[12px]" />
           </div>
 
           {/* Emergency Signs */}
           <div>
-            <p className="text-[11px] font-bold text-red-700 dark:text-red-400 mb-2 flex items-center gap-1">
-              <AlertTriangle size={12} /> 응급 증상 (즉시 병원 방문)
-            </p>
+            <div className="flex items-center gap-1.5 mb-2">
+              <AlertTriangle size={12} className="text-red-500" />
+              <p className="text-[12px] font-bold text-red-700 dark:text-red-300">응급 증상 (즉시 병원 방문)</p>
+            </div>
             <div className="space-y-1.5">
               {guide.allergyGuide.emergencySigns.map((sign, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-2 rounded-lg bg-red-50 dark:bg-red-950/20 p-2"
+                  className="flex items-start gap-2 rounded-xl bg-red-50/60 dark:bg-red-950/20 p-2.5"
                 >
-                  <span className="text-red-500 text-[10px] mt-0.5">&#9888;</span>
+                  <ShieldAlert size={11} className="text-red-400 shrink-0 mt-0.5" />
                   <p className="text-[12px] text-red-700 dark:text-red-300 font-medium">
                     {sign}
                   </p>
@@ -464,41 +443,29 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
               ))}
             </div>
           </div>
-        </ExpandableSection>
+        </AccordionSection>
       </motion.div>
 
       {/* General Tips */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.4 }}
-      >
-        <ExpandableSection
+      <motion.div variants={itemVariants}>
+        <AccordionSection
           title="이유식 일반 꿀팁"
           icon={Lightbulb}
-          iconColor="bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400"
-          gradientFrom="from-yellow-50 dark:from-yellow-950/20"
-          gradientTo="to-amber-50 dark:to-amber-950/20"
-          borderColor=""
+          iconBg="bg-yellow-50 dark:bg-yellow-950/40"
+          iconColor="text-yellow-500"
         >
           <div className="space-y-2">
             {guide.generalTips.map((tip, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: -5 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.04 }}
-                className="flex items-start gap-2"
-              >
-                <span className="text-[10px] text-yellow-500 mt-1">&#10003;</span>
+              <div key={idx} className="flex items-start gap-2">
+                <Check size={12} className="text-green-500 shrink-0 mt-0.5" />
                 <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
                   {tip}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </ExpandableSection>
+        </AccordionSection>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
