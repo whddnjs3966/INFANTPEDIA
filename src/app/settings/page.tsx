@@ -109,7 +109,7 @@ export default function SettingsPage() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">⚙️ 설정</h1>
+        <h1 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">⚙️ 설정</h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           아기 정보를 수정하거나 앱 설정을 변경하세요
         </p>
@@ -119,10 +119,10 @@ export default function SettingsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="mt-6 space-y-6"
+        className="mt-6 space-y-4"
       >
         {/* Account Section */}
-        <div className="rounded-2xl border border-green-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+        <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
           <div className="mb-3 flex items-center gap-2">
             <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900/50">
               {user ? (
@@ -172,7 +172,7 @@ export default function SettingsPage() {
                   setLoggingOut(false);
                 }}
                 disabled={loggingOut}
-                className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
+                className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-gray-50 text-sm font-medium text-gray-500 transition-colors active:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:active:bg-gray-700"
               >
                 {loggingOut ? (
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-transparent" />
@@ -205,7 +205,7 @@ export default function SettingsPage() {
 
         {/* Baby Switcher */}
         {babies.length > 1 && (
-          <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+          <div className="rounded-[28px] bg-white p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:bg-gray-800">
             <p className="mb-3 text-xs font-medium text-gray-500 dark:text-gray-400">아기 선택</p>
             <div className="flex gap-2 overflow-x-auto pb-1">
               {babies.map((baby) => (
@@ -240,7 +240,7 @@ export default function SettingsPage() {
         )}
 
         {/* Profile edit */}
-        <div className="rounded-2xl border border-pink-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+        <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
           <div className="mb-4 flex items-center gap-2">
             <div className="rounded-lg bg-pink-100 p-2 dark:bg-pink-900/50">
               <User size={18} className="text-pink-500 dark:text-pink-400" />
@@ -321,7 +321,7 @@ export default function SettingsPage() {
         <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* Dark Mode Toggle */}
-        <div className="rounded-2xl border border-indigo-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+        <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-indigo-100 p-2 dark:bg-indigo-900/50">
@@ -360,7 +360,7 @@ export default function SettingsPage() {
         <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* Add Baby */}
-        <div className="rounded-2xl border border-blue-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+        <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
           <div className="mb-3 flex items-center gap-2">
             <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900/50">
               <UserPlus size={18} className="text-blue-500 dark:text-blue-400" />
@@ -372,7 +372,7 @@ export default function SettingsPage() {
             <motion.button
               whileTap={{ scale: 0.97 }}
               onClick={() => setShowAddForm(true)}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50/30 py-3 text-sm font-medium text-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-50"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50/30 py-3 text-sm font-medium text-blue-500 transition-colors active:border-blue-300 active:bg-blue-50"
             >
               <Plus size={16} />
               {babies.length === 1 ? "둘째" : `${babies.length + 1}째`} 아기 등록하기
@@ -436,7 +436,7 @@ export default function SettingsPage() {
                   type="button"
                   onClick={handleAddBaby}
                   disabled={!newName.trim() || !newBirthdate}
-                  className="h-11 flex-1 rounded-xl bg-blue-500 font-semibold text-white hover:bg-blue-600"
+                  className="h-11 flex-1 rounded-xl bg-blue-500 font-semibold text-white active:bg-blue-600"
                 >
                   등록
                 </Button>
@@ -454,7 +454,7 @@ export default function SettingsPage() {
         {babies.length > 1 && (
           <>
             <Separator className="bg-pink-100 dark:bg-gray-700" />
-            <div className="rounded-2xl border border-orange-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+            <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
               <div className="mb-3 flex items-center gap-2">
                 <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900/50">
                   <Trash2 size={18} className="text-orange-500 dark:text-orange-400" />
@@ -468,7 +468,7 @@ export default function SettingsPage() {
                 {babies.map((baby) => (
                   <div
                     key={baby.id}
-                    className="flex items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-800"
+                    className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3 dark:bg-gray-800"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <span className="text-lg">{baby.gender === "female" ? "👧" : "👦"}</span>
@@ -485,7 +485,7 @@ export default function SettingsPage() {
                     >
                       <DialogTrigger
                         render={
-                          <button className="shrink-0 rounded-lg border border-orange-200 px-3 py-1.5 text-xs font-medium text-orange-500 transition-colors hover:bg-orange-50 dark:border-orange-800 dark:text-orange-400 dark:hover:bg-orange-950/30" />
+                          <button className="shrink-0 rounded-lg bg-orange-50 px-3 py-1.5 text-xs font-medium text-orange-500 transition-colors active:bg-orange-100 dark:bg-orange-950/30 dark:text-orange-400 dark:active:bg-orange-950/50" />
                         }
                       >
                         삭제
@@ -531,7 +531,7 @@ export default function SettingsPage() {
         <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* Data reset */}
-        <div className="rounded-2xl border border-red-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+        <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
           <div className="mb-3 flex items-center gap-2">
             <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900/50">
               <Trash2 size={18} className="text-red-400" />
@@ -588,7 +588,7 @@ export default function SettingsPage() {
 
         {/* Account deletion - Google Play requirement */}
         {user && (
-          <div className="rounded-2xl border border-red-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+          <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
             <div className="mb-3 flex items-center gap-2">
               <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900/50">
                 <Trash2 size={18} className="text-red-400" />
@@ -643,7 +643,7 @@ export default function SettingsPage() {
         <Separator className="bg-pink-100 dark:bg-gray-700" />
 
         {/* App info */}
-        <div className="rounded-2xl border border-purple-200/50 bg-white/80 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+        <div className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
           <div className="mb-3 flex items-center gap-2">
             <div className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900/50">
               <Info size={18} className="text-purple-500 dark:text-purple-400" />

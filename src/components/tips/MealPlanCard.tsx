@@ -20,13 +20,13 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
   const dayPlan = plan.weeklyPlan[selectedDay];
 
   return (
-    <div className="mx-4 mb-4">
+    <div className="mx-4 mb-5">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex w-full min-h-[56px] items-center gap-3 rounded-2xl border bg-gradient-to-r p-4 text-left transition-all",
-          "from-orange-50 to-amber-50 border-orange-200/50 dark:from-orange-950/40 dark:to-amber-950/40 dark:border-orange-800/50",
-          isOpen && "shadow-md"
+          "flex w-full min-h-[56px] items-center gap-3 rounded-[28px] bg-orange-50/80 p-4 text-left transition-all",
+          "dark:bg-orange-950/30",
+          isOpen && "shadow-md ring-1 ring-black/5"
         )}
         whileTap={{ scale: 0.98 }}
       >
@@ -56,7 +56,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="rounded-2xl border border-orange-100 bg-white/80 mt-2 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+            <div className="rounded-[28px] border border-gray-100 bg-white mt-2 p-4 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:border-gray-700/50 dark:bg-gray-900/90">
               {/* Description */}
               <p className="text-[13px] text-gray-600 dark:text-gray-300 mb-3">{plan.description}</p>
 
@@ -73,18 +73,19 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
               {/* Day selector */}
               <div className="flex gap-1.5 mb-3 overflow-x-auto pb-1">
                 {plan.weeklyPlan.map((day, idx) => (
-                  <button
+                  <motion.button
                     key={day.day}
                     onClick={() => setSelectedDay(idx)}
+                    whileTap={{ scale: 0.92 }}
                     className={cn(
                       "min-w-[44px] min-h-[44px] rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all flex items-center justify-center",
                       selectedDay === idx
                         ? "bg-orange-400 text-white shadow-sm"
-                        : "bg-orange-50 text-orange-600 hover:bg-orange-100 dark:bg-orange-900/30 dark:text-orange-300 dark:hover:bg-orange-900/50"
+                        : "bg-orange-50 text-orange-600 active:bg-orange-100 dark:bg-orange-900/30 dark:text-orange-300 dark:active:bg-orange-900/50"
                     )}
                   >
                     {day.day}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
 
@@ -96,7 +97,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.05 }}
-                    className="rounded-xl border border-orange-100 bg-orange-50/50 dark:border-gray-700 dark:bg-orange-950/20 p-3"
+                    className="rounded-[20px] bg-orange-50/50 dark:bg-orange-950/20 p-3"
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{meal.emoji}</span>
@@ -115,7 +116,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                         {meal.ingredients.map((ing, ingIdx) => (
                           <span
                             key={ingIdx}
-                            className="inline-flex items-center gap-0.5 rounded-md bg-white dark:bg-gray-700 border border-orange-200/60 dark:border-gray-600 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:text-gray-300"
+                            className="inline-flex items-center gap-0.5 rounded-lg bg-white/80 dark:bg-gray-700 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:text-gray-300 shadow-[0_1px_3px_rgb(0,0,0,0.04)]"
                           >
                             <span className="text-[10px]">{ing.emoji}</span>
                             {ing.name} {ing.amount}
@@ -139,7 +140,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
 
               {/* Allergy note */}
               {plan.allergyNote && (
-                <div className="mt-3 flex items-start gap-2 rounded-xl bg-red-50 dark:bg-red-950/30 p-2.5">
+                <div className="mt-3 flex items-start gap-2 rounded-2xl bg-red-50 dark:bg-red-950/30 p-3">
                   <AlertTriangle size={14} className="text-red-400 shrink-0 mt-0.5" />
                   <p className="text-[12px] text-red-700 dark:text-red-400 leading-relaxed font-medium">
                     {plan.allergyNote}

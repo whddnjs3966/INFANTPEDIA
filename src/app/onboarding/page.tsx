@@ -153,7 +153,7 @@ export default function OnboardingPage() {
             {/* New baby form */}
             <motion.form
               onSubmit={handleSubmit}
-              className="rounded-3xl border border-pink-100 bg-white/80 dark:border-gray-700 dark:bg-gray-800/80 p-6 shadow-lg backdrop-blur-sm"
+              className="rounded-3xl bg-white dark:bg-gray-800 p-6 shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
@@ -234,10 +234,10 @@ export default function OnboardingPage() {
                   </motion.p>
                 )}
 
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+                <motion.div whileTap={{ scale: 0.97 }}>
                   <Button
                     type="submit"
-                    className="h-12 w-full rounded-xl bg-gradient-to-r from-pink-400 to-purple-400 text-base font-bold text-white shadow-md hover:from-pink-500 hover:to-purple-500"
+                    className="h-12 w-full rounded-xl bg-gradient-to-r from-pink-400 to-purple-400 text-base font-bold text-white shadow-md active:from-pink-500 active:to-purple-500"
                   >
                     시작하기 🚀
                   </Button>
@@ -248,7 +248,7 @@ export default function OnboardingPage() {
             {/* Invite code toggle */}
             <motion.button
               onClick={() => setShowInvite(true)}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-indigo-200 bg-white/60 py-3.5 text-sm font-medium text-indigo-500 backdrop-blur-sm transition-colors hover:border-indigo-300 hover:bg-indigo-50/50"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-indigo-200 bg-white/60 py-3.5 text-sm font-medium text-indigo-500 backdrop-blur-sm transition-colors active:border-indigo-300 active:bg-indigo-50/50"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
@@ -262,7 +262,7 @@ export default function OnboardingPage() {
           <>
             {/* Invite code form */}
             <motion.div
-              className="rounded-3xl border border-indigo-100 bg-white/80 dark:border-gray-700 dark:bg-gray-800/80 p-6 shadow-lg backdrop-blur-sm"
+              className="rounded-3xl bg-white dark:bg-gray-800 p-6 shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
@@ -311,7 +311,7 @@ export default function OnboardingPage() {
                     type="button"
                     onClick={handleInviteJoin}
                     disabled={inviteLoading || inviteCode.length < 6}
-                    className="h-12 w-full rounded-xl bg-gradient-to-r from-indigo-400 to-purple-500 text-base font-bold text-white shadow-md hover:from-indigo-500 hover:to-purple-600 disabled:opacity-50"
+                    className="h-12 w-full rounded-xl bg-gradient-to-r from-indigo-400 to-purple-500 text-base font-bold text-white shadow-md active:from-indigo-500 active:to-purple-600 disabled:opacity-50"
                   >
                     {inviteLoading ? (
                       <>
@@ -332,7 +332,7 @@ export default function OnboardingPage() {
                 setShowInvite(false);
                 setInviteError("");
               }}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 bg-white/60 py-3.5 text-sm font-medium text-pink-500 backdrop-blur-sm transition-colors hover:border-pink-300 hover:bg-pink-50/50"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 bg-white/60 py-3.5 text-sm font-medium text-pink-500 backdrop-blur-sm transition-colors active:border-pink-300 active:bg-pink-50/50"
               whileTap={{ scale: 0.97 }}
             >
               👶 새로 등록하기
@@ -346,7 +346,7 @@ export default function OnboardingPage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          모든 데이터는 이 기기에만 저장됩니다 🔒
+          데이터는 클라우드에 안전하게 백업 및 동기화됩니다 ☁️
         </motion.p>
       </motion.div>
     </div>

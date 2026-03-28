@@ -27,12 +27,12 @@ interface BabyFoodGuideProps {
   month: number;
 }
 
-const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
-  grain: { bg: 'bg-amber-50 dark:bg-amber-950/30', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-200 dark:border-amber-800' },
-  vegetable: { bg: 'bg-green-50 dark:bg-green-950/30', text: 'text-green-700 dark:text-green-300', border: 'border-green-200 dark:border-green-800' },
-  fruit: { bg: 'bg-pink-50 dark:bg-pink-950/30', text: 'text-pink-700 dark:text-pink-300', border: 'border-pink-200 dark:border-pink-800' },
-  protein: { bg: 'bg-red-50 dark:bg-red-950/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-200 dark:border-red-800' },
-  dairy: { bg: 'bg-sky-50 dark:bg-sky-950/30', text: 'text-sky-700 dark:text-sky-300', border: 'border-sky-200 dark:border-sky-800' },
+const categoryColors: Record<string, { bg: string; text: string }> = {
+  grain: { bg: 'bg-amber-50 dark:bg-amber-950/30', text: 'text-amber-700 dark:text-amber-300' },
+  vegetable: { bg: 'bg-green-50 dark:bg-green-950/30', text: 'text-green-700 dark:text-green-300' },
+  fruit: { bg: 'bg-pink-50 dark:bg-pink-950/30', text: 'text-pink-700 dark:text-pink-300' },
+  protein: { bg: 'bg-red-50 dark:bg-red-950/30', text: 'text-red-700 dark:text-red-300' },
+  dairy: { bg: 'bg-sky-50 dark:bg-sky-950/30', text: 'text-sky-700 dark:text-sky-300' },
 };
 
 const categoryLabels: Record<string, string> = {
@@ -69,15 +69,15 @@ function ExpandableSection({
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex w-full min-h-[48px] items-center gap-3 rounded-2xl border bg-gradient-to-r p-3.5 text-left transition-all",
+          "flex w-full min-h-[48px] items-center gap-3 rounded-[28px] bg-gradient-to-r p-3.5 text-left transition-all",
           gradientFrom,
           gradientTo,
           borderColor,
-          isOpen && "shadow-md"
+          isOpen && ""
         )}
         whileTap={{ scale: 0.98 }}
       >
-        <div className={cn("rounded-xl p-2", iconColor)}>
+        <div className={cn("rounded-2xl p-2", iconColor)}>
           <Icon size={18} />
         </div>
         <span className="flex-1 text-sm font-bold text-gray-700 dark:text-gray-200">
@@ -100,7 +100,7 @@ function ExpandableSection({
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="rounded-2xl border border-orange-100 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 mt-2 p-4 shadow-sm">
+            <div className="rounded-[28px] border border-gray-100 bg-white dark:border-gray-700/50 dark:bg-gray-800 mt-2 p-4">
               {children}
             </div>
           </motion.div>
@@ -156,10 +156,9 @@ function IngredientChip({ ingredient, isNew }: { ingredient: IngredientInfo; isN
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        "inline-flex items-center gap-1 rounded-xl border px-2.5 py-1.5 text-[11px] font-medium relative",
+        "inline-flex items-center gap-1 rounded-2xl px-2.5 py-1.5 text-[11px] font-medium relative",
         colors.bg,
         colors.text,
-        colors.border,
         isNew && "ring-2 ring-orange-300 dark:ring-orange-600"
       )}
     >
@@ -194,7 +193,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
   if (month < 4) {
     return (
       <div className="mx-4 mb-4">
-        <div className="rounded-2xl border border-orange-200/50 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 dark:border-orange-800/30 p-5 text-center">
+        <div className="rounded-[28px] bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 dark:p-5 text-center">
           <span className="text-3xl mb-2 block">🍼</span>
           <p className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">
             아직 이유식 시작 전이에요
@@ -216,10 +215,10 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="rounded-2xl border border-orange-200/50 dark:border-orange-800/30 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-950/20 dark:via-amber-950/20 dark:to-yellow-950/20 p-4 shadow-sm"
+        className="rounded-[28px] dark:bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-950/20 dark:via-amber-950/20 dark:to-yellow-950/20 p-4 "
       >
         <div className="flex items-center gap-2 mb-3">
-          <div className="rounded-xl bg-orange-100 dark:bg-orange-900/50 p-2">
+          <div className="rounded-2xl bg-orange-100 dark:bg-orange-900/50 p-2">
             <UtensilsCrossed size={20} className="text-orange-500 dark:text-orange-400" />
           </div>
           <div>
@@ -272,10 +271,10 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="rounded-2xl border border-green-200/50 dark:border-green-800/30 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 p-4 shadow-sm"
+        className="rounded-[28px] dark:bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 p-4 "
       >
         <div className="flex items-center gap-2 mb-3">
-          <div className="rounded-xl bg-green-100 dark:bg-green-900/50 p-2">
+          <div className="rounded-2xl bg-green-100 dark:bg-green-900/50 p-2">
             <Leaf size={18} className="text-green-500 dark:text-green-400" />
           </div>
           <div className="flex-1">
@@ -314,7 +313,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-3 mt-3 pt-2.5 border-t border-green-200/50 dark:border-green-800/30">
+        <div className="flex items-center gap-3 mt-3 pt-2.5">
           <span className="inline-flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400">
             <Sparkles size={10} className="text-orange-400" /> 이번 달 새 재료
           </span>
@@ -337,7 +336,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
             iconColor="bg-amber-100 dark:bg-amber-900/50 text-amber-500 dark:text-amber-400"
             gradientFrom="from-amber-50 dark:from-amber-950/20"
             gradientTo="to-orange-50 dark:to-orange-950/20"
-            borderColor="border-amber-200/50 dark:border-amber-800/30"
+            borderColor=""
           >
             {/* Cooking Tips */}
             <div className="mb-4">
@@ -414,7 +413,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
           iconColor="bg-red-100 dark:bg-red-900/50 text-red-500 dark:text-red-400"
           gradientFrom="from-red-50 dark:from-red-950/20"
           gradientTo="to-rose-50 dark:to-rose-950/20"
-          borderColor="border-red-200/50 dark:border-red-800/30"
+          borderColor=""
         >
           <div className="mb-3">
             <FormattedContent content={guide.allergyGuide.description} className="text-[12px]" />
@@ -429,7 +428,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
               {guide.allergyGuide.highRiskFoods.map((food, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1 rounded-full bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 px-2.5 py-1 text-[11px] font-medium text-red-700 dark:text-red-300"
+                  className="inline-flex items-center gap-1 rounded-full bg-red-50 dark:bg-red-950/30 dark:px-2.5 py-1 text-[11px] font-medium text-red-700 dark:text-red-300"
                 >
                   <AlertTriangle size={10} />
                   {food}
@@ -439,7 +438,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
           </div>
 
           {/* Testing Method */}
-          <div className="mb-4 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-800/30 p-3">
+          <div className="mb-4 rounded-2xl bg-amber-50 dark:bg-amber-950/20 dark:p-3">
             <p className="text-[11px] font-bold text-amber-700 dark:text-amber-300 mb-1 flex items-center gap-1">
               <Lightbulb size={12} /> 알레르기 테스트 방법
             </p>
@@ -480,7 +479,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
           iconColor="bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400"
           gradientFrom="from-yellow-50 dark:from-yellow-950/20"
           gradientTo="to-amber-50 dark:to-amber-950/20"
-          borderColor="border-yellow-200/50 dark:border-yellow-800/30"
+          borderColor=""
         >
           <div className="space-y-2">
             {guide.generalTips.map((tip, idx) => (

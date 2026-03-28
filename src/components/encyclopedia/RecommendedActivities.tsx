@@ -48,10 +48,10 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
       <motion.button
         onClick={() => setIsExpanded(!isExpanded)}
         className={cn(
-          "w-full rounded-2xl border text-left transition-all",
-          "bg-gradient-to-br from-white to-sky-50/50 border-sky-100/60 shadow-sm",
-          "dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700",
-          isExpanded && "shadow-md border-sky-200/80 dark:border-cyan-800/60"
+          "w-full rounded-[28px] text-left transition-all",
+          "bg-gradient-to-br from-white to-sky-50/50 ",
+          "dark:from-gray-800 dark:to-gray-800/80",
+          isExpanded && ""
         )}
         whileTap={{ scale: 0.985 }}
       >
@@ -59,7 +59,7 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
         <div className="flex items-center gap-3 p-4">
           <div
             className={cn(
-              "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-xl",
+              "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-xl",
               "bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-900/30 dark:to-teal-900/30"
             )}
           >
@@ -122,8 +122,8 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
                           key={mat}
                           className={cn(
                             "inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs",
-                            "bg-teal-50 text-teal-700 border border-teal-100",
-                            "dark:bg-teal-900/30 dark:text-teal-300 dark:border-teal-800/50"
+                            "bg-teal-50 text-teal-700 ",
+                            "dark:bg-teal-900/30 dark:text-teal-300"
                           )}
                         >
                           🧸 {mat}

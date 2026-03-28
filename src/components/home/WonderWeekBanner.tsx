@@ -26,7 +26,7 @@ export default function WonderWeekBanner({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.97, y: -8 }}
           transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-          className="relative overflow-hidden rounded-2xl border border-amber-200/50 bg-amber-50 p-4 dark:border-amber-800/40 dark:bg-amber-950/30"
+          className="relative overflow-hidden rounded-[28px] border border-amber-200/40 bg-amber-50 p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-amber-800/30 dark:bg-amber-950/30"
         >
           <div className="flex items-start gap-3 pr-8">
             <div className="shrink-0 flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/50">
@@ -54,7 +54,7 @@ export default function WonderWeekBanner({
 
           <button
             onClick={() => setDismissed(true)}
-            className="absolute right-2 top-2 rounded-full p-1.5 text-gray-300 transition-colors hover:bg-gray-100 hover:text-gray-500 dark:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-400"
+            className="absolute right-2 top-2 rounded-full p-1.5 text-gray-300 transition-colors active:bg-gray-100 active:text-gray-500 dark:text-gray-600 dark:active:bg-gray-800 dark:active:text-gray-400"
             aria-label="닫기"
           >
             <X size={14} />

@@ -10,12 +10,12 @@ import {
 } from "@/lib/data/daily-schedule-data";
 
 const typeColors: Record<string, string> = {
-  sleep: "bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-700",
-  feed: "bg-pink-100 text-pink-700 border-pink-200 dark:bg-pink-900/40 dark:text-pink-300 dark:border-pink-700",
-  play: "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700",
-  bath: "bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-300 dark:border-cyan-700",
-  nap: "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/40 dark:text-purple-300 dark:border-purple-700",
-  meal: "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-700",
+  sleep: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300",
+  feed: "bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300",
+  play: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+  bath: "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300",
+  nap: "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300",
+  meal: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
 };
 
 const barColors: Record<string, string> = {
@@ -28,12 +28,12 @@ const barColors: Record<string, string> = {
 };
 
 const dotColors: Record<string, string> = {
-  sleep: "bg-indigo-400 border-indigo-300",
-  feed: "bg-pink-400 border-pink-300",
-  play: "bg-blue-400 border-blue-300",
-  bath: "bg-cyan-400 border-cyan-300",
-  nap: "bg-purple-400 border-purple-300",
-  meal: "bg-amber-400 border-amber-300",
+  sleep: "bg-indigo-400",
+  feed: "bg-pink-400",
+  play: "bg-blue-400",
+  bath: "bg-cyan-400",
+  nap: "bg-purple-400",
+  meal: "bg-amber-400",
 };
 
 const typeLabels: Record<string, string> = {
@@ -109,15 +109,15 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
   const hasTimedSchedule = schedule.wakeUp !== "—";
 
   return (
-    <div className="mx-4 mb-4">
+    <div className="mx-4 mb-5">
       {/* Header button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex w-full min-h-[56px] items-center gap-3 rounded-2xl border bg-gradient-to-r p-4 text-left transition-all",
-          "from-violet-50 to-indigo-50 border-violet-200/50",
-          "dark:from-violet-950/50 dark:to-indigo-950/50 dark:border-violet-700/50",
-          isOpen && "shadow-md"
+          "flex w-full min-h-[56px] items-center gap-3 rounded-[28px] bg-gradient-to-r p-4 text-left transition-all",
+          "from-violet-50 to-indigo-50",
+          "dark:from-violet-950/50 dark:to-indigo-950/50",
+          isOpen && "shadow-md ring-1 ring-black/5"
         )}
         whileTap={{ scale: 0.98 }}
       >
@@ -152,7 +152,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="rounded-2xl border border-violet-100 bg-white/80 mt-2 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+            <div className="rounded-[28px] border border-gray-100 bg-white mt-2 p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800/80">
               {/* === 24-Hour Visual Timeline Bar === */}
               {hasTimedSchedule && segments.length > 0 && (
                 <div className="mb-4">
@@ -276,8 +276,8 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                       <div className="flex flex-col items-center pt-1">
                         <div
                           className={cn(
-                            "h-3 w-3 rounded-full border-2 shrink-0",
-                            dotColors[item.type] || "bg-gray-400 border-gray-300"
+                            "h-3 w-3 rounded-full shrink-0 ring-2 ring-white dark:ring-gray-800",
+                            dotColors[item.type] || "bg-gray-400"
                           )}
                         />
                         {idx < schedule.items.length - 1 && (
@@ -298,9 +298,9 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                             setExpandedIdx(isExpanded ? null : idx)
                           }
                           className={cn(
-                            "w-full rounded-xl border px-3 py-2 text-left transition-all",
+                            "w-full rounded-xl px-3 py-2 text-left transition-all",
                             typeColors[item.type] ||
-                              "bg-gray-100 text-gray-700 border-gray-200"
+                              "bg-gray-100 text-gray-700"
                           )}
                           whileTap={{ scale: 0.98 }}
                         >
@@ -332,7 +332,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                               transition={{ duration: 0.2 }}
                               className="overflow-hidden"
                             >
-                              <div className="mt-1.5 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200/50 dark:border-yellow-700/30 px-3 py-2">
+                              <div className="mt-1.5 rounded-lg bg-yellow-50/80 dark:bg-yellow-900/20 px-3 py-2">
                                 <p className="text-[12px] text-yellow-800 dark:text-yellow-300 leading-relaxed">
                                   {"💡"} {item.tip}
                                 </p>

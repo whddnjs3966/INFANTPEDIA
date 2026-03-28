@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Baby,
@@ -10,20 +10,20 @@ import {
   Ruler,
   BookOpen,
   Sparkles,
-  Clock,
   Droplets,
-  BedDouble,
-  Sun,
   Heart,
   Star,
   Calendar,
+  Camera,
 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getMonthInfo, getWonderWeeks } from "@/lib/queries/months";
 import { getVaccinationsForMonth } from "@/lib/data/growth-data";
 import { useVaccinationStore } from "@/lib/store/vaccination-store";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
+import { resizeImage } from "@/lib/utils/resize-image";
 import WonderWeekBanner from "@/components/home/WonderWeekBanner";
 import FormattedContent from "@/components/ui/FormattedContent";
 import { DashboardSkeleton } from "@/components/ui/LoadingSkeleton";
@@ -55,6 +55,10 @@ export default function HomePage() {
   const getDaysOld = useBabyStore((s) => s.getDaysOld);
   const getMonthsOld = useBabyStore((s) => s.getMonthsOld);
   const getRealMonthsOld = useBabyStore((s) => s.getRealMonthsOld);
+
+  const babyPhotos = useBabyStore((s) => s.babyPhotos);
+  const setBabyPhoto = useBabyStore((s) => s.setBabyPhoto);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [monthData, setMonthData] = useState<MonthData | null>(null);
   const [wonderWeeks, setWonderWeeks] = useState<WonderWeekData[]>([]);
@@ -93,6 +97,21 @@ export default function HomePage() {
     fetchData();
   }, [months, days]);
 
+  const photoUrl = profile && babyPhotos ? babyPhotos[profile.id] : undefined;
+
+  const handlePhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !profile) return;
+    try {
+      const dataUrl = await resizeImage(file, 256, 0.85);
+      setBabyPhoto(profile.id, dataUrl);
+    } catch {
+      // silently ignore
+    }
+    // Reset input so the same file can be re-selected
+    e.target.value = "";
+  };
+
   if (!profile) return null;
 
   const container = {
@@ -109,7 +128,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/80 dark:bg-gray-950">
+    <div className="min-h-screen dark:bg-gray-950">
       <div className="px-4 pt-6 pb-6">
         {/* Header */}
         <motion.div
@@ -118,10 +137,10 @@ export default function HomePage() {
           transition={{ duration: 0.4 }}
           className="mb-6"
         >
-          <p className="text-sm font-medium text-gray-400 dark:text-gray-500">
+          <p className="text-[13px] font-medium text-gray-400 dark:text-gray-500">
             오늘도 함께하는 육아
           </p>
-          <h1 className="mt-1 text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+          <h1 className="mt-1 text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">
             안녕하세요, {profile.name} 부모님
           </h1>
         </motion.div>
@@ -138,9 +157,9 @@ export default function HomePage() {
             {/* Hero D-day Card */}
             <motion.div
               variants={child}
-              className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-500 p-6 pb-5 text-white shadow-xl shadow-purple-500/25"
+              className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-500 p-6 pb-5 text-white shadow-xl shadow-purple-500/20"
             >
-              {/* Decorative background elements */}
+              {/* Decorative elements */}
               <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-sm" />
               <div className="absolute right-16 top-4 h-20 w-20 rounded-full bg-fuchsia-400/15 blur-md" />
               <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-violet-400/10 blur-sm" />
@@ -148,7 +167,6 @@ export default function HomePage() {
               <div className="absolute top-8 left-[40%] h-2 w-2 rounded-full bg-white/20" />
 
               <div className="relative z-10">
-                {/* Top row: label + baby icon */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <motion.div
@@ -161,12 +179,41 @@ export default function HomePage() {
                       {profile.name}의 성장 여정
                     </p>
                   </div>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm border border-white/10">
-                    <Baby size={28} className="text-white/90" />
-                  </div>
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="relative flex flex-col items-center gap-1 shrink-0 active:scale-95 transition-transform"
+                  >
+                    <div className="relative h-16 w-16 rounded-full bg-white/15 backdrop-blur-sm overflow-hidden ring-2 ring-white/30">
+                      {photoUrl ? (
+                        <Image
+                          src={photoUrl}
+                          alt={profile.name}
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center">
+                          <Camera size={24} className="text-white/70" />
+                        </div>
+                      )}
+                      <div className="absolute bottom-0 right-0 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-md border-2 border-purple-400">
+                        <Camera size={11} className="text-purple-600" />
+                      </div>
+                    </div>
+                    {!photoUrl && (
+                      <span className="text-[10px] font-medium text-white/60">사진 등록</span>
+                    )}
+                  </button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handlePhotoSelect}
+                  />
                 </div>
 
-                {/* D-day number */}
                 <div className="flex items-baseline gap-2">
                   <motion.span
                     className="text-[56px] font-black tracking-tighter leading-none"
@@ -180,7 +227,6 @@ export default function HomePage() {
                   <span className="text-lg font-bold text-white/40 mb-1">일</span>
                 </div>
 
-                {/* Sub info row */}
                 <div className="mt-3 flex items-center gap-2.5">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white/90">
                     <Calendar size={12} />
@@ -192,7 +238,6 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                {/* Month progress bar */}
                 <div className="mt-4">
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[11px] font-medium text-white/50">
@@ -235,7 +280,7 @@ export default function HomePage() {
             {isOver12 && (
               <motion.div
                 variants={child}
-                className="rounded-2xl border border-purple-200/50 bg-purple-50/60 p-4 dark:border-purple-900/40 dark:bg-purple-950/30"
+                className="rounded-[28px] border border-purple-200/40 bg-purple-50 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.06)] dark:border-purple-800/30 dark:bg-purple-950/30"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-purple-100 dark:bg-purple-900/50">
@@ -258,7 +303,7 @@ export default function HomePage() {
             {error ? (
               <motion.div
                 variants={child}
-                className="rounded-2xl border border-gray-200 bg-white p-6 text-center dark:border-gray-800 dark:bg-gray-900"
+                className="rounded-[28px] bg-gray-100 p-6 text-center dark:bg-gray-800/50"
               >
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   {error}
@@ -269,284 +314,249 @@ export default function HomePage() {
               </motion.div>
             ) : (
               <>
-                {/* Feeding Card */}
-                <motion.div
-                  variants={child}
-                  className="rounded-2xl border border-rose-200 bg-rose-50/60 p-5 shadow-md shadow-rose-100/50 dark:border-rose-800/50 dark:bg-rose-950/30 dark:shadow-rose-950/20"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-100 dark:bg-rose-900/50">
-                      <Droplets size={20} className="text-rose-500" />
-                    </div>
-                    <div>
+                {/* Feeding & Sleep Cards */}
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Feeding Card */}
+                  <motion.div
+                    variants={child}
+                    whileTap={{ scale: 0.97 }}
+                    className="rounded-[28px] border border-violet-200/40 bg-white p-4 shadow-[0_2px_16px_rgb(0,0,0,0.05)] dark:border-violet-800/30 dark:bg-gray-900"
+                  >
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 dark:bg-violet-950/40">
+                        <Baby size={18} className="text-violet-500" />
+                      </div>
                       <h3 className="text-[15px] font-bold text-gray-900 dark:text-white">
-                        수유 정보
+                        수유 권장량
                       </h3>
-                      <p className="text-xs text-gray-400 dark:text-gray-500">
-                        {months}개월 권장 기준
+                    </div>
+
+                    {/* Key metric */}
+                    <div className="mb-3.5">
+                      <p className="text-[11px] font-medium text-gray-400 dark:text-gray-500 mb-0.5">하루 총량</p>
+                      <p className="text-[22px] font-extrabold text-violet-600 dark:text-violet-400 leading-tight tracking-tight">
+                        {monthData?.daily_feed_total ? `${monthData.daily_feed_total}ml` : "-"}
                       </p>
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-3 gap-3">
-                    <StatItem
-                      label="1회 수유량"
-                      value={
-                        monthData?.feed_amount_min != null &&
-                        monthData?.feed_amount_max != null
-                          ? `${monthData.feed_amount_min}~${monthData.feed_amount_max}`
-                          : "-"
-                      }
-                      unit="ml"
-                      accent="text-rose-500"
-                    />
-                    <StatItem
-                      label="하루 총량"
-                      value={
-                        monthData?.daily_feed_total
-                          ? String(monthData.daily_feed_total)
-                          : "-"
-                      }
-                      unit="ml"
-                      accent="text-rose-500"
-                    />
-                    <StatItem
-                      label="수유 횟수"
-                      value={monthData?.feed_count || "-"}
-                      unit="회/일"
-                      accent="text-rose-500"
-                    />
-                  </div>
-                </motion.div>
-
-                {/* Sleep Card */}
-                <motion.div
-                  variants={child}
-                  className="rounded-2xl border border-indigo-200 bg-indigo-50/60 p-5 shadow-md shadow-indigo-100/50 dark:border-indigo-800/50 dark:bg-indigo-950/30 dark:shadow-indigo-950/20"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-900/50">
-                      <Moon size={20} className="text-indigo-500" />
+                    {/* Sub metrics */}
+                    <div className="space-y-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[12px] text-gray-400 dark:text-gray-500">1회량</span>
+                        <span className="text-[13px] font-bold text-gray-700 dark:text-gray-300">
+                          {monthData?.feed_amount_min != null ? `${monthData.feed_amount_min}~${monthData.feed_amount_max}ml` : "-"}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[12px] text-gray-400 dark:text-gray-500">횟수</span>
+                        <span className="text-[13px] font-bold text-gray-700 dark:text-gray-300">
+                          {monthData?.feed_count ? (monthData.feed_count.includes("회") ? monthData.feed_count : `${monthData.feed_count}회`) : "-"}
+                        </span>
+                      </div>
                     </div>
-                    <div>
+                  </motion.div>
+
+                  {/* Sleep Card */}
+                  <motion.div
+                    variants={child}
+                    whileTap={{ scale: 0.97 }}
+                    className="rounded-[28px] border border-sky-200/40 bg-white p-4 shadow-[0_2px_16px_rgb(0,0,0,0.05)] dark:border-sky-800/30 dark:bg-gray-900"
+                  >
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 dark:bg-sky-950/40">
+                        <Moon size={18} className="text-sky-500" />
+                      </div>
                       <h3 className="text-[15px] font-bold text-gray-900 dark:text-white">
-                        수면 정보
+                        수면 가이드
                       </h3>
-                      <p className="text-xs text-gray-400 dark:text-gray-500">
-                        {months}개월 권장 수면량
+                    </div>
+
+                    {/* Key metric */}
+                    <div className="mb-3.5">
+                      <p className="text-[11px] font-medium text-gray-400 dark:text-gray-500 mb-0.5">총 수면</p>
+                      <p className="text-[22px] font-extrabold text-sky-600 dark:text-sky-400 leading-tight tracking-tight">
+                        {monthData?.total_sleep_hours ? `${monthData.total_sleep_hours}h` : "-"}
                       </p>
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-3 gap-3">
-                    <StatItem
-                      label="총 수면"
-                      value={monthData?.total_sleep_hours || "-"}
-                      unit="시간"
-                      accent="text-indigo-500"
-                    />
-                    <StatItem
-                      label="낮잠"
-                      value={monthData?.nap_count || "-"}
-                      unit="회/일"
-                      accent="text-indigo-500"
-                    />
-                    <StatItem
-                      label="활동 시간"
-                      value={
-                        monthData?.wake_window_min != null &&
-                        monthData?.wake_window_max != null
-                          ? `${monthData.wake_window_min}~${monthData.wake_window_max}`
-                          : "-"
-                      }
-                      unit="분"
-                      accent="text-indigo-500"
-                    />
-                  </div>
-                </motion.div>
+                    {/* Sub metrics */}
+                    <div className="space-y-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[12px] text-gray-400 dark:text-gray-500">낮잠</span>
+                        <span className="text-[13px] font-bold text-gray-700 dark:text-gray-300">
+                          {monthData?.nap_count ? (monthData.nap_count.includes("회") ? monthData.nap_count : `${monthData.nap_count}회`) : "-"}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[12px] text-gray-400 dark:text-gray-500">활동 시간</span>
+                        <span className="text-[13px] font-bold text-gray-700 dark:text-gray-300">
+                          {monthData?.wake_window_min != null ? `${monthData.wake_window_min}~${monthData.wake_window_max}분` : "-"}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="space-y-3">
+                  {/* Growth Record */}
+                  <motion.button
+                    variants={child}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => router.push("/growth")}
+                    className="w-full rounded-[24px] border border-cyan-200/40 bg-cyan-50/50 p-4 text-left shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-cyan-800/30 dark:bg-cyan-950/20"
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/80 dark:bg-cyan-950/40">
+                        <Ruler size={20} className="text-cyan-500" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[15px] font-bold text-gray-900 dark:text-white">
+                          성장 현황
+                        </p>
+                        {latestMeasurement ? (
+                          <>
+                            <div className="mt-1.5 flex items-center gap-2">
+                              {latestMeasurement.height && (
+                                <span className="rounded-lg bg-white/80 dark:bg-cyan-950/30 px-2 py-0.5 text-[12px] font-semibold text-cyan-700 dark:text-cyan-400">
+                                  키 {latestMeasurement.height}cm
+                                </span>
+                              )}
+                              {latestMeasurement.weight && (
+                                <span className="rounded-lg bg-white/80 dark:bg-cyan-950/30 px-2 py-0.5 text-[12px] font-semibold text-cyan-700 dark:text-cyan-400">
+                                  몸무게 {latestMeasurement.weight}kg
+                                </span>
+                              )}
+                            </div>
+                            <p className="mt-1 text-[11px] text-gray-400 dark:text-gray-500">
+                              {latestMeasurement.month}개월 기록 기준
+                            </p>
+                          </>
+                        ) : (
+                          <p className="mt-0.5 text-[13px] text-gray-400 dark:text-gray-500">
+                            탭하여 키·몸무게를 기록하세요
+                          </p>
+                        )}
+                      </div>
+                      <ChevronRight size={18} className="shrink-0 text-cyan-400/60 dark:text-cyan-500/40" />
+                    </div>
+                  </motion.button>
+
+                  {/* Vaccination Alert */}
+                  {(() => {
+                    const upcoming = getVaccinationsForMonth(months);
+                    const incomplete = upcoming.filter(
+                      (u) =>
+                        !vaccinationRecords.some(
+                          (r) =>
+                            r.vaccineId === u.vaccine.id &&
+                            r.doseNumber === u.dose.doseNumber
+                        )
+                    );
+                    if (incomplete.length === 0) return null;
+                    return (
+                      <motion.button
+                        variants={child}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => router.push("/growth?tab=vaccination")}
+                        className="w-full rounded-[24px] border border-amber-200/40 bg-amber-50/50 p-4 text-left shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-amber-800/30 dark:bg-amber-950/20"
+                      >
+                        <div className="flex items-center gap-3.5">
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/80 dark:bg-amber-900/40">
+                            <Syringe size={20} className="text-amber-500" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className="text-[15px] font-bold text-gray-900 dark:text-white">
+                                예방접종 알림
+                              </p>
+                              <span className="rounded-full bg-amber-500 px-1.5 py-0.5 text-[10px] font-bold text-white leading-none">
+                                {incomplete.length}건
+                              </span>
+                            </div>
+                            <p className="mt-0.5 text-[13px] font-medium text-amber-600/90 dark:text-amber-400/90 truncate">
+                              {incomplete[0].vaccine.name}({incomplete[0].vaccine.nameEn}) {incomplete[0].dose.doseNumber}차
+                            </p>
+                            {incomplete.length > 1 && (
+                              <p className="mt-0.5 text-[11px] text-gray-400 dark:text-gray-500">
+                                외 {incomplete.length - 1}건 접종 필요
+                              </p>
+                            )}
+                          </div>
+                          <ChevronRight size={18} className="shrink-0 text-amber-400/60" />
+                        </div>
+                      </motion.button>
+                    );
+                  })()}
+                </div>
+
+                {/* Monthly Summary Card */}
+                {monthData?.summary && (
+                  <motion.div
+                    variants={child}
+                    className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_2px_16px_rgb(0,0,0,0.05)] dark:border-gray-700/50 dark:bg-gray-900"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/40">
+                        <BookOpen size={18} className="text-emerald-500" />
+                      </div>
+                      <h3 className="text-[15px] font-bold text-gray-900 dark:text-white">
+                        {months}개월 발달 요약
+                      </h3>
+                    </div>
+
+                    <FormattedContent content={monthData.summary} />
+
+                    {/* Development milestones */}
+                    <div className="mt-4 grid grid-cols-2 gap-2.5">
+                      <div className="rounded-2xl bg-gray-50 dark:bg-gray-800/60 p-3.5">
+                        <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 mb-1">
+                          대근육 발달
+                        </p>
+                        <p className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+                          {months <= 1
+                            ? "고개 들기 연습"
+                            : months <= 3
+                              ? "목 가누기"
+                              : months <= 5
+                                ? "뒤집기"
+                                : months <= 7
+                                  ? "혼자 앉기"
+                                  : months <= 9
+                                    ? "기어다니기"
+                                    : months <= 11
+                                      ? "붙잡고 서기"
+                                      : "첫 걸음마"}
+                        </p>
+                      </div>
+                      <div className="rounded-2xl bg-gray-50 dark:bg-gray-800/60 p-3.5">
+                        <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 mb-1">
+                          언어 발달
+                        </p>
+                        <p className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+                          {months <= 1
+                            ? "울음으로 소통"
+                            : months <= 3
+                              ? "옹알이 시작"
+                              : months <= 5
+                                ? "소리에 반응"
+                                : months <= 7
+                                  ? "모음 소리 내기"
+                                  : months <= 9
+                                    ? "자음 옹알이"
+                                    : months <= 11
+                                      ? "맘마·빠빠"
+                                      : "단어 1~3개"}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
               </>
-            )}
-
-            {/* Vaccination Alert */}
-            {(() => {
-              const upcoming = getVaccinationsForMonth(months);
-              const incomplete = upcoming.filter(
-                (u) =>
-                  !vaccinationRecords.some(
-                    (r) =>
-                      r.vaccineId === u.vaccine.id &&
-                      r.doseNumber === u.dose.doseNumber
-                  )
-              );
-              if (incomplete.length === 0) return null;
-              return (
-                <motion.button
-                  variants={child}
-                  onClick={() => router.push("/growth")}
-                  className="w-full rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left shadow-md shadow-amber-100/50 dark:border-amber-800/50 dark:bg-amber-950/30 dark:shadow-amber-950/20"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/50">
-                      <Syringe size={20} className="text-amber-600 dark:text-amber-400" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[15px] font-bold text-gray-900 dark:text-white">
-                        예방접종 안내
-                      </p>
-                      <p className="mt-0.5 text-sm text-amber-700 dark:text-amber-400 truncate">
-                        {months}개월:{" "}
-                        {incomplete
-                          .slice(0, 3)
-                          .map((u) => u.vaccine.nameEn)
-                          .join(", ")}
-                        {incomplete.length > 3 &&
-                          ` 외 ${incomplete.length - 3}건`}
-                      </p>
-                    </div>
-                    <ChevronRight
-                      size={18}
-                      className="shrink-0 text-amber-400"
-                    />
-                  </div>
-                </motion.button>
-              );
-            })()}
-
-            {/* Growth Record Card */}
-            <motion.button
-              variants={child}
-              onClick={() => router.push("/growth")}
-              className="w-full rounded-2xl border border-cyan-200 bg-cyan-50/60 p-4 text-left shadow-md shadow-cyan-100/50 dark:border-cyan-800/50 dark:bg-cyan-950/30 dark:shadow-cyan-950/20"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-100 dark:bg-cyan-900/50">
-                  <Ruler size={20} className="text-cyan-600 dark:text-cyan-400" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[15px] font-bold text-gray-900 dark:text-white">
-                    성장 기록
-                  </p>
-                  {latestMeasurement ? (
-                    <div className="mt-1.5 flex flex-wrap gap-2">
-                      {latestMeasurement.height && (
-                        <span className="inline-flex items-center gap-1 rounded-lg bg-white/70 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
-                          키 {latestMeasurement.height}cm
-                        </span>
-                      )}
-                      {latestMeasurement.weight && (
-                        <span className="inline-flex items-center gap-1 rounded-lg bg-white/70 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
-                          몸무게 {latestMeasurement.weight}kg
-                        </span>
-                      )}
-                      {latestMeasurement.headCircumference && (
-                        <span className="inline-flex items-center gap-1 rounded-lg bg-white/70 dark:bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
-                          머리둘레 {latestMeasurement.headCircumference}cm
-                        </span>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="mt-0.5 text-sm text-cyan-600/70 dark:text-cyan-400/70">
-                      탭하여 키·몸무게를 기록하세요
-                    </p>
-                  )}
-                </div>
-                <ChevronRight
-                  size={18}
-                  className="shrink-0 text-cyan-400 dark:text-cyan-600"
-                />
-              </div>
-            </motion.button>
-
-            {/* Monthly Summary Card */}
-            {monthData?.summary && (
-              <motion.div
-                variants={child}
-                className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-5 shadow-md shadow-emerald-100/50 dark:border-emerald-800/50 dark:bg-emerald-950/30 dark:shadow-emerald-950/20"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/50">
-                    <BookOpen size={20} className="text-emerald-500" />
-                  </div>
-                  <h3 className="text-[15px] font-bold text-gray-900 dark:text-white">
-                    {months}개월 발달 요약
-                  </h3>
-                </div>
-
-                <FormattedContent content={monthData.summary} />
-
-                {/* Development milestones */}
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl bg-white/70 dark:bg-gray-800/60 p-3.5">
-                    <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-1">
-                      대근육 발달
-                    </p>
-                    <p className="text-sm font-bold text-gray-800 dark:text-gray-100">
-                      {months <= 1
-                        ? "고개 들기 연습"
-                        : months <= 3
-                          ? "목 가누기"
-                          : months <= 5
-                            ? "뒤집기"
-                            : months <= 7
-                              ? "혼자 앉기"
-                              : months <= 9
-                                ? "기어다니기"
-                                : months <= 11
-                                  ? "붙잡고 서기"
-                                  : "첫 걸음마"}
-                    </p>
-                  </div>
-                  <div className="rounded-xl bg-white/70 dark:bg-gray-800/60 p-3.5">
-                    <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-1">
-                      언어 발달
-                    </p>
-                    <p className="text-sm font-bold text-gray-800 dark:text-gray-100">
-                      {months <= 1
-                        ? "울음으로 소통"
-                        : months <= 3
-                          ? "옹알이 시작"
-                          : months <= 5
-                            ? "소리에 반응"
-                            : months <= 7
-                              ? "모음 소리 내기"
-                              : months <= 9
-                                ? "자음 옹알이"
-                                : months <= 11
-                                  ? "맘마·빠빠"
-                                  : "단어 1~3개"}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
             )}
           </motion.div>
         )}
       </div>
-    </div>
-  );
-}
-
-/* Reusable stat item for the grid cells */
-function StatItem({
-  label,
-  value,
-  unit,
-  accent,
-}: {
-  label: string;
-  value: string;
-  unit: string;
-  accent: string;
-}) {
-  return (
-    <div className="rounded-xl bg-white/70 dark:bg-gray-800/50 p-2.5 text-center min-w-0">
-      <p className="text-[11px] font-medium text-gray-400 dark:text-gray-500 mb-1.5 truncate">
-        {label}
-      </p>
-      <p className="text-lg font-extrabold text-gray-900 dark:text-white leading-none truncate">
-        {value}
-      </p>
-      <p className={`text-[11px] font-semibold mt-1 ${accent}`}>{unit}</p>
     </div>
   );
 }

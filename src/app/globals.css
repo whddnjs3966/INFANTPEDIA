@@ -65,7 +65,7 @@ body {
   --pastel-yellow: #FFF0B5;
   --pastel-coral: #FFB5A8;
   --pastel-peach: #FFDAB5;
-  --cream-bg: #FFF8F0;
+  --cream-bg: #F5F0EB;
 }
 
 .dark {
@@ -139,9 +139,18 @@ body {
   body {
     @apply bg-background text-foreground;
     background-color: var(--cream-bg);
+    -webkit-user-select: none; /* Disable text selection */
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* Disable touch highlight */
+    overscroll-behavior-y: none; /* Disable rubber-banding */
   }
   html {
     @apply font-sans;
+  }
+  /* Re-enable selection for inputs so typing works */
+  input, textarea {
+    -webkit-user-select: auto;
+    user-select: auto;
   }
 }
 
@@ -234,9 +243,11 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card-3d:hover {
-  transform: translateY(-4px) rotateX(2deg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+@media (hover: hover) {
+  .card-3d:hover {
+    transform: translateY(-4px) rotateX(2deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  }
 }
 
 .card-3d:active {
@@ -296,23 +307,9 @@ body {
     0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
-/* Custom scrollbar */
+/* Hide all scrollbars for native app feel */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--pastel-pink);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  display: none;
 }
 
 /* Hide scrollbar for scroll-based pickers */

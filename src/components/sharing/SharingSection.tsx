@@ -222,7 +222,7 @@ export default function SharingSection() {
   return (
     <div className="space-y-4">
       {/* Share / Connected status */}
-      <div className="rounded-2xl border border-green-200/50 bg-white/80 dark:border-green-800/50 dark:bg-gray-800/80 p-5 shadow-sm">
+      <div className="rounded-[28px] border border-gray-100 bg-white dark:border-gray-700/50 dark:bg-gray-800 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
         <div className="mb-3 flex items-center gap-2">
           <div className="rounded-lg bg-green-100 p-2">
             <Share2 size={18} className="text-green-500" />
@@ -244,7 +244,7 @@ export default function SharingSection() {
                 </span>
                 <button
                   onClick={() => handleCopy(currentMapping.inviteCode)}
-                  className="rounded-lg p-1.5 text-green-500 hover:bg-green-100 dark:hover:bg-green-900/50"
+                  className="rounded-lg p-1.5 text-green-500 active:bg-green-100 dark:active:bg-green-900/50"
                 >
                   {copied ? <Check size={14} /> : <Copy size={14} />}
                 </button>
@@ -264,7 +264,7 @@ export default function SharingSection() {
                   "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2.5 text-xs font-medium transition-all",
                   syncStatus === "pushing"
                     ? "border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                    : "border-gray-200 text-gray-600 hover:border-blue-200 dark:border-gray-700 dark:text-gray-400 dark:hover:border-blue-800"
+                    : "border-gray-200 text-gray-600 active:border-blue-200 dark:border-gray-700 dark:text-gray-400 dark:active:border-blue-800"
                 )}
               >
                 <RefreshCw size={14} className={syncStatus === "pushing" ? "animate-spin" : ""} />
@@ -278,7 +278,7 @@ export default function SharingSection() {
                   "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2.5 text-xs font-medium transition-all",
                   syncStatus === "pulling"
                     ? "border-purple-300 bg-purple-50 text-purple-600 dark:border-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
-                    : "border-gray-200 text-gray-600 hover:border-purple-200 dark:border-gray-700 dark:text-gray-400 dark:hover:border-purple-800"
+                    : "border-gray-200 text-gray-600 active:border-purple-200 dark:border-gray-700 dark:text-gray-400 dark:active:border-purple-800"
                 )}
               >
                 <Download size={14} className={syncStatus === "pulling" ? "animate-spin" : ""} />
@@ -309,7 +309,7 @@ export default function SharingSection() {
             <Dialog>
               <DialogTrigger
                 render={
-                  <button className="flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-xs text-gray-400 hover:text-red-400" />
+                  <button className="flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-xs text-gray-400 active:text-red-400" />
                 }
               >
                 <Unlink size={12} />
@@ -359,7 +359,7 @@ export default function SharingSection() {
                   </span>
                   <button
                     onClick={() => handleCopy(generatedCode)}
-                    className="rounded-lg p-2 text-green-500 hover:bg-green-100 dark:hover:bg-green-900/50"
+                    className="rounded-lg p-2 text-green-500 active:bg-green-100 dark:active:bg-green-900/50"
                   >
                     {copied ? <Check size={16} /> : <Copy size={16} />}
                   </button>
@@ -390,7 +390,7 @@ export default function SharingSection() {
 
       {/* Join by invite code */}
       {!currentMapping && (
-        <div className="rounded-2xl border border-indigo-200/50 bg-white/80 dark:border-indigo-800/50 dark:bg-gray-800/80 p-5 shadow-sm">
+        <div className="rounded-[28px] border border-gray-100 bg-white dark:border-gray-700/50 dark:bg-gray-800 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
           <div className="mb-3 flex items-center gap-2">
             <div className="rounded-lg bg-indigo-100 p-2">
               <Link size={18} className="text-indigo-500" />
@@ -417,7 +417,7 @@ export default function SharingSection() {
             <Button
               onClick={handleJoin}
               disabled={loading || joinCode.length < 6}
-              className="h-11 rounded-xl bg-indigo-500 px-5 font-semibold text-white hover:bg-indigo-600"
+              className="h-11 rounded-xl bg-indigo-500 px-5 font-semibold text-white active:bg-indigo-600"
             >
               {loading ? <RefreshCw size={16} className="animate-spin" /> : "연결"}
             </Button>

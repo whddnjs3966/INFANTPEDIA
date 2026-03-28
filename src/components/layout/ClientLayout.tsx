@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { useThemeStore } from "@/lib/store/theme-store";
 import BottomTabBar from "./BottomTabBar";
+import SyncManager from "@/components/sync/SyncManager";
 import { useEffect, useState } from "react";
 
 export default function ClientLayout({
@@ -36,10 +37,23 @@ export default function ClientLayout({
   }, [theme]);
 
   useEffect(() => {
-    if (hydrated && !profile && pathname !== "/onboarding" && pathname !== "/login" && pathname !== "/privacy" && !pathname.startsWith("/auth")) {
+    if (
+      hydrated &&
+      !profile &&
+      pathname !== "/onboarding" &&
+      pathname !== "/login" &&
+      pathname !== "/privacy" &&
+      !pathname.startsWith("/auth") &&
+      !pathname.startsWith("/admin")
+    ) {
       router.replace("/onboarding");
     }
   }, [hydrated, profile, pathname, router]);
+
+  // Pass-through for admin routes without mobile constraints
+  if (pathname.startsWith("/admin")) {
+    return <main>{children}</main>;
+  }
 
   // Don't render until hydrated to avoid layout flash
   if (!hydrated) {
@@ -54,7 +68,10 @@ export default function ClientLayout({
   }
 
   const isOnboarding = pathname === "/onboarding";
-  const isSpecialPage = pathname === "/login" || pathname === "/privacy" || pathname.startsWith("/auth");
+  const isSpecialPage =
+    pathname === "/login" ||
+    pathname === "/privacy" ||
+    pathname.startsWith("/auth");
   const showTabBar = !!profile && !isOnboarding && !isSpecialPage;
 
   // Show loading while redirecting
@@ -74,6 +91,7 @@ export default function ClientLayout({
       className="mx-auto min-h-screen max-w-md"
       style={{ backgroundColor: "var(--cream-bg)" }}
     >
+      <SyncManager />
       <main className={showTabBar ? "pb-24" : ""}>{children}</main>
       {showTabBar && <BottomTabBar />}
     </div>

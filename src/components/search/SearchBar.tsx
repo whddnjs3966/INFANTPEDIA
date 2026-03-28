@@ -56,7 +56,7 @@ export default function SearchBar({ onSearch, initialValue = "" }: SearchBarProp
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sticky top-0 z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-4 pt-4 pb-3 border-b border-pink-100/50 dark:border-gray-700/50"
+      className="sticky top-0 z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-4 pt-4 pb-3"
     >
       <div className="flex items-center gap-3">
         <button

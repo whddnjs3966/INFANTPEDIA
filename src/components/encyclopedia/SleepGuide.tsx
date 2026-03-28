@@ -29,7 +29,7 @@ const difficultyConfig = {
     stars: 1,
     color: "text-green-500 dark:text-green-400",
     bg: "bg-green-50 dark:bg-green-950/30",
-    border: "border-green-200 dark:border-green-800",
+    
     badge: "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300",
     gradient: "from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30",
   },
@@ -38,7 +38,7 @@ const difficultyConfig = {
     stars: 2,
     color: "text-amber-500 dark:text-amber-400",
     bg: "bg-amber-50 dark:bg-amber-950/30",
-    border: "border-amber-200 dark:border-amber-800",
+    
     badge: "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300",
     gradient: "from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30",
   },
@@ -47,7 +47,7 @@ const difficultyConfig = {
     stars: 3,
     color: "text-red-500 dark:text-red-400",
     bg: "bg-red-50 dark:bg-red-950/30",
-    border: "border-red-200 dark:border-red-800",
+    
     badge: "bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300",
     gradient: "from-red-50 to-rose-50 dark:from-red-950/30 dark:to-rose-950/30",
   },
@@ -81,7 +81,7 @@ function SleepStatCard({
     <motion.div
       variants={itemVariants}
       className={cn(
-        "flex flex-1 flex-col items-center gap-1.5 rounded-2xl border border-indigo-200/50 bg-gradient-to-br p-3 shadow-sm dark:border-indigo-800/50",
+        "flex flex-1 flex-col items-center gap-1.5 rounded-[28px] bg-gradient-to-br p-3",
         gradient
       )}
     >
@@ -104,8 +104,7 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
     <motion.div
       variants={itemVariants}
       className={cn(
-        "overflow-hidden rounded-2xl border shadow-sm transition-shadow",
-        config.border,
+        "overflow-hidden rounded-[28px] transition-shadow",
         isOpen && "shadow-md"
       )}
     >
@@ -158,7 +157,7 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="space-y-4 border-t border-gray-100 bg-white/80 p-4 dark:border-gray-800 dark:bg-gray-900/50">
+            <div className="space-y-4 border border-gray-100 bg-white p-4 rounded-[28px] dark:border-gray-700/50 dark:bg-gray-900/50">
               <FormattedContent content={method.description} />
 
               <div>
@@ -227,8 +226,8 @@ function IssueAccordion({ issue }: { issue: SleepIssue }) {
     <motion.div
       variants={itemVariants}
       className={cn(
-        "overflow-hidden rounded-2xl border border-purple-200/50 shadow-sm transition-shadow dark:border-purple-800/50",
-        isOpen && "shadow-md"
+        "overflow-hidden rounded-[28px] transition-shadow",
+        isOpen && ""
       )}
     >
       <motion.button
@@ -257,7 +256,7 @@ function IssueAccordion({ issue }: { issue: SleepIssue }) {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="border-t border-purple-100 bg-white/80 px-4 py-3 dark:border-purple-900/50 dark:bg-gray-900/50">
+            <div className="border border-gray-100 bg-white px-4 py-3 rounded-2xl dark:border-gray-700/50 dark:bg-gray-900/50">
               <FormattedContent content={issue.solution} />
             </div>
           </motion.div>
@@ -330,7 +329,7 @@ export default function SleepGuide({ month }: SleepGuideProps) {
               <motion.span
                 key={i}
                 variants={itemVariants}
-                className="inline-flex items-center gap-1.5 rounded-full border border-amber-200/60 bg-gradient-to-r from-amber-50 to-orange-50 px-3 py-1.5 text-sm font-medium text-amber-800 shadow-sm dark:border-amber-800/60 dark:from-amber-950/30 dark:to-orange-950/30 dark:text-amber-200"
+                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 px-3 py-1.5 text-sm font-medium text-amber-800 dark:from-amber-950/30 dark:to-orange-950/30 dark:text-amber-200"
               >
                 <span>{signalEmojis[i % signalEmojis.length]}</span>
                 {signal}
@@ -352,7 +351,7 @@ export default function SleepGuide({ month }: SleepGuideProps) {
         {showMethodWarning && (
           <motion.div
             variants={itemVariants}
-            className="mb-4 flex items-start gap-3 rounded-2xl border border-blue-200/50 bg-gradient-to-r from-blue-50 to-sky-50 p-4 shadow-sm dark:border-blue-800/50 dark:from-blue-950/30 dark:to-sky-950/30"
+            className="mb-4 flex items-start gap-3 rounded-[28px] bg-gradient-to-r from-blue-50 to-sky-50 p-4 dark:from-blue-950/30 dark:to-sky-950/30"
           >
             <AlertCircle
               size={20}
@@ -404,7 +403,7 @@ export default function SleepGuide({ month }: SleepGuideProps) {
             <motion.div
               key={i}
               variants={itemVariants}
-              className="flex items-center gap-3 rounded-xl border border-indigo-100/50 bg-gradient-to-r from-indigo-50/50 to-purple-50/50 px-4 py-3 dark:border-indigo-900/50 dark:from-indigo-950/20 dark:to-purple-950/20"
+              className="flex items-center gap-3 rounded-2xl bg-gradient-to-r from-indigo-50/50 to-purple-50/50 px-4 py-3 dark:from-indigo-950/20 dark:to-purple-950/20"
             >
               <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-500 dark:bg-indigo-600">
                 <Check size={12} className="text-white" strokeWidth={3} />

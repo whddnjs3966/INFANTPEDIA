@@ -14,11 +14,14 @@ interface BabyStore {
   babies: BabyProfile[];
   activeBabyId: string | null;
   profile: BabyProfile | null;
+  babyPhotos: Record<string, string>; // babyId -> base64 data URL
   // Actions
   addBaby: (baby: Omit<BabyProfile, 'id'>) => void;
   updateBaby: (id: string, updates: Partial<Omit<BabyProfile, 'id'>>) => void;
   removeBaby: (id: string) => void;
   setActiveBaby: (id: string) => void;
+  setBabyPhoto: (id: string, dataUrl: string) => void;
+  removeBabyPhoto: (id: string) => void;
   clearAll: () => void;
   // Legacy compat
   setProfile: (profile: Omit<BabyProfile, 'id'>) => void;
@@ -53,6 +56,7 @@ export const useBabyStore = create<BabyStore>()(
       babies: [],
       activeBabyId: null,
       profile: null,
+      babyPhotos: {},
 
       addBaby: (baby) => {
         const id = generateId();
@@ -75,13 +79,23 @@ export const useBabyStore = create<BabyStore>()(
             s.activeBabyId === id
               ? newBabies[0]?.id || null
               : s.activeBabyId;
-          return withProfile({ babies: newBabies, activeBabyId: newActive });
+          const { [id]: _, ...restPhotos } = s.babyPhotos;
+          return { ...withProfile({ babies: newBabies, activeBabyId: newActive }), babyPhotos: restPhotos };
         }),
 
       setActiveBaby: (id) =>
         set((s) => withProfile({ babies: s.babies, activeBabyId: id })),
 
-      clearAll: () => set({ babies: [], activeBabyId: null, profile: null }),
+      setBabyPhoto: (id, dataUrl) =>
+        set((s) => ({ babyPhotos: { ...s.babyPhotos, [id]: dataUrl } })),
+
+      removeBabyPhoto: (id) =>
+        set((s) => {
+          const { [id]: _, ...rest } = s.babyPhotos;
+          return { babyPhotos: rest };
+        }),
+
+      clearAll: () => set({ babies: [], activeBabyId: null, profile: null, babyPhotos: {} }),
 
       // Legacy compat: setProfile adds or updates the first baby
       setProfile: (profile) => {
@@ -108,10 +122,20 @@ export const useBabyStore = create<BabyStore>()(
       getDaysOld: () => {
         const profile = getActiveProfile(get().babies, get().activeBabyId);
         if (!profile) return 0;
-        const birth = new Date(profile.birthdate);
-        const today = new Date();
+        // KST 정오(12:00) 기준으로 일수 계산
+        // KST = UTC+9, 정오 = UTC 03:00
+        const KST_OFFSET = 9 * 60; // minutes
+        const now = new Date();
+        const kstNow = new Date(now.getTime() + (KST_OFFSET + now.getTimezoneOffset()) * 60000);
+        // KST 정오를 기준일의 시작으로 삼음: 정오 전이면 전날로 취급
+        if (kstNow.getHours() < 12) {
+          kstNow.setDate(kstNow.getDate() - 1);
+        }
+        const kstToday = new Date(kstNow.getFullYear(), kstNow.getMonth(), kstNow.getDate());
+        const birth = new Date(profile.birthdate + 'T00:00:00');
+        const birthDate = new Date(birth.getFullYear(), birth.getMonth(), birth.getDate());
         return Math.floor(
-          (today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24)
+          (kstToday.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24)
         );
       },
 

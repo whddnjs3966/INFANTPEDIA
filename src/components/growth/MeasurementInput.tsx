@@ -131,7 +131,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
           <h3 className="text-base font-bold text-gray-800 dark:text-gray-100">
             실측 데이터 입력
           </h3>
-          <button onClick={onClose} className="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <button onClick={onClose} className="rounded-full p-2 active:bg-gray-100 dark:active:bg-gray-800">
             <X size={18} className="text-gray-400" />
           </button>
         </div>
@@ -146,7 +146,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                 onClick={() => setMonth(m)}
                 className={`min-w-[44px] rounded-full px-3 py-1.5 text-xs font-medium transition-all ${
                   month === m
-                    ? "bg-emerald-500 text-white shadow-sm"
+                    ? "bg-emerald-500 text-white "
                     : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                 }`}
               >
@@ -163,7 +163,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
+            className="w-full rounded-2xl bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-800 dark:text-gray-200 focus:outline-none"
           />
         </div>
 
@@ -178,7 +178,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
               value={height}
               onChange={(e) => setHeight(e.target.value)}
               placeholder="0.0"
-              className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
+              className="w-full rounded-2xl bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:outline-none"
             />
           </div>
           <div>
@@ -190,7 +190,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
               placeholder="0.0"
-              className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
+              className="w-full rounded-2xl bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:outline-none"
             />
           </div>
           <div>
@@ -202,7 +202,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
               value={headCirc}
               onChange={(e) => setHeadCirc(e.target.value)}
               placeholder="0.0"
-              className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
+              className="w-full rounded-2xl bg-white dark:bg-gray-800 px-3 py-2 text-center text-sm text-gray-800 dark:text-gray-200 focus:outline-none"
             />
           </div>
         </div>
@@ -216,14 +216,14 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
             placeholder="예: 아침 수유 후 측정"
             maxLength={100}
             rows={2}
-            className="w-full resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-800 dark:text-gray-200 focus:border-emerald-400 focus:outline-none"
+            className="w-full resize-none rounded-2xl bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-800 dark:text-gray-200 focus:outline-none"
           />
           <p className="mt-0.5 text-right text-[10px] text-gray-400 dark:text-gray-500">{memo.length}/100</p>
         </div>
 
         {/* Validation error */}
         {validationError && (
-          <div className="mb-3 rounded-xl bg-red-50 dark:bg-red-950/30 px-3 py-2 text-xs text-red-600 dark:text-red-400">
+          <div className="mb-3 rounded-2xl bg-red-50 dark:bg-red-950/30 px-3 py-2 text-xs text-red-600 dark:text-red-400">
             {validationError}
           </div>
         )}
@@ -234,12 +234,12 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
             whileTap={{ scale: 0.97 }}
             onClick={handleSave}
             disabled={!height && !weight && !headCirc}
-            className={`flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-all ${
+            className={`flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-sm font-semibold transition-all ${
               saved
                 ? "bg-emerald-500 text-white"
                 : !height && !weight && !headCirc
                 ? "bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-500"
-                : "bg-emerald-500 text-white shadow-md"
+                : "bg-emerald-500 text-white "
             }`}
           >
             <Save size={16} />

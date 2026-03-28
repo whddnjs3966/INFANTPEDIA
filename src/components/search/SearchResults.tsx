@@ -74,7 +74,7 @@ function ResultSkeleton() {
       {Array.from({ length: 4 }).map((_, i) => (
         <div
           key={i}
-          className="animate-pulse rounded-2xl border border-pink-100/50 dark:border-gray-700 bg-gradient-to-r from-pink-50/60 via-purple-50/40 to-pink-50/60 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 p-4"
+          className="animate-pulse rounded-[28px] bg-gradient-to-r from-pink-50/60 via-purple-50/40 to-pink-50/60 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 p-4"
         >
           <div className="flex gap-2 mb-2">
             <div className="h-5 w-12 rounded-full bg-pink-100/80" />
@@ -180,7 +180,7 @@ function ResultGroup({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.03 }}
-            className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm"
+            className="rounded-[28px] bg-white dark:bg-gray-800 p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
           >
             <div className="flex flex-wrap gap-1.5 mb-2">
               <span className="rounded-full bg-gray-100 dark:bg-gray-700 px-2.5 py-0.5 text-[11px] font-medium text-gray-600 dark:text-gray-300">

@@ -207,7 +207,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   return (
     <div className="space-y-4 pb-4">
       {/* Chart Type Toggle */}
-      <div className="flex gap-1.5 rounded-2xl bg-gray-100/80 dark:bg-gray-800 p-1.5">
+      <div className="flex gap-1.5 rounded-[20px] bg-gray-100/80 dark:bg-gray-800 p-1.5">
         {(["height", "weight", "head"] as ChartType[]).map((type) => {
           const Icon = chartConfig[type].icon;
           const isActive = chartType === type;
@@ -216,14 +216,14 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               key={type}
               onClick={() => setChartType(type)}
               className={cn(
-                "relative flex flex-1 items-center justify-center gap-1 rounded-xl py-2 text-xs font-medium transition-all",
+                "relative flex flex-1 items-center justify-center gap-1 rounded-2xl py-2 text-xs font-medium transition-all",
                 isActive ? "text-gray-800 dark:text-gray-100" : "text-gray-400 dark:text-gray-500"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="chart-type-bg"
-                  className="absolute inset-0 rounded-xl bg-white dark:bg-gray-700 shadow-sm"
+                  className="absolute inset-0 rounded-2xl bg-white dark:bg-gray-700 "
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -250,8 +250,8 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
             className={cn(
               "rounded-full px-3 py-1.5 text-xs font-medium transition-all",
               genderMode === key
-                ? `${activeClass} shadow-sm`
-                : "text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+                ? `${activeClass} `
+                : "text-gray-400 dark:text-gray-500"
             )}
           >
             {label}
@@ -304,7 +304,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       </AnimatePresence>
 
       {/* Chart */}
-      <div className="rounded-2xl bg-white dark:bg-gray-800 p-3 shadow-sm">
+      <div className="rounded-[24px] bg-white dark:bg-gray-900 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <ResponsiveContainer width="100%" height={240}>
           <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
             <defs>
@@ -423,7 +423,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       <motion.button
         whileTap={{ scale: 0.97 }}
         onClick={() => setShowInput(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:shadow-lg active:shadow-sm dark:from-emerald-600 dark:to-teal-600"
+        className="flex w-full items-center justify-center gap-2 rounded-[24px] bg-gradient-to-r from-emerald-500 to-teal-500 py-4 text-[15px] font-bold text-white shadow-[0_8px_20px_rgb(16,185,129,0.25)] transition-all active:from-emerald-600 active:to-teal-600"
       >
         <Plus size={18} strokeWidth={2.5} />
         우리 아기 실측 데이터 입력

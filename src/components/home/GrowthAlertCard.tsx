@@ -65,10 +65,9 @@ function GrowthAlertItem({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
       onClick={onPress}
-      className={`w-full rounded-2xl border ${styles.border} ${styles.bg} p-4 text-left shadow-sm`}
+      className={`w-full rounded-[28px] border ${styles.border} ${styles.bg} p-4 text-left shadow-[0_2px_12px_rgb(0,0,0,0.04)]`}
     >
       <div className="flex items-center gap-3">
         <span className={`rounded-xl ${styles.iconBg} p-2`}>

@@ -20,7 +20,7 @@ export function DashboardSkeleton() {
       <Skeleton className="h-36 w-full bg-gradient-to-r from-violet-100/60 via-purple-100/40 to-violet-100/60 dark:from-violet-900/20 dark:via-purple-900/10 dark:to-violet-900/20" />
 
       {/* Feeding card */}
-      <div className="rounded-2xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900 p-5">
+      <div className="rounded-[28px] bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
         <div className="flex items-center gap-3 mb-4">
           <Skeleton className="h-10 w-10 rounded-xl" />
           <Skeleton className="h-5 w-24" />
@@ -33,7 +33,7 @@ export function DashboardSkeleton() {
       </div>
 
       {/* Sleep card */}
-      <div className="rounded-2xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900 p-5">
+      <div className="rounded-[28px] bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
         <div className="flex items-center gap-3 mb-4">
           <Skeleton className="h-10 w-10 rounded-xl" />
           <Skeleton className="h-5 w-24" />

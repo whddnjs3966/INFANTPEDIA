@@ -64,7 +64,7 @@ export default function TipsPage() {
         className="px-4 pt-6 pb-3"
       >
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+          <h1 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
             꿀팁 {"\ud83d\udca1"}
           </h1>
           <button
@@ -101,7 +101,7 @@ export default function TipsPage() {
 
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
-        <div className="mx-4 mb-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/50 dark:border-purple-900/40 px-4 py-2.5">
+        <div className="mx-4 mb-3 rounded-[28px] bg-purple-50 dark:bg-purple-950/30 px-4 py-3 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
           <p className="text-xs text-gray-500 dark:text-gray-400">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>
@@ -116,7 +116,7 @@ export default function TipsPage() {
       {loading ? (
         <EncyclopediaSkeleton />
       ) : error ? (
-        <div className="mx-4 rounded-2xl border border-pink-200/50 bg-white/80 p-6 text-center">
+        <div className="mx-4 rounded-[28px] bg-white p-6 text-center shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:bg-gray-800">
           <p className="text-3xl">{"\ud83d\ude22"}</p>
           <p className="mt-2 text-sm text-gray-500">{error}</p>
           <p className="mt-1 text-xs text-gray-400">

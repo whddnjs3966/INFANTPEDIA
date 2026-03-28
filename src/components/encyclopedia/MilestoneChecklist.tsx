@@ -125,7 +125,7 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
   return (
     <div className="space-y-4 px-4 pb-4">
       {/* Overall Progress */}
-      <div className="rounded-2xl border border-gray-200/60 bg-white p-4 shadow-sm dark:border-gray-700/60 dark:bg-gray-800">
+      <div className="rounded-[28px] border border-gray-100 bg-white p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
         <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-gray-800 dark:text-gray-100">
@@ -137,7 +137,7 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
           </div>
           <button
             onClick={() => resetMonth(month)}
-            className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+            className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-gray-400 transition-colors active:bg-gray-100 active:text-gray-600 dark:active:bg-gray-700 dark:active:text-gray-300"
             title="이 월령 초기화"
           >
             <RotateCcw size={12} />
@@ -206,16 +206,15 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
             <motion.button
               onClick={() => toggleDomain(domain)}
               className={cn(
-                "flex w-full min-h-[56px] items-center gap-3 rounded-2xl border bg-gradient-to-r p-4 text-left transition-all",
+                "flex w-full min-h-[56px] items-center gap-3 rounded-[28px] bg-gradient-to-r p-4 text-left transition-all",
                 styles.bg,
-                styles.border,
                 isOpen && "shadow-md"
               )}
               whileTap={{ scale: 0.98 }}
             >
               <div
                 className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-xl text-lg",
+                  "flex h-10 w-10 items-center justify-center rounded-2xl text-lg",
                   styles.iconBg
                 )}
               >
@@ -300,10 +299,8 @@ function MilestoneItemRow({
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay }}
       className={cn(
-        "flex gap-3 rounded-xl border bg-white p-3.5 shadow-sm transition-all dark:bg-gray-800",
-        isCompleted
-          ? "border-gray-200/40 dark:border-gray-700/40"
-          : "border-gray-100 dark:border-gray-700"
+        "flex gap-3 rounded-2xl bg-white p-3.5 shadow-[0_2px_8px_rgb(0,0,0,0.04)] transition-all dark:bg-gray-800",
+        isCompleted && "opacity-80"
       )}
     >
       {/* Checkbox */}

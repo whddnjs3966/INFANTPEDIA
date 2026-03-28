@@ -25,7 +25,7 @@ const categories = [
     label: "수면 꿀팁",
     emoji: "\ud83d\ude34",
     icon: Moon,
-    color: "from-indigo-50 to-blue-50 border-indigo-200/50",
+    color: "from-indigo-50 to-blue-50",
     iconColor: "text-indigo-400 bg-indigo-100",
   },
   {
@@ -33,7 +33,7 @@ const categories = [
     label: "수유 꿀팁",
     emoji: "\ud83c\udf7c",
     icon: Baby,
-    color: "from-pink-50 to-rose-50 border-pink-200/50",
+    color: "from-pink-50 to-rose-50",
     iconColor: "text-pink-400 bg-pink-100",
   },
   {
@@ -41,7 +41,7 @@ const categories = [
     label: "울음 달래기",
     emoji: "\ud83d\ude2d",
     icon: Frown,
-    color: "from-amber-50 to-yellow-50 border-amber-200/50",
+    color: "from-amber-50 to-yellow-50",
     iconColor: "text-amber-400 bg-amber-100",
   },
   {
@@ -49,7 +49,7 @@ const categories = [
     label: "외출/여행",
     emoji: "\ud83e\uddf3",
     icon: Luggage,
-    color: "from-green-50 to-emerald-50 border-green-200/50",
+    color: "from-green-50 to-emerald-50",
     iconColor: "text-green-500 bg-green-100",
   },
 ];
@@ -66,7 +66,7 @@ export default function TipsCategoryAccordion({
 
   if (isLoading) {
     return (
-      <div className="space-y-3 px-4">
+      <div className="space-y-4 px-4">
         {categories.map((cat) => (
           <div
             key={cat.key}
@@ -78,7 +78,7 @@ export default function TipsCategoryAccordion({
   }
 
   return (
-    <div className="space-y-3 px-4">
+    <div className="space-y-4 px-4">
       {categories.map((cat) => {
         const catTips = tips.filter((t) => t.category === cat.key);
         const isOpen = openCategory === cat.key;
@@ -89,9 +89,9 @@ export default function TipsCategoryAccordion({
             <motion.button
               onClick={() => toggle(cat.key)}
               className={cn(
-                "flex w-full min-h-[56px] items-center gap-3 rounded-2xl border bg-gradient-to-r p-4 text-left transition-all",
+                "flex w-full min-h-[56px] items-center gap-3 rounded-[28px] bg-gradient-to-r p-4 text-left transition-all",
                 cat.color,
-                isOpen && "shadow-md"
+                isOpen && "shadow-md ring-1 ring-black/5"
               )}
               whileTap={{ scale: 0.98 }}
             >
@@ -102,11 +102,13 @@ export default function TipsCategoryAccordion({
                 <span className="text-base font-bold text-gray-700 dark:text-gray-200">
                   {cat.emoji} {cat.label}
                 </span>
-                <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                  {catTips.length > 0
-                    ? `${catTips.length}\uac1c \ud56d\ubaa9`
-                    : "\ub370\uc774\ud130 \uc5c6\uc74c"}
-                </span>
+                {catTips.length > 0 ? (
+                  <span className="ml-2 inline-flex items-center rounded-full bg-white/60 dark:bg-white/10 px-2 py-0.5 text-[11px] font-bold text-gray-500 dark:text-gray-400">
+                    {catTips.length}
+                  </span>
+                ) : (
+                  <span className="ml-2 text-[11px] text-gray-400 dark:text-gray-500">{"\ub370\uc774\ud130 \uc5c6\uc74c"}</span>
+                )}
               </div>
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
@@ -137,7 +139,7 @@ export default function TipsCategoryAccordion({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+                          className="rounded-[20px] border border-gray-100 bg-white p-4 shadow-[0_2px_8px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800"
                         >
                           <h4 className="text-base font-bold text-gray-800 dark:text-gray-100">
                             {tip.title}

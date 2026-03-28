@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, Syringe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBabyStore } from "@/lib/store/baby-store";
+import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const GrowthChart = dynamic(() => import("@/components/growth/GrowthChart"), { ssr: false });
@@ -13,7 +14,9 @@ const VaccinationSchedule = dynamic(() => import("@/components/growth/Vaccinatio
 type TabType = "growth" | "vaccination";
 
 export default function GrowthPage() {
-  const [activeTab, setActiveTab] = useState<TabType>("growth");
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get("tab") === "vaccination" ? "vaccination" : "growth";
+  const [activeTab, setActiveTab] = useState<TabType>(initialTab);
   const [mounted, setMounted] = useState(false);
   const getMonthsOld = useBabyStore((s) => s.getMonthsOld);
   const profile = useBabyStore((s) => s.profile);
@@ -39,7 +42,7 @@ export default function GrowthPage() {
         animate={{ opacity: 1, y: 0 }}
         className="px-4 pb-2 pt-6"
       >
-        <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+        <h1 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
           성장 & 건강 📊
         </h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -56,14 +59,15 @@ export default function GrowthPage() {
             const isActive = activeTab === tab.id;
             const emoji = tab.id === "growth" ? "📈" : "💉";
             return (
-              <button
+              <motion.button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
+                whileTap={{ scale: 0.95 }}
                 className={cn(
                   "relative flex flex-1 flex-col items-center gap-1.5 rounded-2xl py-3.5 transition-all",
                   isActive
-                    ? "bg-white dark:bg-gray-700 shadow-md border border-gray-200/60 dark:border-gray-600"
-                    : "bg-gray-100/60 dark:bg-gray-800/60 border border-transparent"
+                    ? "bg-white dark:bg-gray-700 shadow-md"
+                    : "bg-gray-100/60 dark:bg-gray-800/60"
                 )}
               >
                 <span className={cn("text-xl transition-transform", isActive && "scale-110")}>
@@ -84,7 +88,7 @@ export default function GrowthPage() {
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-              </button>
+              </motion.button>
             );
           })}
         </div>

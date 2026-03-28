@@ -65,13 +65,12 @@ export default function DashboardCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      whileHover={{ y: -4, boxShadow: "0 16px 32px rgba(0,0,0,0.08)" }}
       whileTap={{ scale: 0.97 }}
       className={cn(
-        "relative overflow-hidden rounded-2xl border p-4",
+        "relative overflow-hidden rounded-[28px] p-4",
         colors.bg,
-        colors.border,
-        "shadow-sm transition-shadow cursor-pointer"
+        "border", colors.border,
+        "shadow-[0_2px_12px_rgb(0,0,0,0.04)] transition-shadow"
       )}
     >
       {/* Decorative circle */}

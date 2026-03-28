@@ -27,7 +27,7 @@ const urgencyConfig = {
   info: {
     dot: "bg-blue-400",
     bg: "bg-blue-50 dark:bg-blue-950/30",
-    border: "border-blue-200 dark:border-blue-800",
+    
     text: "text-blue-700 dark:text-blue-300",
     badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300",
     label: "정보",
@@ -36,7 +36,7 @@ const urgencyConfig = {
   caution: {
     dot: "bg-amber-400",
     bg: "bg-amber-50 dark:bg-amber-950/30",
-    border: "border-amber-200 dark:border-amber-800",
+    
     text: "text-amber-700 dark:text-amber-300",
     badge: "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300",
     label: "주의",
@@ -45,7 +45,7 @@ const urgencyConfig = {
   emergency: {
     dot: "bg-red-500",
     bg: "bg-red-50 dark:bg-red-950/30",
-    border: "border-red-200 dark:border-red-800",
+    
     text: "text-red-700 dark:text-red-300",
     badge: "bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300",
     label: "응급",
@@ -130,7 +130,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="증상이나 질문을 검색하세요..."
-          className="w-full rounded-xl border border-gray-200 bg-white py-2.5 pl-9 pr-4 text-sm text-gray-800 placeholder-gray-400 outline-none transition-colors focus:border-rose-300 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:border-rose-600 dark:focus:ring-rose-900/30"
+          className="w-full rounded-2xl bg-white py-2.5 pl-9 pr-4 text-sm text-gray-800 placeholder-gray-400 outline-none transition-colors focus:ring-2 focus:ring-rose-100 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:ring-rose-900/30"
         />
       </motion.div>
 
@@ -179,7 +179,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-2xl border border-red-200 bg-gradient-to-r from-red-50 to-rose-50 p-4 dark:border-red-800/50 dark:from-red-950/40 dark:to-rose-950/40"
+          className="rounded-[28px] bg-gradient-to-r from-red-50 to-rose-50 p-4 dark:from-red-950/40 dark:to-rose-950/40"
         >
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle size={16} className="text-red-500" />
@@ -200,7 +200,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
       {/* FAQ List */}
       <div className="space-y-2">
         {sortedFAQs.length === 0 ? (
-          <div className="rounded-2xl border border-gray-200 bg-white/80 p-8 text-center dark:border-gray-700 dark:bg-gray-800/80">
+          <div className="rounded-[28px] bg-white p-8 text-center dark:bg-gray-800">
             <p className="text-3xl">🔍</p>
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               {searchQuery
@@ -225,10 +225,10 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
                 <button
                   onClick={() => setOpenFAQ(isOpen ? null : faq.id)}
                   className={cn(
-                    "flex w-full items-start gap-2.5 rounded-2xl border p-3.5 text-left transition-all",
+                    "flex w-full items-start gap-2.5 rounded-[28px] p-3.5 text-left transition-all",
                     isOpen
-                      ? cn(config.bg, config.border, "shadow-sm")
-                      : "border-gray-100 bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800/80 dark:hover:bg-gray-800"
+                      ? config.bg
+                      : "bg-white active:bg-gray-50 dark:bg-gray-800/80 dark:active:bg-gray-800"
                   )}
                 >
                   {/* Urgency dot */}
@@ -271,7 +271,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <div className="mt-2.5 border-t border-gray-200/50 dark:border-gray-600/50 pt-2.5">
+                          <div className="mt-2.5 dark:pt-2.5">
                             <FormattedContent content={faq.answer} />
                           </div>
                           {faq.tags.length > 0 && (

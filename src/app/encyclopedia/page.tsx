@@ -114,7 +114,7 @@ export default function EncyclopediaPage() {
         className="px-4 pt-6 pb-2"
       >
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+          <h1 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
             📚 영유아 종합백과
           </h1>
           <button
@@ -133,7 +133,7 @@ export default function EncyclopediaPage() {
       {/* Sub-Tab Switcher */}
       <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-900 px-4 pb-3 pt-1">
         <div
-          className="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5 cursor-grab active:cursor-grabbing mask-fade-right"
+          className="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5 mask-fade-right"
           style={{ WebkitOverflowScrolling: "touch" }}
           onMouseDown={(e) => {
             const el = e.currentTarget;
@@ -154,14 +154,15 @@ export default function EncyclopediaPage() {
           {subTabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
-              <button
+              <motion.button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
+                whileTap={{ scale: 0.95 }}
                 className={cn(
                   "relative flex shrink-0 flex-col items-center gap-1 rounded-2xl px-3.5 py-2.5 transition-all min-w-[64px]",
                   isActive
-                    ? "bg-white dark:bg-gray-700 shadow-md border border-gray-200/60 dark:border-gray-600"
-                    : "bg-gray-100/60 dark:bg-gray-800/60 border border-transparent"
+                    ? "bg-white dark:bg-gray-700 shadow-md"
+                    : "bg-gray-100/60 dark:bg-gray-800/60"
                 )}
               >
                 <span className={cn(
@@ -185,7 +186,7 @@ export default function EncyclopediaPage() {
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-              </button>
+              </motion.button>
             );
           })}
         </div>
@@ -207,7 +208,7 @@ export default function EncyclopediaPage() {
 
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
-        <div className="mx-4 mb-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/50 dark:border-purple-900/40 px-4 py-2.5">
+        <div className="mx-4 mb-3 rounded-[28px] bg-purple-50 dark:bg-purple-950/30 px-4 py-3 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
           <p className="text-xs text-gray-500 dark:text-gray-400">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>
@@ -229,7 +230,7 @@ export default function EncyclopediaPage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mx-4 mb-4 rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-teal-50 p-5 shadow-sm dark:border-emerald-800/50 dark:from-emerald-950/40 dark:to-teal-950/40"
+                className="mx-4 mb-4 rounded-[28px] bg-gradient-to-br from-emerald-50 to-teal-50 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.06)] dark:from-emerald-950/40 dark:to-teal-950/40"
               >
                 <div className="mb-3 flex items-center gap-2.5">
                   <span className="rounded-xl bg-emerald-100 dark:bg-emerald-900/50 p-2">
@@ -245,9 +246,9 @@ export default function EncyclopediaPage() {
                 )}
 
                 {/* 핵심 정보 그리드 — 4칸 */}
-                <div className="mt-4 pt-3 border-t border-emerald-200/40 dark:border-emerald-700/30 grid grid-cols-4 gap-1.5">
+                <div className="mt-4 pt-3 grid grid-cols-4 gap-1.5">
                   {monthData.feeding_amount && (
-                    <div className="rounded-xl bg-pink-50/80 dark:bg-pink-950/30 border border-pink-200/40 dark:border-pink-800/30 p-2 text-center min-w-0">
+                    <div className="rounded-2xl bg-pink-50 dark:bg-pink-950/30 p-2 text-center min-w-0">
                       <p className="text-lg mb-0.5">🍼</p>
                       <p className="text-[11px] font-bold text-pink-700 dark:text-pink-300 truncate">
                         {monthData.feeding_amount}
@@ -256,7 +257,7 @@ export default function EncyclopediaPage() {
                     </div>
                   )}
                   {monthData.wake_window && (
-                    <div className="rounded-xl bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200/40 dark:border-blue-800/30 p-2 text-center min-w-0">
+                    <div className="rounded-2xl bg-blue-50 dark:bg-blue-950/30 p-2 text-center min-w-0">
                       <p className="text-lg mb-0.5">⏰</p>
                       <p className="text-[11px] font-bold text-blue-700 dark:text-blue-300 truncate">
                         {monthData.wake_window}
@@ -264,14 +265,14 @@ export default function EncyclopediaPage() {
                       <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">활동시간</p>
                     </div>
                   )}
-                  <div className="rounded-xl bg-indigo-50/80 dark:bg-indigo-950/30 border border-indigo-200/40 dark:border-indigo-800/30 p-2 text-center min-w-0">
+                  <div className="rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 p-2 text-center min-w-0">
                     <p className="text-lg mb-0.5">😴</p>
                     <p className="text-[11px] font-bold text-indigo-700 dark:text-indigo-300 truncate">
                       {monthData.nap_count || "-"}
                     </p>
                     <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">총 수면</p>
                   </div>
-                  <div className="rounded-xl bg-orange-50/80 dark:bg-orange-950/30 border border-orange-200/40 dark:border-orange-800/30 p-2 text-center min-w-0">
+                  <div className="rounded-2xl bg-orange-50 dark:bg-orange-950/30 p-2 text-center min-w-0">
                     <p className="text-lg mb-0.5">🥣</p>
                     <p className="text-[11px] font-bold text-orange-700 dark:text-orange-300 truncate">
                       {selectedMonth < 4 ? "시작 전"
@@ -319,7 +320,7 @@ export default function EncyclopediaPage() {
             {loading ? (
               <EncyclopediaSkeleton />
             ) : error ? (
-              <div className="mx-4 rounded-2xl border border-pink-200/50 bg-white/80 p-6 text-center dark:border-gray-700 dark:bg-gray-800/80">
+              <div className="mx-4 rounded-[28px] bg-white p-6 text-center shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:bg-gray-800">
                 <p className="text-3xl">😢</p>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{error}</p>
                 <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">

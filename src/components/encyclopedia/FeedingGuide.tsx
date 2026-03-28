@@ -39,21 +39,21 @@ function SectionHeader({
   color?: string;
 }) {
   const colorMap: Record<string, string> = {
-    pink: "from-pink-50 to-rose-50 border-pink-200/50 dark:from-pink-950/30 dark:to-rose-950/30 dark:border-pink-800/50",
-    blue: "from-blue-50 to-sky-50 border-blue-200/50 dark:from-blue-950/30 dark:to-sky-950/30 dark:border-blue-800/50",
-    amber: "from-amber-50 to-orange-50 border-amber-200/50 dark:from-amber-950/30 dark:to-orange-950/30 dark:border-amber-800/50",
-    cyan: "from-cyan-50 to-teal-50 border-cyan-200/50 dark:from-cyan-950/30 dark:to-teal-950/30 dark:border-cyan-800/50",
-    violet: "from-violet-50 to-purple-50 border-violet-200/50 dark:from-violet-950/30 dark:to-purple-950/30 dark:border-violet-800/50",
-    red: "from-red-50 to-rose-50 border-red-200/50 dark:from-red-950/30 dark:to-rose-950/30 dark:border-red-800/50",
+    pink: "from-pink-50 to-rose-50 dark:from-pink-950/30 dark:to-rose-950/30",
+    blue: "from-blue-50 to-sky-50 dark:from-blue-950/30 dark:to-sky-950/30",
+    amber: "from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30",
+    cyan: "from-cyan-50 to-teal-50 dark:from-cyan-950/30 dark:to-teal-950/30",
+    violet: "from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/30",
+    red: "from-red-50 to-rose-50 dark:from-red-950/30 dark:to-rose-950/30",
   };
 
   return (
     <motion.button
       onClick={onToggle}
       className={cn(
-        "flex w-full items-center gap-3 rounded-2xl border bg-gradient-to-r p-4 text-left transition-all",
+        "flex w-full items-center gap-3 rounded-[28px] bg-gradient-to-r p-4 text-left transition-all",
         colorMap[color] || colorMap.pink,
-        isOpen && "shadow-md"
+        isOpen && ""
       )}
       whileTap={{ scale: 0.98 }}
     >
@@ -88,7 +88,7 @@ function ExpandableSection({
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="overflow-hidden"
         >
-          <div className="mt-2 rounded-2xl border border-gray-100 bg-white/80 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800/80">
+          <div className="mt-2 rounded-[28px] border border-gray-100 bg-white p-4 dark:border-gray-700/50 dark:bg-gray-800">
             {children}
           </div>
         </motion.div>
@@ -101,21 +101,21 @@ const urgencyConfig = {
   info: {
     dot: "bg-blue-400",
     bg: "bg-blue-50 dark:bg-blue-950/30",
-    border: "border-blue-200 dark:border-blue-800",
+    
     text: "text-blue-700 dark:text-blue-300",
     icon: Info,
   },
   caution: {
     dot: "bg-amber-400",
     bg: "bg-amber-50 dark:bg-amber-950/30",
-    border: "border-amber-200 dark:border-amber-800",
+    
     text: "text-amber-700 dark:text-amber-300",
     icon: AlertTriangle,
   },
   warning: {
     dot: "bg-red-400",
     bg: "bg-red-50 dark:bg-red-950/30",
-    border: "border-red-200 dark:border-red-800",
+    
     text: "text-red-700 dark:text-red-300",
     icon: AlertTriangle,
   },
@@ -130,7 +130,7 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
 
   if (!guide) {
     return (
-      <div className="rounded-2xl border border-gray-200 bg-white/80 p-8 text-center dark:border-gray-700 dark:bg-gray-800/80">
+      <div className="rounded-[28px] bg-white p-8 text-center dark:bg-gray-800">
         <p className="text-3xl">🍼</p>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
           해당 월령의 수유 가이드가 준비 중이에요
@@ -159,7 +159,7 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.05 }}
             className={cn(
-              "rounded-2xl bg-gradient-to-br p-3.5 text-center",
+              "rounded-[28px] bg-gradient-to-br p-3.5 text-center",
               stat.gradient
             )}
           >
@@ -199,7 +199,7 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="rounded-xl border border-pink-100 bg-pink-50/50 p-3 dark:border-pink-800/50 dark:bg-pink-950/20"
+                className="rounded-2xl bg-pink-50/50 p-3 dark:bg-pink-950/20"
               >
                 <div className="flex items-center gap-2">
                   <span className="text-xl">{pos.emoji}</span>
@@ -305,15 +305,15 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
         <ExpandableSection isOpen={!!openSections.storage}>
           <div className="grid grid-cols-2 gap-2">
             {[
-              { emoji: "🌡️", label: "실온", value: guide.breastMilkStorage.roomTemp, color: "bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-800" },
-              { emoji: "❄️", label: "냉장", value: guide.breastMilkStorage.fridge, color: "bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-800" },
-              { emoji: "🧊", label: "냉동", value: guide.breastMilkStorage.freezer, color: "bg-indigo-50 border-indigo-200 dark:bg-indigo-950/30 dark:border-indigo-800" },
-              { emoji: "🔄", label: "해동 후", value: guide.breastMilkStorage.thawing, color: "bg-green-50 border-green-200 dark:bg-green-950/30 dark:border-green-800" },
+              { emoji: "🌡️", label: "실온", value: guide.breastMilkStorage.roomTemp, color: "bg-amber-50 dark:bg-amber-950/30" },
+              { emoji: "❄️", label: "냉장", value: guide.breastMilkStorage.fridge, color: "bg-blue-50 dark:bg-blue-950/30" },
+              { emoji: "🧊", label: "냉동", value: guide.breastMilkStorage.freezer, color: "bg-indigo-50 dark:bg-indigo-950/30" },
+              { emoji: "🔄", label: "해동 후", value: guide.breastMilkStorage.thawing, color: "bg-green-50 dark:bg-green-950/30" },
             ].map((item) => (
               <div
                 key={item.label}
                 className={cn(
-                  "rounded-xl border p-3 text-center",
+                  "rounded-2xl p-3 text-center",
                   item.color
                 )}
               >
@@ -375,9 +375,8 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.03 }}
                   className={cn(
-                    "rounded-xl border p-3",
-                    config.bg,
-                    config.border
+                    "rounded-2xl p-3",
+                    config.bg
                   )}
                 >
                   <div className="flex items-start gap-2">

@@ -1,13 +1,8 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode } from "swiper/modules";
+import { useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import "swiper/css";
-import "swiper/css/free-mode";
-import type { Swiper as SwiperType } from "swiper";
 
 interface MonthSelectorProps {
   selectedMonth: number;
@@ -15,72 +10,120 @@ interface MonthSelectorProps {
   onSelect: (month: number) => void;
 }
 
-const pastelColors = [
-  "bg-pink-100 border-pink-300 text-pink-700",
-  "bg-rose-100 border-rose-300 text-rose-700",
-  "bg-purple-100 border-purple-300 text-purple-700",
-  "bg-violet-100 border-violet-300 text-violet-700",
-  "bg-blue-100 border-blue-300 text-blue-700",
-  "bg-sky-100 border-sky-300 text-sky-700",
-  "bg-cyan-100 border-cyan-300 text-cyan-700",
-  "bg-teal-100 border-teal-300 text-teal-700",
-  "bg-emerald-100 border-emerald-300 text-emerald-700",
-  "bg-green-100 border-green-300 text-green-700",
-  "bg-yellow-100 border-yellow-300 text-yellow-700",
-  "bg-amber-100 border-amber-300 text-amber-700",
-  "bg-orange-100 border-orange-300 text-orange-700",
-];
+const months = Array.from({ length: 13 }, (_, i) => i);
 
 export default function MonthSelector({
   selectedMonth,
   currentMonth,
   onSelect,
 }: MonthSelectorProps) {
-  const swiperRef = useRef<SwiperType | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
+  const scrollToCenter = useCallback((month: number, smooth = true) => {
+    const el = itemRefs.current[month];
+    if (el) {
+      el.scrollIntoView({
+        inline: "center",
+        behavior: smooth ? "smooth" : "instant",
+        block: "nearest",
+      });
+    }
+  }, []);
 
   useEffect(() => {
-    if (swiperRef.current) {
-      swiperRef.current.slideTo(Math.max(0, selectedMonth - 1));
-    }
-  }, [selectedMonth]);
+    scrollToCenter(selectedMonth, false);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    scrollToCenter(selectedMonth);
+  }, [selectedMonth, scrollToCenter]);
+
+  // Mouse drag scrolling
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true;
+    startX.current = e.pageX - (scrollRef.current?.offsetLeft ?? 0);
+    scrollLeft.current = scrollRef.current?.scrollLeft ?? 0;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - (scrollRef.current.offsetLeft ?? 0);
+    const walk = (x - startX.current) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  };
+
+  const handleMouseUp = () => {
+    isDragging.current = false;
+  };
 
   return (
     <div className="w-full">
-      <Swiper
-        modules={[FreeMode]}
-        freeMode
-        slidesPerView="auto"
-        spaceBetween={8}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
-        className="!px-4"
+      <div
+        ref={scrollRef}
+        className="flex gap-2.5 overflow-x-auto px-4 py-2.5 no-scrollbar cursor-grab active:cursor-grabbing"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
       >
-        {Array.from({ length: 13 }, (_, i) => i).map((month) => {
+        {/* Left spacer for centering */}
+        <div className="shrink-0 w-[calc(50vw-48px)] max-w-[calc(224px-48px)]" />
+
+        {months.map((month) => {
           const isSelected = month === selectedMonth;
           const isCurrent = month === currentMonth;
 
           return (
-            <SwiperSlide key={month} style={{ width: "auto" }}>
-              <motion.button
-                whileTap={{ scale: 0.92 }}
-                onClick={() => onSelect(month)}
+            <motion.button
+              key={month}
+              ref={(el) => { itemRefs.current[month] = el; }}
+              whileTap={{ scale: 0.92 }}
+              onClick={() => onSelect(month)}
+              className={cn(
+                "relative shrink-0 flex items-center justify-center transition-all duration-200",
+                isSelected
+                  ? cn(
+                      "min-w-[72px] h-[46px] px-4",
+                      "rounded-full",
+                      "bg-violet-600 dark:bg-violet-500",
+                      "shadow-md shadow-violet-500/25 dark:shadow-violet-400/20",
+                    )
+                  : cn(
+                      "min-w-[60px] h-[42px] px-3.5",
+                      "rounded-full",
+                      "bg-white dark:bg-gray-800",
+                      "border border-gray-200/60 dark:border-gray-700/60",
+                      "active:bg-gray-50 dark:active:bg-gray-700"
+                    )
+              )}
+            >
+              <span
                 className={cn(
-                  "relative flex min-h-[44px] min-w-[56px] items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold transition-all",
+                  "whitespace-nowrap select-none",
                   isSelected
-                    ? cn(pastelColors[month], "shadow-md scale-110 border-2")
-                    : "border-gray-200 bg-white text-gray-500 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                    ? "text-[13px] font-bold text-white"
+                    : "text-[13px] font-semibold text-gray-500 dark:text-gray-400"
                 )}
               >
-                {month}{"개월"}
-                {isCurrent && !isSelected && (
-                  <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white dark:border-gray-800 bg-pink-400" />
-                )}
-              </motion.button>
-            </SwiperSlide>
+                {month}개월
+              </span>
+
+              {/* Current month dot */}
+              {isCurrent && !isSelected && (
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-violet-500 ring-[1.5px] ring-white dark:ring-gray-900" />
+              )}
+            </motion.button>
           );
         })}
-      </Swiper>
+
+        {/* Right spacer for centering */}
+        <div className="shrink-0 w-[calc(50vw-48px)] max-w-[calc(224px-48px)]" />
+      </div>
     </div>
   );
 }
