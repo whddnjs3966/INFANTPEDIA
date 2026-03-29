@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useBabyStore, type BabyGender } from "@/lib/store/baby-store";
+import { useMeasurementStore } from "@/lib/store/measurement-store";
+import { useVaccinationStore } from "@/lib/store/vaccination-store";
+import { useMilestoneStore } from "@/lib/store/milestone-store";
+import { useSyncStore } from "@/lib/store/sync-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -79,6 +83,12 @@ export default function SettingsPage() {
 
   const handleReset = () => {
     clearAll();
+    useMeasurementStore.getState().clearAll();
+    useVaccinationStore.getState().clearAll();
+    useSyncStore.getState().mappings.forEach((m) =>
+      useSyncStore.getState().removeMapping(m.localBabyId)
+    );
+    useMilestoneStore.setState({ completedMilestones: {}, completedDates: {} });
     router.replace("/onboarding");
   };
 
@@ -88,6 +98,12 @@ export default function SettingsPage() {
       const res = await fetch("/api/account/delete", { method: "DELETE" });
       if (res.ok) {
         clearAll();
+        useMeasurementStore.getState().clearAll();
+        useVaccinationStore.getState().clearAll();
+        useSyncStore.getState().mappings.forEach((m) =>
+          useSyncStore.getState().removeMapping(m.localBabyId)
+        );
+        useMilestoneStore.setState({ completedMilestones: {}, completedDates: {} });
         router.replace("/onboarding");
       }
     } catch {
