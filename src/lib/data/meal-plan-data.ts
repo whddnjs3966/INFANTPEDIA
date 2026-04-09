@@ -34,7 +34,7 @@ export const mealPlans: MealPlanData[] = [
     stage: '이유식 초기 (1회)',
     description: '쌀미음부터 시작, 하루 1회 1~2숟가락',
     texture: '묽은 미음 (10배죽)',
-    totalPerMeal: '30~60ml',
+    totalPerMeal: '30~50ml',
     dailyFrequency: '하루 1회',
     weeklyPlan: [
       { day: '월', meals: [{ meal: '이유식', menu: '쌀미음', emoji: '🍚', ingredients: [{ name: '쌀미음', amount: '30~50ml', emoji: '🍚' }] }] },
@@ -53,10 +53,10 @@ export const mealPlans: MealPlanData[] = [
   },
   {
     month: 6,
-    stage: '이유식 초기~중기 (1~2회)',
+    stage: '이유식 초기 2단계 (1~2회)',
     description: '채소 → 과일 → 고기 순으로 식재료 확대',
-    texture: '걸쭉한 미음~죽 (7~8배죽)',
-    totalPerMeal: '60~100ml',
+    texture: '걸쭉한 미음~묽은 죽 (8배죽)',
+    totalPerMeal: '50~80ml',
     dailyFrequency: '하루 1~2회',
     weeklyPlan: [
       { day: '월', meals: [
@@ -90,7 +90,7 @@ export const mealPlans: MealPlanData[] = [
     ],
     tips: [
       '철분 보충을 위해 소고기를 빨리 시작하세요',
-      '한 끼 30~80ml 정도가 적당해요',
+      '한 끼 50~80ml 정도가 적당해요',
       '계란 노른자는 소량부터 시도해 보세요',
     ],
     allergyNote: '계란, 밀, 우유는 소량씩 시작하고 3일간 반응 관찰',
@@ -143,7 +143,7 @@ export const mealPlans: MealPlanData[] = [
     stage: '이유식 중기 (2회)',
     description: '핑거푸드 시작, 직접 잡고 먹는 연습',
     texture: '부드럽게 다진 형태 (4~5배죽)',
-    totalPerMeal: '100~150ml',
+    totalPerMeal: '100~120ml',
     dailyFrequency: '하루 2회',
     weeklyPlan: [
       { day: '월', meals: [
@@ -178,7 +178,7 @@ export const mealPlans: MealPlanData[] = [
     tips: [
       '핑거푸드로 삶은 당근, 바나나, 두부를 시도해 보세요',
       '스스로 잡고 먹는 연습이 소근육 발달에 좋아요',
-      '한 끼 100~130ml 정도가 적당해요',
+      '한 끼 100~120ml 정도가 적당해요',
     ],
   },
   {
@@ -186,7 +186,7 @@ export const mealPlans: MealPlanData[] = [
     stage: '이유식 후기 (3회)',
     description: '하루 3끼 + 간식 1~2회, 밥/반찬 형태로 전환',
     texture: '잘게 다진 형태~무른 밥 (3배죽~진밥)',
-    totalPerMeal: '120~180ml',
+    totalPerMeal: '120~150ml',
     dailyFrequency: '하루 3회',
     weeklyPlan: [
       { day: '월', meals: [
@@ -236,7 +236,7 @@ export const mealPlans: MealPlanData[] = [
     stage: '이유식 후기 (3회)',
     description: '스스로 먹기 격려, 다양한 식감 경험',
     texture: '무른 밥~진밥, 잘게 썬 반찬',
-    totalPerMeal: '130~200ml',
+    totalPerMeal: '130~150ml',
     dailyFrequency: '하루 3회',
     weeklyPlan: [
       { day: '월', meals: [
@@ -278,15 +278,15 @@ export const mealPlans: MealPlanData[] = [
     tips: [
       '아기용 숟가락을 쥐게 해 스스로 먹는 연습을 시작하세요',
       '엉망이 되어도 괜찮아요! 자율 식사가 발달에 좋아요',
-      '한 끼 130~160ml 정도가 적당해요',
+      '한 끼 130~150ml 정도가 적당해요',
     ],
   },
   {
     month: 11,
-    stage: '유아식 전환기 (3회)',
+    stage: '이유식 후기~유아식 전환 (3회)',
     description: '가족 식단 적용 시작, 염분/당분 줄여서',
     texture: '진밥~일반 밥, 잘게 썬 반찬',
-    totalPerMeal: '150~200ml',
+    totalPerMeal: '140~150ml',
     dailyFrequency: '하루 3회',
     weeklyPlan: [
       { day: '월', meals: [

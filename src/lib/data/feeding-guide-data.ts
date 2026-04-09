@@ -157,10 +157,10 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 0개월 (신생아)
   {
     feedingType: "모유/분유",
-    perFeedAmount: "30~60ml",
-    dailyTotal: "300~500ml",
+    perFeedAmount: "40~80ml",
+    dailyTotal: "400~600ml",
     frequency: "8~12회",
-    interval: "1.5~2시간 간격",
+    interval: "2~3시간 간격",
     mixedFeedingTips: [
       "초유는 면역력의 핵심이므로 가능하면 생후 1시간 이내에 첫 수유를 시작하세요.",
       "혼합 수유 시 모유를 먼저 먹인 후 분유를 보충하는 것이 좋습니다.",
@@ -212,10 +212,10 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 1개월
   {
     feedingType: "모유/분유",
-    perFeedAmount: "60~90ml",
-    dailyTotal: "500~700ml",
-    frequency: "8~10회",
-    interval: "2~3시간 간격",
+    perFeedAmount: "80~120ml",
+    dailyTotal: "560~720ml",
+    frequency: "7~8회",
+    interval: "2.5~3시간 간격",
     mixedFeedingTips: [
       "모유 수유 후 부족한 양만큼 분유를 보충하세요.",
       "유두혼동 방지를 위해 느린 유속의 젖꼭지(SS 사이즈)를 사용하세요.",
@@ -263,10 +263,10 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 2개월
   {
     feedingType: "모유/분유",
-    perFeedAmount: "90~120ml",
-    dailyTotal: "600~800ml",
-    frequency: "7~8회",
-    interval: "2.5~3시간 간격",
+    perFeedAmount: "120~150ml",
+    dailyTotal: "700~900ml",
+    frequency: "6~7회",
+    interval: "3시간 간격",
     mixedFeedingTips: [
       "수유 패턴이 안정되어 혼합 수유가 수월해지는 시기입니다.",
       "밤중 수유 간격이 늘어나기 시작하므로, 자기 전 충분히 먹여주세요.",
@@ -307,9 +307,9 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 3개월
   {
     feedingType: "모유/분유",
-    perFeedAmount: "120~150ml",
-    dailyTotal: "700~900ml",
-    frequency: "6~8회",
+    perFeedAmount: "150~180ml",
+    dailyTotal: "750~900ml",
+    frequency: "5~6회",
     interval: "3~3.5시간 간격",
     mixedFeedingTips: [
       "모유 수유가 안정기에 접어드는 시기로, 유축 후 냉동 보관을 시작하기 좋습니다.",
@@ -351,10 +351,10 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 4개월
   {
     feedingType: "모유/분유",
-    perFeedAmount: "150~180ml",
+    perFeedAmount: "180~210ml",
     dailyTotal: "800~1000ml",
-    frequency: "5~7회",
-    interval: "3~4시간 간격",
+    frequency: "5~6회",
+    interval: "3.5~4시간 간격",
     mixedFeedingTips: [
       "이유식 시작 징후(목 가누기, 음식에 관심)가 보이면 이유식 준비를 시작하세요.",
       "이유식 시작 전까지는 모유/분유만으로 충분합니다.",
@@ -395,9 +395,9 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 5개월
   {
     feedingType: "모유/분유 (+ 이유식 초기)",
-    perFeedAmount: "150~200ml",
+    perFeedAmount: "180~210ml",
     dailyTotal: "800~1000ml",
-    frequency: "5~6회",
+    frequency: "4~5회",
     interval: "3.5~4시간 간격",
     mixedFeedingTips: [
       "이유식을 시작했다면 모유/분유 수유량은 유지하면서 이유식을 추가하세요.",
@@ -439,9 +439,9 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 6개월
   {
     feedingType: "모유/분유 + 이유식 초기",
-    perFeedAmount: "180~220ml",
-    dailyTotal: "800~1000ml",
-    frequency: "4~6회",
+    perFeedAmount: "180~210ml",
+    dailyTotal: "700~900ml",
+    frequency: "4~5회",
     interval: "3.5~4시간 간격",
     mixedFeedingTips: [
       "이유식 1~2회와 모유/분유 4~5회를 병행합니다.",
@@ -490,9 +490,9 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 7개월
   {
     feedingType: "모유/분유 + 이유식 중기",
-    perFeedAmount: "180~220ml",
-    dailyTotal: "700~900ml",
-    frequency: "4~5회",
+    perFeedAmount: "180~210ml",
+    dailyTotal: "600~800ml",
+    frequency: "3~4회",
     interval: "4시간 간격",
     mixedFeedingTips: [
       "이유식 2회와 모유/분유 3~4회를 병행합니다.",
@@ -534,9 +534,9 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 8개월
   {
     feedingType: "모유/분유 + 이유식 중기",
-    perFeedAmount: "180~220ml",
-    dailyTotal: "600~800ml",
-    frequency: "3~5회",
+    perFeedAmount: "180~210ml",
+    dailyTotal: "600~700ml",
+    frequency: "3~4회",
     interval: "4~4.5시간 간격",
     mixedFeedingTips: [
       "이유식 2~3회로 늘리면서 모유/분유 횟수를 조절하세요.",
@@ -578,9 +578,9 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 9개월
   {
     feedingType: "모유/분유 + 이유식 후기",
-    perFeedAmount: "180~220ml",
-    dailyTotal: "600~800ml",
-    frequency: "3~4회",
+    perFeedAmount: "180~210ml",
+    dailyTotal: "500~600ml",
+    frequency: "3회",
     interval: "4~5시간 간격",
     mixedFeedingTips: [
       "이유식 3회를 규칙적으로 먹이고, 모유/분유 3회를 보충합니다.",
@@ -596,7 +596,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "이유식은 잘 먹는데 모유/분유를 안 먹어요",
         solution:
-          "이유식만으로는 칼슘과 지방 섭취가 부족할 수 있습니다. 모유/분유를 하루 최소 500ml는 먹이세요. 이유식에 분유를 넣어 조리하는 것도 방법입니다.",
+          "이유식만으로는 칼슘과 지방 섭취가 부족할 수 있습니다. 모유/분유를 하루 최소 400~500ml는 먹이세요. 이유식에 분유를 넣어 조리하는 것도 방법입니다.",
         emoji: "🍼",
         urgency: "caution",
       },
@@ -626,10 +626,10 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 10개월
   {
     feedingType: "모유/분유 + 이유식 후기",
-    perFeedAmount: "180~220ml",
-    dailyTotal: "500~700ml",
-    frequency: "3~4회",
-    interval: "4~5시간 간격",
+    perFeedAmount: "180~210ml",
+    dailyTotal: "500~600ml",
+    frequency: "2~3회",
+    interval: "5시간 간격",
     mixedFeedingTips: [
       "이유식이 주식이 되어가는 시기입니다. 모유/분유는 보충 역할을 합니다.",
       "스스로 숟가락을 잡고 먹으려는 시도를 격려해주세요.",
@@ -673,9 +673,9 @@ const monthConfigs: MonthFeedingConfig[] = [
   },
   // 11개월
   {
-    feedingType: "모유/분유 + 이유식 완료기",
-    perFeedAmount: "180~220ml",
-    dailyTotal: "400~600ml",
+    feedingType: "모유/분유 + 이유식 후기",
+    perFeedAmount: "180~210ml",
+    dailyTotal: "400~500ml",
     frequency: "2~3회",
     interval: "5~6시간 간격",
     mixedFeedingTips: [
@@ -722,8 +722,8 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 12개월
   {
     feedingType: "유아식 전환 + 생우유",
-    perFeedAmount: "180~220ml",
-    dailyTotal: "300~500ml",
+    perFeedAmount: "180~210ml",
+    dailyTotal: "300~400ml",
     frequency: "2~3회",
     interval: "식사 사이",
     mixedFeedingTips: [

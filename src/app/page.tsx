@@ -418,20 +418,22 @@ export default function HomePage() {
                       <div>
                         <h3 className="text-[13px] font-bold text-gray-900 dark:text-white">이유식 가이드</h3>
                         <p className="text-[10px] text-gray-400 dark:text-gray-500">
-                          {months < 6 ? "초기 이유식" : months < 8 ? "중기 이유식" : months < 10 ? "후기 이유식" : "완료기 이유식"}
+                          {months <= 5 ? "초기 이유식" : months === 6 ? "초기 이유식 (2단계)" : months <= 8 ? "중기 이유식" : months <= 11 ? "후기 이유식" : "완료기 이유식"}
                         </p>
                       </div>
                     </div>
 
                     {/* Stage info */}
                     {(() => {
-                      const weaningInfo = months < 6
-                        ? { stage: "초기", frequency: "1일 1회", texture: "묽은 미음", foods: "쌀미음, 감자, 고구마, 애호박", tip: "한 가지 재료로 시작, 알레르기 반응 3일간 관찰", amount: "1~2숟가락부터 시작" }
-                        : months < 8
-                        ? { stage: "중기", frequency: "1일 2회", texture: "으깬 죽", foods: "소고기, 닭고기, 두부, 당근, 브로콜리", tip: "단백질(소고기) 필수! 철분 보충이 중요해요", amount: "30~80g씩" }
-                        : months < 10
-                        ? { stage: "후기", frequency: "1일 3회", texture: "잘게 다진 진밥", foods: "생선, 달걀 노른자, 치즈, 다양한 채소", tip: "손으로 집어먹는 핑거푸드 시작해 보세요", amount: "80~120g씩" }
-                        : { stage: "완료기", frequency: "1일 3회 + 간식", texture: "잘게 썬 진밥/무른밥", foods: "달걀 흰자, 우유(만1세+), 다양한 과일", tip: "가족 식사와 비슷한 식단으로 전환해요", amount: "120~150g씩" };
+                      const weaningInfo = months <= 5
+                        ? { stage: "초기", frequency: "1일 1회", texture: "묽은 미음", foods: "쌀미음, 감자, 고구마, 애호박", tip: "한 가지 재료로 시작, 알레르기 반응 3일간 관찰", amount: "1~2숟가락 (30~50ml)" }
+                        : months === 6
+                        ? { stage: "초기 2단계", frequency: "1일 1~2회", texture: "걸쭉한 미음~묽은 죽", foods: "당근, 시금치, 사과, 배, 브로콜리", tip: "새 식재료는 3~5일 간격으로 하나씩, 오전에 먹여 반응 관찰", amount: "50~80ml씩" }
+                        : months <= 8
+                        ? { stage: "중기", frequency: "1일 2회", texture: "으깬 죽 (5~7배죽)", foods: "소고기, 닭고기, 두부, 당근, 브로콜리", tip: "단백질(소고기) 필수! 철분 보충이 중요해요", amount: "80~120ml씩" }
+                        : months <= 11
+                        ? { stage: "후기", frequency: "1일 3회", texture: "무른밥 (3~4배죽)", foods: "생선, 달걀 노른자, 치즈, 다양한 채소", tip: "손으로 집어먹는 핑거푸드 시작해 보세요", amount: "120~150ml씩" }
+                        : { stage: "완료기", frequency: "1일 3회 + 간식", texture: "잘게 썬 진밥/무른밥", foods: "달걀 흰자, 우유(만1세+), 다양한 과일", tip: "가족 식사와 비슷한 식단으로 전환해요", amount: "150~200ml씩" };
 
                       return (
                         <div className="space-y-2.5">
