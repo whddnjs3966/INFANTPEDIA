@@ -56,8 +56,8 @@ export const dailySchedules: DailySchedule[] = [
     month: 2,
     wakeUp: '07:00',
     bedtime: '20:00',
-    totalSleepHours: '14~17시간',
-    napCount: '3~4회',
+    totalSleepHours: '14~16시간',
+    napCount: '4~5회',
     items: [
       { time: '07:00', activity: '기상 / 수유', emoji: '🍼', type: 'feed', duration: '20~30분', tip: '커튼을 열고 밝은 환경에서 시작하면 생체리듬에 도움이 돼요.' },
       { time: '08:00', activity: '놀이 / 터미타임', emoji: '🎮', type: 'play', duration: '15~20분', tip: '터미타임을 5분씩 늘려보세요. 고개 들기 연습이 시작되는 시기예요.' },
@@ -103,7 +103,7 @@ export const dailySchedules: DailySchedule[] = [
     wakeUp: '07:00',
     bedtime: '19:30',
     totalSleepHours: '14~15시간',
-    napCount: '3회',
+    napCount: '3~4회',
     items: [
       { time: '07:00', activity: '기상 / 수유', emoji: '🍼', type: 'feed', duration: '20~30분', tip: '4개월 수면퇴행이 올 수 있어요. 일관된 루틴을 유지해주세요.' },
       { time: '08:30', activity: '놀이', emoji: '🎮', type: 'play', duration: '30분', tip: '뒤집기 연습을 시작해요. 안전한 바닥에서 놀게 해주세요.' },
@@ -146,7 +146,7 @@ export const dailySchedules: DailySchedule[] = [
     month: 6,
     wakeUp: '07:00',
     bedtime: '19:00',
-    totalSleepHours: '13~15시간',
+    totalSleepHours: '13~14시간',
     napCount: '2~3회',
     items: [
       { time: '07:00', activity: '기상 / 수유', emoji: '🍼', type: 'feed', duration: '20~30분', tip: '아침 수유 후 30분~1시간 뒤에 이유식을 주세요.' },
@@ -197,7 +197,7 @@ export const dailySchedules: DailySchedule[] = [
       { time: '08:00', activity: '이유식 (1회)', emoji: '🥣', type: 'meal', duration: '20~30분', tip: '씹는 연습이 중요해요. 음식 크기를 조금씩 키워주세요.' },
       { time: '09:00', activity: '놀이', emoji: '🎮', type: 'play', duration: '30분', tip: '잡고 일어서기를 시도해요. 안정적인 가구 근처에서 놀게 해주세요.' },
       { time: '09:30', activity: '낮잠 1 (1.5시간)', emoji: '😴', type: 'nap', duration: '1.5시간', tip: '8개월 수면퇴행이 올 수 있어요. 침착하게 기존 루틴을 유지하세요.' },
-      { time: '11:00', activity: '수유', emoji: '🍼', type: 'feed', duration: '20분', tip: '하루 수유량은 600~800ml 정도면 적당해요.' },
+      { time: '11:00', activity: '수유', emoji: '🍼', type: 'feed', duration: '20분', tip: '하루 수유량은 600~700ml 정도면 적당해요.' },
       { time: '12:00', activity: '이유식 (2회)', emoji: '🥣', type: 'meal', duration: '20~30분', tip: '다양한 단백질(닭고기, 소고기, 두부)을 골고루 주세요.' },
       { time: '13:00', activity: '놀이', emoji: '🎮', type: 'play', duration: '1시간', tip: '물건을 떨어뜨리고 반응 보기를 좋아해요. 함께 놀아주세요.' },
       { time: '14:00', activity: '낮잠 2 (1~1.5시간)', emoji: '😴', type: 'nap', duration: '1~1.5시간', tip: '낮잠 거부가 시작되더라도 쉬는 시간은 유지해주세요.' },

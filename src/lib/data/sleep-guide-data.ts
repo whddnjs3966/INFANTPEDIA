@@ -241,7 +241,7 @@ const sleepGuideDataByMonth: SleepGuideData[] = [
   },
   {
     month: 2,
-    totalSleep: '15~16시간',
+    totalSleep: '14~16시간',
     nightSleep: '8~10시간',
     napInfo: '4~5회, 각 30분~2시간',
     sleepSignals: [
@@ -402,7 +402,7 @@ const sleepGuideDataByMonth: SleepGuideData[] = [
   },
   {
     month: 6,
-    totalSleep: '13~15시간',
+    totalSleep: '13~14시간',
     nightSleep: '10~11시간',
     napInfo: '2~3회, 각 30분~1.5시간',
     sleepSignals: [
@@ -445,7 +445,7 @@ const sleepGuideDataByMonth: SleepGuideData[] = [
   },
   {
     month: 7,
-    totalSleep: '13~15시간',
+    totalSleep: '13~14시간',
     nightSleep: '10~11시간',
     napInfo: '2회, 각 1~2시간',
     sleepSignals: [
