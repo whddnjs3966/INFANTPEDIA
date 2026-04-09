@@ -26,7 +26,7 @@ export default function WonderWeekBanner({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.97, y: -8 }}
           transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-          className="relative overflow-hidden rounded-[28px] border border-amber-200/40 bg-amber-50 p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-amber-800/30 dark:bg-amber-950/30"
+          className="relative overflow-hidden rounded-2xl border border-amber-200/40 bg-amber-50 p-4 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-amber-800/30 dark:bg-amber-950/30"
         >
           <div className="flex items-start gap-3 pr-8">
             <div className="shrink-0 flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/50">
@@ -38,7 +38,7 @@ export default function WonderWeekBanner({
                   {title}
                 </h3>
                 {leapNumber && (
-                  <span className="rounded-full bg-amber-200/60 dark:bg-amber-800/50 px-2 py-0.5 text-[10px] font-bold text-amber-700 dark:text-amber-300">
+                  <span className="rounded-full bg-amber-200/60 dark:bg-amber-800/50 px-2 py-0.5 text-[11px] font-bold text-amber-700 dark:text-amber-300">
                     Leap {leapNumber}
                   </span>
                 )}

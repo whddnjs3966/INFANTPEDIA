@@ -243,16 +243,14 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       {/* ── Summary Hero Card ── */}
       <motion.div
         variants={child}
-        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-cyan-500 via-teal-500 to-emerald-500 p-5 text-white shadow-xl shadow-teal-500/20"
+        className="relative overflow-hidden rounded-2xl bg-[#7C5CFC] p-5 text-white shadow-[0_4px_16px_rgb(0,0,0,0.08)]"
       >
-        <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10 blur-sm" />
-        <div className="absolute bottom-4 right-12 h-16 w-16 rounded-full bg-teal-400/15 blur-md" />
 
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-3">
             <TrendingUp size={16} className="text-white/80" />
             <h2 className="text-sm font-bold text-white/90">{babyName}의 성장 현황</h2>
-            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold">{currentMonth}개월</span>
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold">{currentMonth}개월</span>
           </div>
 
           {hasBabyData && latestByMonth.get(currentMonth) ? (
@@ -270,7 +268,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
                     <p className="text-[20px] font-black leading-tight">
                       {val !== undefined ? val : "-"}
                     </p>
-                    <p className="text-[10px] text-white/60 mt-0.5">{label} ({unit})</p>
+                    <p className="text-[11px] text-white/60 mt-0.5">{label} ({unit})</p>
                   </div>
                 );
               })}
@@ -297,7 +295,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
                   몸무게 {growthTrend.weight > 0 ? "+" : ""}{growthTrend.weight}kg
                 </span>
               )}
-              <span className="text-[9px] text-white/40">vs 전월</span>
+              <span className="text-[11px] text-white/40">vs 전월</span>
             </div>
           )}
         </div>
@@ -313,16 +311,16 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
           ]).map(({ key, label, icon: Icon }) => {
             const data = percentiles[key];
             if (!data) return (
-              <div key={key} className="rounded-2xl bg-white dark:bg-gray-900 p-3 text-center border border-gray-100 dark:border-gray-800 shadow-[0_2px_8px_rgb(0,0,0,0.03)]">
+              <div key={key} className="rounded-2xl bg-white dark:bg-stone-900 p-3 text-center border border-stone-200 dark:border-stone-700 shadow-[0_2px_8px_rgb(0,0,0,0.03)]">
                 <Icon size={14} className="mx-auto mb-1 text-gray-300 dark:text-gray-600" />
-                <p className="text-[10px] text-gray-400">{label}</p>
+                <p className="text-[11px] text-stone-400">{label}</p>
                 <p className="text-[11px] text-gray-300 dark:text-gray-600 mt-1">미입력</p>
               </div>
             );
             return (
               <div key={key} className={cn("rounded-2xl p-3 text-center border shadow-[0_2px_8px_rgb(0,0,0,0.03)]", data.label.bgColor, "border-transparent")}>
                 <Icon size={14} className={cn("mx-auto mb-1", data.label.color)} />
-                <p className="text-[10px] text-gray-500 dark:text-gray-400">{label}</p>
+                <p className="text-[11px] text-stone-500 dark:text-stone-400">{label}</p>
                 <p className={cn("text-[13px] font-extrabold mt-0.5", data.label.color)}>{data.label.text}</p>
               </div>
             );
@@ -334,10 +332,10 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       {hasBabyData && !isBoth && (
         <motion.div
           variants={child}
-          className="rounded-[24px] border border-gray-100 bg-white dark:bg-gray-900 dark:border-gray-800 p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
+          className="rounded-2xl border border-stone-200 bg-white dark:bg-stone-900 dark:border-stone-700 p-4 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
         >
           <div className="flex items-center gap-2 mb-3">
-            <Info size={14} className="text-gray-400" />
+            <Info size={14} className="text-stone-400" />
             <p className="text-[12px] font-bold text-gray-700 dark:text-gray-300">WHO 평균 비교 ({currentMonth}개월 {primaryGender === "male" ? "남아" : "여아"})</p>
           </div>
           <div className="space-y-2">
@@ -353,11 +351,11 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               const diff = +(val - whoVal).toFixed(1);
               return (
                 <div key={key} className="flex items-center justify-between">
-                  <span className="text-[11px] text-gray-400 dark:text-gray-500">{label}</span>
+                  <span className="text-[11px] text-stone-400 dark:text-stone-500">{label}</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-gray-400 dark:text-gray-500">WHO {whoVal}{unit}</span>
+                    <span className="text-[11px] text-stone-400 dark:text-stone-500">WHO {whoVal}{unit}</span>
                     <span className="text-[11px] font-bold text-gray-600 dark:text-gray-300">우리 아기 {val}{unit}</span>
-                    <span className={cn("text-[11px] font-bold", diff > 0 ? "text-emerald-500" : diff < 0 ? "text-orange-500" : "text-gray-400")}>
+                    <span className={cn("text-[11px] font-bold", diff > 0 ? "text-emerald-500" : diff < 0 ? "text-orange-500" : "text-stone-400")}>
                       ({diff > 0 ? "+" : ""}{diff})
                     </span>
                   </div>
@@ -369,9 +367,9 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       )}
 
       {/* ── Chart Section ── */}
-      <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white dark:bg-gray-900 dark:border-gray-800 p-4 shadow-[0_2px_16px_rgb(0,0,0,0.05)]">
+      <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white dark:bg-stone-900 dark:border-stone-700 p-4 shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
         {/* Chart Type Toggle */}
-        <div className="flex gap-1.5 rounded-[16px] bg-gray-100/80 dark:bg-gray-800 p-1 mb-3">
+        <div className="flex gap-1.5 rounded-[16px] bg-gray-100/80 dark:bg-stone-800 p-1 mb-3">
           {(["height", "weight", "head"] as ChartType[]).map((type) => {
             const Icon = chartConfig[type].icon;
             const isActive = chartType === type;
@@ -381,13 +379,13 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
                 onClick={() => setChartType(type)}
                 className={cn(
                   "relative flex flex-1 items-center justify-center gap-1 rounded-xl py-2 text-xs font-medium transition-all",
-                  isActive ? "text-gray-800 dark:text-gray-100" : "text-gray-400 dark:text-gray-500"
+                  isActive ? "text-stone-800 dark:text-stone-100" : "text-stone-400 dark:text-stone-500"
                 )}
               >
                 {isActive && (
                   <motion.div
                     layoutId="chart-type-bg"
-                    className="absolute inset-0 rounded-xl bg-white dark:bg-gray-700 shadow-sm"
+                    className="absolute inset-0 rounded-xl bg-white dark:bg-stone-700 shadow-sm"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -412,7 +410,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
               onClick={() => setGenderMode(key)}
               className={cn(
                 "rounded-full px-3 py-1 text-[11px] font-semibold transition-all",
-                genderMode === key ? activeClass : "text-gray-400 dark:text-gray-500"
+                genderMode === key ? activeClass : "text-stone-400 dark:text-stone-500"
               )}
             >
               {label}
@@ -431,28 +429,28 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
           >
             {(isBoth || genderMode === "male") && (
               <div className="text-center">
-                <p className="text-[10px] text-blue-400">{currentMonth}개월 남아</p>
+                <p className="text-[11px] text-blue-400">{currentMonth}개월 남아</p>
                 <p className="text-lg font-bold text-blue-500">
-                  {currentMaleValue}<span className="ml-0.5 text-xs font-normal text-gray-400">{config.unit}</span>
+                  {currentMaleValue}<span className="ml-0.5 text-xs font-normal text-stone-400">{config.unit}</span>
                 </p>
               </div>
             )}
             {(isBoth || genderMode === "female") && (
               <div className="text-center">
-                <p className="text-[10px] text-pink-400">{currentMonth}개월 여아</p>
+                <p className="text-[11px] text-pink-400">{currentMonth}개월 여아</p>
                 <p className="text-lg font-bold text-pink-500">
-                  {currentFemaleValue}<span className="ml-0.5 text-xs font-normal text-gray-400">{config.unit}</span>
+                  {currentFemaleValue}<span className="ml-0.5 text-xs font-normal text-stone-400">{config.unit}</span>
                 </p>
               </div>
             )}
             {currentBabyValue && (
               <div className="text-center">
-                <p className="text-[10px] text-emerald-500">우리 아기</p>
+                <p className="text-[11px] text-emerald-500">우리 아기</p>
                 <p className="text-lg font-bold text-emerald-600">
-                  {currentBabyValue}<span className="ml-0.5 text-xs font-normal text-gray-400">{config.unit}</span>
+                  {currentBabyValue}<span className="ml-0.5 text-xs font-normal text-stone-400">{config.unit}</span>
                 </p>
                 {babyPercentile && (
-                  <p className={cn("text-[10px] font-semibold", babyPercentile.color)}>{babyPercentile.text}</p>
+                  <p className={cn("text-[11px] font-semibold", babyPercentile.color)}>{babyPercentile.text}</p>
                 )}
               </div>
             )}
@@ -504,7 +502,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
         </ResponsiveContainer>
 
         {/* Legend */}
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 text-[10px] text-gray-400 dark:text-gray-500">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 text-[11px] text-stone-400 dark:text-stone-500">
           {(isBoth || genderMode === "male") && (
             <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded-full bg-blue-500" />남아</span>
           )}
@@ -522,17 +520,17 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       {sortedMeasurements.length > 0 && (
         <motion.div
           variants={child}
-          className="rounded-[24px] border border-gray-100 bg-white dark:bg-gray-900 dark:border-gray-800 shadow-[0_2px_12px_rgb(0,0,0,0.04)] overflow-hidden"
+          className="rounded-2xl border border-stone-200 bg-white dark:bg-stone-900 dark:border-stone-700 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden"
         >
           <button onClick={() => setShowHistory(!showHistory)} className="flex w-full items-center justify-between px-5 py-4">
             <div className="flex items-center gap-2">
               <CalendarDays size={16} className="text-emerald-500" />
-              <span className="text-[13px] font-bold text-gray-800 dark:text-gray-100">실측 기록</span>
-              <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="text-[13px] font-bold text-stone-800 dark:text-stone-100">실측 기록</span>
+              <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                 {sortedMeasurements.length}건
               </span>
             </div>
-            {showHistory ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+            {showHistory ? <ChevronUp size={16} className="text-stone-400" /> : <ChevronDown size={16} className="text-stone-400" />}
           </button>
 
           <AnimatePresence>
@@ -552,19 +550,19 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, x: -50 }}
-                      className="flex items-center gap-3 rounded-2xl bg-gray-50 dark:bg-gray-800 px-4 py-3"
+                      className="flex items-center gap-3 rounded-2xl bg-gray-50 dark:bg-stone-800 px-4 py-3"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold text-white">{m.month}개월</span>
-                          <span className="text-[11px] text-gray-400 dark:text-gray-500">{m.date}</span>
+                          <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[11px] font-bold text-white">{m.month}개월</span>
+                          <span className="text-[11px] text-stone-400 dark:text-stone-500">{m.date}</span>
                         </div>
                         <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-gray-600 dark:text-gray-300">
                           {m.height !== undefined && <span>키 <b className="text-blue-500">{m.height}</b>cm</span>}
                           {m.weight !== undefined && <span>몸무게 <b className="text-pink-500">{m.weight}</b>kg</span>}
                           {m.headCircumference !== undefined && <span>머리둘레 <b className="text-purple-500">{m.headCircumference}</b>cm</span>}
                         </div>
-                        {m.memo && <p className="mt-1 text-[10px] text-gray-400 dark:text-gray-500 truncate">{m.memo}</p>}
+                        {m.memo && <p className="mt-1 text-[11px] text-stone-400 dark:text-stone-500 truncate">{m.memo}</p>}
                       </div>
                       <button onClick={() => deleteMeasurement(m.id)} className="flex-shrink-0 rounded-full p-2 text-gray-300 dark:text-gray-600 active:bg-red-50 dark:active:bg-red-950/30 active:text-red-400">
                         <Trash2 size={14} />
@@ -583,13 +581,13 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
         variants={child}
         whileTap={{ scale: 0.97 }}
         onClick={() => setShowInput(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-[24px] bg-gradient-to-r from-emerald-500 to-teal-500 py-4 text-[14px] font-bold text-white shadow-[0_8px_20px_rgb(16,185,129,0.25)] transition-all active:from-emerald-600 active:to-teal-600"
+        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#7C5CFC] py-4 text-[14px] font-bold text-white shadow-[0_4px_16px_rgb(124,92,252,0.25)] transition-all active:bg-[#6B4CE0]"
       >
         <Plus size={18} strokeWidth={2.5} />
         실측 데이터 입력하기
       </motion.button>
 
-      <motion.p variants={child} className="text-center text-[10px] text-gray-400 dark:text-gray-500">
+      <motion.p variants={child} className="text-center text-[11px] text-stone-400 dark:text-stone-500">
         * WHO 영유아 성장 기준 (WHO Child Growth Standards) 기반
       </motion.p>
 

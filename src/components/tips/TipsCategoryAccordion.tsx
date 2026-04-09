@@ -70,7 +70,7 @@ export default function TipsCategoryAccordion({
         {categories.map((cat) => (
           <div
             key={cat.key}
-            className="h-16 animate-pulse rounded-2xl bg-gradient-to-r from-indigo-50 to-blue-50"
+            className="h-16 animate-pulse rounded-2xl bg-stone-200/60 dark:bg-stone-800/60"
           />
         ))}
       </div>
@@ -89,8 +89,8 @@ export default function TipsCategoryAccordion({
             <motion.button
               onClick={() => toggle(cat.key)}
               className={cn(
-                "flex w-full min-h-[56px] items-center gap-3 rounded-[28px] bg-gradient-to-r p-4 text-left transition-all",
-                cat.color,
+                "flex w-full min-h-[56px] items-center gap-3 rounded-2xl p-4 text-left transition-all",
+                "bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700",
                 isOpen && "shadow-md ring-1 ring-black/5"
               )}
               whileTap={{ scale: 0.98 }}
@@ -99,22 +99,22 @@ export default function TipsCategoryAccordion({
                 <Icon size={20} />
               </div>
               <div className="flex-1">
-                <span className="text-base font-bold text-gray-700 dark:text-gray-200">
+                <span className="text-base font-bold text-stone-700 dark:text-stone-200">
                   {cat.emoji} {cat.label}
                 </span>
                 {catTips.length > 0 ? (
-                  <span className="ml-2 inline-flex items-center rounded-full bg-white/60 dark:bg-white/10 px-2 py-0.5 text-[11px] font-bold text-gray-500 dark:text-gray-400">
+                  <span className="ml-2 inline-flex items-center rounded-full bg-white/60 dark:bg-white/10 px-2 py-0.5 text-[11px] font-bold text-stone-500 dark:text-stone-400">
                     {catTips.length}
                   </span>
                 ) : (
-                  <span className="ml-2 text-[11px] text-gray-400 dark:text-gray-500">{"\ub370\uc774\ud130 \uc5c6\uc74c"}</span>
+                  <span className="ml-2 text-[11px] text-stone-400 dark:text-stone-500">{"\ub370\uc774\ud130 \uc5c6\uc74c"}</span>
                 )}
               </div>
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <ChevronDown size={18} className="text-gray-400" />
+                <ChevronDown size={18} className="text-stone-400" />
               </motion.div>
             </motion.button>
 
@@ -129,7 +129,7 @@ export default function TipsCategoryAccordion({
                 >
                   <div className="space-y-2 px-2 pt-2 pb-1">
                     {catTips.length === 0 ? (
-                      <div className="rounded-xl bg-white/60 p-4 text-center text-sm text-gray-400">
+                      <div className="rounded-xl bg-white/60 p-4 text-center text-sm text-stone-400">
                         {"\ud83d\udcad"} {"\uc774"} {"\uc6d4\ub839\uc758"} {cat.label} {"\uc815\ubcf4\uac00"} {"\uc544\uc9c1"} {"\uc5c6\uc5b4\uc694"}
                       </div>
                     ) : (
@@ -139,9 +139,9 @@ export default function TipsCategoryAccordion({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="rounded-[20px] border border-gray-100 bg-white p-4 shadow-[0_2px_8px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800"
+                          className="rounded-[20px] border border-stone-200 bg-white p-4 shadow-[0_2px_8px_rgb(0,0,0,0.04)] dark:border-stone-700 dark:bg-stone-800"
                         >
-                          <h4 className="text-base font-bold text-gray-800 dark:text-gray-100">
+                          <h4 className="text-base font-bold text-stone-800 dark:text-stone-100">
                             {tip.title}
                           </h4>
                           <div className="mt-2">

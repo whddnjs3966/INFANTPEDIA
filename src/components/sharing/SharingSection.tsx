@@ -222,7 +222,7 @@ export default function SharingSection() {
   return (
     <div className="space-y-4">
       {/* Share / Connected status */}
-      <div className="rounded-[28px] border border-gray-100 bg-white dark:border-gray-700/50 dark:bg-gray-800 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
+      <div className="rounded-2xl border border-stone-200 bg-white dark:border-stone-700 dark:bg-stone-800 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
         <div className="mb-3 flex items-center gap-2">
           <div className="rounded-lg bg-green-100 p-2">
             <Share2 size={18} className="text-green-500" />
@@ -249,7 +249,7 @@ export default function SharingSection() {
                   {copied ? <Check size={14} /> : <Copy size={14} />}
                 </button>
               </div>
-              <p className="mt-1 text-[10px] text-green-500 dark:text-green-400">
+              <p className="mt-1 text-[11px] text-green-500 dark:text-green-400">
                 이 코드를 상대방에게 공유하세요
               </p>
             </div>
@@ -364,7 +364,7 @@ export default function SharingSection() {
                     {copied ? <Check size={16} /> : <Copy size={16} />}
                   </button>
                 </div>
-                <p className="mt-2 text-[10px] text-green-500 dark:text-green-400">
+                <p className="mt-2 text-[11px] text-green-500 dark:text-green-400">
                   이 코드를 배우자에게 보내주세요
                 </p>
               </motion.div>
@@ -390,7 +390,7 @@ export default function SharingSection() {
 
       {/* Join by invite code */}
       {!currentMapping && (
-        <div className="rounded-[28px] border border-gray-100 bg-white dark:border-gray-700/50 dark:bg-gray-800 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
+        <div className="rounded-2xl border border-stone-200 bg-white dark:border-stone-700 dark:bg-stone-800 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
           <div className="mb-3 flex items-center gap-2">
             <div className="rounded-lg bg-indigo-100 p-2">
               <Link size={18} className="text-indigo-500" />

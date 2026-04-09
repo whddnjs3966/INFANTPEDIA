@@ -51,14 +51,14 @@ function SectionHeader({
     <motion.button
       onClick={onToggle}
       className={cn(
-        "flex w-full items-center gap-3 rounded-[28px] bg-gradient-to-r p-4 text-left transition-all",
+        "flex w-full items-center gap-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 p-4 text-left transition-all",
         colorMap[color] || colorMap.pink,
         isOpen && ""
       )}
       whileTap={{ scale: 0.98 }}
     >
       <span className="text-xl">{emoji}</span>
-      <span className="flex-1 text-sm font-bold text-gray-700 dark:text-gray-200">
+      <span className="flex-1 text-sm font-bold text-stone-700 dark:text-stone-200">
         {title}
       </span>
       <motion.div
@@ -88,7 +88,7 @@ function ExpandableSection({
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="overflow-hidden"
         >
-          <div className="mt-2 rounded-[28px] border border-gray-100 bg-white p-4 dark:border-gray-700/50 dark:bg-gray-800">
+          <div className="mt-2 rounded-2xl border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-800">
             {children}
           </div>
         </motion.div>
@@ -130,9 +130,9 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
 
   if (!guide) {
     return (
-      <div className="rounded-[28px] bg-white p-8 text-center dark:bg-gray-800">
+      <div className="rounded-2xl bg-white p-8 text-center dark:bg-stone-800">
         <p className="text-3xl">🍼</p>
-        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
           해당 월령의 수유 가이드가 준비 중이에요
         </p>
       </div>
@@ -159,15 +159,15 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.05 }}
             className={cn(
-              "rounded-[28px] bg-gradient-to-br p-3.5 text-center",
-              stat.gradient
+              "rounded-2xl p-3.5 text-center bg-stone-50 dark:bg-stone-800/60 border border-stone-200/50 dark:border-stone-700/50",
+              ""
             )}
           >
             <p className="text-lg">{stat.emoji}</p>
-            <p className="mt-1 text-base font-bold text-gray-800 dark:text-gray-100">
+            <p className="mt-1 text-base font-bold text-stone-800 dark:text-stone-100">
               {stat.value}
             </p>
-            <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
+            <p className="text-[11px] font-medium text-stone-500 dark:text-stone-400">
               {stat.label}
             </p>
           </motion.div>
@@ -204,10 +204,10 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                 <div className="flex items-center gap-2">
                   <span className="text-xl">{pos.emoji}</span>
                   <div className="flex-1">
-                    <p className="text-sm font-bold text-gray-800 dark:text-gray-100">
+                    <p className="text-sm font-bold text-stone-800 dark:text-stone-100">
                       {pos.name}
                     </p>
-                    <span className="inline-block mt-0.5 rounded-full bg-pink-100 px-2 py-0.5 text-[10px] font-medium text-pink-600 dark:bg-pink-900/40 dark:text-pink-300">
+                    <span className="inline-block mt-0.5 rounded-full bg-pink-100 px-2 py-0.5 text-[11px] font-medium text-pink-600 dark:bg-pink-900/40 dark:text-pink-300">
                       {pos.suitableFor}
                     </span>
                   </div>
@@ -240,7 +240,7 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                 transition={{ delay: idx * 0.05 }}
                 className="flex items-start gap-2"
               >
-                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
+                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[11px] font-bold text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
                   {idx + 1}
                 </div>
                 <p className="text-[13px] leading-relaxed text-gray-700 dark:text-gray-300">
@@ -280,10 +280,10 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                   )}
                 </div>
                 <div className="flex-1 pt-0.5">
-                  <p className="text-[13px] font-bold text-gray-800 dark:text-gray-100">
+                  <p className="text-[13px] font-bold text-stone-800 dark:text-stone-100">
                     {step.title}
                   </p>
-                  <p className="mt-0.5 text-[12px] text-gray-500 dark:text-gray-400">
+                  <p className="mt-0.5 text-[12px] text-stone-500 dark:text-stone-400">
                     {step.description}
                   </p>
                 </div>
@@ -318,10 +318,10 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                 )}
               >
                 <p className="text-lg">{item.emoji}</p>
-                <p className="mt-1 text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-[11px] font-medium text-stone-500 dark:text-stone-400">
                   {item.label}
                 </p>
-                <p className="mt-0.5 text-[13px] font-bold text-gray-800 dark:text-gray-100">
+                <p className="mt-0.5 text-[13px] font-bold text-stone-800 dark:text-stone-100">
                   {item.value}
                 </p>
               </div>
@@ -384,7 +384,7 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
                     <div className="flex-1">
                       <div className="flex items-center gap-1.5">
                         <div className={cn("h-2 w-2 rounded-full", config.dot)} />
-                        <p className="text-[13px] font-bold text-gray-800 dark:text-gray-100">
+                        <p className="text-[13px] font-bold text-stone-800 dark:text-stone-100">
                           {item.issue}
                         </p>
                       </div>

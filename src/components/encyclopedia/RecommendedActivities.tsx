@@ -48,9 +48,9 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
       <motion.button
         onClick={() => setIsExpanded(!isExpanded)}
         className={cn(
-          "w-full rounded-[28px] text-left transition-all",
-          "bg-gradient-to-br from-white to-sky-50/50 ",
-          "dark:from-gray-800 dark:to-gray-800/80",
+          "w-full rounded-2xl text-left transition-all",
+          "bg-white dark:bg-stone-900",
+          "border border-stone-200 dark:border-stone-700",
           isExpanded && ""
         )}
         whileTap={{ scale: 0.985 }}
@@ -60,22 +60,22 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
           <div
             className={cn(
               "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-xl",
-              "bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-900/30 dark:to-teal-900/30"
+              "bg-stone-100 dark:bg-stone-800"
             )}
           >
             {activity.emoji}
           </div>
 
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-bold text-gray-800 dark:text-gray-100 truncate">
+            <h3 className="text-base font-bold text-stone-800 dark:text-stone-100 truncate">
               {activity.title}
             </h3>
             <div className="mt-0.5 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+              <span className="inline-flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400">
                 <Clock size={12} className="text-cyan-500" />
                 {activity.duration}
               </span>
-              <span className="text-xs text-gray-400 dark:text-gray-500">
+              <span className="text-xs text-stone-400 dark:text-stone-500">
                 {activity.difficulty === "easy" ? "⭐" : "⭐⭐"}
               </span>
             </div>
@@ -86,7 +86,7 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
             transition={{ duration: 0.25 }}
             className="shrink-0"
           >
-            <ChevronDown size={18} className="text-gray-400 dark:text-gray-500" />
+            <ChevronDown size={18} className="text-stone-400 dark:text-stone-500" />
           </motion.div>
         </div>
 
@@ -102,7 +102,7 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
             >
               <div className="px-4 pb-4 space-y-3">
                 {/* Divider */}
-                <div className="h-px bg-gray-100 dark:bg-gray-700" />
+                <div className="h-px bg-stone-100 dark:bg-stone-700" />
 
                 {/* Description */}
                 <FormattedContent content={activity.description} />
@@ -112,7 +112,7 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
                   <div>
                     <div className="flex items-center gap-1.5 mb-1.5">
                       <Package size={13} className="text-teal-500" />
-                      <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                      <span className="text-xs font-semibold text-stone-500 dark:text-stone-400">
                         준비물
                       </span>
                     </div>
@@ -137,7 +137,7 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
                 <div>
                   <div className="flex items-center gap-1.5 mb-1.5">
                     <Brain size={13} className="text-cyan-500" />
-                    <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                    <span className="text-xs font-semibold text-stone-500 dark:text-stone-400">
                       발달 영역
                     </span>
                   </div>
@@ -157,7 +157,7 @@ function ActivityCard({ activity, index }: { activity: RecommendedActivity; inde
                 </div>
 
                 {/* Age range */}
-                <div className="text-xs text-gray-400 dark:text-gray-500">
+                <div className="text-xs text-stone-400 dark:text-stone-500">
                   권장 연령: {activity.ageRange}
                 </div>
               </div>
@@ -176,7 +176,7 @@ export default function RecommendedActivities({ month }: RecommendedActivitiesPr
     return (
       <div className="px-4 py-8 text-center">
         <div className="text-4xl mb-2">🎯</div>
-        <p className="text-sm text-gray-400 dark:text-gray-500">
+        <p className="text-sm text-stone-400 dark:text-stone-500">
           이 월령의 추천 놀이 정보가 아직 없어요
         </p>
       </div>
@@ -190,16 +190,16 @@ export default function RecommendedActivities({ month }: RecommendedActivitiesPr
         <div
           className={cn(
             "flex h-8 w-8 items-center justify-center rounded-lg text-sm",
-            "bg-gradient-to-br from-cyan-100 to-teal-100 dark:from-cyan-900/40 dark:to-teal-900/40"
+            "bg-stone-100 dark:bg-stone-800"
           )}
         >
           🎯
         </div>
         <div>
-          <h2 className="text-[15px] font-bold text-gray-800 dark:text-gray-100">
+          <h2 className="text-[15px] font-bold text-stone-800 dark:text-stone-100">
             추천 놀이 활동
           </h2>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-stone-500 dark:text-stone-400">
             {month}개월 아기에게 적합한 놀이 {monthData.activities.length}가지
           </p>
         </div>

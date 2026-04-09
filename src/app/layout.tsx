@@ -6,7 +6,7 @@ import ClientLayout from "@/components/layout/ClientLayout";
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-sans",
   display: "swap",
 });
@@ -31,7 +31,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#B794D6",
+  themeColor: "#7C5CFC",
 };
 
 export default function RootLayout({

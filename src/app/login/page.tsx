@@ -96,7 +96,7 @@ function LoginContent() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         onClick={() => router.back()}
-        className="mb-8 flex w-fit items-center gap-1 text-sm text-gray-400 dark:text-gray-500"
+        className="mb-8 flex w-fit items-center gap-1 text-sm text-stone-400 dark:text-stone-500"
       >
         <ArrowLeft size={16} />
         돌아가기
@@ -104,7 +104,7 @@ function LoginContent() {
 
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-12 text-center"
       >
@@ -120,7 +120,7 @@ function LoginContent() {
 
       {/* Benefits */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
         className="mb-10 space-y-3"
@@ -132,7 +132,7 @@ function LoginContent() {
         ].map((item, i) => (
           <div
             key={i}
-            className="flex items-center gap-3 rounded-xl bg-white/60 px-4 py-3 dark:bg-gray-800/60"
+            className="flex items-center gap-3 rounded-xl bg-white/60 px-4 py-3 dark:bg-stone-800/60"
           >
             <span className="text-lg">{item.emoji}</span>
             <span className="text-sm text-gray-600 dark:text-gray-300">{item.text}</span>
@@ -142,7 +142,7 @@ function LoginContent() {
 
       {/* Social login buttons */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
         className="space-y-3"
@@ -204,7 +204,7 @@ function LoginContent() {
       </motion.button>
 
       {/* Footer */}
-      <p className="mt-auto pt-8 text-center text-[10px] leading-relaxed text-gray-400 dark:text-gray-500">
+      <p className="mt-auto pt-8 text-center text-[11px] leading-relaxed text-stone-400 dark:text-stone-500">
         소셜 로그인 시 서비스 이용약관 및<br />
         개인정보 처리방침에 동의하게 됩니다.
       </p>

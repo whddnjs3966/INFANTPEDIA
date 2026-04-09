@@ -91,7 +91,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
   return (
     <div className="mx-4 mb-3">
       {/* Accordion Card */}
-      <div className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_2px_12px_rgb(0,0,0,0.04)] overflow-hidden">
+      <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
         {/* Header */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -101,11 +101,11 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
             <Clock size={17} className="text-violet-500" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+            <p className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
               {month}개월 추천 하루 시간표
             </p>
             {hasTimedSchedule && (
-              <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">
+              <p className="text-[11px] text-stone-400 dark:text-stone-500 mt-0.5">
                 {schedule.wakeUp} ~ {schedule.bedtime}
               </p>
             )}
@@ -114,7 +114,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            <ChevronDown size={16} className="text-gray-400" />
+            <ChevronDown size={16} className="text-stone-400" />
           </motion.div>
         </button>
 
@@ -130,7 +130,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
             >
               <div className="px-4 pb-4 space-y-4">
                 {/* Divider */}
-                <div className="border-t border-gray-100 dark:border-gray-800" />
+                <div className="border-t border-stone-200 dark:border-stone-700" />
 
                 {/* 24-Hour Timeline Bar */}
                 {hasTimedSchedule && segments.length > 0 && (
@@ -138,16 +138,16 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-1">
                         <Sun size={11} className="text-amber-400" />
-                        <span className="text-[9px] text-gray-400 dark:text-gray-500">06</span>
+                        <span className="text-[11px] text-stone-400 dark:text-stone-500">06</span>
                       </div>
-                      <span className="text-[9px] text-gray-400 dark:text-gray-500">12</span>
-                      <span className="text-[9px] text-gray-400 dark:text-gray-500">18</span>
+                      <span className="text-[11px] text-stone-400 dark:text-stone-500">12</span>
+                      <span className="text-[11px] text-stone-400 dark:text-stone-500">18</span>
                       <div className="flex items-center gap-1">
-                        <span className="text-[9px] text-gray-400 dark:text-gray-500">00</span>
+                        <span className="text-[11px] text-stone-400 dark:text-stone-500">00</span>
                         <Moon size={11} className="text-indigo-400" />
                       </div>
                     </div>
-                    <div className="relative h-3 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                    <div className="relative h-3 w-full rounded-full bg-stone-100 dark:bg-stone-800 overflow-hidden">
                       {segments.map((seg, i) => (
                         <motion.div
                           key={i}
@@ -172,7 +172,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                         return (
                           <div key={type} className="flex items-center gap-1">
                             <div className={cn("h-2 w-2 rounded-full", cfg.bar)} />
-                            <span className="text-[10px] text-gray-500 dark:text-gray-400">
+                            <span className="text-[11px] text-stone-500 dark:text-stone-400">
                               {cfg.label}
                             </span>
                           </div>
@@ -184,41 +184,41 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
 
                 {/* Summary Stats */}
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5">
+                  <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
                     <div className="flex items-center gap-2">
                       <CloudMoon size={14} className="text-indigo-500 shrink-0" />
                       <div>
-                        <p className="text-[9px] text-gray-400">총 수면</p>
-                        <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">{schedule.totalSleepHours}</p>
+                        <p className="text-[11px] text-stone-400">총 수면</p>
+                        <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">{schedule.totalSleepHours}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5">
+                  <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
                     <div className="flex items-center gap-2">
                       <Moon size={14} className="text-purple-500 shrink-0" />
                       <div>
-                        <p className="text-[9px] text-gray-400">낮잠</p>
-                        <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">{schedule.napCount}</p>
+                        <p className="text-[11px] text-stone-400">낮잠</p>
+                        <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">{schedule.napCount}</p>
                       </div>
                     </div>
                   </div>
                   {hasTimedSchedule && (
                     <>
-                      <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5">
+                      <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
                         <div className="flex items-center gap-2">
                           <Sunrise size={14} className="text-amber-500 shrink-0" />
                           <div>
-                            <p className="text-[9px] text-gray-400">기상</p>
-                            <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">{schedule.wakeUp}</p>
+                            <p className="text-[11px] text-stone-400">기상</p>
+                            <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">{schedule.wakeUp}</p>
                           </div>
                         </div>
                       </div>
-                      <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5">
+                      <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
                         <div className="flex items-center gap-2">
                           <Moon size={14} className="text-slate-500 shrink-0" />
                           <div>
-                            <p className="text-[9px] text-gray-400">취침</p>
-                            <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">{schedule.bedtime}</p>
+                            <p className="text-[11px] text-stone-400">취침</p>
+                            <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">{schedule.bedtime}</p>
                           </div>
                         </div>
                       </div>
@@ -230,7 +230,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                 <div className="relative">
                   {schedule.items.map((item, idx) => {
                     const isExpanded = expandedIdx === idx;
-                    const cfg = typeConfig[item.type] || { bg: "bg-gray-50 dark:bg-gray-800", text: "text-gray-700 dark:text-gray-300", dot: "bg-gray-400" };
+                    const cfg = typeConfig[item.type] || { bg: "bg-gray-50 dark:bg-stone-800", text: "text-gray-700 dark:text-gray-300", dot: "bg-gray-400" };
                     return (
                       <div
                         key={idx}
@@ -238,7 +238,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                       >
                         {/* Time */}
                         <div className="w-11 shrink-0 pt-2 text-right">
-                          <span className="text-[12px] font-mono font-bold text-gray-600 dark:text-gray-400">
+                          <span className="text-[12px] font-mono font-bold text-gray-600 dark:text-stone-400">
                             {item.time}
                           </span>
                         </div>
@@ -253,7 +253,7 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                           />
                           {idx < schedule.items.length - 1 && (
                             <div
-                              className="w-px bg-gray-200 dark:bg-gray-700 flex-1"
+                              className="w-px bg-gray-200 dark:bg-stone-700 flex-1"
                               style={{ minHeight: isExpanded ? 72 : 28 }}
                             />
                           )}
@@ -274,8 +274,8 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                               </span>
                               {item.duration && item.duration !== "~" && (
                                 <div className="flex items-center gap-0.5 ml-2 shrink-0">
-                                  <Timer size={10} className="text-gray-400" />
-                                  <span className="text-[10px] text-gray-400 font-medium">
+                                  <Timer size={10} className="text-stone-400" />
+                                  <span className="text-[11px] text-gray-400 font-medium">
                                     {item.duration}
                                   </span>
                                 </div>
@@ -310,10 +310,10 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 px-3 py-2.5">
+                <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 px-3 py-2.5">
                   <div className="flex items-center gap-2">
                     <Info size={13} className="text-gray-400 shrink-0" />
-                    <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                    <p className="text-[11px] text-stone-500 dark:text-stone-400">
                       아기마다 리듬이 다를 수 있어요. 참고용으로 활용해 주세요.
                     </p>
                   </div>

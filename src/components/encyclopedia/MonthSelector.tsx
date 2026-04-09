@@ -90,15 +90,15 @@ export default function MonthSelector({
                   ? cn(
                       "min-w-[72px] h-[46px] px-4",
                       "rounded-full",
-                      "bg-violet-600 dark:bg-violet-500",
+                      "bg-[#7C5CFC] dark:bg-violet-500",
                       "shadow-md shadow-violet-500/25 dark:shadow-violet-400/20",
                     )
                   : cn(
                       "min-w-[60px] h-[42px] px-3.5",
                       "rounded-full",
-                      "bg-white dark:bg-gray-800",
-                      "border border-gray-200/60 dark:border-gray-700/60",
-                      "active:bg-gray-50 dark:active:bg-gray-700"
+                      "bg-white dark:bg-stone-800",
+                      "border border-stone-200/60 dark:border-stone-700/60",
+                      "active:bg-stone-50 dark:active:bg-stone-700"
                     )
               )}
             >
@@ -107,7 +107,7 @@ export default function MonthSelector({
                   "whitespace-nowrap select-none",
                   isSelected
                     ? "text-[13px] font-bold text-white"
-                    : "text-[13px] font-semibold text-gray-500 dark:text-gray-400"
+                    : "text-[13px] font-semibold text-stone-500 dark:text-stone-400"
                 )}
               >
                 {month}개월
@@ -115,7 +115,7 @@ export default function MonthSelector({
 
               {/* Current month dot */}
               {isCurrent && !isSelected && (
-                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-violet-500 ring-[1.5px] ring-white dark:ring-gray-900" />
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-[#7C5CFC] ring-[1.5px] ring-white dark:ring-stone-900" />
               )}
             </motion.button>
           );

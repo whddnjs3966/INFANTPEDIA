@@ -117,7 +117,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
         dragElastic={0.2}
         onDragEnd={handleDragEnd}
         style={{ y: dragY, maxHeight: "92vh" }}
-        className="relative z-10 flex w-full max-w-md flex-col rounded-t-3xl bg-white dark:bg-gray-900 pb-8 sm:rounded-3xl"
+        className="relative z-10 flex w-full max-w-md flex-col rounded-t-3xl bg-white dark:bg-stone-900 pb-8 sm:rounded-3xl"
       >
         {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing">
@@ -133,18 +133,18 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                 <Ruler size={17} className="text-emerald-500" />
               </div>
               <div>
-                <h3 className="text-[15px] font-bold text-gray-800 dark:text-gray-100">실측 데이터 입력</h3>
-                <p className="text-[10px] text-gray-400 dark:text-gray-500">아기의 성장을 기록해 보세요</p>
+                <h3 className="text-[15px] font-bold text-stone-800 dark:text-stone-100">실측 데이터 입력</h3>
+                <p className="text-[11px] text-stone-400 dark:text-stone-500">아기의 성장을 기록해 보세요</p>
               </div>
             </div>
-            <button onClick={onClose} className="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-              <X size={18} className="text-gray-400" />
+            <button onClick={onClose} className="rounded-full p-2 hover:bg-stone-100 dark:hover:bg-gray-800 transition-colors">
+              <X size={18} className="text-stone-400" />
             </button>
           </div>
 
           {/* Month selector */}
           <div className="mb-4">
-            <label className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+            <label className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-stone-500 dark:text-stone-400">
               <CalendarDays size={12} />
               월령 선택
             </label>
@@ -157,7 +157,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                     "min-w-[48px] rounded-xl px-3 py-2 text-xs font-semibold transition-all",
                     month === m
                       ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/25"
-                      : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 active:bg-gray-200"
+                      : "bg-stone-100 text-gray-500 dark:bg-stone-800 dark:text-gray-400 active:bg-gray-200"
                   )}
                 >
                   {m}개월
@@ -168,7 +168,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
 
           {/* Date */}
           <div className="mb-4">
-            <label className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+            <label className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-stone-500 dark:text-stone-400">
               <CalendarDays size={12} />
               측정일
             </label>
@@ -176,7 +176,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3.5 py-2.5 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 transition-all"
+              className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-stone-800 px-3.5 py-2.5 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 transition-all"
             />
           </div>
 
@@ -190,7 +190,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                   <span className="text-[12px] font-bold text-gray-700 dark:text-gray-300">키 (cm)</span>
                 </div>
                 {whoHeight && (
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">WHO 평균 {whoHeight}cm</span>
+                  <span className="text-[11px] text-stone-400 dark:text-stone-500">WHO 평균 {whoHeight}cm</span>
                 )}
               </div>
               <input
@@ -200,7 +200,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
                 placeholder={whoHeight ? `예: ${whoHeight}` : "0.0"}
-                className="w-full bg-transparent text-[18px] font-bold text-gray-800 dark:text-gray-100 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none"
+                className="w-full bg-transparent text-[18px] font-bold text-stone-800 dark:text-stone-100 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none"
               />
             </div>
 
@@ -212,7 +212,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                   <span className="text-[12px] font-bold text-gray-700 dark:text-gray-300">몸무게 (kg)</span>
                 </div>
                 {whoWeight && (
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">WHO 평균 {whoWeight}kg</span>
+                  <span className="text-[11px] text-stone-400 dark:text-stone-500">WHO 평균 {whoWeight}kg</span>
                 )}
               </div>
               <input
@@ -222,7 +222,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 placeholder={whoWeight ? `예: ${whoWeight}` : "0.0"}
-                className="w-full bg-transparent text-[18px] font-bold text-gray-800 dark:text-gray-100 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none"
+                className="w-full bg-transparent text-[18px] font-bold text-stone-800 dark:text-stone-100 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none"
               />
             </div>
 
@@ -234,7 +234,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                   <span className="text-[12px] font-bold text-gray-700 dark:text-gray-300">머리둘레 (cm)</span>
                 </div>
                 {whoHead && (
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">WHO 평균 {whoHead}cm</span>
+                  <span className="text-[11px] text-stone-400 dark:text-stone-500">WHO 평균 {whoHead}cm</span>
                 )}
               </div>
               <input
@@ -244,14 +244,14 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                 value={headCirc}
                 onChange={(e) => setHeadCirc(e.target.value)}
                 placeholder={whoHead ? `예: ${whoHead}` : "0.0"}
-                className="w-full bg-transparent text-[18px] font-bold text-gray-800 dark:text-gray-100 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none"
+                className="w-full bg-transparent text-[18px] font-bold text-stone-800 dark:text-stone-100 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none"
               />
             </div>
           </div>
 
           {/* Memo */}
           <div className="mb-4">
-            <label className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+            <label className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-stone-500 dark:text-stone-400">
               <StickyNote size={12} />
               메모 (선택)
             </label>
@@ -261,9 +261,9 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
               placeholder="예: 소아과 정기검진 측정"
               maxLength={100}
               rows={2}
-              className="w-full resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3.5 py-2.5 text-sm text-gray-800 dark:text-gray-200 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 transition-all"
+              className="w-full resize-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-stone-800 px-3.5 py-2.5 text-sm text-gray-800 dark:text-gray-200 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 transition-all"
             />
-            <p className="mt-0.5 text-right text-[10px] text-gray-400 dark:text-gray-500">{memo.length}/100</p>
+            <p className="mt-0.5 text-right text-[11px] text-stone-400 dark:text-stone-500">{memo.length}/100</p>
           </div>
 
           {/* Validation error */}
@@ -288,8 +288,8 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                 saved
                   ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
                   : !hasInput
-                  ? "bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-500"
-                  : "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25 active:from-emerald-600 active:to-teal-600"
+                  ? "bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500"
+                  : "bg-[#7C5CFC] text-white shadow-lg shadow-[#7C5CFC]/25 active:bg-[#6B4CE0]"
               )}
             >
               {saved ? (

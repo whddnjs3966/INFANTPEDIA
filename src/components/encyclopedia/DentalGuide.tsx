@@ -53,7 +53,7 @@ function ExpandableSection({
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex w-full min-h-[48px] items-center gap-3 rounded-[28px] bg-gradient-to-r p-3.5 text-left transition-all",
+          "flex w-full min-h-[48px] items-center gap-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 p-3.5 text-left transition-all",
           gradientFrom,
           gradientTo,
           borderColor,
@@ -64,7 +64,7 @@ function ExpandableSection({
         <div className={cn("rounded-2xl p-2", iconColor)}>
           <Icon size={18} />
         </div>
-        <span className="flex-1 text-sm font-bold text-gray-700 dark:text-gray-200">
+        <span className="flex-1 text-sm font-bold text-stone-700 dark:text-stone-200">
           {title}
         </span>
         <motion.div
@@ -84,7 +84,7 @@ function ExpandableSection({
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="rounded-[28px] border border-gray-100 bg-white dark:border-gray-700/50 dark:bg-gray-800 mt-2 p-4">
+            <div className="rounded-2xl border border-stone-200 bg-white dark:border-stone-700 dark:bg-stone-800 mt-2 p-4">
               {children}
             </div>
           </motion.div>
@@ -150,13 +150,13 @@ function JawDiagram({ month }: { month: number }) {
     return (
       <motion.div
         className={cn(
-          "w-6 h-7 rounded-md flex items-center justify-center text-[10px] font-bold transition-all",
+          "w-6 h-7 rounded-md flex items-center justify-center text-[11px] font-bold transition-all",
           status === "erupted" &&
             "bg-teal-400 dark:bg-teal-500 dark:text-white shadow-teal-300/50 dark:shadow-teal-600/50",
           status === "upcoming" &&
             "bg-teal-100 dark:bg-teal-900/50 dark:text-teal-600 dark:text-teal-300 animate-pulse",
           status === "future" &&
-            "bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:text-gray-600"
+            "bg-stone-100 dark:bg-stone-800 dark:text-gray-300 dark:text-gray-600"
         )}
         title={`${tooth.name} (${tooth.eruptionMonth})`}
         initial={{ scale: 0.8, opacity: 0 }}
@@ -166,7 +166,7 @@ function JawDiagram({ month }: { month: number }) {
         {status === "erupted" ? (
           <Check size={12} />
         ) : status === "upcoming" ? (
-          <span className="text-[9px]">🦷</span>
+          <span className="text-[11px]">🦷</span>
         ) : (
           <span className="text-[8px]">·</span>
         )}
@@ -177,7 +177,7 @@ function JawDiagram({ month }: { month: number }) {
   return (
     <div className="flex flex-col items-center gap-1.5">
       {/* Upper label */}
-      <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 tracking-wider">
+      <span className="text-[11px] font-semibold text-stone-400 dark:text-stone-500 tracking-wider">
         윗니
       </span>
       {/* Upper row */}
@@ -195,22 +195,22 @@ function JawDiagram({ month }: { month: number }) {
         ))}
       </div>
       {/* Lower label */}
-      <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 tracking-wider">
+      <span className="text-[11px] font-semibold text-stone-400 dark:text-stone-500 tracking-wider">
         아랫니
       </span>
 
       {/* Legend */}
       <div className="flex items-center gap-3 mt-2">
-        <span className="inline-flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400">
+        <span className="inline-flex items-center gap-1 text-[11px] text-stone-500 dark:text-stone-400">
           <span className="w-3 h-3 rounded-sm bg-teal-400 dark:bg-teal-500 inline-block" />
           나온 이
         </span>
-        <span className="inline-flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400">
+        <span className="inline-flex items-center gap-1 text-[11px] text-stone-500 dark:text-stone-400">
           <span className="w-3 h-3 rounded-sm bg-teal-100 dark:bg-teal-900/50 dark:inline-block" />
           나올 수 있는 이
         </span>
-        <span className="inline-flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400">
-          <span className="w-3 h-3 rounded-sm bg-gray-100 dark:bg-gray-800 dark:inline-block" />
+        <span className="inline-flex items-center gap-1 text-[11px] text-stone-500 dark:text-stone-400">
+          <span className="w-3 h-3 rounded-sm bg-stone-100 dark:bg-stone-800 dark:inline-block" />
           아직
         </span>
       </div>
@@ -270,18 +270,18 @@ export default function DentalGuide({ month }: DentalGuideProps) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="rounded-[28px] dark:bg-gradient-to-br from-teal-50 via-cyan-50 to-mint-50 dark:from-teal-950/20 dark:via-cyan-950/20 dark:to-teal-950/20 p-4 "
+        transition={{ duration: 0.3 }}
+        className="rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 p-4"
       >
         <div className="flex items-center gap-2 mb-3">
           <div className="rounded-2xl bg-teal-100 dark:bg-teal-900/50 p-2">
             <Smile size={20} className="text-teal-500 dark:text-teal-400" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-gray-800 dark:text-gray-100">
+            <h3 className="text-sm font-bold text-stone-800 dark:text-stone-100">
               치아 발달 현황
             </h3>
-            <p className="text-[11px] text-gray-500 dark:text-gray-400">
+            <p className="text-[11px] text-stone-500 dark:text-stone-400">
               나온 이 {eruptedCount}개
               {upcomingCount > 0 && ` · 나올 수 있는 이 ${upcomingCount}개`}
             </p>
@@ -312,7 +312,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
       >
         <ExpandableSection
           title="유치 발달 타임라인"
@@ -353,7 +353,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                         isUpcoming &&
                           "bg-cyan-100 dark:bg-cyan-900/50 dark:text-cyan-600 dark:text-cyan-300 shadow-cyan-200/50 dark:shadow-cyan-800/50",
                         isFuture &&
-                          "bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:text-gray-500"
+                          "bg-stone-100 dark:bg-stone-800 dark:text-stone-400 dark:text-stone-500"
                       )}
                     >
                       {isErupted ? (
@@ -372,7 +372,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                         isErupted &&
                           "bg-teal-50/50 dark:bg-teal-950/20",
                         isFuture &&
-                          "bg-gray-50/50 dark:bg-gray-800/30"
+                          "bg-gray-50/50 dark:bg-stone-800/30"
                       )}
                     >
                       <div className="flex items-center justify-between">
@@ -383,19 +383,19 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                               ? "text-cyan-700 dark:text-cyan-300"
                               : isErupted
                                 ? "text-teal-700 dark:text-teal-400"
-                                : "text-gray-500 dark:text-gray-400"
+                                : "text-stone-500 dark:text-stone-400"
                           )}
                         >
                           {item.name}
                         </p>
                         <span
                           className={cn(
-                            "text-[10px] font-medium px-2 py-0.5 rounded-full",
+                            "text-[11px] font-medium px-2 py-0.5 rounded-full",
                             isUpcoming
                               ? "bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-300"
                               : isErupted
                                 ? "bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-400"
-                                : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500"
+                                : "bg-stone-100 dark:bg-stone-800 text-stone-400 dark:text-stone-500"
                           )}
                         >
                           {item.count}개
@@ -406,7 +406,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                           "text-[11px] mt-0.5",
                           isUpcoming
                             ? "text-cyan-600 dark:text-cyan-400"
-                            : "text-gray-400 dark:text-gray-500"
+                            : "text-stone-400 dark:text-stone-500"
                         )}
                       >
                         {item.eruptionMonth}
@@ -424,7 +424,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
       >
         <ExpandableSection
           title="이앓이 증상 & 대처법"
@@ -474,10 +474,10 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                     <span className="text-xl">{remedy.emoji}</span>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">
+                        <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">
                           {remedy.title}
                         </p>
-                        <span className="text-[10px] text-amber-500">
+                        <span className="text-[11px] text-amber-500">
                           {remedy.effectiveness === "high"
                             ? "⭐⭐⭐"
                             : "⭐⭐"}
@@ -497,7 +497,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.3 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
       >
         <ExpandableSection
           title="양치 가이드"
@@ -509,13 +509,13 @@ export default function DentalGuide({ month }: DentalGuideProps) {
         >
           {/* Key info */}
           <div className="flex flex-wrap gap-1.5 mb-4">
-            <span className="inline-flex items-center gap-1 rounded-full bg-teal-100 dark:bg-teal-900/40 px-2.5 py-1 text-[10px] font-semibold text-teal-700 dark:text-teal-300">
+            <span className="inline-flex items-center gap-1 rounded-full bg-teal-100 dark:bg-teal-900/40 px-2.5 py-1 text-[11px] font-semibold text-teal-700 dark:text-teal-300">
               🪥 {guide.brushingGuide.startAge}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-cyan-100 dark:bg-cyan-900/40 px-2.5 py-1 text-[10px] font-semibold text-cyan-700 dark:text-cyan-300">
+            <span className="inline-flex items-center gap-1 rounded-full bg-cyan-100 dark:bg-cyan-900/40 px-2.5 py-1 text-[11px] font-semibold text-cyan-700 dark:text-cyan-300">
               🕐 {guide.brushingGuide.frequency}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2.5 py-1 text-[10px] font-semibold text-emerald-700 dark:text-emerald-300">
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">
               ⏱️ {guide.brushingGuide.duration}
             </span>
           </div>
@@ -542,11 +542,11 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                   {step.step}
                 </div>
                 <div className="flex-1">
-                  <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1.5">
+                  <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200 flex items-center gap-1.5">
                     <span>{step.emoji}</span>
                     {step.title}
                   </p>
-                  <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed mt-0.5">
+                  <p className="text-[11px] text-stone-500 dark:text-stone-400 leading-relaxed mt-0.5">
                     {step.description}
                   </p>
                 </div>
@@ -560,7 +560,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.4 }}
+        transition={{ duration: 0.3, delay: 0.4 }}
       >
         <ExpandableSection
           title="치과 방문 가이드"
@@ -624,7 +624,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.5 }}
+        transition={{ duration: 0.3, delay: 0.5 }}
       >
         <ExpandableSection
           title="자주 묻는 질문 (FAQ)"
@@ -643,7 +643,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                 transition={{ delay: idx * 0.05 }}
                 className="rounded-2xl dark:bg-sky-50/50 dark:bg-sky-950/20 p-3"
               >
-                <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200 mb-1.5 flex items-center gap-1.5">
+                <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200 mb-1.5 flex items-center gap-1.5">
                   <span>{item.emoji}</span>
                   {item.issue}
                 </p>

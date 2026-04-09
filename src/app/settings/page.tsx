@@ -126,11 +126,11 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen dark:bg-gray-950 px-4 pt-6 pb-4">
+    <div className="min-h-screen dark:bg-stone-950 px-4 pt-6 pb-4">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <p className="text-[12px] font-medium text-gray-400 dark:text-gray-500">앱 관리</p>
-        <h1 className="mt-0.5 text-[22px] font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
+        <p className="text-[12px] font-medium text-stone-400 dark:text-stone-500">앱 관리</p>
+        <h1 className="mt-0.5 text-[22px] font-extrabold text-stone-800 dark:text-stone-100 tracking-tight">
           설정
         </h1>
       </motion.div>
@@ -142,12 +142,12 @@ export default function SettingsPage() {
         className="mt-5 space-y-3"
       >
         {/* ── Account Section ── */}
-        <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
+        <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
           <div className="mb-3 flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-50 dark:bg-green-950/40">
               {user ? <User size={17} className="text-green-500" /> : <LogIn size={17} className="text-green-500" />}
             </div>
-            <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">계정</h2>
+            <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">계정</h2>
           </div>
 
           {authLoading ? (
@@ -165,22 +165,22 @@ export default function SettingsPage() {
                   </div>
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  <p className="truncate text-sm font-semibold text-stone-700 dark:text-stone-200">
                     {user.user_metadata?.full_name || user.user_metadata?.name || "사용자"}
                   </p>
-                  <p className="truncate text-xs text-gray-400 dark:text-gray-500">{user.email}</p>
+                  <p className="truncate text-xs text-stone-400 dark:text-stone-500">{user.email}</p>
                 </div>
-                <span className="shrink-0 rounded-full bg-green-100 dark:bg-green-900/50 px-2 py-0.5 text-[10px] font-medium text-green-600 dark:text-green-400">
+                <span className="shrink-0 rounded-full bg-green-100 dark:bg-green-900/50 px-2 py-0.5 text-[11px] font-medium text-green-600 dark:text-green-400">
                   로그인됨
                 </span>
               </div>
               <button
                 onClick={async () => { setLoggingOut(true); await signOut(); setLoggingOut(false); }}
                 disabled={loggingOut}
-                className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-gray-50 dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 transition-colors active:bg-gray-100 dark:active:bg-gray-700"
+                className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-stone-50 dark:bg-stone-800 text-sm font-medium text-stone-500 dark:text-stone-400 transition-colors active:bg-stone-100 dark:active:bg-gray-700"
               >
                 {loggingOut ? (
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-transparent" />
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-stone-300 border-t-transparent" />
                 ) : (
                   <><LogOut size={14} />로그아웃</>
                 )}
@@ -188,10 +188,10 @@ export default function SettingsPage() {
             </div>
           ) : (
             <div className="space-y-3">
-              <p className="text-xs text-gray-500 dark:text-gray-400">로그인하면 기기를 바꿔도 데이터가 안전하게 유지돼요</p>
+              <p className="text-xs text-stone-500 dark:text-stone-400">로그인하면 기기를 바꿔도 데이터가 안전하게 유지돼요</p>
               <button
                 onClick={() => router.push("/login")}
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-green-400 to-emerald-400 text-sm font-semibold text-white active:from-green-500 active:to-emerald-500"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#7C5CFC] text-sm font-semibold text-white active:bg-[#6B4CE0]"
               >
                 <LogIn size={16} />
                 소셜 로그인하기
@@ -202,8 +202,8 @@ export default function SettingsPage() {
 
         {/* ── Baby Switcher ── */}
         {babies.length > 1 && (
-          <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
-            <p className="mb-3 text-[12px] font-semibold text-gray-400 dark:text-gray-500 px-1">아기 선택</p>
+          <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-4 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
+            <p className="mb-3 text-[12px] font-semibold text-stone-400 dark:text-stone-500 px-1">아기 선택</p>
             <div className="flex gap-2 overflow-x-auto pb-1">
               {babies.map((baby) => (
                 <motion.button
@@ -214,15 +214,15 @@ export default function SettingsPage() {
                     "flex shrink-0 items-center gap-2 rounded-2xl border-2 px-4 py-2.5 transition-all",
                     baby.id === activeId
                       ? "border-pink-300 bg-pink-50 shadow-sm dark:border-pink-600 dark:bg-pink-900/30"
-                      : "border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
+                      : "border-gray-200 bg-white dark:border-gray-700 dark:bg-stone-800"
                   )}
                 >
                   <span className="text-lg">{baby.gender === "female" ? "👧" : "👦"}</span>
                   <div className="text-left">
-                    <p className={cn("text-sm font-semibold", baby.id === activeId ? "text-pink-700 dark:text-pink-300" : "text-gray-600 dark:text-gray-300")}>
+                    <p className={cn("text-sm font-semibold", baby.id === activeId ? "text-pink-700 dark:text-pink-300" : "text-stone-600 dark:text-stone-300")}>
                       {baby.name}
                     </p>
-                    <p className="text-[10px] text-gray-400 dark:text-gray-500">{baby.birthdate}</p>
+                    <p className="text-[11px] text-stone-400 dark:text-stone-500">{baby.birthdate}</p>
                   </div>
                   {baby.id === activeId && <Check size={14} className="text-pink-500" />}
                 </motion.button>
@@ -232,56 +232,56 @@ export default function SettingsPage() {
         )}
 
         {/* ── Profile Edit ── */}
-        <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
+        <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
           <div className="mb-4 flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-pink-50 dark:bg-pink-950/40">
               <User size={17} className="text-pink-500" />
             </div>
-            <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">아기 프로필</h2>
+            <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">아기 프로필</h2>
           </div>
 
           <form onSubmit={handleSave} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="settings-name" className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">아기 이름</Label>
-              <Input id="settings-name" type="text" value={name} onChange={(e) => setName(e.target.value)} className="h-11 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
+              <Label htmlFor="settings-name" className="text-[12px] font-semibold text-stone-500 dark:text-stone-400">아기 이름</Label>
+              <Input id="settings-name" type="text" value={name} onChange={(e) => setName(e.target.value)} className="h-11 rounded-xl border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800" />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">성별</Label>
+              <Label className="text-[12px] font-semibold text-stone-500 dark:text-stone-400">성별</Label>
               <div className="grid grid-cols-2 gap-2">
-                <button type="button" onClick={() => setGender("male")} className={cn("flex items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-medium transition-all", gender === "male" ? "border-blue-300 bg-blue-50 text-blue-700 dark:border-blue-600 dark:bg-blue-950/30 dark:text-blue-400" : "border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500")}>
+                <button type="button" onClick={() => setGender("male")} className={cn("flex items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-medium transition-all", gender === "male" ? "border-blue-300 bg-blue-50 text-blue-700 dark:border-blue-600 dark:bg-blue-950/30 dark:text-blue-400" : "border-stone-200 text-stone-400 dark:border-stone-700 dark:text-stone-500")}>
                   👦 남아
                 </button>
-                <button type="button" onClick={() => setGender("female")} className={cn("flex items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-medium transition-all", gender === "female" ? "border-pink-300 bg-pink-50 text-pink-700 dark:border-pink-600 dark:bg-pink-950/30 dark:text-pink-400" : "border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500")}>
+                <button type="button" onClick={() => setGender("female")} className={cn("flex items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-medium transition-all", gender === "female" ? "border-pink-300 bg-pink-50 text-pink-700 dark:border-pink-600 dark:bg-pink-950/30 dark:text-pink-400" : "border-stone-200 text-stone-400 dark:border-stone-700 dark:text-stone-500")}>
                   👧 여아
                 </button>
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="settings-birth" className="text-[12px] font-semibold text-gray-500 dark:text-gray-400">생년월일</Label>
-              <Input id="settings-birth" type="date" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} max={new Date().toISOString().split("T")[0]} className="h-11 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
+              <Label htmlFor="settings-birth" className="text-[12px] font-semibold text-stone-500 dark:text-stone-400">생년월일</Label>
+              <Input id="settings-birth" type="date" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} max={new Date().toISOString().split("T")[0]} className="h-11 rounded-xl border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800" />
             </div>
-            <Button type="submit" className="h-11 w-full rounded-xl bg-gradient-to-r from-pink-400 to-purple-400 font-semibold text-white active:from-pink-500 active:to-purple-500">
+            <Button type="submit" className="h-11 w-full rounded-xl bg-[#7C5CFC] font-semibold text-white active:bg-[#6B4CE0]">
               {saved ? "저장되었어요!" : "저장하기"}
             </Button>
           </form>
         </motion.div>
 
         {/* ── Dark Mode Toggle ── */}
-        <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
+        <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40">
                 {theme === "dark" ? <Moon size={17} className="text-indigo-500" /> : <Sun size={17} className="text-indigo-500" />}
               </div>
               <div>
-                <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">다크 모드</h2>
-                <p className="text-[11px] text-gray-400 dark:text-gray-500">{theme === "dark" ? "어두운 테마 사용 중" : "밝은 테마 사용 중"}</p>
+                <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">다크 모드</h2>
+                <p className="text-[11px] text-stone-400 dark:text-stone-500">{theme === "dark" ? "어두운 테마 사용 중" : "밝은 테마 사용 중"}</p>
               </div>
             </div>
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={toggleTheme}
-              className={cn("relative h-8 w-14 rounded-full transition-colors", theme === "dark" ? "bg-indigo-500" : "bg-gray-300")}
+              className={cn("relative h-8 w-14 rounded-full transition-colors", theme === "dark" ? "bg-indigo-500" : "bg-stone-300")}
             >
               <motion.div
                 className="absolute top-1 h-6 w-6 rounded-full bg-white shadow-sm"
@@ -293,12 +293,12 @@ export default function SettingsPage() {
         </motion.div>
 
         {/* ── Add Baby ── */}
-        <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
+        <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
           <div className="mb-3 flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/40">
               <UserPlus size={17} className="text-blue-500" />
             </div>
-            <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">아이 추가</h2>
+            <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">아이 추가</h2>
           </div>
 
           {!showAddForm ? (
@@ -311,16 +311,16 @@ export default function SettingsPage() {
             </button>
           ) : (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-3">
-              <Input type="text" placeholder="아기 이름" value={newName} onChange={(e) => setNewName(e.target.value)} className="h-11 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
+              <Input type="text" placeholder="아기 이름" value={newName} onChange={(e) => setNewName(e.target.value)} className="h-11 rounded-xl border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800" />
               <div className="grid grid-cols-2 gap-2">
-                <button type="button" onClick={() => setNewGender("male")} className={cn("flex items-center justify-center gap-1.5 rounded-xl border-2 py-2 text-xs font-medium transition-all", newGender === "male" ? "border-blue-300 bg-blue-50 text-blue-700 dark:border-blue-600 dark:bg-blue-950/30 dark:text-blue-400" : "border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500")}>
+                <button type="button" onClick={() => setNewGender("male")} className={cn("flex items-center justify-center gap-1.5 rounded-xl border-2 py-2 text-xs font-medium transition-all", newGender === "male" ? "border-blue-300 bg-blue-50 text-blue-700 dark:border-blue-600 dark:bg-blue-950/30 dark:text-blue-400" : "border-stone-200 text-stone-400 dark:border-stone-700 dark:text-stone-500")}>
                   👦 남아
                 </button>
-                <button type="button" onClick={() => setNewGender("female")} className={cn("flex items-center justify-center gap-1.5 rounded-xl border-2 py-2 text-xs font-medium transition-all", newGender === "female" ? "border-pink-300 bg-pink-50 text-pink-700 dark:border-pink-600 dark:bg-pink-950/30 dark:text-pink-400" : "border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500")}>
+                <button type="button" onClick={() => setNewGender("female")} className={cn("flex items-center justify-center gap-1.5 rounded-xl border-2 py-2 text-xs font-medium transition-all", newGender === "female" ? "border-pink-300 bg-pink-50 text-pink-700 dark:border-pink-600 dark:bg-pink-950/30 dark:text-pink-400" : "border-stone-200 text-stone-400 dark:border-stone-700 dark:text-stone-500")}>
                   👧 여아
                 </button>
               </div>
-              <Input type="date" value={newBirthdate} onChange={(e) => setNewBirthdate(e.target.value)} max={new Date().toISOString().split("T")[0]} className="h-11 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
+              <Input type="date" value={newBirthdate} onChange={(e) => setNewBirthdate(e.target.value)} max={new Date().toISOString().split("T")[0]} className="h-11 rounded-xl border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800" />
               <div className="flex gap-2">
                 <Button type="button" variant="outline" onClick={() => setShowAddForm(false)} className="h-11 flex-1 rounded-xl">취소</Button>
                 <Button type="button" onClick={handleAddBaby} disabled={!newName.trim() || !newBirthdate} className="h-11 flex-1 rounded-xl bg-blue-500 font-semibold text-white active:bg-blue-600">등록</Button>
@@ -336,22 +336,22 @@ export default function SettingsPage() {
 
         {/* ── Remove individual baby ── */}
         {babies.length > 1 && (
-          <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
+          <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
             <div className="mb-3 flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-950/40">
                 <Trash2 size={17} className="text-orange-500" />
               </div>
-              <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">아이 데이터 삭제</h2>
+              <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">아이 데이터 삭제</h2>
             </div>
-            <p className="mb-3 text-[11px] text-gray-400 dark:text-gray-500">삭제할 아이를 선택하세요. 해당 아이의 모든 데이터가 삭제됩니다.</p>
+            <p className="mb-3 text-[11px] text-stone-400 dark:text-stone-500">삭제할 아이를 선택하세요. 해당 아이의 모든 데이터가 삭제됩니다.</p>
             <div className="space-y-2">
               {babies.map((baby) => (
-                <div key={baby.id} className="flex items-center justify-between rounded-xl bg-gray-50 dark:bg-gray-800 px-4 py-3">
+                <div key={baby.id} className="flex items-center justify-between rounded-xl bg-stone-50 dark:bg-stone-800 px-4 py-3">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <span className="text-lg">{baby.gender === "female" ? "👧" : "👦"}</span>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 truncate">{baby.name}</p>
-                      <p className="text-[10px] text-gray-400 dark:text-gray-500">{baby.birthdate}</p>
+                      <p className="text-sm font-semibold text-stone-700 dark:text-stone-200 truncate">{baby.name}</p>
+                      <p className="text-[11px] text-stone-400 dark:text-stone-500">{baby.birthdate}</p>
                     </div>
                   </div>
                   <Dialog open={deleteBabyTargetId === baby.id} onOpenChange={(open) => setDeleteBabyTargetId(open ? baby.id : null)}>
@@ -376,14 +376,14 @@ export default function SettingsPage() {
         )}
 
         {/* ── Data Reset ── */}
-        <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
+        <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
           <div className="mb-3 flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 dark:bg-red-950/40">
               <Trash2 size={17} className="text-red-400" />
             </div>
-            <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">전체 초기화</h2>
+            <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">전체 초기화</h2>
           </div>
-          <p className="mb-4 text-[11px] text-gray-400 dark:text-gray-500">모든 아기 정보가 삭제되고 처음 화면으로 돌아갑니다.</p>
+          <p className="mb-4 text-[11px] text-stone-400 dark:text-stone-500">모든 아기 정보가 삭제되고 처음 화면으로 돌아갑니다.</p>
           <Dialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
             <DialogTrigger render={<Button variant="destructive" className="h-11 w-full rounded-xl font-semibold" />}>전체 초기화하기</DialogTrigger>
             <DialogContent className="max-w-[340px] rounded-2xl">
@@ -401,14 +401,14 @@ export default function SettingsPage() {
 
         {/* ── Account Deletion ── */}
         {user && (
-          <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
+          <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
             <div className="mb-3 flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 dark:bg-red-950/40">
                 <Shield size={17} className="text-red-400" />
               </div>
-              <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">계정 삭제</h2>
+              <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">계정 삭제</h2>
             </div>
-            <p className="mb-4 text-[11px] text-gray-400 dark:text-gray-500">계정과 모든 클라우드 데이터가 영구적으로 삭제됩니다.</p>
+            <p className="mb-4 text-[11px] text-stone-400 dark:text-stone-500">계정과 모든 클라우드 데이터가 영구적으로 삭제됩니다.</p>
             <Dialog open={accountDeleteDialogOpen} onOpenChange={setAccountDeleteDialogOpen}>
               <DialogTrigger render={<Button variant="destructive" className="h-11 w-full rounded-xl font-semibold" />}>계정 삭제하기</DialogTrigger>
               <DialogContent className="max-w-[340px] rounded-2xl">
@@ -428,14 +428,14 @@ export default function SettingsPage() {
         )}
 
         {/* ── App Info ── */}
-        <motion.div variants={child} className="rounded-[24px] border border-gray-100 bg-white p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">
+        <motion.div variants={child} className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
           <div className="mb-3 flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-950/40">
               <Info size={17} className="text-purple-500" />
             </div>
-            <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">앱 정보</h2>
+            <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">앱 정보</h2>
           </div>
-          <div className="space-y-2.5 text-[13px] text-gray-500 dark:text-gray-400">
+          <div className="space-y-2.5 text-[13px] text-stone-500 dark:text-stone-400">
             <div className="flex justify-between">
               <span>버전</span>
               <span className="font-medium text-gray-700 dark:text-gray-300">1.1.0</span>

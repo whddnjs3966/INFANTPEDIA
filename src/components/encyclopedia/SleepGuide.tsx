@@ -74,7 +74,7 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
   const config = difficultyConfig[method.difficulty];
 
   return (
-    <div className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_2px_12px_rgb(0,0,0,0.04)] overflow-hidden">
+    <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
@@ -84,7 +84,7 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+            <span className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
               {method.name}
             </span>
             <span className={cn("flex items-center gap-0.5", config.color)}>
@@ -94,13 +94,13 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
             </span>
           </div>
           <div className="mt-0.5 flex items-center gap-1.5">
-            <span className={cn("rounded-lg px-1.5 py-0.5 text-[10px] font-medium", config.badgeBg, config.badgeText)}>
+            <span className={cn("rounded-lg px-1.5 py-0.5 text-[11px] font-medium", config.badgeBg, config.badgeText)}>
               {config.label}
             </span>
-            <span className="rounded-lg bg-indigo-50 dark:bg-indigo-950/30 px-1.5 py-0.5 text-[10px] font-medium text-indigo-700 dark:text-indigo-300">
+            <span className="rounded-lg bg-indigo-50 dark:bg-indigo-950/30 px-1.5 py-0.5 text-[11px] font-medium text-indigo-700 dark:text-indigo-300">
               {method.duration}
             </span>
-            <span className="text-[10px] text-gray-400 dark:text-gray-500">
+            <span className="text-[11px] text-stone-400 dark:text-stone-500">
               {method.suitableAge}
             </span>
           </div>
@@ -123,7 +123,7 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
             className="overflow-hidden"
           >
             <div className="px-4 pb-4 space-y-4">
-              <div className="border-t border-gray-100 dark:border-gray-800 pt-3">
+              <div className="border-t border-stone-200 dark:border-stone-700 pt-3">
                 <FormattedContent content={method.description} className="text-[12px]" />
               </div>
 
@@ -131,7 +131,7 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
                   <ThumbsUp size={13} className="text-green-500" />
-                  <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">장점</p>
+                  <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">장점</p>
                 </div>
                 <div className="space-y-1.5">
                   {method.pros.map((pro, i) => (
@@ -147,7 +147,7 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
                   <ThumbsDown size={13} className="text-red-500" />
-                  <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">단점</p>
+                  <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">단점</p>
                 </div>
                 <div className="space-y-1.5">
                   {method.cons.map((con, i) => (
@@ -163,12 +163,12 @@ function MethodCard({ method }: { method: SleepTrainingMethod }) {
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
                   <ListOrdered size={13} className="text-indigo-500" />
-                  <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">진행 방법</p>
+                  <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">진행 방법</p>
                 </div>
                 <div className="space-y-2">
                   {method.steps.map((step, i) => (
                     <div key={i} className="flex items-start gap-2.5">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-[10px] font-bold text-indigo-600 dark:text-indigo-300">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-[11px] font-bold text-indigo-600 dark:text-indigo-300">
                         {i + 1}
                       </span>
                       <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -190,7 +190,7 @@ function IssueAccordion({ issue }: { issue: SleepIssue }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_2px_12px_rgb(0,0,0,0.04)] overflow-hidden">
+    <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
@@ -198,7 +198,7 @@ function IssueAccordion({ issue }: { issue: SleepIssue }) {
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-950/40 shrink-0">
           <AlertCircle size={17} className="text-purple-500" />
         </div>
-        <span className="flex-1 text-[13px] font-bold text-gray-800 dark:text-gray-100">
+        <span className="flex-1 text-[13px] font-bold text-stone-800 dark:text-stone-100">
           {issue.issue}
         </span>
         <motion.div
@@ -219,7 +219,7 @@ function IssueAccordion({ issue }: { issue: SleepIssue }) {
             className="overflow-hidden"
           >
             <div className="px-4 pb-4">
-              <div className="border-t border-gray-100 dark:border-gray-800 pt-3">
+              <div className="border-t border-stone-200 dark:border-stone-700 pt-3">
                 <FormattedContent content={issue.solution} className="text-[12px]" />
               </div>
             </div>
@@ -248,32 +248,32 @@ export default function SleepGuide({ month }: SleepGuideProps) {
       {/* Sleep Stats Card */}
       <motion.div
         variants={itemVariants}
-        className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
+        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
       >
         <div className="flex items-center gap-2.5 mb-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40">
             <Moon size={17} className="text-indigo-500" />
           </div>
-          <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+          <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
             수면 정보
           </h3>
         </div>
 
         <div className="grid grid-cols-3 gap-2">
-          <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+          <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
             <Clock size={13} className="mx-auto mb-1 text-indigo-500" />
-            <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{guide.totalSleep}</p>
-            <p className="text-[9px] text-gray-400 mt-0.5">총 수면</p>
+            <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{guide.totalSleep}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">총 수면</p>
           </div>
-          <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+          <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
             <CloudMoon size={13} className="mx-auto mb-1 text-violet-500" />
-            <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{guide.nightSleep}</p>
-            <p className="text-[9px] text-gray-400 mt-0.5">야간 수면</p>
+            <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{guide.nightSleep}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">야간 수면</p>
           </div>
-          <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+          <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
             <Sunrise size={13} className="mx-auto mb-1 text-sky-500" />
-            <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{guide.napInfo}</p>
-            <p className="text-[9px] text-gray-400 mt-0.5">낮잠</p>
+            <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{guide.napInfo}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">낮잠</p>
           </div>
         </div>
       </motion.div>
@@ -281,17 +281,17 @@ export default function SleepGuide({ month }: SleepGuideProps) {
       {/* Sleep Signals Card */}
       <motion.div
         variants={itemVariants}
-        className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
+        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
       >
         <div className="flex items-center gap-2.5 mb-1">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/40">
             <Eye size={17} className="text-amber-500" />
           </div>
           <div>
-            <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+            <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
               졸림 신호
             </h3>
-            <p className="text-[11px] text-gray-500 dark:text-gray-400">
+            <p className="text-[11px] text-stone-500 dark:text-stone-400">
               이 신호가 보이면 재울 타이밍
             </p>
           </div>
@@ -316,13 +316,13 @@ export default function SleepGuide({ month }: SleepGuideProps) {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40">
             <Star size={17} className="text-indigo-500" />
           </div>
-          <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+          <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
             수면교육 방법
           </h3>
         </div>
 
         {showMethodWarning && (
-          <div className="mb-3 rounded-[24px] border border-blue-200/40 dark:border-blue-800/30 bg-blue-50/60 dark:bg-blue-950/20 p-4">
+          <div className="mb-3 rounded-2xl border border-blue-200/40 dark:border-blue-800/30 bg-blue-50/60 dark:bg-blue-950/20 p-4">
             <div className="flex items-start gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-900/50 shrink-0">
                 <Info size={17} className="text-blue-500" />
@@ -352,7 +352,7 @@ export default function SleepGuide({ month }: SleepGuideProps) {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-950/40">
             <AlertCircle size={17} className="text-purple-500" />
           </div>
-          <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+          <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
             자주 하는 고민
           </h3>
         </div>
@@ -366,13 +366,13 @@ export default function SleepGuide({ month }: SleepGuideProps) {
       {/* Sleep Environment Checklist */}
       <motion.div
         variants={itemVariants}
-        className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
+        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
       >
         <div className="flex items-center gap-2.5 mb-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/40">
             <Check size={17} className="text-emerald-500" />
           </div>
-          <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+          <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
             수면 환경 체크리스트
           </h3>
         </div>
@@ -380,7 +380,7 @@ export default function SleepGuide({ month }: SleepGuideProps) {
           {guide.sleepEnvironment.map((tip, i) => (
             <div
               key={i}
-              className="flex items-center gap-3 rounded-xl bg-gray-50 dark:bg-gray-800/60 px-3 py-2.5"
+              className="flex items-center gap-3 rounded-xl bg-gray-50 dark:bg-stone-800/60 px-3 py-2.5"
             >
               <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500">
                 <Check size={11} className="text-white" strokeWidth={3} />

@@ -43,11 +43,11 @@ function VaccineCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
       className={cn(
-        "rounded-[24px] bg-white dark:bg-gray-900 transition-all",
+        "rounded-2xl bg-white dark:bg-stone-900 transition-all",
         hasCurrent && !allDone
           ? "shadow-[0_8px_30px_rgb(251,191,36,0.12)] ring-1 ring-amber-200/50 bg-amber-50/40 dark:ring-amber-900/50 dark:bg-amber-950/20"
           : allDone
@@ -58,27 +58,27 @@ function VaccineCard({
       <button onClick={() => setIsOpen(!isOpen)} className="flex w-full items-center gap-3 p-4">
         <div className={cn(
           "flex h-10 w-10 items-center justify-center rounded-2xl",
-          allDone ? "bg-green-50 dark:bg-green-900/40" : hasCurrent ? "bg-amber-50 dark:bg-amber-900/40" : "bg-gray-50 dark:bg-gray-700"
+          allDone ? "bg-green-50 dark:bg-green-900/40" : hasCurrent ? "bg-amber-50 dark:bg-amber-900/40" : "bg-gray-50 dark:bg-stone-700"
         )}>
           {allDone ? (
             <Check size={18} className="text-green-500" />
           ) : hasCurrent ? (
             <AlertCircle size={18} className="text-amber-500" />
           ) : (
-            <Syringe size={18} className="text-gray-400" />
+            <Syringe size={18} className="text-stone-400" />
           )}
         </div>
         <div className="flex-1 text-left">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">{vaccine.name}</span>
-            <span className="rounded-full bg-gray-100 dark:bg-gray-700 px-2 py-0.5 text-[10px] font-medium text-gray-500 dark:text-gray-400">
+            <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">{vaccine.name}</span>
+            <span className="rounded-full bg-stone-100 dark:bg-stone-700 px-2 py-0.5 text-[11px] font-medium text-stone-500 dark:text-stone-400">
               {vaccine.nameEn}
             </span>
           </div>
-          <p className="mt-0.5 text-xs text-gray-400 dark:text-gray-500">{vaccine.description}</p>
+          <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">{vaccine.description}</p>
         </div>
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-          <ChevronDown size={16} className="text-gray-400" />
+          <ChevronDown size={16} className="text-stone-400" />
         </motion.div>
       </button>
 
@@ -99,7 +99,7 @@ function VaccineCard({
                   key={`${vaccine.id}-${dose.doseNumber}`}
                   className={cn(
                     "flex items-center gap-3 rounded-[16px] px-3 py-2",
-                    completed ? "bg-green-50/50 dark:bg-green-900/20" : isCurrent ? "bg-amber-50 dark:bg-amber-900/20" : "bg-gray-50/80 dark:bg-gray-800/50"
+                    completed ? "bg-green-50/50 dark:bg-green-900/20" : isCurrent ? "bg-amber-50 dark:bg-amber-900/20" : "bg-gray-50/80 dark:bg-stone-800/50"
                   )}
                 >
                   {/* Checkbox — padded for 48px touch target */}
@@ -126,19 +126,19 @@ function VaccineCard({
                   <div className="flex-1">
                     <span className={cn(
                       "text-xs font-medium",
-                      completed ? "text-green-700 dark:text-green-400 line-through" : isCurrent ? "text-amber-700 dark:text-amber-400" : "text-gray-500 dark:text-gray-400"
+                      completed ? "text-green-700 dark:text-green-400 line-through" : isCurrent ? "text-amber-700 dark:text-amber-400" : "text-stone-500 dark:text-stone-400"
                     )}>
                       {dose.doseLabel}
                     </span>
                     {dose.note && (
-                      <span className="ml-2 text-[10px] text-gray-400 dark:text-gray-500">({dose.note})</span>
+                      <span className="ml-2 text-[11px] text-stone-400 dark:text-stone-500">({dose.note})</span>
                     )}
                     {record && (
-                      <span className="ml-2 text-[10px] text-green-500">{record.completedDate}</span>
+                      <span className="ml-2 text-[11px] text-green-500">{record.completedDate}</span>
                     )}
                   </div>
 
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">
+                  <span className="text-[11px] text-stone-400 dark:text-stone-500">
                     {dose.monthStart === dose.monthEnd
                       ? `${dose.monthStart}개월`
                       : `${dose.monthStart}~${dose.monthEnd}개월`}
@@ -179,24 +179,24 @@ export default function VaccinationSchedule({ currentMonth }: VaccinationSchedul
           <p className="text-xl font-extrabold text-amber-600 dark:text-amber-400">{currentDoses}</p>
           <p className="text-[11px] font-medium text-amber-600/70 dark:text-amber-400/70 mt-0.5">접종 시기</p>
         </div>
-        <div className="rounded-[20px] bg-gray-50 dark:bg-gray-800/50 p-3.5 text-center">
-          <p className="text-xl font-extrabold text-gray-500 dark:text-gray-400">{remaining}</p>
+        <div className="rounded-[20px] bg-gray-50 dark:bg-stone-800/50 p-3.5 text-center">
+          <p className="text-xl font-extrabold text-stone-500 dark:text-stone-400">{remaining}</p>
           <p className="text-[11px] font-medium text-gray-400 md:text-gray-500 mt-0.5">남은 접종</p>
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="rounded-[24px] bg-white dark:bg-gray-900 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+      <div className="rounded-2xl bg-white dark:bg-stone-900 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-xs font-medium text-gray-500 dark:text-gray-400">접종 진행률</p>
+          <p className="text-xs font-medium text-stone-500 dark:text-stone-400">접종 진행률</p>
           <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400">{Math.round((done / totalDoses) * 100)}%</p>
         </div>
-        <div className="h-3 rounded-full bg-gray-100 dark:bg-gray-700">
+        <div className="h-3 rounded-full bg-stone-100 dark:bg-stone-700">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${(done / totalDoses) * 100}%` }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="h-3 rounded-full bg-gradient-to-r from-green-400 to-emerald-400"
+            className="h-3 rounded-full bg-[#7C5CFC]"
           />
         </div>
         <div className="mt-3 flex justify-between">
@@ -209,16 +209,16 @@ export default function VaccinationSchedule({ currentMonth }: VaccinationSchedul
                 "h-2.5 w-2.5 rounded-full border-2",
                 m < currentMonth ? "bg-green-400"
                   : m === currentMonth ? "bg-amber-400"
-                  : "bg-white dark:bg-gray-800"
+                  : "bg-white dark:bg-stone-800"
               )} />
-              <span className="mt-1 text-[9px]">{m}m</span>
+              <span className="mt-1 text-[11px]">{m}m</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Tip */}
-      <div className="rounded-[28px] bg-blue-50 dark:bg-blue-900/30 px-4 py-3">
+      <div className="rounded-2xl bg-blue-50 dark:bg-blue-900/30 px-4 py-3">
         <p className="text-xs text-blue-600 dark:text-blue-400">
           💡 각 접종 항목을 탭하여 열고, 완료된 접종을 체크하세요. 접종 기록은 기기에 안전하게 저장됩니다.
         </p>
@@ -231,7 +231,7 @@ export default function VaccinationSchedule({ currentMonth }: VaccinationSchedul
         ))}
       </div>
 
-      <p className="text-center text-[10px] text-gray-400 dark:text-gray-500">
+      <p className="text-center text-[11px] text-stone-400 dark:text-stone-500">
         * 질병관리청(KDCA) 국가예방접종 일정 기준
         <br />* 실제 접종은 소아과 전문의와 상담하세요
       </p>

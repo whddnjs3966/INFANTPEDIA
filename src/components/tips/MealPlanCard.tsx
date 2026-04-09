@@ -28,7 +28,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
 
   return (
     <div className="mx-4 mb-3">
-      <div className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_2px_12px_rgb(0,0,0,0.04)] overflow-hidden">
+      <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
         {/* Header */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -38,10 +38,10 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
             <UtensilsCrossed size={17} className="text-orange-500" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+            <p className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
               {plan.stage}
             </p>
-            <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">
+            <p className="text-[11px] text-stone-400 dark:text-stone-500 mt-0.5">
               {plan.texture}
             </p>
           </div>
@@ -49,7 +49,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            <ChevronDown size={16} className="text-gray-400" />
+            <ChevronDown size={16} className="text-stone-400" />
           </motion.div>
         </button>
 
@@ -64,7 +64,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
               className="overflow-hidden"
             >
               <div className="px-4 pb-4 space-y-3">
-                <div className="border-t border-gray-100 dark:border-gray-800" />
+                <div className="border-t border-stone-200 dark:border-stone-700" />
 
                 {/* Description */}
                 <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -73,23 +73,23 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
 
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5">
+                  <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
                     <div className="flex items-center gap-2">
                       <Ruler size={14} className="text-orange-500 shrink-0" />
                       <div>
-                        <p className="text-[9px] text-gray-400">한끼 양</p>
-                        <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">
+                        <p className="text-[11px] text-stone-400">한끼 양</p>
+                        <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">
                           {plan.totalPerMeal}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5">
+                  <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
                     <div className="flex items-center gap-2">
                       <Clock size={14} className="text-amber-500 shrink-0" />
                       <div>
-                        <p className="text-[9px] text-gray-400">횟수</p>
-                        <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">
+                        <p className="text-[11px] text-stone-400">횟수</p>
+                        <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">
                           {plan.dailyFrequency}
                         </p>
                       </div>
@@ -107,7 +107,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                         "min-w-[42px] min-h-[36px] rounded-xl px-2.5 py-1.5 text-[11px] font-bold transition-all flex items-center justify-center shrink-0",
                         selectedDay === idx
                           ? "bg-orange-500 text-white shadow-sm"
-                          : "bg-gray-50 dark:bg-gray-800/60 text-gray-500 dark:text-gray-400"
+                          : "bg-gray-50 dark:bg-stone-800/60 text-stone-500 dark:text-stone-400"
                       )}
                     >
                       {day.day}
@@ -123,17 +123,17 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                       initial={{ opacity: 0, y: 5 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
-                      className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-3"
+                      className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-3"
                     >
                       <div className="flex items-center gap-2.5">
                         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-50 dark:bg-orange-950/30 shrink-0">
                           <UtensilsCrossed size={14} className="text-orange-400" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-bold text-orange-500 uppercase">
+                          <p className="text-[11px] font-bold text-orange-500 uppercase">
                             {meal.meal}
                           </p>
-                          <p className="text-[13px] font-semibold text-gray-800 dark:text-gray-100 truncate">
+                          <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-100 truncate">
                             {meal.menu}
                           </p>
                         </div>
@@ -143,7 +143,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                           {meal.ingredients.map((ing, ingIdx) => (
                             <span
                               key={ingIdx}
-                              className="inline-flex items-center rounded-lg bg-white dark:bg-gray-700 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-gray-600"
+                              className="inline-flex items-center rounded-lg bg-white dark:bg-stone-700 px-1.5 py-0.5 text-[11px] font-medium text-gray-600 dark:text-gray-300 border border-stone-200 dark:border-gray-600"
                             >
                               {ing.name} {ing.amount}
                             </span>

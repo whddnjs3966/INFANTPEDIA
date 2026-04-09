@@ -63,7 +63,7 @@ export default function InstallPrompt() {
         exit={{ opacity: 0, y: 60 }}
         className="fixed bottom-20 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2"
       >
-        <div className="relative overflow-hidden rounded-[28px] bg-white p-4 shadow-lg">
+        <div className="relative overflow-hidden rounded-2xl bg-white p-4 shadow-lg">
           <button
             onClick={handleDismiss}
             className="absolute right-3 top-3 rounded-full p-1 text-gray-400 active:bg-gray-100"

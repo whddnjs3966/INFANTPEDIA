@@ -112,7 +112,7 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
 
   if (!monthData) {
     return (
-      <div className="px-4 py-8 text-center text-sm text-gray-400 dark:text-gray-500">
+      <div className="px-4 py-8 text-center text-sm text-stone-400 dark:text-stone-500">
         이 월령의 발달 이정표 데이터가 없습니다.
       </div>
     );
@@ -125,19 +125,19 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
   return (
     <div className="space-y-4 px-4 pb-4">
       {/* Overall Progress */}
-      <div className="rounded-[28px] border border-gray-100 bg-white p-4 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-gray-700/50 dark:bg-gray-800">
+      <div className="rounded-2xl border border-stone-200 bg-white p-4 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-800">
         <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-gray-800 dark:text-gray-100">
+            <span className="text-lg font-bold text-stone-800 dark:text-stone-100">
               발달 체크리스트
             </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
+            <span className="text-sm text-stone-500 dark:text-stone-400">
               {month}개월
             </span>
           </div>
           <button
             onClick={() => resetMonth(month)}
-            className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-gray-400 transition-colors active:bg-gray-100 active:text-gray-600 dark:active:bg-gray-700 dark:active:text-gray-300"
+            className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-gray-400 transition-colors active:bg-stone-100 active:text-gray-600 dark:active:bg-gray-700 dark:active:text-gray-300"
             title="이 월령 초기화"
           >
             <RotateCcw size={12} />
@@ -146,7 +146,7 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
         </div>
 
         <div className="mb-1 flex items-end justify-between">
-          <span className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <span className="text-2xl font-bold text-stone-800 dark:text-stone-100">
             {completedCount}
             <span className="text-base font-normal text-gray-400">
               /{totalMilestones}
@@ -158,9 +158,9 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
         </div>
 
         {/* Progress Bar */}
-        <div className="h-3 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700">
+        <div className="h-3 w-full overflow-hidden rounded-full bg-stone-100 dark:bg-stone-700">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-violet-400 via-purple-500 to-fuchsia-500"
+            className="h-full rounded-full bg-[#7C5CFC]"
             initial={{ width: 0 }}
             animate={{ width: `${completionPercent}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -206,7 +206,7 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
             <motion.button
               onClick={() => toggleDomain(domain)}
               className={cn(
-                "flex w-full min-h-[56px] items-center gap-3 rounded-[28px] bg-gradient-to-r p-4 text-left transition-all",
+                "flex w-full min-h-[56px] items-center gap-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 p-4 text-left transition-all",
                 styles.bg,
                 isOpen && "shadow-md"
               )}
@@ -221,7 +221,7 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
                 {info.emoji}
               </div>
               <div className="flex-1">
-                <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
+                <span className="text-sm font-bold text-stone-700 dark:text-stone-200">
                   {info.label}
                 </span>
                 <span
@@ -229,7 +229,7 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
                     "ml-2 text-xs font-semibold",
                     domainCompleted === items.length
                       ? styles.text
-                      : "text-gray-400 dark:text-gray-500"
+                      : "text-stone-400 dark:text-stone-500"
                   )}
                 >
                   {domainCompleted}/{items.length}
@@ -299,7 +299,7 @@ function MilestoneItemRow({
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay }}
       className={cn(
-        "flex gap-3 rounded-2xl bg-white p-3.5 shadow-[0_2px_8px_rgb(0,0,0,0.04)] transition-all dark:bg-gray-800",
+        "flex gap-3 rounded-2xl bg-white p-3.5 shadow-[0_2px_8px_rgb(0,0,0,0.04)] transition-all dark:bg-stone-800",
         isCompleted && "opacity-80"
       )}
     >
@@ -342,7 +342,7 @@ function MilestoneItemRow({
                 "text-[14px] font-semibold leading-snug transition-colors",
                 isCompleted
                   ? "text-gray-400 line-through dark:text-gray-500"
-                  : "text-gray-800 dark:text-gray-100"
+                  : "text-stone-800 dark:text-stone-100"
               )}
             >
               {milestone.title}
@@ -352,7 +352,7 @@ function MilestoneItemRow({
                 "mt-1 text-[12px] leading-relaxed transition-colors",
                 isCompleted
                   ? "text-gray-300 dark:text-gray-600"
-                  : "text-gray-500 dark:text-gray-400"
+                  : "text-stone-500 dark:text-stone-400"
               )}
             >
               {milestone.description}

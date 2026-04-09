@@ -61,7 +61,7 @@ function AccordionSection({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-[0_2px_12px_rgb(0,0,0,0.04)] overflow-hidden">
+    <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
@@ -69,7 +69,7 @@ function AccordionSection({
         <div className={cn("flex h-9 w-9 items-center justify-center rounded-xl shrink-0", iconBg)}>
           <Icon size={17} className={iconColor} />
         </div>
-        <span className="flex-1 text-[14px] font-bold text-gray-800 dark:text-gray-100">
+        <span className="flex-1 text-[14px] font-bold text-stone-800 dark:text-stone-100">
           {title}
         </span>
         <motion.div
@@ -114,15 +114,15 @@ function StageProgress({ stages, currentStage }: { stages: StageInfo[]; currentS
                   ? "bg-orange-400 dark:bg-orange-500"
                   : isPast
                     ? "bg-orange-200 dark:bg-orange-800"
-                    : "bg-gray-200 dark:bg-gray-700"
+                    : "bg-gray-200 dark:bg-stone-700"
               )}
             />
             <span
               className={cn(
-                "text-[9px] font-medium text-center leading-tight",
+                "text-[11px] font-medium text-center leading-tight",
                 isCurrent
                   ? "text-orange-600 dark:text-orange-400 font-bold"
-                  : "text-gray-400 dark:text-gray-500"
+                  : "text-stone-400 dark:text-stone-500"
               )}
             >
               {stage.stage.replace("초기 ", "").replace("단계", "")}
@@ -146,7 +146,7 @@ function IngredientTag({ ingredient, isNew }: { ingredient: IngredientInfo; isNe
       )}
     >
       {ingredient.name}
-      {isNew && <span className="text-[9px] text-orange-500 font-bold">NEW</span>}
+      {isNew && <span className="text-[11px] text-orange-500 font-bold">NEW</span>}
       {ingredient.allergyRisk && <AlertTriangle size={9} className="text-red-400" />}
     </span>
   );
@@ -183,14 +183,14 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
   if (month < 4) {
     return (
       <div className="mb-4">
-        <div className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
+        <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 text-center shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-50 dark:bg-orange-950/40 mx-auto mb-3">
             <UtensilsCrossed size={22} className="text-orange-400" />
           </div>
-          <p className="text-[14px] font-bold text-gray-800 dark:text-gray-100 mb-1">
+          <p className="text-[14px] font-bold text-stone-800 dark:text-stone-100 mb-1">
             아직 이유식 시작 전이에요
           </p>
-          <p className="text-[12px] text-gray-500 dark:text-gray-400 leading-relaxed">
+          <p className="text-[12px] text-stone-500 dark:text-stone-400 leading-relaxed">
             이유식은 만 4~6개월 사이에 시작하는 것이 좋습니다.
             <br />
             목을 가눌 수 있고 음식에 관심을 보일 때 시작하세요.
@@ -210,17 +210,17 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
       {/* Current Stage Card */}
       <motion.div
         variants={itemVariants}
-        className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
+        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
       >
         <div className="flex items-center gap-2.5 mb-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-950/40">
             <UtensilsCrossed size={17} className="text-orange-500" />
           </div>
           <div>
-            <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+            <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
               이유식 종합 가이드
             </h3>
-            <p className="text-[11px] text-gray-500 dark:text-gray-400">
+            <p className="text-[11px] text-stone-500 dark:text-stone-400">
               {currentStage ? `현재: ${currentStage.stage}` : "완료기 이후"}
             </p>
           </div>
@@ -229,8 +229,8 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
         <StageProgress stages={guide.stages} currentStage={currentStage} />
 
         {currentStage && (
-          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
-            <p className="text-[13px] font-bold text-gray-800 dark:text-gray-100 mb-1">
+          <div className="mt-4 pt-4 border-t border-stone-200 dark:border-stone-700">
+            <p className="text-[13px] font-bold text-stone-800 dark:text-stone-100 mb-1">
               {currentStage.stage}
               <span className="text-[11px] font-normal text-gray-400 ml-2">{currentStage.monthRange}</span>
             </p>
@@ -239,20 +239,20 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
 
             {/* Key stats */}
             <div className="grid grid-cols-3 gap-2">
-              <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+              <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
                 <UtensilsCrossed size={13} className="mx-auto mb-1 text-orange-500" />
-                <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{currentStage.texture}</p>
-                <p className="text-[9px] text-gray-400 mt-0.5">형태</p>
+                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{currentStage.texture}</p>
+                <p className="text-[11px] text-gray-400 mt-0.5">형태</p>
               </div>
-              <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+              <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
                 <Clock size={13} className="mx-auto mb-1 text-blue-500" />
-                <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{currentStage.frequency}</p>
-                <p className="text-[9px] text-gray-400 mt-0.5">횟수</p>
+                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{currentStage.frequency}</p>
+                <p className="text-[11px] text-gray-400 mt-0.5">횟수</p>
               </div>
-              <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
+              <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
                 <Ruler size={13} className="mx-auto mb-1 text-green-500" />
-                <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200 truncate">{currentStage.amount}</p>
-                <p className="text-[9px] text-gray-400 mt-0.5">1회량</p>
+                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{currentStage.amount}</p>
+                <p className="text-[11px] text-gray-400 mt-0.5">1회량</p>
               </div>
             </div>
           </div>
@@ -262,17 +262,17 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
       {/* Ingredients Card */}
       <motion.div
         variants={itemVariants}
-        className="rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)]"
+        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
       >
         <div className="flex items-center gap-2.5 mb-4">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-50 dark:bg-green-950/40">
             <Leaf size={17} className="text-green-500" />
           </div>
           <div className="flex-1">
-            <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+            <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
               사용 가능한 식재료
             </h3>
-            <p className="text-[11px] text-gray-500 dark:text-gray-400">
+            <p className="text-[11px] text-stone-500 dark:text-stone-400">
               {availableIngredients.length}가지
               {newIngredients.length > 0 && (
                 <span className="text-orange-500 font-medium"> +{newIngredients.length} 새 재료</span>
@@ -310,11 +310,11 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
-          <span className="inline-flex items-center gap-1 text-[10px] text-gray-400 dark:text-gray-500">
-            <span className="text-[9px] text-orange-500 font-bold">NEW</span> 이번 달 새 재료
+        <div className="flex items-center gap-4 mt-4 pt-3 border-t border-stone-200 dark:border-stone-700">
+          <span className="inline-flex items-center gap-1 text-[11px] text-stone-400 dark:text-stone-500">
+            <span className="text-[11px] text-orange-500 font-bold">NEW</span> 이번 달 새 재료
           </span>
-          <span className="inline-flex items-center gap-1 text-[10px] text-gray-400 dark:text-gray-500">
+          <span className="inline-flex items-center gap-1 text-[11px] text-stone-400 dark:text-stone-500">
             <AlertTriangle size={9} className="text-red-400" /> 알레르기 주의
           </span>
         </div>
@@ -333,7 +333,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
             <div className="mb-4">
               <div className="flex items-center gap-1.5 mb-2.5">
                 <Lightbulb size={13} className="text-amber-500" />
-                <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">조리 팁</p>
+                <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">조리 팁</p>
               </div>
               <div className="space-y-2">
                 {currentStage.cookingTips.map((tip, idx) => (
@@ -351,7 +351,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
             <div className="mb-4">
               <div className="flex items-center gap-1.5 mb-2.5">
                 <ShieldAlert size={13} className="text-red-500" />
-                <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">주의사항</p>
+                <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">주의사항</p>
               </div>
               <div className="space-y-1.5">
                 {currentStage.cautionPoints.map((point, idx) => (
@@ -369,7 +369,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
             <div>
               <div className="flex items-center gap-1.5 mb-2.5">
                 <UtensilsCrossed size={13} className="text-orange-500" />
-                <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200">추천 메뉴</p>
+                <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">추천 메뉴</p>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {currentStage.sampleMenu.map((menu, idx) => (
@@ -398,7 +398,7 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
 
           {/* High Risk Foods */}
           <div className="mb-4">
-            <p className="text-[12px] font-bold text-gray-700 dark:text-gray-200 mb-2">
+            <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200 mb-2">
               고위험 식품
             </p>
             <div className="flex flex-wrap gap-1.5">

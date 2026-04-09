@@ -16,24 +16,24 @@ export default function TodaysTipCard() {
       transition={{ delay: 0.4 }}
       className="mx-4 mb-5"
     >
-      <div className="rounded-[28px] border border-amber-200/40 bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 p-5 shadow-[0_2px_12px_rgb(0,0,0,0.04)] dark:border-amber-800/30 dark:from-yellow-950/40 dark:via-amber-950/40 dark:to-orange-950/40">
+      <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)] dark:border-stone-700 dark:bg-stone-900">
         {/* Header */}
         <div className="mb-3 flex items-center gap-2">
           <div className="rounded-xl bg-yellow-100 p-2">
             <Sparkles size={18} className="text-yellow-500" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200">
+            <h3 className="text-sm font-bold text-stone-700 dark:text-stone-200">
               {"오늘의 꿀팁! ✨"}
             </h3>
-            <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-[10px] font-semibold text-yellow-600">
+            <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-[11px] font-semibold text-yellow-600">
               {tip.categoryEmoji} {tip.category}
             </span>
           </div>
         </div>
 
         {/* Title */}
-        <h4 className="text-[16px] font-extrabold leading-snug text-gray-900 dark:text-gray-100 mb-2">
+        <h4 className="text-[16px] font-extrabold leading-snug text-stone-900 dark:text-stone-100 mb-2">
           {tip.title}
         </h4>
 

@@ -130,7 +130,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="증상이나 질문을 검색하세요..."
-          className="w-full rounded-2xl bg-white py-2.5 pl-9 pr-4 text-sm text-gray-800 placeholder-gray-400 outline-none transition-colors focus:ring-2 focus:ring-rose-100 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:ring-rose-900/30"
+          className="w-full rounded-2xl bg-white py-2.5 pl-9 pr-4 text-sm text-gray-800 placeholder-gray-400 outline-none transition-colors focus:ring-2 focus:ring-rose-100 dark:bg-stone-800 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:ring-rose-900/30"
         />
       </motion.div>
 
@@ -147,7 +147,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
             "shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
             selectedCategory === "all"
               ? "bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-800"
-              : "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+              : "bg-stone-100 text-gray-500 dark:bg-stone-800 dark:text-gray-400"
           )}
         >
           전체 {faqs.length > 0 && `(${getFAQsForMonth(month).length})`}
@@ -179,7 +179,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-[28px] bg-gradient-to-r from-red-50 to-rose-50 p-4 dark:from-red-950/40 dark:to-rose-950/40"
+          className="rounded-2xl bg-red-50 border border-red-200/50 p-4 dark:bg-red-950/30 dark:border-red-800/30"
         >
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle size={16} className="text-red-500" />
@@ -200,9 +200,9 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
       {/* FAQ List */}
       <div className="space-y-2">
         {sortedFAQs.length === 0 ? (
-          <div className="rounded-[28px] bg-white p-8 text-center dark:bg-gray-800">
+          <div className="rounded-2xl bg-white p-8 text-center dark:bg-stone-800">
             <p className="text-3xl">🔍</p>
-            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
               {searchQuery
                 ? "검색 결과가 없어요"
                 : "해당 카테고리의 FAQ가 없어요"}
@@ -225,10 +225,10 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
                 <button
                   onClick={() => setOpenFAQ(isOpen ? null : faq.id)}
                   className={cn(
-                    "flex w-full items-start gap-2.5 rounded-[28px] p-3.5 text-left transition-all",
+                    "flex w-full items-start gap-2.5 rounded-2xl p-3.5 text-left transition-all",
                     isOpen
                       ? config.bg
-                      : "bg-white active:bg-gray-50 dark:bg-gray-800/80 dark:active:bg-gray-800"
+                      : "bg-white active:bg-stone-50 dark:bg-stone-800/80 dark:active:bg-stone-800"
                   )}
                 >
                   {/* Urgency dot */}
@@ -238,7 +238,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
 
                   <div className="flex-1 min-w-0">
                     {/* Question */}
-                    <p className="text-sm font-bold text-gray-800 dark:text-gray-100 leading-snug">
+                    <p className="text-sm font-bold text-stone-800 dark:text-stone-100 leading-snug">
                       {faq.emoji} {faq.question}
                     </p>
 
@@ -246,14 +246,14 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
                     <div className="mt-1.5 flex flex-wrap items-center gap-1">
                       {catInfo && (
                         <span className={cn(
-                          "rounded-full px-1.5 py-0.5 text-[9px] font-semibold",
+                          "rounded-full px-1.5 py-0.5 text-[11px] font-semibold",
                           config.badge
                         )}>
                           {catInfo.emoji} {catInfo.label}
                         </span>
                       )}
                       <span className={cn(
-                        "rounded-full px-1.5 py-0.5 text-[9px] font-semibold",
+                        "rounded-full px-1.5 py-0.5 text-[11px] font-semibold",
                         config.badge
                       )}>
                         <UrgencyIcon size={8} className="inline mr-0.5" />
@@ -279,7 +279,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
                               {faq.tags.map((tag) => (
                                 <span
                                   key={tag}
-                                  className="rounded-md bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-500 dark:bg-gray-700 dark:text-gray-400"
+                                  className="rounded-md bg-stone-100 px-1.5 py-0.5 text-[11px] text-gray-500 dark:bg-stone-700 dark:text-gray-400"
                                 >
                                   #{tag}
                                 </span>
@@ -308,7 +308,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
 
       {/* Result count */}
       {sortedFAQs.length > 0 && (
-        <p className="text-center text-[11px] text-gray-400 dark:text-gray-500">
+        <p className="text-center text-[11px] text-stone-400 dark:text-stone-500">
           총 {sortedFAQs.length}개의 FAQ
         </p>
       )}

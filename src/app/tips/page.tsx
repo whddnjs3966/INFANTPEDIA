@@ -57,7 +57,7 @@ export default function TipsPage() {
   }, [selectedMonth]);
 
   return (
-    <div className="min-h-screen dark:bg-gray-950">
+    <div className="min-h-screen dark:bg-stone-950">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -66,16 +66,16 @@ export default function TipsPage() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[12px] font-medium text-gray-400 dark:text-gray-500">
+            <p className="text-[12px] font-medium text-stone-400 dark:text-stone-500">
               {profile?.name ? `${profile.name}에게 맞는 ` : ""}월령별 노하우
             </p>
-            <h1 className="mt-0.5 text-[22px] font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
+            <h1 className="mt-0.5 text-[22px] font-extrabold text-stone-800 dark:text-stone-100 tracking-tight">
               육아 꿀팁
             </h1>
           </div>
           <button
             onClick={() => router.push("/search")}
-            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 active:scale-95 transition-transform"
+            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 active:scale-95 transition-transform"
             aria-label="검색"
           >
             <Search size={18} />
@@ -105,7 +105,7 @@ export default function TipsPage() {
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
         <div className="mx-4 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200/40 dark:border-purple-800/30 px-4 py-3">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-stone-500 dark:text-stone-400">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>
         </div>
@@ -119,9 +119,9 @@ export default function TipsPage() {
       {loading ? (
         <EncyclopediaSkeleton />
       ) : error ? (
-        <div className="mx-4 rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
-          <p className="text-sm text-gray-500 dark:text-gray-400">{error}</p>
-          <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">네트워크를 확인하고 다시 시도해 주세요</p>
+        <div className="mx-4 rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 text-center shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
+          <p className="text-sm text-stone-500 dark:text-stone-400">{error}</p>
+          <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">네트워크를 확인하고 다시 시도해 주세요</p>
         </div>
       ) : (
         <motion.div

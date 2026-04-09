@@ -60,7 +60,7 @@ export default function ClientLayout({
     return (
       <div
         className="flex min-h-screen items-center justify-center"
-        style={{ backgroundColor: "var(--cream-bg)" }}
+        style={{ backgroundColor: "var(--surface-bg)" }}
       >
         <div className="animate-pulse-soft text-4xl">{"\ud83d\udc76"}</div>
       </div>
@@ -79,7 +79,7 @@ export default function ClientLayout({
     return (
       <div
         className="flex min-h-screen items-center justify-center"
-        style={{ backgroundColor: "var(--cream-bg)" }}
+        style={{ backgroundColor: "var(--surface-bg)" }}
       >
         <div className="animate-pulse-soft text-4xl">{"\ud83d\udc76"}</div>
       </div>
@@ -89,10 +89,10 @@ export default function ClientLayout({
   return (
     <div
       className="mx-auto min-h-screen max-w-md"
-      style={{ backgroundColor: "var(--cream-bg)" }}
+      style={{ backgroundColor: "var(--surface-bg)" }}
     >
       <SyncManager />
-      <main className={showTabBar ? "pb-24" : ""}>{children}</main>
+      <main className={showTabBar ? "pb-20" : ""}>{children}</main>
       {showTabBar && <BottomTabBar />}
     </div>
   );

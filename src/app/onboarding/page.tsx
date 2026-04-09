@@ -138,12 +138,12 @@ export default function OnboardingPage() {
             <span>⭐</span>
           </motion.div>
 
-          <h1 className="text-center text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <h1 className="text-center text-2xl font-bold text-stone-800 dark:text-stone-100">
             인펀트피디아에
             <br />
             오신 것을 환영합니다!
           </h1>
-          <p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+          <p className="mt-2 text-center text-sm text-stone-500 dark:text-stone-400">
             아기의 성장을 함께 기록하고 알아가요 💕
           </p>
         </motion.div>
@@ -153,14 +153,14 @@ export default function OnboardingPage() {
             {/* New baby form */}
             <motion.form
               onSubmit={handleSubmit}
-              className="rounded-3xl bg-white dark:bg-gray-800 p-6 shadow-lg"
-              initial={{ opacity: 0, y: 20 }}
+              className="rounded-3xl bg-white dark:bg-stone-800 p-6 shadow-lg"
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
               <div className="space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  <Label htmlFor="name" className="text-sm font-semibold text-stone-700 dark:text-stone-200">
                     👶 아기 이름
                   </Label>
                   <Input
@@ -169,13 +169,13 @@ export default function OnboardingPage() {
                     placeholder="예: 서연이"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="h-12 rounded-xl border-pink-200 bg-pink-50/50 text-base placeholder:text-gray-300 focus:border-pink-300 focus:ring-pink-200"
+                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base placeholder:text-stone-300 focus:border-violet-300 focus:ring-violet-200"
                   />
                 </div>
 
                 {/* Gender selection */}
                 <div className="space-y-2">
-                  <Label className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  <Label className="text-sm font-semibold text-stone-700 dark:text-stone-200">
                     👧👦 성별
                   </Label>
                   <div className="grid grid-cols-2 gap-3">
@@ -187,7 +187,7 @@ export default function OnboardingPage() {
                         "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
                         gender === "male"
                           ? "border-blue-300 bg-blue-50 text-blue-700 shadow-sm dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                          : "border-gray-200 bg-white text-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
+                          : "border-stone-200 bg-white text-stone-400 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-500"
                       )}
                     >
                       <span className="text-xl">👦</span>
@@ -201,7 +201,7 @@ export default function OnboardingPage() {
                         "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
                         gender === "female"
                           ? "border-pink-300 bg-pink-50 text-pink-700 shadow-sm dark:border-pink-700 dark:bg-pink-900/30 dark:text-pink-400"
-                          : "border-gray-200 bg-white text-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
+                          : "border-stone-200 bg-white text-stone-400 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-500"
                       )}
                     >
                       <span className="text-xl">👧</span>
@@ -211,7 +211,7 @@ export default function OnboardingPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="birthdate" className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  <Label htmlFor="birthdate" className="text-sm font-semibold text-stone-700 dark:text-stone-200">
                     🎂 생년월일
                   </Label>
                   <Input
@@ -220,7 +220,7 @@ export default function OnboardingPage() {
                     value={birthdate}
                     onChange={(e) => setBirthdate(e.target.value)}
                     max={new Date().toISOString().split("T")[0]}
-                    className="h-12 rounded-xl border-pink-200 bg-pink-50/50 text-base focus:border-pink-300 focus:ring-pink-200"
+                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base focus:border-violet-300 focus:ring-violet-200"
                   />
                 </div>
 
@@ -237,7 +237,7 @@ export default function OnboardingPage() {
                 <motion.div whileTap={{ scale: 0.97 }}>
                   <Button
                     type="submit"
-                    className="h-12 w-full rounded-xl bg-gradient-to-r from-pink-400 to-purple-400 text-base font-bold text-white shadow-md active:from-pink-500 active:to-purple-500"
+                    className="h-12 w-full rounded-xl bg-[#7C5CFC] text-base font-bold text-white shadow-md active:bg-[#6B4CE0]"
                   >
                     시작하기 🚀
                   </Button>
@@ -262,10 +262,10 @@ export default function OnboardingPage() {
           <>
             {/* Invite code form */}
             <motion.div
-              className="rounded-3xl bg-white dark:bg-gray-800 p-6 shadow-lg"
-              initial={{ opacity: 0, y: 20 }}
+              className="rounded-3xl bg-white dark:bg-stone-800 p-6 shadow-lg"
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.3 }}
             >
               <div className="space-y-5">
                 <div className="flex items-center gap-2">
@@ -273,13 +273,13 @@ export default function OnboardingPage() {
                     <Link size={18} className="text-indigo-500" />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">초대코드 입력</h2>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">배우자가 공유한 코드를 입력하세요</p>
+                    <h2 className="text-base font-bold text-stone-700 dark:text-stone-200">초대코드 입력</h2>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">배우자가 공유한 코드를 입력하세요</p>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="invite-code" className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  <Label htmlFor="invite-code" className="text-sm font-semibold text-stone-700 dark:text-stone-200">
                     🔗 초대코드
                   </Label>
                   <Input
@@ -311,7 +311,7 @@ export default function OnboardingPage() {
                     type="button"
                     onClick={handleInviteJoin}
                     disabled={inviteLoading || inviteCode.length < 6}
-                    className="h-12 w-full rounded-xl bg-gradient-to-r from-indigo-400 to-purple-500 text-base font-bold text-white shadow-md active:from-indigo-500 active:to-purple-600 disabled:opacity-50"
+                    className="h-12 w-full rounded-xl bg-[#7C5CFC] text-base font-bold text-white shadow-md active:bg-[#6B4CE0] disabled:opacity-50"
                   >
                     {inviteLoading ? (
                       <>
@@ -341,7 +341,7 @@ export default function OnboardingPage() {
         )}
 
         <motion.p
-          className="mt-4 text-center text-xs text-gray-400 dark:text-gray-500"
+          className="mt-4 text-center text-xs text-stone-400 dark:text-stone-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}

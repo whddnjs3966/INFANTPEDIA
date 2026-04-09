@@ -107,7 +107,7 @@ export default function EncyclopediaPage() {
   }, [selectedMonth]);
 
   return (
-    <div className="min-h-screen dark:bg-gray-950">
+    <div className="min-h-screen dark:bg-stone-950">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -116,16 +116,16 @@ export default function EncyclopediaPage() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[12px] font-medium text-gray-400 dark:text-gray-500">
+            <p className="text-[12px] font-medium text-stone-400 dark:text-stone-500">
               {profile?.name ? `${profile.name}의 ` : ""}맞춤 정보
             </p>
-            <h1 className="mt-0.5 text-[22px] font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
+            <h1 className="mt-0.5 text-[22px] font-extrabold text-stone-800 dark:text-stone-100 tracking-tight">
               영유아 종합백과
             </h1>
           </div>
           <button
             onClick={() => router.push("/search")}
-            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 active:scale-95 transition-transform"
+            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 active:scale-95 transition-transform"
             aria-label="검색"
           >
             <Search size={18} />
@@ -134,9 +134,9 @@ export default function EncyclopediaPage() {
       </motion.div>
 
       {/* Sub-Tab Switcher */}
-      <div className="sticky top-0 z-20 bg-[var(--cream-bg)] dark:bg-gray-950 px-4 pb-3 pt-1">
+      <div className="sticky top-0 z-20 bg-[var(--surface-bg)] dark:bg-stone-950 px-4 pb-3 pt-1">
         <div
-          className="flex gap-1 overflow-x-auto no-scrollbar pb-0.5 rounded-2xl bg-gray-100/80 dark:bg-gray-800 p-1"
+          className="flex gap-1 overflow-x-auto no-scrollbar pb-0.5 rounded-2xl bg-stone-100/80 dark:bg-stone-800 p-1"
           style={{ WebkitOverflowScrolling: "touch" }}
         >
           {subTabs.map((tab) => {
@@ -149,14 +149,14 @@ export default function EncyclopediaPage() {
                 className={cn(
                   "relative flex shrink-0 items-center gap-1.5 rounded-xl px-3 py-2 text-[11px] font-bold whitespace-nowrap transition-all",
                   isActive
-                    ? "text-gray-800 dark:text-gray-100"
-                    : "text-gray-400 dark:text-gray-500"
+                    ? "text-stone-800 dark:text-stone-100"
+                    : "text-stone-400 dark:text-stone-500"
                 )}
               >
                 {isActive && (
                   <motion.div
                     layoutId="enc-tab-bg"
-                    className="absolute inset-0 rounded-xl bg-white dark:bg-gray-700 shadow-sm"
+                    className="absolute inset-0 rounded-xl bg-white dark:bg-stone-700 shadow-sm"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -187,7 +187,7 @@ export default function EncyclopediaPage() {
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
         <div className="mx-4 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200/40 dark:border-purple-800/30 px-4 py-3">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-stone-500 dark:text-stone-400">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>
         </div>
@@ -208,13 +208,13 @@ export default function EncyclopediaPage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mx-4 mb-4 rounded-[24px] border border-emerald-200/40 bg-white dark:bg-gray-900 dark:border-emerald-800/30 p-5 shadow-[0_2px_16px_rgb(0,0,0,0.05)]"
+                className="mx-4 mb-4 rounded-2xl border border-stone-200 bg-white dark:bg-stone-900 dark:border-stone-700 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
               >
                 <div className="mb-3 flex items-center gap-2.5">
                   <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/40">
                     <Info size={17} className="text-emerald-500" />
                   </div>
-                  <h2 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">
+                  <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
                     {selectedMonth}개월 발달 요약
                   </h2>
                 </div>
@@ -228,42 +228,42 @@ export default function EncyclopediaPage() {
                   {monthData.feeding_amount && (
                     <div className="rounded-xl bg-pink-50 dark:bg-pink-950/30 p-2 text-center">
                       <Baby size={14} className="mx-auto mb-1 text-pink-500" />
-                      <p className="text-[10px] font-bold text-pink-700 dark:text-pink-300 truncate">{monthData.feeding_amount}</p>
-                      <p className="text-[9px] text-gray-400 mt-0.5">수유량</p>
+                      <p className="text-[11px] font-bold text-pink-700 dark:text-pink-300 truncate">{monthData.feeding_amount}</p>
+                      <p className="text-[11px] text-stone-400 mt-0.5">수유량</p>
                     </div>
                   )}
                   {monthData.wake_window && (
                     <div className="rounded-xl bg-blue-50 dark:bg-blue-950/30 p-2 text-center">
                       <ClipboardCheck size={14} className="mx-auto mb-1 text-blue-500" />
-                      <p className="text-[10px] font-bold text-blue-700 dark:text-blue-300 truncate">{monthData.wake_window}</p>
-                      <p className="text-[9px] text-gray-400 mt-0.5">활동시간</p>
+                      <p className="text-[11px] font-bold text-blue-700 dark:text-blue-300 truncate">{monthData.wake_window}</p>
+                      <p className="text-[11px] text-stone-400 mt-0.5">활동시간</p>
                     </div>
                   )}
                   <div className="rounded-xl bg-indigo-50 dark:bg-indigo-950/30 p-2 text-center">
                     <Moon size={14} className="mx-auto mb-1 text-indigo-500" />
-                    <p className="text-[10px] font-bold text-indigo-700 dark:text-indigo-300 truncate">{monthData.nap_count || "-"}</p>
-                    <p className="text-[9px] text-gray-400 mt-0.5">총 수면</p>
+                    <p className="text-[11px] font-bold text-indigo-700 dark:text-indigo-300 truncate">{monthData.nap_count || "-"}</p>
+                    <p className="text-[11px] text-stone-400 mt-0.5">총 수면</p>
                   </div>
                   <div className="rounded-xl bg-orange-50 dark:bg-orange-950/30 p-2 text-center">
                     <UtensilsCrossed size={14} className="mx-auto mb-1 text-orange-500" />
-                    <p className="text-[10px] font-bold text-orange-700 dark:text-orange-300 truncate">
+                    <p className="text-[11px] font-bold text-orange-700 dark:text-orange-300 truncate">
                       {selectedMonth < 4 ? "시작 전" : selectedMonth <= 5 ? "초기" : selectedMonth <= 8 ? "중기" : selectedMonth <= 11 ? "후기" : "완료기"}
                     </p>
-                    <p className="text-[9px] text-gray-400 mt-0.5">이유식</p>
+                    <p className="text-[11px] text-stone-400 mt-0.5">이유식</p>
                   </div>
                 </div>
 
                 {/* Development milestones */}
                 <div className="mt-3 grid grid-cols-2 gap-2">
-                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
-                    <p className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 mb-0.5">대근육 발달</p>
-                    <p className="text-[12px] font-bold text-gray-800 dark:text-gray-100">
+                  <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-2.5 text-center">
+                    <p className="text-[11px] font-semibold text-stone-400 dark:text-stone-500 mb-0.5">대근육 발달</p>
+                    <p className="text-[12px] font-bold text-stone-800 dark:text-stone-100">
                       {selectedMonth <= 1 ? "고개 들기 연습" : selectedMonth <= 3 ? "목 가누기" : selectedMonth <= 5 ? "뒤집기" : selectedMonth <= 7 ? "혼자 앉기" : selectedMonth <= 9 ? "기어다니기" : selectedMonth <= 11 ? "붙잡고 서기" : "첫 걸음마"}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800/60 p-2.5 text-center">
-                    <p className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 mb-0.5">언어 발달</p>
-                    <p className="text-[12px] font-bold text-gray-800 dark:text-gray-100">
+                  <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-2.5 text-center">
+                    <p className="text-[11px] font-semibold text-stone-400 dark:text-stone-500 mb-0.5">언어 발달</p>
+                    <p className="text-[12px] font-bold text-stone-800 dark:text-stone-100">
                       {selectedMonth <= 1 ? "울음으로 소통" : selectedMonth <= 3 ? "옹알이 시작" : selectedMonth <= 5 ? "소리에 반응" : selectedMonth <= 7 ? "모음 소리 내기" : selectedMonth <= 9 ? "자음 옹알이" : selectedMonth <= 11 ? "맘마·빠빠" : "단어 1~3개"}
                     </p>
                   </div>
@@ -274,9 +274,9 @@ export default function EncyclopediaPage() {
             {loading ? (
               <EncyclopediaSkeleton />
             ) : error ? (
-              <div className="mx-4 rounded-[24px] border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-[0_2px_12px_rgb(0,0,0,0.04)]">
-                <p className="text-sm text-gray-500 dark:text-gray-400">{error}</p>
-                <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">네트워크를 확인하고 다시 시도해 주세요</p>
+              <div className="mx-4 rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 text-center shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
+                <p className="text-sm text-stone-500 dark:text-stone-400">{error}</p>
+                <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">네트워크를 확인하고 다시 시도해 주세요</p>
               </div>
             ) : (
               <CategoryAccordion activities={activities} isLoading={false} />
