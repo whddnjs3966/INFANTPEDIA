@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Share2, Link, Copy, Check, Download, RefreshCw, Unlink } from "lucide-react";
+import { Share2, Link, Copy, Check, RefreshCw, Unlink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,19 +15,16 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
 import { useVaccinationStore } from "@/lib/store/vaccination-store";
 import { useSyncStore } from "@/lib/store/sync-store";
-import { shareBaby, joinByInviteCode, pushToCloud, pullFromCloud } from "@/lib/sync/sync-service";
+import { shareBaby, joinByInviteCode } from "@/lib/sync/sync-service";
 import type { BabyGender } from "@/lib/store/baby-store";
 
 export default function SharingSection() {
   const profile = useBabyStore((s) => s.profile);
-  const addBaby = useBabyStore((s) => s.addBaby);
   const updateBaby = useBabyStore((s) => s.updateBaby);
-  const babies = useBabyStore((s) => s.babies);
 
   const measurements = useMeasurementStore((s) => s.measurements);
   const vaccinationRecords = useVaccinationStore((s) => s.records);
@@ -42,7 +39,7 @@ export default function SharingSection() {
   const [joinCode, setJoinCode] = useState("");
   const [joinError, setJoinError] = useState("");
   const [joinSuccess, setJoinSuccess] = useState(false);
-  const [syncStatus, setSyncStatus] = useState<"idle" | "pushing" | "pulling" | "done" | "error">("idle");
+  const [overwriteDialogOpen, setOverwriteDialogOpen] = useState(false);
 
   const currentMapping = profile
     ? mappings.find((m) => m.localBabyId === profile.id)
@@ -89,9 +86,9 @@ export default function SharingSection() {
     }
   }, []);
 
-  // ─── Join via code ───
+  // ─── Join via code (overwrite existing data) ───
   const handleJoin = useCallback(async () => {
-    if (!joinCode.trim()) return;
+    if (!joinCode.trim() || !profile) return;
     setLoading(true);
     setJoinError("");
     setJoinSuccess(false);
@@ -101,93 +98,24 @@ export default function SharingSection() {
     if ("error" in result) {
       setJoinError(result.error);
     } else {
-      // Check if we already have this shared baby
-      const existingMapping = mappings.find((m) => m.sharedBabyId === result.baby.id);
-      if (existingMapping) {
-        setJoinError("이미 연결된 아기입니다");
-        setLoading(false);
-        return;
-      }
-
-      // Add baby to local store (Zustand set() is synchronous)
-      addBaby({
-        name: result.baby.name,
-        birthdate: result.baby.birthdate,
-        gender: result.baby.gender as BabyGender,
-      });
-
-      // State is already updated — access directly
-      const updatedBabies = useBabyStore.getState().babies;
-      const newBaby = updatedBabies[updatedBabies.length - 1];
-      if (newBaby) {
-        addMapping({
-          localBabyId: newBaby.id,
-          sharedBabyId: result.baby.id,
-          inviteCode: joinCode.trim().toUpperCase(),
-        });
-
-        // Import measurements
-        for (const m of result.measurements) {
-          useMeasurementStore.getState().addMeasurement({
-            month: m.month,
-            date: m.date,
-            height: m.height,
-            weight: m.weight,
-            headCircumference: m.headCircumference,
-          });
-        }
-
-        // Import vaccinations
-        for (const v of result.vaccinations) {
-          const vacStore = useVaccinationStore.getState();
-          if (!vacStore.isCompleted(v.vaccineId, v.doseNumber)) {
-            vacStore.toggleVaccination(v.vaccineId, v.doseNumber, v.completedDate);
-          }
-        }
-
-        setLastSync();
-      }
-      setJoinSuccess(true);
-      setJoinCode("");
-    }
-    setLoading(false);
-  }, [joinCode, mappings, addBaby, addMapping, setLastSync]);
-
-  // ─── Push sync ───
-  const handlePush = useCallback(async () => {
-    if (!profile || !currentMapping) return;
-    setSyncStatus("pushing");
-    const result = await pushToCloud(
-      currentMapping.sharedBabyId,
-      profile,
-      measurements,
-      vaccinationRecords
-    );
-    if (result.error) {
-      setSyncStatus("error");
-    } else {
-      setLastSync();
-      setSyncStatus("done");
-    }
-    setTimeout(() => setSyncStatus("idle"), 2000);
-  }, [profile, currentMapping, measurements, vaccinationRecords, setLastSync]);
-
-  // ─── Pull sync ───
-  const handlePull = useCallback(async () => {
-    if (!profile || !currentMapping) return;
-    setSyncStatus("pulling");
-    const result = await pullFromCloud(currentMapping.sharedBabyId);
-    if ("error" in result) {
-      setSyncStatus("error");
-    } else {
-      // Update baby profile
+      // Overwrite current baby profile with shared data
       updateBaby(profile.id, {
         name: result.baby.name,
         birthdate: result.baby.birthdate,
         gender: result.baby.gender as BabyGender,
       });
 
-      // Replace local data with cloud data (atomic clear + re-import)
+      // Remove old mapping if exists, add new one
+      if (currentMapping) {
+        removeMapping(profile.id);
+      }
+      addMapping({
+        localBabyId: profile.id,
+        sharedBabyId: result.baby.id,
+        inviteCode: joinCode.trim().toUpperCase(),
+      });
+
+      // Clear and replace measurements
       useMeasurementStore.getState().clearAll();
       for (const m of result.measurements) {
         useMeasurementStore.getState().addMeasurement({
@@ -199,16 +127,18 @@ export default function SharingSection() {
         });
       }
 
+      // Clear and replace vaccinations
       useVaccinationStore.getState().clearAll();
       for (const v of result.vaccinations) {
         useVaccinationStore.getState().toggleVaccination(v.vaccineId, v.doseNumber, v.completedDate);
       }
 
       setLastSync();
-      setSyncStatus("done");
+      setJoinSuccess(true);
+      setJoinCode("");
     }
-    setTimeout(() => setSyncStatus("idle"), 2000);
-  }, [profile, currentMapping, updateBaby, setLastSync]);
+    setLoading(false);
+  }, [joinCode, profile, currentMapping, updateBaby, addMapping, removeMapping, setLastSync]);
 
   // ─── Unlink sharing ───
   const handleUnlink = useCallback(() => {
@@ -253,57 +183,6 @@ export default function SharingSection() {
                 이 코드를 상대방에게 공유하세요
               </p>
             </div>
-
-            {/* Sync buttons */}
-            <div className="grid grid-cols-2 gap-2">
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                onClick={handlePush}
-                disabled={syncStatus !== "idle"}
-                className={cn(
-                  "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2.5 text-xs font-medium transition-all",
-                  syncStatus === "pushing"
-                    ? "border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                    : "border-gray-200 text-gray-600 active:border-blue-200 dark:border-gray-700 dark:text-gray-400 dark:active:border-blue-800"
-                )}
-              >
-                <RefreshCw size={14} className={syncStatus === "pushing" ? "animate-spin" : ""} />
-                {syncStatus === "pushing" ? "업로드 중..." : "데이터 업로드"}
-              </motion.button>
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                onClick={handlePull}
-                disabled={syncStatus !== "idle"}
-                className={cn(
-                  "flex items-center justify-center gap-1.5 rounded-xl border-2 py-2.5 text-xs font-medium transition-all",
-                  syncStatus === "pulling"
-                    ? "border-purple-300 bg-purple-50 text-purple-600 dark:border-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
-                    : "border-gray-200 text-gray-600 active:border-purple-200 dark:border-gray-700 dark:text-gray-400 dark:active:border-purple-800"
-                )}
-              >
-                <Download size={14} className={syncStatus === "pulling" ? "animate-spin" : ""} />
-                {syncStatus === "pulling" ? "다운로드 중..." : "데이터 다운로드"}
-              </motion.button>
-            </div>
-
-            {syncStatus === "done" && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center text-xs text-green-500"
-              >
-                동기화 완료!
-              </motion.p>
-            )}
-            {syncStatus === "error" && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center text-xs text-red-500"
-              >
-                동기화 실패. 다시 시도해주세요.
-              </motion.p>
-            )}
 
             {/* Unlink */}
             <Dialog>
@@ -388,61 +267,98 @@ export default function SharingSection() {
         )}
       </div>
 
-      {/* Join by invite code */}
-      {!currentMapping && (
-        <div className="rounded-2xl border border-stone-200 bg-white dark:border-stone-700 dark:bg-stone-800 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
-          <div className="mb-3 flex items-center gap-2">
-            <div className="rounded-lg bg-indigo-100 p-2">
-              <Link size={18} className="text-indigo-500" />
-            </div>
-            <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">초대코드 입력</h2>
+      {/* Join by invite code — always visible */}
+      <div className="rounded-2xl border border-stone-200 bg-white dark:border-stone-700 dark:bg-stone-800 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
+        <div className="mb-3 flex items-center gap-2">
+          <div className="rounded-lg bg-indigo-100 dark:bg-indigo-950/40 p-2">
+            <Link size={18} className="text-indigo-500" />
           </div>
-          <p className="mb-3 text-xs text-gray-500 dark:text-gray-400">
-            배우자가 공유한 초대코드를 입력하면 같은 데이터를 볼 수 있어요.
-          </p>
-
-          <div className="flex gap-2">
-            <Input
-              type="text"
-              placeholder="예: ABC123"
-              value={joinCode}
-              onChange={(e) => {
-                setJoinCode(e.target.value.toUpperCase());
-                setJoinError("");
-                setJoinSuccess(false);
-              }}
-              maxLength={6}
-              className="h-11 flex-1 rounded-xl border-indigo-200 bg-indigo-50/30 text-center font-mono text-lg tracking-widest"
-            />
-            <Button
-              onClick={handleJoin}
-              disabled={loading || joinCode.length < 6}
-              className="h-11 rounded-xl bg-indigo-500 px-5 font-semibold text-white active:bg-indigo-600"
-            >
-              {loading ? <RefreshCw size={16} className="animate-spin" /> : "연결"}
-            </Button>
-          </div>
-
-          {joinError && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-2 text-center text-xs text-red-500"
-            >
-              {joinError}
-            </motion.p>
-          )}
-          {joinSuccess && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-2 text-center text-xs text-green-500"
-            >
-              연결 완료! 데이터를 가져왔어요.
-            </motion.p>
-          )}
+          <h2 className="text-base font-bold text-gray-700 dark:text-gray-200">초대코드 입력</h2>
         </div>
-      )}
+        <p className="mb-3 text-xs text-gray-500 dark:text-gray-400">
+          상대방의 초대코드를 입력하면 데이터를 가져올 수 있어요.
+          {currentMapping && (
+            <span className="block mt-1 text-orange-500 dark:text-orange-400">
+              기존 데이터가 상대방의 데이터로 덮어써집니다.
+            </span>
+          )}
+        </p>
+
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            placeholder="예: ABC123"
+            value={joinCode}
+            onChange={(e) => {
+              setJoinCode(e.target.value.toUpperCase());
+              setJoinError("");
+              setJoinSuccess(false);
+            }}
+            maxLength={6}
+            className="h-11 flex-1 rounded-xl border-indigo-200 bg-indigo-50/30 dark:border-indigo-800 dark:bg-indigo-950/20 text-center font-mono text-lg tracking-widest"
+          />
+          <Button
+            onClick={() => {
+              if (currentMapping) {
+                setOverwriteDialogOpen(true);
+              } else {
+                handleJoin();
+              }
+            }}
+            disabled={loading || joinCode.length < 6}
+            className="h-11 rounded-xl bg-indigo-500 px-5 font-semibold text-white active:bg-indigo-600"
+          >
+            {loading ? <RefreshCw size={16} className="animate-spin" /> : "연결"}
+          </Button>
+        </div>
+
+        {joinError && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-2 text-center text-xs text-red-500"
+          >
+            {joinError}
+          </motion.p>
+        )}
+        {joinSuccess && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-2 text-center text-xs text-green-500"
+          >
+            연결 완료! 상대방의 데이터를 가져왔어요.
+          </motion.p>
+        )}
+
+        {/* Overwrite confirmation dialog */}
+        <Dialog open={overwriteDialogOpen} onOpenChange={setOverwriteDialogOpen}>
+          <DialogContent className="max-w-[340px] rounded-2xl">
+            <DialogHeader>
+              <DialogTitle className="text-center">데이터를 덮어쓸까요?</DialogTitle>
+              <DialogDescription className="text-center">
+                현재 저장된 데이터가 상대방의 데이터로{"\n"}완전히 교체됩니다. 이 작업은 되돌릴 수 없어요.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="flex gap-2 sm:flex-row">
+              <DialogClose
+                render={<Button variant="outline" className="flex-1 rounded-xl" />}
+              >
+                취소
+              </DialogClose>
+              <Button
+                onClick={() => {
+                  setOverwriteDialogOpen(false);
+                  handleJoin();
+                }}
+                className="flex-1 rounded-xl bg-indigo-500 text-white active:bg-indigo-600"
+              >
+                덮어쓰기
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }

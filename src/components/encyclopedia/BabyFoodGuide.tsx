@@ -241,17 +241,17 @@ export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
                 <UtensilsCrossed size={13} className="mx-auto mb-1 text-orange-500" />
-                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{currentStage.texture}</p>
+                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{currentStage.texture}</p>
                 <p className="text-[11px] text-gray-400 mt-0.5">형태</p>
               </div>
               <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
                 <Clock size={13} className="mx-auto mb-1 text-blue-500" />
-                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{currentStage.frequency}</p>
+                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{currentStage.frequency}</p>
                 <p className="text-[11px] text-gray-400 mt-0.5">횟수</p>
               </div>
               <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
                 <Ruler size={13} className="mx-auto mb-1 text-green-500" />
-                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 truncate">{currentStage.amount}</p>
+                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{currentStage.amount}</p>
                 <p className="text-[11px] text-gray-400 mt-0.5">1회량</p>
               </div>
             </div>
