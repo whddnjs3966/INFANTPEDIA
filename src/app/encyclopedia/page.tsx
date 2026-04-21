@@ -133,7 +133,7 @@ export default function EncyclopediaPage() {
                 className={cn(
                   "relative flex shrink-0 flex-col items-center justify-center gap-1 rounded-2xl px-4 py-2.5 min-w-[68px] transition-all",
                   isActive
-                    ? "bg-[#7C5CFC] text-white elevation-2"
+                    ? "bg-[#14B8A6] text-white elevation-2"
                     : "bg-white dark:bg-stone-800/70 text-stone-500 dark:text-stone-400 elevation-1"
                 )}
               >
@@ -166,7 +166,7 @@ export default function EncyclopediaPage() {
 
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
-        <div className="mx-5 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 px-4 py-3 elevation-1">
+        <div className="mx-5 mb-3 rounded-2xl bg-teal-50 dark:bg-teal-950/30 px-4 py-3 elevation-1">
           <p className="text-[13px] text-stone-600 dark:text-stone-300 leading-relaxed">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>

@@ -20,7 +20,7 @@ export default function BottomTabBar() {
   return (
     <div className="pointer-events-none fixed bottom-0 left-1/2 z-50 w-full max-w-[480px] -translate-x-1/2 pb-safe">
       <nav className="pointer-events-auto mx-4 mb-3 rounded-[28px] bg-white/95 backdrop-blur-2xl dark:bg-stone-900/95 ring-1 ring-stone-200/80 dark:ring-stone-800/80 elevation-3">
-        <div className="flex items-center justify-between px-2 py-2">
+        <div className="flex items-stretch justify-between px-1.5 py-1.5">
           {tabs.map((tab) => {
             const isActive =
               tab.href === "/"
@@ -32,39 +32,40 @@ export default function BottomTabBar() {
               <motion.button
                 key={tab.href}
                 onClick={() => router.replace(tab.href)}
-                whileTap={{ scale: 0.88 }}
-                className="relative flex flex-1 items-center justify-center py-2"
+                whileTap={{ scale: 0.92 }}
+                className="relative flex flex-1 flex-col items-center justify-center gap-0.5 py-1.5"
                 aria-label={tab.label}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="tab-pill-bg"
-                    className="absolute inset-y-0 left-1/2 w-14 -translate-x-1/2 rounded-full bg-[#7C5CFC]"
-                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                  />
-                )}
-                <div className="relative z-10 flex flex-col items-center justify-center gap-0.5">
+                {/* Active icon pill (behind icon only) */}
+                <div className="relative flex h-8 w-14 items-center justify-center">
+                  {isActive && (
+                    <motion.div
+                      layoutId="tab-pill-bg"
+                      className="absolute inset-0 rounded-full bg-[#14B8A6]"
+                      transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                    />
+                  )}
                   <Icon
-                    size={isActive ? 22 : 23}
-                    strokeWidth={isActive ? 2.4 : 1.9}
+                    size={isActive ? 21 : 22}
+                    strokeWidth={isActive ? 2.4 : 2}
                     className={cn(
-                      "transition-colors",
+                      "relative z-10 transition-colors",
                       isActive
                         ? "text-white"
-                        : "text-stone-400 dark:text-stone-500"
+                        : "text-stone-500 dark:text-stone-400"
                     )}
                   />
-                  <span
-                    className={cn(
-                      "text-[10px] leading-none font-bold transition-all",
-                      isActive
-                        ? "text-white"
-                        : "text-stone-500 dark:text-stone-500 opacity-0 h-0"
-                    )}
-                  >
-                    {tab.label}
-                  </span>
                 </div>
+                <span
+                  className={cn(
+                    "text-[10.5px] leading-none font-bold transition-colors",
+                    isActive
+                      ? "text-[#14B8A6] dark:text-teal-400"
+                      : "text-stone-500 dark:text-stone-400"
+                  )}
+                >
+                  {tab.label}
+                </span>
               </motion.button>
             );
           })}

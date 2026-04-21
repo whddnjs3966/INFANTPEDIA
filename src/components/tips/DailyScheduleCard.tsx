@@ -97,8 +97,8 @@ export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
           onClick={() => setIsOpen(!isOpen)}
           className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-50 dark:bg-violet-950/40 shrink-0">
-            <Clock size={17} className="text-violet-500" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 dark:bg-teal-950/40 shrink-0">
+            <Clock size={17} className="text-teal-500" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[14px] font-bold text-stone-800 dark:text-stone-100">

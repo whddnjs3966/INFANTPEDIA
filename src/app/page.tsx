@@ -197,7 +197,7 @@ export default function HomePage() {
                 {wonderWeeks.length > 0 && (
                   <button
                     onClick={() => router.push("/encyclopedia")}
-                    className="group relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-5 text-left text-white active:scale-[0.98] transition-transform"
+                    className="group relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-teal-500 to-cyan-500 p-5 text-left text-white active:scale-[0.98] transition-transform"
                   >
                     <div
                       className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-white/10 blur-2xl"
@@ -247,8 +247,8 @@ export default function HomePage() {
 
                 {isOver12 && (
                   <div className="flex items-start gap-3 rounded-3xl bg-white dark:bg-stone-900 p-4 elevation-1">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-purple-100 dark:bg-purple-900/50">
-                      <Sparkles size={18} className="text-purple-500" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-teal-100 dark:bg-teal-900/50">
+                      <Sparkles size={18} className="text-teal-500" />
                     </div>
                     <div>
                       <p className="text-[14px] font-bold text-stone-900 dark:text-stone-100">
@@ -287,8 +287,8 @@ export default function HomePage() {
                     className="rounded-3xl bg-white dark:bg-stone-900 p-5 text-left elevation-1 active:scale-[0.98] transition-transform"
                   >
                     <div className="mb-3 flex items-center justify-between">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-50 dark:bg-violet-950/40">
-                        <Baby size={20} className="text-violet-500" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-teal-50 dark:bg-teal-950/40">
+                        <Baby size={20} className="text-teal-500" />
                       </div>
                       <ChevronRight size={16} className="text-stone-300 dark:text-stone-600" />
                     </div>

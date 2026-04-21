@@ -9,7 +9,7 @@ type ColorScheme = "blue" | "pink" | "purple" | "mint" | "yellow" | "peach";
 const iconColorMap: Record<ColorScheme, string> = {
   blue: "text-blue-500",
   pink: "text-pink-500",
-  purple: "text-violet-500",
+  purple: "text-teal-500",
   mint: "text-emerald-500",
   yellow: "text-amber-500",
   peach: "text-orange-500",

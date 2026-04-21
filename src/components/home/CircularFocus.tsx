@@ -57,8 +57,8 @@ export default function CircularFocus({
         <svg width={size} height={size} className="absolute -rotate-90">
           <defs>
             <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#9B7AFF" />
-              <stop offset="100%" stopColor="#7C5CFC" />
+              <stop offset="0%" stopColor="#5EEAD4" />
+              <stop offset="100%" stopColor="#14B8A6" />
             </linearGradient>
           </defs>
           <circle
@@ -90,17 +90,17 @@ export default function CircularFocus({
           onClick={() => fileInputRef.current?.click()}
           className="relative h-[172px] w-[172px] active:scale-95 transition-transform"
         >
-          <div className="relative h-full w-full overflow-hidden rounded-full bg-gradient-to-br from-violet-100 to-violet-50 dark:from-violet-900/40 dark:to-violet-950/40 ring-[3px] ring-white dark:ring-stone-900">
+          <div className="relative h-full w-full overflow-hidden rounded-full bg-gradient-to-br from-teal-100 to-teal-50 dark:from-teal-900/40 dark:to-teal-950/40 ring-[3px] ring-white dark:ring-stone-900">
             {photoUrl ? (
               <Image src={photoUrl} alt={babyName} fill className="object-cover" unoptimized />
             ) : (
               <div className="flex h-full w-full items-center justify-center">
-                <Camera size={44} className="text-violet-300 dark:text-violet-700" strokeWidth={1.5} />
+                <Camera size={44} className="text-teal-300 dark:text-teal-700" strokeWidth={1.5} />
               </div>
             )}
           </div>
           <div className="absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-lg ring-1 ring-stone-200 dark:bg-stone-800 dark:ring-stone-700">
-            <Camera size={15} className="text-[#7C5CFC] dark:text-violet-400" />
+            <Camera size={15} className="text-[#14B8A6] dark:text-teal-400" />
           </div>
         </button>
         <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onPhotoSelect} />
@@ -122,7 +122,7 @@ export default function CircularFocus({
           </span>
         </div>
         <div className="mt-2 flex items-center gap-1.5 text-[13px]">
-          <span className="font-semibold text-[#7C5CFC] dark:text-violet-400">
+          <span className="font-semibold text-[#14B8A6] dark:text-teal-400">
             {isOver12 ? `${realMonths}개월` : `${months}개월 차`}
           </span>
           <span className="text-stone-300 dark:text-stone-700">·</span>

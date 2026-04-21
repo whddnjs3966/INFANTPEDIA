@@ -169,7 +169,7 @@ export default function OnboardingPage() {
                     placeholder="예: 서연이"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base placeholder:text-stone-300 focus:border-violet-300 focus:ring-violet-200"
+                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base placeholder:text-stone-300 focus:border-teal-300 focus:ring-teal-200"
                   />
                 </div>
 
@@ -220,7 +220,7 @@ export default function OnboardingPage() {
                     value={birthdate}
                     onChange={(e) => setBirthdate(e.target.value)}
                     max={new Date().toISOString().split("T")[0]}
-                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base focus:border-violet-300 focus:ring-violet-200"
+                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base focus:border-teal-300 focus:ring-teal-200"
                   />
                 </div>
 
@@ -237,7 +237,7 @@ export default function OnboardingPage() {
                 <motion.div whileTap={{ scale: 0.97 }}>
                   <Button
                     type="submit"
-                    className="h-12 w-full rounded-xl bg-[#7C5CFC] text-base font-bold text-white shadow-md active:bg-[#6B4CE0]"
+                    className="h-12 w-full rounded-xl bg-[#14B8A6] text-base font-bold text-white shadow-md active:bg-[#0D9488]"
                   >
                     시작하기 🚀
                   </Button>
@@ -248,7 +248,7 @@ export default function OnboardingPage() {
             {/* Invite code toggle */}
             <motion.button
               onClick={() => setShowInvite(true)}
-              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-stone-800 text-base font-bold text-[#7C5CFC] dark:text-violet-300 shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
+              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-stone-800 text-base font-bold text-[#14B8A6] dark:text-teal-300 shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
@@ -311,7 +311,7 @@ export default function OnboardingPage() {
                     type="button"
                     onClick={handleInviteJoin}
                     disabled={inviteLoading || inviteCode.length < 6}
-                    className="h-12 w-full rounded-xl bg-[#7C5CFC] text-base font-bold text-white shadow-md active:bg-[#6B4CE0] disabled:opacity-50"
+                    className="h-12 w-full rounded-xl bg-[#14B8A6] text-base font-bold text-white shadow-md active:bg-[#0D9488] disabled:opacity-50"
                   >
                     {inviteLoading ? (
                       <>
@@ -332,7 +332,7 @@ export default function OnboardingPage() {
                 setShowInvite(false);
                 setInviteError("");
               }}
-              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-stone-800 text-base font-bold text-[#7C5CFC] dark:text-violet-300 shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
+              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-stone-800 text-base font-bold text-[#14B8A6] dark:text-teal-300 shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
               whileTap={{ scale: 0.97 }}
             >
               <span className="text-lg">👶</span>

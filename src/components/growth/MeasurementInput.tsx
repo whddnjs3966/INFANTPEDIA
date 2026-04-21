@@ -213,7 +213,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
             <div className="rounded-2xl border border-gray-200 dark:border-gray-700 p-3.5 focus-within:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <Weight size={14} className="text-violet-500" />
+                  <Weight size={14} className="text-teal-500" />
                   <span className="text-[12px] font-bold text-gray-700 dark:text-gray-300">몸무게 (kg)</span>
                 </div>
                 {whoWeight && (
@@ -294,7 +294,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
                   ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
                   : !hasInput
                   ? "bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500"
-                  : "bg-[#7C5CFC] text-white shadow-lg shadow-[#7C5CFC]/25 active:bg-[#6B4CE0]"
+                  : "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/25 active:bg-[#0D9488]"
               )}
             >
               {saved ? (

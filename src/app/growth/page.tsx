@@ -62,7 +62,7 @@ export default function GrowthPage() {
                 {isActive && (
                   <motion.div
                     layoutId="growth-tab-bg"
-                    className="absolute inset-0 rounded-xl bg-[#7C5CFC] elevation-2"
+                    className="absolute inset-0 rounded-xl bg-[#14B8A6] elevation-2"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}

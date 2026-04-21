@@ -26,7 +26,7 @@ export default function PageHeader({ eyebrow, title, description, showSearch, ac
       <div className="flex items-start justify-between gap-3 pt-4">
         <div className="min-w-0 flex-1">
           {eyebrow && (
-            <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-violet-50 dark:bg-violet-950/40 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#7C5CFC] dark:text-violet-400">
+            <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-teal-50 dark:bg-teal-950/40 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#14B8A6] dark:text-teal-400">
               {eyebrow}
             </p>
           )}

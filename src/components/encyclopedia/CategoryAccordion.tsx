@@ -41,8 +41,8 @@ const categories = [
     label: "\uc218\uba74",
     emoji: "\ud83c\udf19",
     icon: Moon,
-    iconColor: "text-violet-500",
-    iconBg: "bg-violet-50 dark:bg-violet-950/30",
+    iconColor: "text-teal-500",
+    iconBg: "bg-teal-50 dark:bg-teal-950/30",
   },
   {
     key: "food",

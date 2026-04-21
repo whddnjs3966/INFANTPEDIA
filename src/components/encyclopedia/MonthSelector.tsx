@@ -66,8 +66,8 @@ export default function MonthSelector({
                   ? cn(
                       "min-w-[72px] h-[46px] px-4",
                       "rounded-full",
-                      "bg-[#7C5CFC] dark:bg-violet-500",
-                      "shadow-md shadow-violet-500/25 dark:shadow-violet-400/20",
+                      "bg-[#14B8A6] dark:bg-teal-500",
+                      "shadow-md shadow-teal-500/25 dark:shadow-teal-400/20",
                     )
                   : cn(
                       "min-w-[60px] h-[42px] px-3.5",
@@ -91,7 +91,7 @@ export default function MonthSelector({
 
               {/* Current month dot */}
               {isCurrent && !isSelected && (
-                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-[#7C5CFC] ring-[1.5px] ring-white dark:ring-stone-900" />
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-[#14B8A6] ring-[1.5px] ring-white dark:ring-stone-900" />
               )}
             </motion.button>
           );

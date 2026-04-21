@@ -73,7 +73,7 @@ export default function InstallPrompt() {
           </button>
 
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-pink-400 to-purple-400">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-cyan-400">
               <Download size={20} className="text-white" />
             </div>
             <div className="min-w-0 flex-1">
@@ -88,7 +88,7 @@ export default function InstallPrompt() {
 
           <button
             onClick={handleInstall}
-            className="mt-3 w-full rounded-xl bg-gradient-to-r from-pink-400 to-purple-400 py-2.5 text-sm font-semibold text-white active:scale-[0.98]"
+            className="mt-3 w-full rounded-xl bg-gradient-to-r from-teal-400 to-cyan-400 py-2.5 text-sm font-semibold text-white active:scale-[0.98]"
           >
             설치하기
           </button>

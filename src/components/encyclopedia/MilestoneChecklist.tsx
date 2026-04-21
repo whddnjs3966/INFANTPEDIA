@@ -160,7 +160,7 @@ export default function MilestoneChecklist({ month }: MilestoneChecklistProps) {
         {/* Progress Bar */}
         <div className="h-3 w-full overflow-hidden rounded-full bg-stone-100 dark:bg-stone-700">
           <motion.div
-            className="h-full rounded-full bg-[#7C5CFC]"
+            className="h-full rounded-full bg-[#14B8A6]"
             initial={{ width: 0 }}
             animate={{ width: `${completionPercent}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}

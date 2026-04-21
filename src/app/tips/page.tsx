@@ -84,7 +84,7 @@ export default function TipsPage() {
 
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
-        <div className="mx-5 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 px-4 py-3 elevation-1">
+        <div className="mx-5 mb-3 rounded-2xl bg-teal-50 dark:bg-teal-950/30 px-4 py-3 elevation-1">
           <p className="text-[13px] text-stone-600 dark:text-stone-300 leading-relaxed">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>

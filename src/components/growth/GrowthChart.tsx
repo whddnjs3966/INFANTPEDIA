@@ -243,7 +243,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       {/* ── Summary Hero Card ── */}
       <motion.div
         variants={child}
-        className="relative overflow-hidden rounded-2xl bg-[#7C5CFC] p-5 text-white shadow-[0_4px_16px_rgb(0,0,0,0.08)]"
+        className="relative overflow-hidden rounded-2xl bg-[#14B8A6] p-5 text-white shadow-[0_4px_16px_rgb(0,0,0,0.08)]"
       >
 
         <div className="relative z-10">
@@ -581,7 +581,7 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
         variants={child}
         whileTap={{ scale: 0.97 }}
         onClick={() => setShowInput(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#7C5CFC] py-4 text-[14px] font-bold text-white shadow-[0_4px_16px_rgb(124,92,252,0.25)] transition-all active:bg-[#6B4CE0]"
+        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#14B8A6] py-4 text-[14px] font-bold text-white shadow-[0_4px_16px_rgb(124,92,252,0.25)] transition-all active:bg-[#0D9488]"
       >
         <Plus size={18} strokeWidth={2.5} />
         실측 데이터 입력하기

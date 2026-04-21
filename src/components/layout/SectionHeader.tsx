@@ -26,7 +26,7 @@ export default function SectionHeader({ title, caption, action }: SectionHeaderP
       {action && (
         <button
           onClick={action.onClick}
-          className="flex items-center gap-0.5 text-[13px] font-semibold text-[#7C5CFC] dark:text-violet-400 active:opacity-60"
+          className="flex items-center gap-0.5 text-[13px] font-semibold text-[#14B8A6] dark:text-teal-400 active:opacity-60"
         >
           {action.label}
           <ChevronRight size={14} />

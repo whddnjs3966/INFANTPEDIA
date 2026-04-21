@@ -196,7 +196,7 @@ export default function VaccinationSchedule({ currentMonth }: VaccinationSchedul
             initial={{ width: 0 }}
             animate={{ width: `${(done / totalDoses) * 100}%` }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="h-3 rounded-full bg-[#7C5CFC]"
+            className="h-3 rounded-full bg-[#14B8A6]"
           />
         </div>
         <div className="mt-3 flex justify-between">

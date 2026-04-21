@@ -43,7 +43,7 @@ function SectionHeader({
     blue: "from-blue-50 to-sky-50 dark:from-blue-950/30 dark:to-sky-950/30",
     amber: "from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30",
     cyan: "from-cyan-50 to-teal-50 dark:from-cyan-950/30 dark:to-teal-950/30",
-    violet: "from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/30",
+    violet: "from-teal-50 to-cyan-50 dark:from-teal-950/30 dark:to-cyan-950/30",
     red: "from-red-50 to-rose-50 dark:from-red-950/30 dark:to-rose-950/30",
   };
 
@@ -149,7 +149,7 @@ export default function FeedingGuide({ month }: FeedingGuideProps) {
       >
         {[
           { label: "1회 수유량", value: guide.perFeedAmount, emoji: "🍼", gradient: "from-pink-100 to-rose-100 dark:from-pink-950/40 dark:to-rose-950/40" },
-          { label: "일일 총량", value: guide.dailyTotal, emoji: "📊", gradient: "from-purple-100 to-violet-100 dark:from-purple-950/40 dark:to-violet-950/40" },
+          { label: "일일 총량", value: guide.dailyTotal, emoji: "📊", gradient: "from-teal-100 to-cyan-100 dark:from-teal-950/40 dark:to-cyan-950/40" },
           { label: "수유 횟수", value: guide.frequency, emoji: "🔢", gradient: "from-blue-100 to-sky-100 dark:from-blue-950/40 dark:to-sky-950/40" },
           { label: "수유 간격", value: guide.interval, emoji: "⏰", gradient: "from-amber-100 to-orange-100 dark:from-amber-950/40 dark:to-orange-950/40" },
         ].map((stat, idx) => (

@@ -266,7 +266,7 @@ export default function SleepGuide({ month }: SleepGuideProps) {
             <p className="text-[11px] text-gray-400 mt-0.5">총 수면</p>
           </div>
           <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
-            <CloudMoon size={13} className="mx-auto mb-1 text-violet-500" />
+            <CloudMoon size={13} className="mx-auto mb-1 text-teal-500" />
             <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{guide.nightSleep}</p>
             <p className="text-[11px] text-gray-400 mt-0.5">야간 수면</p>
           </div>

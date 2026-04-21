@@ -161,7 +161,7 @@ export default function SettingsPage() {
       >
         {/* ── Profile Banner ── */}
         <motion.section variants={child} className="space-y-3">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#7C5CFC] to-[#B088FF] p-5 text-white elevation-2">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#14B8A6] to-[#2DD4BF] p-5 text-white elevation-2">
             <div
               className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/15 blur-2xl"
               aria-hidden
@@ -192,7 +192,7 @@ export default function SettingsPage() {
           <div className="overflow-hidden rounded-3xl bg-white dark:bg-stone-900 elevation-1">
             {authLoading ? (
               <div className="flex items-center justify-center py-5">
-                <div className="h-5 w-5 animate-spin rounded-full border-2 border-violet-300 border-t-transparent" />
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-teal-300 border-t-transparent" />
               </div>
             ) : user ? (
               <>
@@ -231,8 +231,8 @@ export default function SettingsPage() {
                 className="flex w-full items-center justify-between px-5 py-5 active:bg-stone-50 dark:active:bg-stone-800"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-50 dark:bg-violet-950/40">
-                    <LogIn size={19} className="text-[#7C5CFC]" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-teal-50 dark:bg-teal-950/40">
+                    <LogIn size={19} className="text-[#14B8A6]" />
                   </div>
                   <div className="text-left">
                     <p className="text-[15px] font-bold text-stone-900 dark:text-stone-100">로그인하기</p>
@@ -263,7 +263,7 @@ export default function SettingsPage() {
                   className={cn(
                     "flex shrink-0 items-center gap-2.5 rounded-2xl px-4 py-3 transition-all elevation-1",
                     baby.id === activeId
-                      ? "bg-[#7C5CFC] text-white"
+                      ? "bg-[#14B8A6] text-white"
                       : "bg-white dark:bg-stone-900"
                   )}
                 >
@@ -324,10 +324,10 @@ export default function SettingsPage() {
                 <div className="space-y-1.5">
                   <Label className="text-[12px] font-bold text-stone-500 dark:text-stone-400">성별</Label>
                   <div className="grid grid-cols-2 gap-2">
-                    <button type="button" onClick={() => setGender("male")} className={cn("flex items-center justify-center gap-2 rounded-2xl py-3 text-[14px] font-semibold transition-all", gender === "male" ? "bg-[#7C5CFC] text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400")}>
+                    <button type="button" onClick={() => setGender("male")} className={cn("flex items-center justify-center gap-2 rounded-2xl py-3 text-[14px] font-semibold transition-all", gender === "male" ? "bg-[#14B8A6] text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400")}>
                       👦 남아
                     </button>
-                    <button type="button" onClick={() => setGender("female")} className={cn("flex items-center justify-center gap-2 rounded-2xl py-3 text-[14px] font-semibold transition-all", gender === "female" ? "bg-[#7C5CFC] text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400")}>
+                    <button type="button" onClick={() => setGender("female")} className={cn("flex items-center justify-center gap-2 rounded-2xl py-3 text-[14px] font-semibold transition-all", gender === "female" ? "bg-[#14B8A6] text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400")}>
                       👧 여아
                     </button>
                   </div>
@@ -338,7 +338,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex gap-2 pt-1">
                   <Button type="button" variant="outline" onClick={() => setEditMode(false)} className="h-11 flex-1 rounded-2xl">취소</Button>
-                  <Button type="submit" className="h-11 flex-1 rounded-2xl bg-[#7C5CFC] font-semibold text-white active:bg-[#6B4CE0]">
+                  <Button type="submit" className="h-11 flex-1 rounded-2xl bg-[#14B8A6] font-semibold text-white active:bg-[#0D9488]">
                     {saved ? "저장됨!" : "저장"}
                   </Button>
                 </div>
@@ -395,17 +395,17 @@ export default function SettingsPage() {
                 <p className="text-[13px] font-bold text-stone-700 dark:text-stone-200">새 아이 등록</p>
                 <Input type="text" placeholder="아기 이름" value={newName} onChange={(e) => setNewName(e.target.value)} className="h-11 rounded-2xl" />
                 <div className="grid grid-cols-2 gap-2">
-                  <button type="button" onClick={() => setNewGender("male")} className={cn("flex items-center justify-center gap-1.5 rounded-2xl py-2.5 text-[13px] font-semibold transition-all", newGender === "male" ? "bg-[#7C5CFC] text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400")}>
+                  <button type="button" onClick={() => setNewGender("male")} className={cn("flex items-center justify-center gap-1.5 rounded-2xl py-2.5 text-[13px] font-semibold transition-all", newGender === "male" ? "bg-[#14B8A6] text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400")}>
                     👦 남아
                   </button>
-                  <button type="button" onClick={() => setNewGender("female")} className={cn("flex items-center justify-center gap-1.5 rounded-2xl py-2.5 text-[13px] font-semibold transition-all", newGender === "female" ? "bg-[#7C5CFC] text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400")}>
+                  <button type="button" onClick={() => setNewGender("female")} className={cn("flex items-center justify-center gap-1.5 rounded-2xl py-2.5 text-[13px] font-semibold transition-all", newGender === "female" ? "bg-[#14B8A6] text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400")}>
                     👧 여아
                   </button>
                 </div>
                 <Input type="date" value={newBirthdate} onChange={(e) => setNewBirthdate(e.target.value)} max={new Date().toISOString().split("T")[0]} className="h-11 rounded-2xl" />
                 <div className="flex gap-2">
                   <Button type="button" variant="outline" onClick={() => setShowAddForm(false)} className="h-11 flex-1 rounded-2xl">취소</Button>
-                  <Button type="button" onClick={handleAddBaby} disabled={!newName.trim() || !newBirthdate} className="h-11 flex-1 rounded-2xl bg-[#7C5CFC] font-semibold text-white active:bg-[#6B4CE0]">등록</Button>
+                  <Button type="button" onClick={handleAddBaby} disabled={!newName.trim() || !newBirthdate} className="h-11 flex-1 rounded-2xl bg-[#14B8A6] font-semibold text-white active:bg-[#0D9488]">등록</Button>
                 </div>
               </div>
             )}

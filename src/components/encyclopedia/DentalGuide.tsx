@@ -565,23 +565,23 @@ export default function DentalGuide({ month }: DentalGuideProps) {
         <ExpandableSection
           title="치과 방문 가이드"
           icon={Calendar}
-          iconColor="bg-violet-100 dark:bg-violet-900/50 text-violet-500 dark:text-violet-400"
-          gradientFrom="from-violet-50 dark:from-violet-950/20"
-          gradientTo="to-purple-50 dark:to-purple-950/20"
+          iconColor="bg-teal-100 dark:bg-teal-900/50 text-teal-500 dark:text-teal-400"
+          gradientFrom="from-teal-50 dark:from-teal-950/20"
+          gradientTo="to-cyan-50 dark:to-cyan-950/20"
           borderColor=""
         >
           <div className="space-y-3">
             {/* First visit */}
-            <div className="rounded-2xl bg-violet-50 dark:bg-violet-950/20 dark:p-3">
-              <p className="text-[11px] font-bold text-violet-700 dark:text-violet-300 mb-1">
+            <div className="rounded-2xl bg-teal-50 dark:bg-teal-950/20 dark:p-3">
+              <p className="text-[11px] font-bold text-teal-700 dark:text-teal-300 mb-1">
                 📅 첫 치과 방문
               </p>
               <FormattedContent content={guide.dentalVisit.firstVisit} className="text-[12px]" />
             </div>
 
             {/* Frequency */}
-            <div className="rounded-2xl bg-purple-50 dark:bg-purple-950/20 dark:p-3">
-              <p className="text-[11px] font-bold text-purple-700 dark:text-purple-300 mb-1">
+            <div className="rounded-2xl bg-cyan-50 dark:bg-cyan-950/20 dark:p-3">
+              <p className="text-[11px] font-bold text-cyan-700 dark:text-cyan-300 mb-1">
                 🔄 정기 검진
               </p>
               <p className="text-[12px] text-gray-600 dark:text-gray-300">
@@ -591,7 +591,7 @@ export default function DentalGuide({ month }: DentalGuideProps) {
 
             {/* What to expect */}
             <div>
-              <p className="text-[11px] font-bold text-violet-700 dark:text-violet-300 mb-2 flex items-center gap-1">
+              <p className="text-[11px] font-bold text-teal-700 dark:text-teal-300 mb-2 flex items-center gap-1">
                 <Check size={12} /> 검진 시 확인 사항
               </p>
               <div className="space-y-1.5">
@@ -603,10 +603,10 @@ export default function DentalGuide({ month }: DentalGuideProps) {
                     transition={{ delay: idx * 0.04 }}
                     className="flex items-center gap-2"
                   >
-                    <div className="w-5 h-5 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center shrink-0">
+                    <div className="w-5 h-5 rounded-full bg-teal-100 dark:bg-teal-900/50 flex items-center justify-center shrink-0">
                       <Check
                         size={10}
-                        className="text-violet-500 dark:text-violet-400"
+                        className="text-teal-500 dark:text-teal-400"
                       />
                     </div>
                     <p className="text-[12px] text-gray-600 dark:text-gray-300">
