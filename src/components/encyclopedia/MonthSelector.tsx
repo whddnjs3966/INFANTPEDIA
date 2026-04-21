@@ -3,6 +3,7 @@
 import { useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useDragScroll } from "@/hooks/useDragScroll";
 
 interface MonthSelectorProps {
   selectedMonth: number;
@@ -17,11 +18,8 @@ export default function MonthSelector({
   currentMonth,
   onSelect,
 }: MonthSelectorProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const { ref: scrollRef, dragProps, suppressClickIfDragging } = useDragScroll<HTMLDivElement>();
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
 
   const scrollToCenter = useCallback((month: number, smooth = true) => {
     const el = itemRefs.current[month];
@@ -42,34 +40,12 @@ export default function MonthSelector({
     scrollToCenter(selectedMonth);
   }, [selectedMonth, scrollToCenter]);
 
-  // Mouse drag scrolling
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    startX.current = e.pageX - (scrollRef.current?.offsetLeft ?? 0);
-    scrollLeft.current = scrollRef.current?.scrollLeft ?? 0;
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - (scrollRef.current.offsetLeft ?? 0);
-    const walk = (x - startX.current) * 1.5;
-    scrollRef.current.scrollLeft = scrollLeft.current - walk;
-  };
-
-  const handleMouseUp = () => {
-    isDragging.current = false;
-  };
-
   return (
     <div className="w-full">
       <div
         ref={scrollRef}
-        className="flex gap-2.5 overflow-x-auto px-4 py-2.5 no-scrollbar cursor-grab active:cursor-grabbing"
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        {...dragProps}
+        className="flex gap-2.5 overflow-x-auto px-4 py-2.5 no-scrollbar cursor-grab active:cursor-grabbing select-none"
       >
         {/* Left spacer for centering */}
         <div className="shrink-0 w-[calc(50vw-48px)] max-w-[calc(224px-48px)]" />
@@ -83,7 +59,7 @@ export default function MonthSelector({
               key={month}
               ref={(el) => { itemRefs.current[month] = el; }}
               whileTap={{ scale: 0.92 }}
-              onClick={() => onSelect(month)}
+              onClick={suppressClickIfDragging(() => onSelect(month))}
               className={cn(
                 "relative shrink-0 flex items-center justify-center transition-all duration-200",
                 isSelected

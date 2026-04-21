@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
 import { growthData } from "@/lib/data/growth-data";
 import { useBabyStore } from "@/lib/store/baby-store";
+import { useDragScroll } from "@/hooks/useDragScroll";
 
 interface MeasurementInputProps {
   currentMonth: number;
@@ -27,7 +28,7 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
   const [validationError, setValidationError] = useState<string | null>(null);
 
   const sheetRef = useRef<HTMLDivElement>(null);
-  const monthScrollRef = useRef<HTMLDivElement>(null);
+  const { ref: monthScrollRef, dragProps: monthDrag, suppressClickIfDragging: suppressMonthClick } = useDragScroll<HTMLDivElement>();
   const dragY = useMotionValue(0);
   const controls = useAnimation();
   const backdropOpacity = useTransform(dragY, [0, 300], [1, 0]);
@@ -148,11 +149,15 @@ export default function MeasurementInput({ currentMonth, onClose }: MeasurementI
               <CalendarDays size={12} />
               월령 선택
             </label>
-            <div ref={monthScrollRef} className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
+            <div
+              ref={monthScrollRef}
+              {...monthDrag}
+              className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide cursor-grab active:cursor-grabbing select-none"
+            >
               {Array.from({ length: 13 }, (_, i) => i).map((m) => (
                 <button
                   key={m}
-                  onClick={() => setMonth(m)}
+                  onClick={suppressMonthClick(() => setMonth(m))}
                   className={cn(
                     "min-w-[48px] rounded-xl px-3 py-2 text-xs font-semibold transition-all",
                     month === m

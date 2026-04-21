@@ -248,13 +248,13 @@ export default function OnboardingPage() {
             {/* Invite code toggle */}
             <motion.button
               onClick={() => setShowInvite(true)}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-indigo-200 bg-white/60 py-3.5 text-sm font-medium text-indigo-500 backdrop-blur-sm transition-colors active:border-indigo-300 active:bg-indigo-50/50"
+              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-stone-800 text-base font-bold text-[#7C5CFC] dark:text-violet-300 shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
               whileTap={{ scale: 0.97 }}
             >
-              <Link size={16} />
+              <Link size={18} strokeWidth={2.4} />
               초대코드가 있으신가요?
             </motion.button>
           </>
@@ -332,10 +332,11 @@ export default function OnboardingPage() {
                 setShowInvite(false);
                 setInviteError("");
               }}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-pink-200 bg-white/60 py-3.5 text-sm font-medium text-pink-500 backdrop-blur-sm transition-colors active:border-pink-300 active:bg-pink-50/50"
+              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-stone-800 text-base font-bold text-[#7C5CFC] dark:text-violet-300 shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
               whileTap={{ scale: 0.97 }}
             >
-              👶 새로 등록하기
+              <span className="text-lg">👶</span>
+              새로 등록하기
             </motion.button>
           </>
         )}

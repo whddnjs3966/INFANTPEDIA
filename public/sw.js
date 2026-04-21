@@ -1,4 +1,4 @@
-const CACHE_NAME = 'infantpedia-v2';
+const CACHE_NAME = 'infantpedia-v3';
 const STATIC_ASSETS = [
   '/',
   '/offline.html',

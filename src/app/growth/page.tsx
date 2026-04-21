@@ -8,6 +8,8 @@ import { useBabyStore } from "@/lib/store/baby-store";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
+import PageHeader from "@/components/layout/PageHeader";
+
 const GrowthChart = dynamic(() => import("@/components/growth/GrowthChart"), { ssr: false });
 const VaccinationSchedule = dynamic(() => import("@/components/growth/VaccinationSchedule"), { ssr: false });
 
@@ -36,23 +38,15 @@ export default function GrowthPage() {
 
   return (
     <div className="min-h-screen dark:bg-stone-950">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="px-4 pb-2 pt-6"
-      >
-        <p className="text-[12px] font-medium text-stone-400 dark:text-stone-500">
-          {profile?.name ? `${profile.name}의 ` : ""}성장 기록
-        </p>
-        <h1 className="mt-0.5 text-[22px] font-extrabold text-stone-800 dark:text-stone-100 tracking-tight">
-          성장 & 건강
-        </h1>
-      </motion.div>
+      <PageHeader
+        eyebrow={profile?.name ? `${profile.name}의 기록` : "성장 기록"}
+        title="성장"
+        description="키·몸무게 추이와 예방접종 일정을 한 곳에서 관리하세요."
+      />
 
-      {/* Sub-Tab Switcher */}
-      <div className="sticky top-0 z-20 bg-[var(--surface-bg)] dark:bg-stone-950 px-4 pb-3 pt-1">
-        <div className="flex gap-2 rounded-2xl bg-stone-100/80 dark:bg-stone-800 p-1.5">
+      {/* Sub-Tab Switcher — large segmented control */}
+      <div className="sticky top-0 z-20 bg-[var(--surface-bg)]/80 dark:bg-stone-950/80 backdrop-blur-lg px-5 pb-4 pt-1">
+        <div className="flex gap-0 rounded-2xl bg-stone-200/70 dark:bg-stone-800/80 p-1.5">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -61,19 +55,19 @@ export default function GrowthPage() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "relative flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-bold transition-all",
-                  isActive ? "text-stone-800 dark:text-stone-100" : "text-stone-400 dark:text-stone-500"
+                  "relative flex flex-1 items-center justify-center gap-2 rounded-xl py-3.5 text-[14px] font-bold transition-all",
+                  isActive ? "text-white" : "text-stone-500 dark:text-stone-400"
                 )}
               >
                 {isActive && (
                   <motion.div
                     layoutId="growth-tab-bg"
-                    className="absolute inset-0 rounded-xl bg-white dark:bg-stone-700 shadow-sm"
+                    className="absolute inset-0 rounded-xl bg-[#7C5CFC] elevation-2"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-1.5">
-                  <Icon size={15} />
+                  <Icon size={17} strokeWidth={2.3} />
                   {tab.label}
                 </span>
               </button>
@@ -83,7 +77,7 @@ export default function GrowthPage() {
       </div>
 
       {/* Content */}
-      <div className="px-4">
+      <div className="px-5">
         <AnimatePresence mode="wait">
           {activeTab === "growth" ? (
             <motion.div
