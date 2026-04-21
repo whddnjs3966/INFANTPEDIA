@@ -21,9 +21,19 @@ export default function ClientLayout({
   useEffect(() => {
     setHydrated(true);
 
-    // Register service worker for PWA
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
+      if (process.env.NODE_ENV === "production") {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      } else {
+        // In dev, unregister any previously registered SW and purge caches
+        // to prevent stale JS/HTML from causing hydration mismatches.
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+          regs.forEach((reg) => reg.unregister());
+        });
+        if ("caches" in window) {
+          caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+        }
+      }
     }
   }, []);
 
@@ -88,11 +98,11 @@ export default function ClientLayout({
 
   return (
     <div
-      className="mx-auto min-h-screen max-w-md"
+      className="mx-auto min-h-screen w-full max-w-[480px]"
       style={{ backgroundColor: "var(--surface-bg)" }}
     >
       <SyncManager />
-      <main className={showTabBar ? "pb-20" : ""}>{children}</main>
+      <main className={showTabBar ? "pb-28" : ""}>{children}</main>
       {showTabBar && <BottomTabBar />}
     </div>
   );

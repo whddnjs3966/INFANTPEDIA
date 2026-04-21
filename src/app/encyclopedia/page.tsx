@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Search,
   BookOpen,
   ClipboardCheck,
   Gamepad2,
@@ -21,6 +19,8 @@ import { getMonthInfo, getActivities } from "@/lib/queries/months";
 import dynamic from "next/dynamic";
 import MonthSelector from "@/components/encyclopedia/MonthSelector";
 import CategoryAccordion from "@/components/encyclopedia/CategoryAccordion";
+import PageHeader from "@/components/layout/PageHeader";
+import { useDragScroll } from "@/hooks/useDragScroll";
 
 const MilestoneChecklist = dynamic(() => import("@/components/encyclopedia/MilestoneChecklist"), { ssr: false });
 const RecommendedActivities = dynamic(() => import("@/components/encyclopedia/RecommendedActivities"), { ssr: false });
@@ -70,7 +70,6 @@ const subTabs = [
 ];
 
 export default function EncyclopediaPage() {
-  const router = useRouter();
   const getMonthsOld = useBabyStore((s) => s.getMonthsOld);
   const getRealMonthsOld = useBabyStore((s) => s.getRealMonthsOld);
   const profile = useBabyStore((s) => s.profile);
@@ -79,6 +78,7 @@ export default function EncyclopediaPage() {
 
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [activeTab, setActiveTab] = useState<SubTab>("encyclopedia");
+  const { ref: subTabRef, dragProps: subTabDragProps, suppressClickIfDragging: suppressSubTabClick } = useDragScroll<HTMLDivElement>();
   const [monthData, setMonthData] = useState<MonthData | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -108,35 +108,19 @@ export default function EncyclopediaPage() {
 
   return (
     <div className="min-h-screen dark:bg-stone-950">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="px-4 pt-6 pb-2"
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-[12px] font-medium text-stone-400 dark:text-stone-500">
-              {profile?.name ? `${profile.name}의 ` : ""}맞춤 정보
-            </p>
-            <h1 className="mt-0.5 text-[22px] font-extrabold text-stone-800 dark:text-stone-100 tracking-tight">
-              영유아 종합백과
-            </h1>
-          </div>
-          <button
-            onClick={() => router.push("/search")}
-            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 active:scale-95 transition-transform"
-            aria-label="검색"
-          >
-            <Search size={18} />
-          </button>
-        </div>
-      </motion.div>
+      <PageHeader
+        eyebrow={profile?.name ? `${profile.name}의 맞춤 정보` : "맞춤 정보"}
+        title="백과사전"
+        description="월령에 맞는 발달·수면·수유·건강 가이드를 확인하세요."
+        showSearch
+      />
 
-      {/* Sub-Tab Switcher */}
-      <div className="sticky top-0 z-20 bg-[var(--surface-bg)] dark:bg-stone-950 px-4 pb-3 pt-1">
+      {/* Sub-Tab Switcher — horizontal chip rail with icon above label */}
+      <div className="sticky top-0 z-20 bg-[var(--surface-bg)]/80 dark:bg-stone-950/80 backdrop-blur-lg pb-3 pt-1">
         <div
-          className="flex gap-1 overflow-x-auto no-scrollbar pb-0.5 rounded-2xl bg-stone-100/80 dark:bg-stone-800 p-1"
+          ref={subTabRef}
+          {...subTabDragProps}
+          className="flex gap-2 overflow-x-auto no-scrollbar px-5 cursor-grab active:cursor-grabbing select-none"
           style={{ WebkitOverflowScrolling: "touch" }}
         >
           {subTabs.map((tab) => {
@@ -145,23 +129,19 @@ export default function EncyclopediaPage() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={suppressSubTabClick(() => setActiveTab(tab.id))}
                 className={cn(
-                  "relative flex shrink-0 items-center gap-1.5 rounded-xl px-3 py-2 text-[11px] font-bold whitespace-nowrap transition-all",
+                  "relative flex shrink-0 flex-col items-center justify-center gap-1 rounded-2xl px-4 py-2.5 min-w-[68px] transition-all",
                   isActive
-                    ? "text-stone-800 dark:text-stone-100"
-                    : "text-stone-400 dark:text-stone-500"
+                    ? "bg-[#7C5CFC] text-white elevation-2"
+                    : "bg-white dark:bg-stone-800/70 text-stone-500 dark:text-stone-400 elevation-1"
                 )}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="enc-tab-bg"
-                    className="absolute inset-0 rounded-xl bg-white dark:bg-stone-700 shadow-sm"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-1">
-                  <Icon size={13} />
+                <Icon size={18} strokeWidth={isActive ? 2.4 : 2} />
+                <span className={cn(
+                  "text-[11px] font-bold whitespace-nowrap leading-none",
+                  isActive ? "" : "opacity-80"
+                )}>
                   {tab.label}
                 </span>
               </button>
@@ -186,8 +166,8 @@ export default function EncyclopediaPage() {
 
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
-        <div className="mx-4 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200/40 dark:border-purple-800/30 px-4 py-3">
-          <p className="text-xs text-stone-500 dark:text-stone-400">
+        <div className="mx-5 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 px-4 py-3 elevation-1">
+          <p className="text-[13px] text-stone-600 dark:text-stone-300 leading-relaxed">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>
         </div>
@@ -208,13 +188,13 @@ export default function EncyclopediaPage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mx-4 mb-4 rounded-2xl border border-stone-200 bg-white dark:bg-stone-900 dark:border-stone-700 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
+                className="mx-5 mb-4 rounded-2xl bg-white dark:bg-stone-900 p-5 elevation-1"
               >
-                <div className="mb-3 flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/40">
-                    <Info size={17} className="text-emerald-500" />
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-950/40">
+                    <Info size={19} className="text-emerald-500" />
                   </div>
-                  <h2 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
+                  <h2 className="text-[16px] font-bold text-stone-900 dark:text-stone-100">
                     {selectedMonth}개월 발달 요약
                   </h2>
                 </div>
@@ -224,46 +204,46 @@ export default function EncyclopediaPage() {
                 )}
 
                 {/* Quick stats grid */}
-                <div className="mt-4 pt-3 grid grid-cols-4 gap-1.5">
+                <div className="mt-4 grid grid-cols-4 gap-2">
                   {monthData.feeding_amount && (
-                    <div className="rounded-xl bg-pink-50 dark:bg-pink-950/30 p-2 text-center">
-                      <Baby size={14} className="mx-auto mb-1 text-pink-500" />
-                      <p className="text-[11px] font-bold text-pink-700 dark:text-pink-300 truncate">{monthData.feeding_amount}</p>
-                      <p className="text-[11px] text-stone-400 mt-0.5">수유량</p>
+                    <div className="rounded-xl bg-pink-50 dark:bg-pink-950/30 p-2.5 text-center">
+                      <Baby size={15} className="mx-auto mb-1 text-pink-500" />
+                      <p className="text-[12px] font-bold text-pink-700 dark:text-pink-300 truncate">{monthData.feeding_amount}</p>
+                      <p className="text-[11px] text-stone-500 mt-0.5">수유량</p>
                     </div>
                   )}
                   {monthData.wake_window && (
-                    <div className="rounded-xl bg-blue-50 dark:bg-blue-950/30 p-2 text-center">
-                      <ClipboardCheck size={14} className="mx-auto mb-1 text-blue-500" />
-                      <p className="text-[11px] font-bold text-blue-700 dark:text-blue-300 truncate">{monthData.wake_window}</p>
-                      <p className="text-[11px] text-stone-400 mt-0.5">활동시간</p>
+                    <div className="rounded-xl bg-blue-50 dark:bg-blue-950/30 p-2.5 text-center">
+                      <ClipboardCheck size={15} className="mx-auto mb-1 text-blue-500" />
+                      <p className="text-[12px] font-bold text-blue-700 dark:text-blue-300 truncate">{monthData.wake_window}</p>
+                      <p className="text-[11px] text-stone-500 mt-0.5">활동시간</p>
                     </div>
                   )}
-                  <div className="rounded-xl bg-indigo-50 dark:bg-indigo-950/30 p-2 text-center">
-                    <Moon size={14} className="mx-auto mb-1 text-indigo-500" />
-                    <p className="text-[11px] font-bold text-indigo-700 dark:text-indigo-300 truncate">{monthData.nap_count || "-"}</p>
-                    <p className="text-[11px] text-stone-400 mt-0.5">총 수면</p>
+                  <div className="rounded-xl bg-indigo-50 dark:bg-indigo-950/30 p-2.5 text-center">
+                    <Moon size={15} className="mx-auto mb-1 text-indigo-500" />
+                    <p className="text-[12px] font-bold text-indigo-700 dark:text-indigo-300 truncate">{monthData.nap_count || "-"}</p>
+                    <p className="text-[11px] text-stone-500 mt-0.5">총 수면</p>
                   </div>
-                  <div className="rounded-xl bg-orange-50 dark:bg-orange-950/30 p-2 text-center">
-                    <UtensilsCrossed size={14} className="mx-auto mb-1 text-orange-500" />
-                    <p className="text-[11px] font-bold text-orange-700 dark:text-orange-300 truncate">
+                  <div className="rounded-xl bg-orange-50 dark:bg-orange-950/30 p-2.5 text-center">
+                    <UtensilsCrossed size={15} className="mx-auto mb-1 text-orange-500" />
+                    <p className="text-[12px] font-bold text-orange-700 dark:text-orange-300 truncate">
                       {selectedMonth < 4 ? "시작 전" : selectedMonth <= 5 ? "초기" : selectedMonth <= 8 ? "중기" : selectedMonth <= 11 ? "후기" : "완료기"}
                     </p>
-                    <p className="text-[11px] text-stone-400 mt-0.5">이유식</p>
+                    <p className="text-[11px] text-stone-500 mt-0.5">이유식</p>
                   </div>
                 </div>
 
                 {/* Development milestones */}
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-2.5 text-center">
-                    <p className="text-[11px] font-semibold text-stone-400 dark:text-stone-500 mb-0.5">대근육 발달</p>
-                    <p className="text-[12px] font-bold text-stone-800 dark:text-stone-100">
+                <div className="mt-3 grid grid-cols-2 gap-2.5">
+                  <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-3">
+                    <p className="text-[11px] font-semibold text-stone-500 dark:text-stone-400 mb-1">대근육 발달</p>
+                    <p className="text-[13px] font-bold text-stone-800 dark:text-stone-100">
                       {selectedMonth <= 1 ? "고개 들기 연습" : selectedMonth <= 3 ? "목 가누기" : selectedMonth <= 5 ? "뒤집기" : selectedMonth <= 7 ? "혼자 앉기" : selectedMonth <= 9 ? "기어다니기" : selectedMonth <= 11 ? "붙잡고 서기" : "첫 걸음마"}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-2.5 text-center">
-                    <p className="text-[11px] font-semibold text-stone-400 dark:text-stone-500 mb-0.5">언어 발달</p>
-                    <p className="text-[12px] font-bold text-stone-800 dark:text-stone-100">
+                  <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-3">
+                    <p className="text-[11px] font-semibold text-stone-500 dark:text-stone-400 mb-1">언어 발달</p>
+                    <p className="text-[13px] font-bold text-stone-800 dark:text-stone-100">
                       {selectedMonth <= 1 ? "울음으로 소통" : selectedMonth <= 3 ? "옹알이 시작" : selectedMonth <= 5 ? "소리에 반응" : selectedMonth <= 7 ? "모음 소리 내기" : selectedMonth <= 9 ? "자음 옹알이" : selectedMonth <= 11 ? "맘마·빠빠" : "단어 1~3개"}
                     </p>
                   </div>
@@ -274,9 +254,9 @@ export default function EncyclopediaPage() {
             {loading ? (
               <EncyclopediaSkeleton />
             ) : error ? (
-              <div className="mx-4 rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 text-center shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
-                <p className="text-sm text-stone-500 dark:text-stone-400">{error}</p>
-                <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">네트워크를 확인하고 다시 시도해 주세요</p>
+              <div className="mx-5 rounded-2xl bg-white dark:bg-stone-900 p-6 text-center elevation-1">
+                <p className="text-[14px] text-stone-500 dark:text-stone-400">{error}</p>
+                <p className="mt-1 text-[12px] text-stone-400 dark:text-stone-500">네트워크를 확인하고 다시 시도해 주세요</p>
               </div>
             ) : (
               <CategoryAccordion activities={activities} isLoading={false} />
@@ -285,43 +265,43 @@ export default function EncyclopediaPage() {
         )}
 
         {activeTab === "milestone" && (
-          <motion.div key="milestone" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-4">
+          <motion.div key="milestone" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-5">
             <MilestoneChecklist month={selectedMonth} />
           </motion.div>
         )}
 
         {activeTab === "activities" && (
-          <motion.div key="activities" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-4">
+          <motion.div key="activities" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-5">
             <RecommendedActivities month={selectedMonth} />
           </motion.div>
         )}
 
         {activeTab === "babyfood" && (
-          <motion.div key="babyfood" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-4">
+          <motion.div key="babyfood" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-5">
             <BabyFoodGuide month={selectedMonth} />
           </motion.div>
         )}
 
         {activeTab === "sleep" && (
-          <motion.div key="sleep" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-4">
+          <motion.div key="sleep" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-5">
             <SleepGuide month={selectedMonth} />
           </motion.div>
         )}
 
         {activeTab === "feeding" && (
-          <motion.div key="feeding" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-4">
+          <motion.div key="feeding" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-5">
             <FeedingGuide month={selectedMonth} />
           </motion.div>
         )}
 
         {activeTab === "dental" && (
-          <motion.div key="dental" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-4">
+          <motion.div key="dental" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-5">
             <DentalGuide month={selectedMonth} />
           </motion.div>
         )}
 
         {activeTab === "health" && (
-          <motion.div key="health" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-4">
+          <motion.div key="health" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="px-5">
             <HealthFAQ month={selectedMonth} />
           </motion.div>
         )}

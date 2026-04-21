@@ -18,6 +18,7 @@ import {
   type FAQCategory,
   type HealthFAQItem,
 } from "@/lib/data/health-faq-data";
+import { useDragScroll } from "@/hooks/useDragScroll";
 
 interface HealthFAQProps {
   month: number;
@@ -85,6 +86,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
   const [selectedCategory, setSelectedCategory] = useState<FAQCategory | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [openFAQ, setOpenFAQ] = useState<string | null>(null);
+  const { ref: catRef, dragProps: catDrag, suppressClickIfDragging: suppressCatClick } = useDragScroll<HTMLDivElement>();
 
   const faqs = useMemo(() => {
     if (searchQuery.trim()) {
@@ -139,10 +141,12 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1 }}
-        className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar"
+        ref={catRef}
+        {...catDrag}
+        className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar cursor-grab active:cursor-grabbing select-none"
       >
         <button
-          onClick={() => setSelectedCategory("all")}
+          onClick={suppressCatClick(() => setSelectedCategory("all"))}
           className={cn(
             "shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
             selectedCategory === "all"
@@ -159,7 +163,7 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
           return (
             <button
               key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
+              onClick={suppressCatClick(() => setSelectedCategory(cat.id))}
               className={cn(
                 "shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
                 isActive

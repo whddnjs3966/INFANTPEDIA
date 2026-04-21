@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { getMealPlanForMonth } from "@/lib/data/meal-plan-data";
+import { useDragScroll } from "@/hooks/useDragScroll";
 
 interface MealPlanCardProps {
   month: number;
@@ -21,6 +22,7 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState(0);
   const plan = getMealPlanForMonth(month);
+  const { ref: dayRef, dragProps: dayDrag, suppressClickIfDragging: suppressDayClick } = useDragScroll<HTMLDivElement>();
 
   if (!plan) return null;
 
@@ -98,11 +100,15 @@ export default function MealPlanCard({ month }: MealPlanCardProps) {
                 </div>
 
                 {/* Day selector */}
-                <div className="flex gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
+                <div
+                  ref={dayRef}
+                  {...dayDrag}
+                  className="flex gap-1.5 overflow-x-auto pb-0.5 no-scrollbar cursor-grab active:cursor-grabbing select-none"
+                >
                   {plan.weeklyPlan.map((day, idx) => (
                     <button
                       key={day.day}
-                      onClick={() => setSelectedDay(idx)}
+                      onClick={suppressDayClick(() => setSelectedDay(idx))}
                       className={cn(
                         "min-w-[42px] min-h-[36px] rounded-xl px-2.5 py-1.5 text-[11px] font-bold transition-all flex items-center justify-center shrink-0",
                         selectedDay === idx

@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Search, Lightbulb } from "lucide-react";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getParentingTips } from "@/lib/queries/months";
 import MonthSelector from "@/components/encyclopedia/MonthSelector";
+import PageHeader from "@/components/layout/PageHeader";
 import dynamic from "next/dynamic";
 
 const TipsCategoryAccordion = dynamic(() => import("@/components/tips/TipsCategoryAccordion"), {
@@ -27,7 +26,6 @@ interface Tip {
 }
 
 export default function TipsPage() {
-  const router = useRouter();
   const getMonthsOld = useBabyStore((s) => s.getMonthsOld);
   const getRealMonthsOld = useBabyStore((s) => s.getRealMonthsOld);
   const profile = useBabyStore((s) => s.profile);
@@ -58,30 +56,12 @@ export default function TipsPage() {
 
   return (
     <div className="min-h-screen dark:bg-stone-950">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="px-4 pt-6 pb-3"
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-[12px] font-medium text-stone-400 dark:text-stone-500">
-              {profile?.name ? `${profile.name}에게 맞는 ` : ""}월령별 노하우
-            </p>
-            <h1 className="mt-0.5 text-[22px] font-extrabold text-stone-800 dark:text-stone-100 tracking-tight">
-              육아 꿀팁
-            </h1>
-          </div>
-          <button
-            onClick={() => router.push("/search")}
-            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 active:scale-95 transition-transform"
-            aria-label="검색"
-          >
-            <Search size={18} />
-          </button>
-        </div>
-      </motion.div>
+      <PageHeader
+        eyebrow={profile?.name ? `${profile.name}에게 맞는` : "월령별 노하우"}
+        title="육아 꿀팁"
+        description="수면·수유·놀이·외출까지 선배 부모의 실전 팁을 모았어요."
+        showSearch
+      />
 
       {/* Month selector */}
       <motion.div
@@ -104,8 +84,8 @@ export default function TipsPage() {
 
       {/* 12개월 이상 안내 */}
       {realMonths > 12 && selectedMonth === 12 && (
-        <div className="mx-4 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200/40 dark:border-purple-800/30 px-4 py-3">
-          <p className="text-xs text-stone-500 dark:text-stone-400">
+        <div className="mx-5 mb-3 rounded-2xl bg-purple-50 dark:bg-purple-950/30 px-4 py-3 elevation-1">
+          <p className="text-[13px] text-stone-600 dark:text-stone-300 leading-relaxed">
             현재 {realMonths}개월이에요. 12개월 이후 정보는 12개월 기준으로 제공됩니다.
           </p>
         </div>
@@ -119,9 +99,9 @@ export default function TipsPage() {
       {loading ? (
         <EncyclopediaSkeleton />
       ) : error ? (
-        <div className="mx-4 rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 text-center shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
-          <p className="text-sm text-stone-500 dark:text-stone-400">{error}</p>
-          <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">네트워크를 확인하고 다시 시도해 주세요</p>
+        <div className="mx-5 rounded-2xl bg-white dark:bg-stone-900 p-6 text-center elevation-1">
+          <p className="text-[14px] text-stone-500 dark:text-stone-400">{error}</p>
+          <p className="mt-1 text-[12px] text-stone-400 dark:text-stone-500">네트워크를 확인하고 다시 시도해 주세요</p>
         </div>
       ) : (
         <motion.div
