@@ -16,7 +16,6 @@ import {
   searchFAQs,
   faqCategories,
   type FAQCategory,
-  type HealthFAQItem,
 } from "@/lib/data/health-faq-data";
 import { useDragScroll } from "@/hooks/useDragScroll";
 
@@ -25,68 +24,43 @@ interface HealthFAQProps {
 }
 
 const urgencyConfig = {
-  info: {
-    dot: "bg-blue-400",
-    bg: "bg-blue-50 dark:bg-blue-950/30",
-    
-    text: "text-blue-700 dark:text-blue-300",
-    badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300",
-    label: "정보",
-    icon: Info,
-  },
-  caution: {
-    dot: "bg-amber-400",
-    bg: "bg-amber-50 dark:bg-amber-950/30",
-    
-    text: "text-amber-700 dark:text-amber-300",
-    badge: "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300",
-    label: "주의",
-    icon: AlertCircle,
-  },
   emergency: {
-    dot: "bg-red-500",
-    bg: "bg-red-50 dark:bg-red-950/30",
-    
-    text: "text-red-700 dark:text-red-300",
-    badge: "bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300",
     label: "응급",
+    accent: "bg-red-500",
+    textAccent: "text-red-600 dark:text-red-400",
     icon: AlertTriangle,
   },
-};
+  caution: {
+    label: "주의",
+    accent: "bg-amber-500",
+    textAccent: "text-amber-600 dark:text-amber-400",
+    icon: AlertCircle,
+  },
+  info: {
+    label: "정보",
+    accent: "bg-sky-500",
+    textAccent: "text-sky-600 dark:text-sky-400",
+    icon: Info,
+  },
+} as const;
 
-const categoryColorMap: Record<string, { bg: string; active: string; text: string }> = {
-  red: {
-    bg: "bg-red-50 dark:bg-red-950/30",
-    active: "bg-red-500 dark:bg-red-600",
-    text: "text-red-700 dark:text-red-300",
-  },
-  pink: {
-    bg: "bg-pink-50 dark:bg-pink-950/30",
-    active: "bg-pink-500 dark:bg-pink-600",
-    text: "text-pink-700 dark:text-pink-300",
-  },
-  green: {
-    bg: "bg-green-50 dark:bg-green-950/30",
-    active: "bg-green-500 dark:bg-green-600",
-    text: "text-green-700 dark:text-green-300",
-  },
-  sky: {
-    bg: "bg-sky-50 dark:bg-sky-950/30",
-    active: "bg-sky-500 dark:bg-sky-600",
-    text: "text-sky-700 dark:text-sky-300",
-  },
-  purple: {
-    bg: "bg-purple-50 dark:bg-purple-950/30",
-    active: "bg-purple-500 dark:bg-purple-600",
-    text: "text-purple-700 dark:text-purple-300",
-  },
-};
+const urgencyGroups = [
+  { key: "emergency" as const, label: "응급 상황", desc: "즉시 병원 방문" },
+  { key: "caution" as const, label: "주의 관찰", desc: "경과 관찰·상담" },
+  { key: "info" as const, label: "일반 정보", desc: "참고 지식" },
+];
 
 export default function HealthFAQ({ month }: HealthFAQProps) {
-  const [selectedCategory, setSelectedCategory] = useState<FAQCategory | "all">("all");
+  const [selectedCategory, setSelectedCategory] = useState<FAQCategory | "all">(
+    "all"
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [openFAQ, setOpenFAQ] = useState<string | null>(null);
-  const { ref: catRef, dragProps: catDrag, suppressClickIfDragging: suppressCatClick } = useDragScroll<HTMLDivElement>();
+  const {
+    ref: catRef,
+    dragProps: catDrag,
+    suppressClickIfDragging: suppressCatClick,
+  } = useDragScroll<HTMLDivElement>();
 
   const faqs = useMemo(() => {
     if (searchQuery.trim()) {
@@ -102,62 +76,62 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
     return getFAQsForMonth(month, selectedCategory);
   }, [month, selectedCategory, searchQuery]);
 
-  const emergencyFAQs = useMemo(
-    () => getFAQsForMonth(month).filter((f) => f.urgency === "emergency"),
-    [month]
-  );
-
-  const sortedFAQs = useMemo(() => {
-    const order = { emergency: 0, caution: 1, info: 2 };
-    return [...faqs].sort((a, b) => order[a.urgency] - order[b.urgency]);
+  const grouped = useMemo(() => {
+    const g: Record<"emergency" | "caution" | "info", typeof faqs> = {
+      emergency: [],
+      caution: [],
+      info: [],
+    };
+    faqs.forEach((f) => g[f.urgency].push(f));
+    return g;
   }, [faqs]);
 
   const getCategoryCount = (catId: FAQCategory) =>
     getFAQsForMonth(month, catId).length;
 
+  const totalCount = getFAQsForMonth(month).length;
+
   return (
-    <div className="space-y-3 pb-8">
+    <div className="space-y-4 pb-8">
       {/* Search */}
-      <motion.div
-        initial={{ opacity: 0, y: -5 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative"
-      >
+      <div className="relative">
         <Search
-          size={16}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+          size={15}
+          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
+          strokeWidth={2.3}
         />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="증상이나 질문을 검색하세요..."
-          className="w-full rounded-2xl bg-white py-2.5 pl-9 pr-4 text-sm text-gray-800 placeholder-gray-400 outline-none transition-colors focus:ring-2 focus:ring-rose-100 dark:bg-stone-800 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:ring-rose-900/30"
+          placeholder="증상·키워드를 검색하세요"
+          className="w-full rounded-2xl bg-white dark:bg-stone-900 py-2.5 pl-9 pr-4 text-[13px] font-medium text-stone-800 placeholder-stone-400 outline-none ring-1 ring-stone-200/80 dark:ring-stone-700/60 dark:text-stone-100 dark:placeholder-stone-500 focus:ring-2 focus:ring-[#14B8A6]/30 transition-shadow"
         />
-      </motion.div>
+      </div>
 
-      {/* Category Tabs */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
+      {/* Category chips — neutral */}
+      <div
         ref={catRef}
         {...catDrag}
-        className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar cursor-grab active:cursor-grabbing select-none"
+        className="flex gap-1.5 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing select-none -mx-0.5 px-0.5"
       >
         <button
           onClick={suppressCatClick(() => setSelectedCategory("all"))}
           className={cn(
-            "shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
+            "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-bold tracking-tight transition-colors",
             selectedCategory === "all"
-              ? "bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-800"
-              : "bg-stone-100 text-gray-500 dark:bg-stone-800 dark:text-gray-400"
+              ? "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900"
+              : "bg-white dark:bg-stone-900 text-stone-500 dark:text-stone-400 ring-1 ring-stone-200/80 dark:ring-stone-700/60"
           )}
         >
-          전체 {faqs.length > 0 && `(${getFAQsForMonth(month).length})`}
+          전체
+          {totalCount > 0 && (
+            <span className="ml-1 tabular-nums text-[11px] opacity-70">
+              {totalCount}
+            </span>
+          )}
         </button>
         {faqCategories.map((cat) => {
-          const colors = categoryColorMap[cat.color] || categoryColorMap.purple;
           const isActive = selectedCategory === cat.id;
           const count = getCategoryCount(cat.id);
           return (
@@ -165,155 +139,179 @@ export default function HealthFAQ({ month }: HealthFAQProps) {
               key={cat.id}
               onClick={suppressCatClick(() => setSelectedCategory(cat.id))}
               className={cn(
-                "shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
+                "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-bold tracking-tight transition-colors",
                 isActive
-                  ? cn(colors.active, "text-white")
-                  : cn(colors.bg, colors.text)
+                  ? "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900"
+                  : "bg-white dark:bg-stone-900 text-stone-600 dark:text-stone-400 ring-1 ring-stone-200/80 dark:ring-stone-700/60"
               )}
             >
-              {cat.emoji} {cat.label}
-              {count > 0 && ` (${count})`}
+              {cat.label}
+              {count > 0 && (
+                <span className="ml-1 tabular-nums text-[11px] opacity-70">
+                  {count}
+                </span>
+              )}
             </button>
           );
         })}
-      </motion.div>
-
-      {/* Emergency Banner */}
-      {emergencyFAQs.length > 0 && selectedCategory === "all" && !searchQuery && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="rounded-2xl bg-red-50 border border-red-200/50 p-4 dark:bg-red-950/30 dark:border-red-800/30"
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <AlertTriangle size={16} className="text-red-500" />
-            <p className="text-sm font-bold text-red-700 dark:text-red-300">
-              🚨 이런 증상은 즉시 병원에 가세요
-            </p>
-          </div>
-          <div className="space-y-1">
-            {emergencyFAQs.slice(0, 3).map((faq) => (
-              <p key={faq.id} className="text-[12px] text-red-600 dark:text-red-300">
-                • {faq.question}
-              </p>
-            ))}
-          </div>
-        </motion.div>
-      )}
-
-      {/* FAQ List */}
-      <div className="space-y-2">
-        {sortedFAQs.length === 0 ? (
-          <div className="rounded-2xl bg-white p-8 text-center dark:bg-stone-800">
-            <p className="text-3xl">🔍</p>
-            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
-              {searchQuery
-                ? "검색 결과가 없어요"
-                : "해당 카테고리의 FAQ가 없어요"}
-            </p>
-          </div>
-        ) : (
-          sortedFAQs.map((faq, idx) => {
-            const config = urgencyConfig[faq.urgency];
-            const UrgencyIcon = config.icon;
-            const isOpen = openFAQ === faq.id;
-            const catInfo = faqCategories.find((c) => c.id === faq.category);
-
-            return (
-              <motion.div
-                key={faq.id}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.02 }}
-              >
-                <button
-                  onClick={() => setOpenFAQ(isOpen ? null : faq.id)}
-                  className={cn(
-                    "flex w-full items-start gap-2.5 rounded-2xl p-3.5 text-left transition-all",
-                    isOpen
-                      ? config.bg
-                      : "bg-white active:bg-stone-50 dark:bg-stone-800/80 dark:active:bg-stone-800"
-                  )}
-                >
-                  {/* Urgency dot */}
-                  <div className="mt-1 flex flex-col items-center gap-1">
-                    <div className={cn("h-2.5 w-2.5 rounded-full", config.dot)} />
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    {/* Question */}
-                    <p className="text-sm font-bold text-stone-800 dark:text-stone-100 leading-snug">
-                      {faq.emoji} {faq.question}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="mt-1.5 flex flex-wrap items-center gap-1">
-                      {catInfo && (
-                        <span className={cn(
-                          "rounded-full px-1.5 py-0.5 text-[11px] font-semibold",
-                          config.badge
-                        )}>
-                          {catInfo.emoji} {catInfo.label}
-                        </span>
-                      )}
-                      <span className={cn(
-                        "rounded-full px-1.5 py-0.5 text-[11px] font-semibold",
-                        config.badge
-                      )}>
-                        <UrgencyIcon size={8} className="inline mr-0.5" />
-                        {config.label}
-                      </span>
-                    </div>
-
-                    {/* Answer */}
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="mt-2.5 dark:pt-2.5">
-                            <FormattedContent content={faq.answer} />
-                          </div>
-                          {faq.tags.length > 0 && (
-                            <div className="mt-2 flex flex-wrap gap-1">
-                              {faq.tags.map((tag) => (
-                                <span
-                                  key={tag}
-                                  className="rounded-md bg-stone-100 px-1.5 py-0.5 text-[11px] text-gray-500 dark:bg-stone-700 dark:text-gray-400"
-                                >
-                                  #{tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  {/* Chevron */}
-                  <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="mt-0.5 shrink-0"
-                  >
-                    <ChevronDown size={16} className="text-gray-400" />
-                  </motion.div>
-                </button>
-              </motion.div>
-            );
-          })
-        )}
       </div>
 
+      {/* Empty state */}
+      {faqs.length === 0 ? (
+        <div className="rounded-3xl bg-white dark:bg-stone-900 p-8 text-center elevation-1">
+          <p className="text-[14px] font-medium text-stone-500 dark:text-stone-400">
+            {searchQuery
+              ? "검색 결과가 없어요"
+              : "해당 조건의 FAQ가 없어요"}
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-5">
+          {urgencyGroups.map((group) => {
+            const items = grouped[group.key];
+            if (items.length === 0) return null;
+            const config = urgencyConfig[group.key];
+            const Icon = config.icon;
+
+            return (
+              <section key={group.key} className="space-y-2">
+                {/* Group header */}
+                <div className="flex items-center gap-2 px-1">
+                  <Icon
+                    size={13}
+                    className={config.textAccent}
+                    strokeWidth={2.4}
+                  />
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.12em] text-stone-700 dark:text-stone-300">
+                    {group.label}
+                  </h3>
+                  <span className="text-[11px] font-semibold tabular-nums text-stone-400 dark:text-stone-500">
+                    {items.length}
+                  </span>
+                  <span className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
+                  <span className="text-[10.5px] font-medium text-stone-400 dark:text-stone-500">
+                    {group.desc}
+                  </span>
+                </div>
+
+                {/* Items */}
+                <div className="space-y-2">
+                  {items.map((faq, idx) => {
+                    const isOpen = openFAQ === faq.id;
+                    const catInfo = faqCategories.find(
+                      (c) => c.id === faq.category
+                    );
+
+                    return (
+                      <motion.div
+                        key={faq.id}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2, delay: idx * 0.02 }}
+                        className={cn(
+                          "overflow-hidden rounded-3xl bg-white dark:bg-stone-900 transition-shadow",
+                          isOpen
+                            ? "shadow-[0_6px_20px_rgba(15,15,20,0.08)]"
+                            : "elevation-1"
+                        )}
+                      >
+                        <button
+                          onClick={() => setOpenFAQ(isOpen ? null : faq.id)}
+                          className="flex w-full items-start gap-3 p-4 text-left"
+                        >
+                          {/* Vertical accent bar */}
+                          <span
+                            className={cn(
+                              "mt-1 h-5 w-[3px] shrink-0 rounded-full",
+                              config.accent
+                            )}
+                          />
+
+                          <div className="flex-1 min-w-0">
+                            {/* Eyebrow */}
+                            <div className="flex items-center gap-1.5">
+                              {catInfo && (
+                                <>
+                                  <span className="text-[10.5px] font-bold tracking-[0.08em] text-stone-400 dark:text-stone-500">
+                                    {catInfo.label}
+                                  </span>
+                                  <span className="text-stone-300 dark:text-stone-700">
+                                    ·
+                                  </span>
+                                </>
+                              )}
+                              <span
+                                className={cn(
+                                  "text-[10.5px] font-bold tracking-[0.08em]",
+                                  config.textAccent
+                                )}
+                              >
+                                {config.label}
+                              </span>
+                            </div>
+                            {/* Question */}
+                            <p className="mt-0.5 text-[14px] font-bold leading-snug tracking-tight text-stone-900 dark:text-stone-100">
+                              {faq.question}
+                            </p>
+                          </div>
+
+                          {/* Chevron */}
+                          <motion.div
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="mt-0.5 shrink-0"
+                          >
+                            <ChevronDown
+                              size={16}
+                              className="text-stone-400 dark:text-stone-500"
+                              strokeWidth={2.2}
+                            />
+                          </motion.div>
+                        </button>
+
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25, ease: "easeOut" }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-4 pb-4">
+                                <div className="border-t border-stone-100 pt-3 dark:border-stone-800">
+                                  <FormattedContent content={faq.answer} />
+                                </div>
+                                {faq.tags.length > 0 && (
+                                  <div className="mt-3 flex flex-wrap gap-1">
+                                    {faq.tags.map((tag) => (
+                                      <span
+                                        key={tag}
+                                        className="rounded-md bg-stone-100 px-1.5 py-0.5 text-[10.5px] font-medium text-stone-500 dark:bg-stone-800 dark:text-stone-400"
+                                      >
+                                        #{tag}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      )}
+
       {/* Result count */}
-      {sortedFAQs.length > 0 && (
-        <p className="text-center text-[11px] text-stone-400 dark:text-stone-500">
-          총 {sortedFAQs.length}개의 FAQ
+      {faqs.length > 0 && (
+        <p className="text-center text-[11px] font-medium tabular-nums text-stone-400 dark:text-stone-500">
+          총 {faqs.length}개
         </p>
       )}
     </div>

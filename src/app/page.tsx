@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBabyStore } from "@/lib/store/baby-store";
-import { getMonthInfo, getWonderWeeks } from "@/lib/queries/months";
+import { getMonthInfo, getAllWonderWeeks } from "@/lib/queries/months";
 import { getVaccinationsForMonth } from "@/lib/data/growth-data";
 import { useVaccinationStore } from "@/lib/store/vaccination-store";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
@@ -87,7 +87,7 @@ export default function HomePage() {
       try {
         const [mData, wwData] = await Promise.all([
           getMonthInfo(months),
-          getWonderWeeks(days),
+          getAllWonderWeeks(),
         ]);
         if (mData) setMonthData(mData as MonthData);
         setWonderWeeks((wwData as WonderWeekData[]) || []);
@@ -124,6 +124,15 @@ export default function HomePage() {
       )
   );
   const completedCount = vaccinationRecords.length;
+
+  // Wonder Weeks status: current / upcoming / all-past
+  const currentWW = wonderWeeks.find(
+    (w) => days >= w.start_day && days <= w.end_day
+  );
+  const nextWW = wonderWeeks.find((w) => days < w.start_day);
+  const allWWPast =
+    wonderWeeks.length > 0 && wonderWeeks.every((w) => days > w.end_day);
+  const hasWWData = wonderWeeks.length > 0;
 
   const hour = new Date().getHours();
   const greeting =
@@ -184,7 +193,7 @@ export default function HomePage() {
       {!loading && (
         <div className="px-5 space-y-7 pb-6">
           {/* ── Today's focus ── */}
-          {(wonderWeeks.length > 0 || incompleteVaccinations.length > 0 || isOver12) && (
+          {(hasWWData || incompleteVaccinations.length > 0 || isOver12) && (
             <motion.section
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -194,7 +203,8 @@ export default function HomePage() {
               <SectionHeader title="오늘의 포커스" caption="지금 알아두면 좋아요" />
 
               <div className="space-y-2.5">
-                {wonderWeeks.length > 0 && (
+                {/* Wonder Weeks — active (gradient) */}
+                {hasWWData && currentWW && (
                   <button
                     onClick={() => router.push("/wonder-weeks")}
                     className="group relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-teal-500 to-cyan-500 p-5 text-left text-white active:scale-[0.98] transition-transform"
@@ -208,18 +218,87 @@ export default function HomePage() {
                         <Sparkles size={22} className="text-white" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[12px] font-semibold text-white/80 uppercase tracking-wider">
-                          원더윅스 도약기
-                        </p>
-                        <p className="mt-1 text-[16px] font-bold leading-snug">
-                          {wonderWeeks[0].title || `${wonderWeeks[0].week_number || ""}번째 도약`}
+                        <div className="flex items-center gap-1.5">
+                          <span className="inline-flex items-center rounded-full bg-white/25 backdrop-blur px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.12em]">
+                            진행 중
+                          </span>
+                          <span className="text-[11px] font-bold text-white/80 tabular-nums">
+                            Leap {currentWW.week_number}
+                          </span>
+                        </div>
+                        <p className="mt-1.5 text-[16px] font-bold leading-snug">
+                          {currentWW.title || `${currentWW.week_number}번째 도약`}
                         </p>
                         <p className="mt-1 text-[13px] font-medium text-white/90 leading-relaxed line-clamp-2">
-                          {wonderWeeks[0].description || "아기가 지금 성장 도약기에 있어요."}
+                          {currentWW.description || "아기가 지금 성장 도약기에 있어요."}
                         </p>
                       </div>
                       <ChevronRight size={20} className="shrink-0 text-white/60" />
                     </div>
+                  </button>
+                )}
+
+                {/* Wonder Weeks — upcoming (neutral card) */}
+                {hasWWData && !currentWW && nextWW && (
+                  <button
+                    onClick={() => router.push("/wonder-weeks")}
+                    className="flex w-full items-start gap-3.5 rounded-3xl bg-white dark:bg-stone-900 p-5 text-left elevation-1 active:scale-[0.98] transition-transform"
+                  >
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-teal-50 dark:bg-teal-950/40">
+                      <Sparkles size={20} className="text-[#14B8A6] dark:text-teal-400" strokeWidth={2.2} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-black uppercase tracking-[0.12em] text-[#14B8A6] dark:text-teal-400">
+                          다음 도약
+                        </span>
+                        <span className="text-stone-300 dark:text-stone-700">·</span>
+                        <span className="text-[11px] font-bold tabular-nums text-stone-500 dark:text-stone-400">
+                          Leap {nextWW.week_number}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-[15px] font-bold leading-snug text-stone-900 dark:text-stone-100 tracking-tight truncate">
+                        {nextWW.title || `${nextWW.week_number}번째 도약`}
+                      </p>
+                      <p className="mt-1 text-[12px] font-medium text-stone-500 dark:text-stone-400 tabular-nums">
+                        <span className="font-bold text-stone-700 dark:text-stone-300">
+                          약 {nextWW.start_day - days}일 후
+                        </span>
+                        <span className="mx-1.5 text-stone-300 dark:text-stone-600">·</span>
+                        생후 {nextWW.start_day}~{nextWW.end_day}일
+                      </p>
+                    </div>
+                    <ChevronRight size={18} className="mt-1 shrink-0 text-stone-300 dark:text-stone-600" />
+                  </button>
+                )}
+
+                {/* Wonder Weeks — all completed */}
+                {hasWWData && !currentWW && !nextWW && allWWPast && (
+                  <button
+                    onClick={() => router.push("/wonder-weeks")}
+                    className="flex w-full items-start gap-3.5 rounded-3xl bg-white dark:bg-stone-900 p-5 text-left elevation-1 active:scale-[0.98] transition-transform"
+                  >
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-teal-50 dark:bg-teal-950/40">
+                      <Sparkles size={20} className="text-[#14B8A6] dark:text-teal-400" strokeWidth={2.2} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-black uppercase tracking-[0.12em] text-[#14B8A6] dark:text-teal-400">
+                          완료
+                        </span>
+                        <span className="text-stone-300 dark:text-stone-700">·</span>
+                        <span className="text-[11px] font-bold tabular-nums text-stone-500 dark:text-stone-400">
+                          Leap 1–{wonderWeeks.length}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-[15px] font-bold leading-snug text-stone-900 dark:text-stone-100 tracking-tight">
+                        10번의 도약을 모두 지나왔어요
+                      </p>
+                      <p className="mt-1 text-[12px] font-medium text-stone-500 dark:text-stone-400 leading-relaxed">
+                        지금까지의 원더윅스 여정을 다시 살펴볼 수 있어요.
+                      </p>
+                    </div>
+                    <ChevronRight size={18} className="mt-1 shrink-0 text-stone-300 dark:text-stone-600" />
                   </button>
                 )}
 
