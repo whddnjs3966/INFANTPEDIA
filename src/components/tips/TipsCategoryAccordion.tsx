@@ -23,34 +23,34 @@ const categories = [
   {
     key: "sleep_tips",
     label: "수면 꿀팁",
-    emoji: "\ud83d\ude34",
     icon: Moon,
-    color: "from-indigo-50 to-blue-50",
-    iconColor: "text-indigo-400 bg-indigo-100",
+    iconColor: "text-indigo-500",
+    iconBg: "bg-indigo-50 dark:bg-indigo-950/30",
+    accentBar: "bg-indigo-500",
   },
   {
     key: "feeding_tips",
     label: "수유 꿀팁",
-    emoji: "\ud83c\udf7c",
     icon: Baby,
-    color: "from-pink-50 to-rose-50",
-    iconColor: "text-pink-400 bg-pink-100",
+    iconColor: "text-rose-500",
+    iconBg: "bg-rose-50 dark:bg-rose-950/30",
+    accentBar: "bg-rose-500",
   },
   {
     key: "crying_tips",
     label: "울음 달래기",
-    emoji: "\ud83d\ude2d",
     icon: Frown,
-    color: "from-amber-50 to-yellow-50",
-    iconColor: "text-amber-400 bg-amber-100",
+    iconColor: "text-amber-500",
+    iconBg: "bg-amber-50 dark:bg-amber-950/30",
+    accentBar: "bg-amber-500",
   },
   {
     key: "outing_tips",
-    label: "외출/여행",
-    emoji: "\ud83e\uddf3",
+    label: "외출·여행",
     icon: Luggage,
-    color: "from-green-50 to-emerald-50",
-    iconColor: "text-green-500 bg-green-100",
+    iconColor: "text-emerald-500",
+    iconBg: "bg-emerald-50 dark:bg-emerald-950/30",
+    accentBar: "bg-emerald-500",
   },
 ];
 
@@ -66,11 +66,11 @@ export default function TipsCategoryAccordion({
 
   if (isLoading) {
     return (
-      <div className="space-y-4 px-4">
+      <div className="space-y-3 px-5">
         {categories.map((cat) => (
           <div
             key={cat.key}
-            className="h-16 animate-pulse rounded-2xl bg-stone-200/60 dark:bg-stone-800/60"
+            className="h-[72px] animate-pulse rounded-3xl bg-stone-200/60 dark:bg-stone-800/60"
           />
         ))}
       </div>
@@ -78,76 +78,104 @@ export default function TipsCategoryAccordion({
   }
 
   return (
-    <div className="space-y-4 px-4">
+    <div className="space-y-3 px-5">
       {categories.map((cat) => {
         const catTips = tips.filter((t) => t.category === cat.key);
         const isOpen = openCategory === cat.key;
         const Icon = cat.icon;
+        const hasContent = catTips.length > 0;
 
         return (
           <div key={cat.key}>
             <motion.button
               onClick={() => toggle(cat.key)}
+              whileTap={{ scale: 0.985 }}
               className={cn(
-                "flex w-full min-h-[56px] items-center gap-3 rounded-2xl p-4 text-left transition-all",
-                "bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700",
-                isOpen && "shadow-md ring-1 ring-black/5"
+                "flex w-full items-center gap-3.5 rounded-3xl bg-white dark:bg-stone-900 p-4 text-left elevation-1 transition-shadow",
+                isOpen && "shadow-[0_6px_20px_rgba(15,15,20,0.08)]"
               )}
-              whileTap={{ scale: 0.98 }}
             >
-              <div className={cn("rounded-xl p-2", cat.iconColor)}>
-                <Icon size={20} />
+              <div
+                className={cn(
+                  "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl",
+                  cat.iconBg
+                )}
+              >
+                <Icon size={21} className={cat.iconColor} strokeWidth={2.1} />
               </div>
-              <div className="flex-1">
-                <span className="text-base font-bold text-stone-700 dark:text-stone-200">
-                  {cat.emoji} {cat.label}
-                </span>
-                {catTips.length > 0 ? (
-                  <span className="ml-2 inline-flex items-center rounded-full bg-white/60 dark:bg-white/10 px-2 py-0.5 text-[11px] font-bold text-stone-500 dark:text-stone-400">
-                    {catTips.length}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-[15px] font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+                    {cat.label}
                   </span>
-                ) : (
-                  <span className="ml-2 text-[11px] text-stone-400 dark:text-stone-500">{"\ub370\uc774\ud130 \uc5c6\uc74c"}</span>
+                  {hasContent ? (
+                    <span className="inline-flex items-center rounded-full bg-stone-100 dark:bg-stone-800 px-2 py-0.5 text-[10.5px] font-bold tabular-nums text-stone-500 dark:text-stone-400">
+                      {catTips.length}
+                    </span>
+                  ) : (
+                    <span className="text-[11px] font-medium text-stone-400 dark:text-stone-500">
+                      데이터 없음
+                    </span>
+                  )}
+                </div>
+                {hasContent && (
+                  <p className="mt-0.5 text-[12px] font-medium text-stone-500 dark:text-stone-400 truncate">
+                    {catTips[0].title}
+                    {catTips.length > 1 && ` 외 ${catTips.length - 1}건`}
+                  </p>
                 )}
               </div>
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.25 }}
+                className="shrink-0"
               >
-                <ChevronDown size={18} className="text-stone-400" />
+                <ChevronDown
+                  size={18}
+                  className="text-stone-400 dark:text-stone-500"
+                  strokeWidth={2.2}
+                />
               </motion.div>
             </motion.button>
 
-            <AnimatePresence>
+            <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
                   className="overflow-hidden"
                 >
-                  <div className="space-y-2 px-2 pt-2 pb-1">
+                  <div className="space-y-2.5 pt-2.5">
                     {catTips.length === 0 ? (
-                      <div className="rounded-xl bg-white/60 p-4 text-center text-sm text-stone-400">
-                        {"\ud83d\udcad"} {"\uc774"} {"\uc6d4\ub839\uc758"} {cat.label} {"\uc815\ubcf4\uac00"} {"\uc544\uc9c1"} {"\uc5c6\uc5b4\uc694"}
+                      <div className="rounded-2xl bg-stone-50 dark:bg-stone-800/60 p-5 text-center">
+                        <p className="text-[13px] font-medium text-stone-500 dark:text-stone-400">
+                          이 월령의 {cat.label} 정보가 아직 없어요
+                        </p>
                       </div>
                     ) : (
                       catTips.map((tip, idx) => (
-                        <motion.div
+                        <motion.article
                           key={tip.id}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.05 }}
-                          className="rounded-[20px] border border-stone-200 bg-white p-4 shadow-[0_2px_8px_rgb(0,0,0,0.04)] dark:border-stone-700 dark:bg-stone-800"
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, delay: idx * 0.04 }}
+                          className="rounded-3xl bg-white dark:bg-stone-900 p-5 elevation-1"
                         >
-                          <h4 className="text-base font-bold text-stone-800 dark:text-stone-100">
-                            {tip.title}
-                          </h4>
-                          <div className="mt-2">
-                            <FormattedContent content={tip.content} />
+                          <div className="mb-3 flex items-center gap-2.5">
+                            <span
+                              className={cn(
+                                "h-[18px] w-[3px] rounded-full",
+                                cat.accentBar
+                              )}
+                            />
+                            <h4 className="text-[15px] font-bold text-stone-900 dark:text-stone-100 tracking-tight leading-snug">
+                              {tip.title}
+                            </h4>
                           </div>
-                        </motion.div>
+                          <FormattedContent content={tip.content} />
+                        </motion.article>
                       ))
                     )}
                   </div>
