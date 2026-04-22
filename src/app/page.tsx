@@ -163,7 +163,7 @@ export default function HomePage() {
     <div className="min-h-screen dark:bg-stone-950">
       {/* Top breathing room + circular focus */}
       <section className="pt-safe pb-8">
-        <div className="pt-10">
+        <div className="pt-6">
           {loading ? (
             <DashboardSkeleton />
           ) : (
@@ -182,13 +182,13 @@ export default function HomePage() {
       </section>
 
       {!loading && (
-        <div className="px-5 space-y-7 pb-8">
+        <div className="px-5 space-y-7 pb-6">
           {/* ── Today's focus ── */}
           {(wonderWeeks.length > 0 || incompleteVaccinations.length > 0 || isOver12) && (
             <motion.section
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
               className="space-y-3"
             >
               <SectionHeader title="오늘의 포커스" caption="지금 알아두면 좋아요" />
@@ -274,9 +274,9 @@ export default function HomePage() {
             <>
               {/* ── Month-specific data (2x2 grid) ── */}
               <motion.section
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.05 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="space-y-3"
               >
                 <SectionHeader title="월령 데이터" caption={`${months}개월 기준`} />
@@ -383,9 +383,9 @@ export default function HomePage() {
 
               {/* ── Milestones as list ── */}
               <motion.section
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="space-y-3"
               >
                 <SectionHeader title="발달 이정표" caption={`${months}개월 주요 변화`} />
@@ -418,9 +418,9 @@ export default function HomePage() {
               {/* ── Weaning guide ── */}
               {months >= 4 && (
                 <motion.section
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.15 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
                   className="space-y-3"
                 >
                   <SectionHeader
@@ -477,9 +477,9 @@ export default function HomePage() {
 
               {/* ── Explore (horizontal rail) ── */}
               <motion.section
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="space-y-3"
               >
                 <SectionHeader title="둘러보기" caption="더 많은 정보를 확인해요" />
@@ -518,9 +518,9 @@ export default function HomePage() {
               {/* ── Monthly summary ── */}
               {monthData?.summary && (
                 <motion.section
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.25 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
                   className="space-y-3"
                 >
                   <SectionHeader title="자세한 요약" caption={`${months}개월 발달 안내`} />

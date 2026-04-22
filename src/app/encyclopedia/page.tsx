@@ -131,17 +131,14 @@ export default function EncyclopediaPage() {
                 key={tab.id}
                 onClick={suppressSubTabClick(() => setActiveTab(tab.id))}
                 className={cn(
-                  "relative flex shrink-0 flex-col items-center justify-center gap-1 rounded-2xl px-4 py-2.5 min-w-[68px] transition-all",
+                  "relative flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors",
                   isActive
-                    ? "bg-[#14B8A6] text-white elevation-2"
-                    : "bg-white dark:bg-stone-800/70 text-stone-500 dark:text-stone-400 elevation-1"
+                    ? "bg-[#14B8A6] text-white shadow-[0_2px_8px_rgba(20,184,166,0.3)]"
+                    : "bg-white dark:bg-stone-800/70 text-stone-600 dark:text-stone-300 ring-1 ring-stone-200/70 dark:ring-stone-700/60"
                 )}
               >
-                <Icon size={18} strokeWidth={isActive ? 2.4 : 2} />
-                <span className={cn(
-                  "text-[11px] font-bold whitespace-nowrap leading-none",
-                  isActive ? "" : "opacity-80"
-                )}>
+                <Icon size={15} strokeWidth={isActive ? 2.5 : 2.1} />
+                <span className="text-[12px] font-bold whitespace-nowrap leading-none">
                   {tab.label}
                 </span>
               </button>
@@ -203,30 +200,30 @@ export default function EncyclopediaPage() {
                   <FormattedContent content={monthData.summary} />
                 )}
 
-                {/* Quick stats grid */}
+                {/* Quick stats grid — neutral surfaces with accent icon */}
                 <div className="mt-4 grid grid-cols-4 gap-2">
                   {monthData.feeding_amount && (
-                    <div className="rounded-xl bg-pink-50 dark:bg-pink-950/30 p-2.5 text-center">
-                      <Baby size={15} className="mx-auto mb-1 text-pink-500" />
-                      <p className="text-[12px] font-bold text-pink-700 dark:text-pink-300 truncate">{monthData.feeding_amount}</p>
+                    <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-2.5 text-center">
+                      <Baby size={15} className="mx-auto mb-1 text-[#14B8A6]" />
+                      <p className="text-[12px] font-bold text-stone-800 dark:text-stone-100 truncate">{monthData.feeding_amount}</p>
                       <p className="text-[11px] text-stone-500 mt-0.5">수유량</p>
                     </div>
                   )}
                   {monthData.wake_window && (
-                    <div className="rounded-xl bg-blue-50 dark:bg-blue-950/30 p-2.5 text-center">
-                      <ClipboardCheck size={15} className="mx-auto mb-1 text-blue-500" />
-                      <p className="text-[12px] font-bold text-blue-700 dark:text-blue-300 truncate">{monthData.wake_window}</p>
+                    <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-2.5 text-center">
+                      <ClipboardCheck size={15} className="mx-auto mb-1 text-[#14B8A6]" />
+                      <p className="text-[12px] font-bold text-stone-800 dark:text-stone-100 truncate">{monthData.wake_window}</p>
                       <p className="text-[11px] text-stone-500 mt-0.5">활동시간</p>
                     </div>
                   )}
-                  <div className="rounded-xl bg-indigo-50 dark:bg-indigo-950/30 p-2.5 text-center">
-                    <Moon size={15} className="mx-auto mb-1 text-indigo-500" />
-                    <p className="text-[12px] font-bold text-indigo-700 dark:text-indigo-300 truncate">{monthData.nap_count || "-"}</p>
+                  <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-2.5 text-center">
+                    <Moon size={15} className="mx-auto mb-1 text-[#14B8A6]" />
+                    <p className="text-[12px] font-bold text-stone-800 dark:text-stone-100 truncate">{monthData.nap_count || "-"}</p>
                     <p className="text-[11px] text-stone-500 mt-0.5">총 수면</p>
                   </div>
-                  <div className="rounded-xl bg-orange-50 dark:bg-orange-950/30 p-2.5 text-center">
-                    <UtensilsCrossed size={15} className="mx-auto mb-1 text-orange-500" />
-                    <p className="text-[12px] font-bold text-orange-700 dark:text-orange-300 truncate">
+                  <div className="rounded-xl bg-stone-50 dark:bg-stone-800/60 p-2.5 text-center">
+                    <UtensilsCrossed size={15} className="mx-auto mb-1 text-[#14B8A6]" />
+                    <p className="text-[12px] font-bold text-stone-800 dark:text-stone-100 truncate">
                       {selectedMonth < 4 ? "시작 전" : selectedMonth <= 5 ? "초기" : selectedMonth <= 8 ? "중기" : selectedMonth <= 11 ? "후기" : "완료기"}
                     </p>
                     <p className="text-[11px] text-stone-500 mt-0.5">이유식</p>

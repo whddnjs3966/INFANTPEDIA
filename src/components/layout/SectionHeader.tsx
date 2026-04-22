@@ -12,13 +12,13 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ title, caption, action }: SectionHeaderProps) {
   return (
-    <div className="flex items-end justify-between px-1">
-      <div>
-        <h2 className="text-[17px] font-bold tracking-tight text-stone-900 dark:text-stone-100 leading-tight">
+    <div className="flex items-end justify-between gap-3 px-1">
+      <div className="min-w-0">
+        <h2 className="text-[18px] font-black tracking-[-0.015em] text-stone-900 dark:text-stone-50 leading-tight">
           {title}
         </h2>
         {caption && (
-          <p className="mt-0.5 text-[12px] font-medium text-stone-500 dark:text-stone-400">
+          <p className="mt-0.5 text-[12px] font-medium text-stone-400 dark:text-stone-500 truncate">
             {caption}
           </p>
         )}
@@ -26,10 +26,10 @@ export default function SectionHeader({ title, caption, action }: SectionHeaderP
       {action && (
         <button
           onClick={action.onClick}
-          className="flex items-center gap-0.5 text-[13px] font-semibold text-[#14B8A6] dark:text-teal-400 active:opacity-60"
+          className="flex shrink-0 items-center gap-0.5 text-[12px] font-bold text-[#14B8A6] dark:text-teal-400 active:opacity-60 transition-opacity"
         >
           {action.label}
-          <ChevronRight size={14} />
+          <ChevronRight size={14} strokeWidth={2.4} />
         </button>
       )}
     </div>

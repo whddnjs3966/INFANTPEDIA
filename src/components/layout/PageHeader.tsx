@@ -18,23 +18,23 @@ export default function PageHeader({ eyebrow, title, description, showSearch, ac
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -6 }}
+      initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="pt-safe px-5 pb-4"
+      transition={{ duration: 0.25 }}
+      className="pt-safe px-5 pb-3"
     >
-      <div className="flex items-start justify-between gap-3 pt-4">
+      <div className="flex items-end justify-between gap-3 pt-3">
         <div className="min-w-0 flex-1">
           {eyebrow && (
-            <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-teal-50 dark:bg-teal-950/40 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#14B8A6] dark:text-teal-400">
+            <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#14B8A6] dark:text-teal-400">
               {eyebrow}
             </p>
           )}
-          <h1 className="text-[32px] font-black tracking-tight text-stone-900 dark:text-stone-50 leading-[1.1]">
+          <h1 className="text-[26px] font-black tracking-[-0.02em] text-stone-900 dark:text-stone-50 leading-[1.15]">
             {title}
           </h1>
           {description && (
-            <p className="mt-2 text-[14px] font-medium text-stone-500 dark:text-stone-400 leading-relaxed">
+            <p className="mt-1 text-[13px] font-medium text-stone-500 dark:text-stone-400 leading-snug">
               {description}
             </p>
           )}
@@ -44,10 +44,10 @@ export default function PageHeader({ eyebrow, title, description, showSearch, ac
         ) : showSearch ? (
           <button
             onClick={() => router.push("/search")}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 elevation-1 active:scale-95 transition-transform"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/80 dark:bg-stone-800/80 backdrop-blur text-stone-700 dark:text-stone-200 ring-1 ring-stone-200/80 dark:ring-stone-700/80 active:scale-95 transition-transform"
             aria-label="검색"
           >
-            <Search size={20} strokeWidth={2.1} />
+            <Search size={18} strokeWidth={2.2} />
           </button>
         ) : null}
       </div>
