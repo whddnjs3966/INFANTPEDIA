@@ -527,7 +527,7 @@ export default function SettingsPage() {
                 <Info size={18} className="text-stone-400" />
                 <span className="text-[14px] font-semibold text-stone-700 dark:text-stone-200">버전</span>
               </div>
-              <span className="text-[13px] font-bold text-stone-500 dark:text-stone-400">1.1.0</span>
+              <span className="text-[13px] font-bold text-stone-500 dark:text-stone-400">1.2.0</span>
             </div>
             <button
               onClick={() => router.push("/privacy")}
