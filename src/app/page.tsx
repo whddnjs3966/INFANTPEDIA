@@ -196,7 +196,7 @@ export default function HomePage() {
               <div className="space-y-2.5">
                 {wonderWeeks.length > 0 && (
                   <button
-                    onClick={() => router.push("/encyclopedia")}
+                    onClick={() => router.push("/wonder-weeks")}
                     className="group relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-teal-500 to-cyan-500 p-5 text-left text-white active:scale-[0.98] transition-transform"
                   >
                     <div
