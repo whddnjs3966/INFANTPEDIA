@@ -384,7 +384,7 @@ const sleepGuideDataByMonth: SleepGuideData[] = [
     commonIssues: [
       {
         issue: '뒤집기를 하면서 자다 깨요',
-        solution: '충분히 뒤집기 연습을 시켜주세요. 엎드려 자는 것이 익숙해지면 괜찮아져요.',
+        solution: '처음 잠자리에 눕힐 때는 등을 대고 눕혀주세요. 뒤집기 연습은 깨어 있을 때 보호자가 곁에서 지켜보며 하고, 수면 환경은 단단하고 평평하게 유지하세요.',
         emoji: '🔄',
       },
       {
@@ -422,7 +422,7 @@ const sleepGuideDataByMonth: SleepGuideData[] = [
     commonIssues: [
       {
         issue: '밤중 수유가 아직 있어요',
-        solution: '6개월 이후에는 밤중 수유를 줄여볼 수 있어요. 서서히 수유량을 줄이거나 물로 대체해 보세요.',
+        solution: '밤중 수유의 필요성은 아기의 성장·섭취 상태에 따라 달라요. 월령만으로 줄이거나 물로 대체하지 말고, 조절이 필요하면 의료진과 상담하세요.',
         emoji: '🍼',
       },
       {

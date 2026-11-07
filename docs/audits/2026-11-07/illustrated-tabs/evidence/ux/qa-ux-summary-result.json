@@ -1,0 +1,39 @@
+{
+  "checks": [
+    "compact month/topic controls expose all 8 topics and put the summary title within 320px",
+    "summary and reference disclosures reveal the exact source and units and survive a guide return",
+    "month picker supports 0–12, boundary buttons, keyboard selection and Escape focus return",
+    "all 13 monthly originals remain accessible with their exact full text",
+    "FAQ starts within 760px while low-age/emergency guidance and 119 remain visible",
+    "FAQ categories reveal counts, keep selected context, and close accessibly",
+    "zero results and urgent filter never remove the emergency route",
+    "all 18 structured answers preserve every source field and show guarded action/condition/negation emphasis",
+    "FAQ query, open answer and keyboard toggling survive a guide return",
+    "renamed food category retains its existing reading key and expanded state",
+    "FAQ and search detail render the same clinical text and preserve sources without approval badges",
+    "legacy emergency answers remain fully accessible before and after expansion",
+    "every FAQ ID remains reachable across all monthly views",
+    "mobile widths, dark theme and 200% text keep month/topics/FAQ controls unclipped",
+    "all 8 encyclopedia topics and other main tabs still load with their existing navigation",
+    "an over-12-month child is never labeled as the current 12-month baby",
+    "changed public summary gets full raw text, no stale excerpt, no HTML injection",
+    "offline monthly data has a retry route and public FAQ remains usable"
+  ],
+  "errors": [],
+  "measurements": {
+    "summary": {
+      "topicTop": 264,
+      "height": 1193
+    },
+    "faq": {
+      "firstQuestionTop": 648,
+      "height": 2133,
+      "safeAreaSimulation": {
+        "questionBottom": 717,
+        "menuTop": 724
+      }
+    }
+  },
+  "blockedExternalRequests": 0,
+  "mutationAttempts": []
+}

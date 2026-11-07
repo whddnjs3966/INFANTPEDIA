@@ -1,5 +1,7 @@
+import "@/lib/sync/local-restore-journal";
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { getDaysSinceBirth, getCalendarMonthsOld } from '../utils/date';
 
 export type BabyGender = 'male' | 'female';
 
@@ -14,6 +16,8 @@ interface BabyStore {
   babies: BabyProfile[];
   activeBabyId: string | null;
   profile: BabyProfile | null;
+  legacyOwnerId: string | null;
+  legacyOwnershipChecked: boolean;
   babyPhotos: Record<string, string>; // babyId -> base64 data URL
   // Actions
   addBaby: (baby: Omit<BabyProfile, 'id'>) => void;
@@ -47,7 +51,8 @@ function getActiveProfile(babies: BabyProfile[], activeBabyId: string | null): B
 
 // Helper: compute profile and include it in the returned state
 function withProfile(state: { babies: BabyProfile[]; activeBabyId: string | null }) {
-  return { ...state, profile: getActiveProfile(state.babies, state.activeBabyId) };
+  const profile = getActiveProfile(state.babies, state.activeBabyId);
+  return { ...state, activeBabyId: profile?.id ?? null, profile };
 }
 
 export const useBabyStore = create<BabyStore>()(
@@ -57,12 +62,14 @@ export const useBabyStore = create<BabyStore>()(
       activeBabyId: null,
       profile: null,
       babyPhotos: {},
+      legacyOwnerId: null,
+      legacyOwnershipChecked: false,
 
       addBaby: (baby) => {
         const id = generateId();
         set((s) => {
           const newBabies = [...s.babies, { ...baby, id }];
-          return withProfile({ babies: newBabies, activeBabyId: id });
+          return { ...withProfile({ babies: newBabies, activeBabyId: id }), legacyOwnerId: !s.legacyOwnershipChecked && s.babies.length === 0 ? id : s.legacyOwnerId, legacyOwnershipChecked: true };
         });
       },
 
@@ -79,7 +86,8 @@ export const useBabyStore = create<BabyStore>()(
             s.activeBabyId === id
               ? newBabies[0]?.id || null
               : s.activeBabyId;
-          const { [id]: _, ...restPhotos } = s.babyPhotos;
+          const restPhotos = { ...s.babyPhotos };
+          delete restPhotos[id];
           return { ...withProfile({ babies: newBabies, activeBabyId: newActive }), babyPhotos: restPhotos };
         }),
 
@@ -91,11 +99,12 @@ export const useBabyStore = create<BabyStore>()(
 
       removeBabyPhoto: (id) =>
         set((s) => {
-          const { [id]: _, ...rest } = s.babyPhotos;
+          const rest = { ...s.babyPhotos };
+          delete rest[id];
           return { babyPhotos: rest };
         }),
 
-      clearAll: () => set({ babies: [], activeBabyId: null, profile: null, babyPhotos: {} }),
+      clearAll: () => set({ babies: [], activeBabyId: null, profile: null, babyPhotos: {}, legacyOwnerId: null, legacyOwnershipChecked: false }),
 
       // Legacy compat: setProfile adds or updates the first baby
       setProfile: (profile) => {
@@ -103,7 +112,7 @@ export const useBabyStore = create<BabyStore>()(
         if (state.babies.length === 0) {
           const id = generateId();
           const babies = [{ ...profile, id }];
-          set(withProfile({ babies, activeBabyId: id }));
+          set({ ...withProfile({ babies, activeBabyId: id }), legacyOwnerId: id, legacyOwnershipChecked: true });
         } else {
           const active = getActiveProfile(state.babies, state.activeBabyId);
           if (active) {
@@ -121,33 +130,15 @@ export const useBabyStore = create<BabyStore>()(
 
       getDaysOld: () => {
         const profile = getActiveProfile(get().babies, get().activeBabyId);
-        if (!profile) return 0;
-        // KST 정오(12:00) 기준으로 일수 계산
-        // KST = UTC+9, 정오 = UTC 03:00
-        const KST_OFFSET = 9 * 60; // minutes
-        const now = new Date();
-        const kstNow = new Date(now.getTime() + (KST_OFFSET + now.getTimezoneOffset()) * 60000);
-        // KST 정오를 기준일의 시작으로 삼음: 정오 전이면 전날로 취급
-        if (kstNow.getHours() < 12) {
-          kstNow.setDate(kstNow.getDate() - 1);
-        }
-        const kstToday = new Date(kstNow.getFullYear(), kstNow.getMonth(), kstNow.getDate());
-        const birth = new Date(profile.birthdate + 'T00:00:00');
-        const birthDate = new Date(birth.getFullYear(), birth.getMonth(), birth.getDate());
-        return Math.floor(
-          (kstToday.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24)
-        );
+        return profile ? getDaysSinceBirth(profile.birthdate) : 0;
       },
-
       getMonthsOld: () => {
-        const days = get().getDaysOld();
-        // 일수 기반 월령 계산 (30일 = 1개월)
-        return Math.min(Math.floor(days / 30), 12);
+        const profile = getActiveProfile(get().babies, get().activeBabyId);
+        return profile ? Math.min(getCalendarMonthsOld(profile.birthdate), 12) : 0;
       },
-
       getRealMonthsOld: () => {
-        const days = get().getDaysOld();
-        return Math.floor(days / 30);
+        const profile = getActiveProfile(get().babies, get().activeBabyId);
+        return profile ? getCalendarMonthsOld(profile.birthdate) : 0;
       },
     }),
     {
@@ -176,6 +167,11 @@ export const useBabyStore = create<BabyStore>()(
       onRehydrateStorage: () => (state) => {
         if (state) {
           state.profile = getActiveProfile(state.babies, state.activeBabyId);
+          state.activeBabyId = state.profile?.id ?? null;
+          if (!state.legacyOwnershipChecked) {
+            state.legacyOwnerId = state.babies.length === 1 ? state.babies[0].id : null;
+            state.legacyOwnershipChecked = true;
+          }
         }
       },
     }

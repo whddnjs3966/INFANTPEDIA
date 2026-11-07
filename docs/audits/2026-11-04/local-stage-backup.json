@@ -1,0 +1,10 @@
+{
+  "kind": "local-stage-logical-fixture",
+  "sourceDatabase": "infantpedia_stage_browser_1793735556928",
+  "restoredDatabase": "infantpedia_stage_restore_1793735580538",
+  "backupPath": "D:\\workplace\\INFANTPEDIA-QA-db\\backups\\fixture-1793735580537.json",
+  "sha256": "3043b8a386ed0814b4f3d8e71f4959d7f7d18b195ebedf3d6f1290ee2b6b99b0",
+  "tablesCompared": 12,
+  "restoredPermissionsVerified": true,
+  "productionRequests": 0
+}

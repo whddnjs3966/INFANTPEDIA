@@ -6,7 +6,7 @@ function Skeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "animate-pulse rounded-2xl bg-stone-200/60 dark:bg-stone-800/60",
+        "animate-pulse rounded-2xl bg-stone-200/60 dark:bg-[var(--surface-muted)]/60",
         className
       )}
     />
@@ -17,7 +17,7 @@ export function DashboardSkeleton() {
   return (
     <div className="space-y-4">
       {/* D-day card */}
-      <Skeleton className="h-36 w-full dark:bg-stone-800/40" />
+      <Skeleton className="h-36 w-full dark:bg-[var(--surface-muted)]/40" />
 
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-2.5">

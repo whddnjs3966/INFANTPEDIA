@@ -262,7 +262,7 @@ const teethingSymptoms: string[] = [
   '침을 평소보다 많이 흘림',
   '칭얼거리고 보채는 횟수 증가',
   '손에 닿는 물건을 자꾸 입에 넣고 물기',
-  '미열 (38도 이하)이 날 수 있음',
+  '체온이 약간 오를 수 있으나 38°C 이상 발열을 이앓이로 단정하지 마세요',
   '수면 패턴이 불규칙해지고 자주 깸',
   '식욕이 감소하고 수유를 거부할 수 있음',
 ];
@@ -287,8 +287,8 @@ const teethingRemedies: TeethingRemedy[] = [
     effectiveness: 'high',
   },
   {
-    title: '이앓이 전용 젤',
-    description: '소아과 또는 약국에서 구입한 이앓이 전용 젤을 잇몸에 소량 발라주세요. 반드시 영유아용 제품을 사용하세요.',
+    title: '이앓이 약·젤 주의',
+    description: '벤조카인·리도카인 성분의 이앓이용 젤·크림은 영유아에게 사용하지 마세요. 통증이 심하면 의료진과 상담하세요.',
     emoji: '💊',
     effectiveness: 'medium',
   },
@@ -322,7 +322,7 @@ const brushingSteps: BrushingStep[] = [
   {
     step: 3,
     title: '치약 적정량',
-    description: '3세 미만은 쌀알 크기만큼의 불소 치약을, 치약 없이 물로만 닦아도 괜찮습니다.',
+    description: '첫 이가 나면 3세 미만은 쌀알 크기의 불소 치약을 소량 사용하세요. 치약을 먹지 않도록 보호자가 도와주세요.',
     emoji: '✨',
   },
   {
@@ -340,7 +340,7 @@ const brushingSteps: BrushingStep[] = [
   {
     step: 6,
     title: '마무리',
-    description: '깨끗한 물을 적신 거즈로 입안을 한 번 더 닦아주고, 칭찬해주세요! 양치 습관은 즐거운 경험으로 만들어주는 것이 중요합니다.',
+    description: '양치 후 불소가 남도록 물로 다시 헹구지 않아요. 보호자가 적정량 사용을 돕고 칭찬하며 마무리해 주세요.',
     emoji: '🎉',
   },
 ];

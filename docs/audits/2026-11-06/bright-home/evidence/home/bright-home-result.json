@@ -1,0 +1,150 @@
+{
+  "checks": [
+    "all 13 ages show an applicable sourced tip and open its exact detail",
+    "invalid ages fall back safely and older babies use the 12-month guide",
+    "quick actions open the existing record dialog and age-specific health FAQ",
+    "four existing guide topics remain reachable before and after six months",
+    "measurements and completed vaccines belong to the selected baby only",
+    "reference values stay collapsed until requested and match the source values",
+    "offline content keeps local guides and record entry available; retry recovers reference data",
+    "light and dark palettes maintain readable primary, secondary and peach-card text",
+    "320–430px and doubled text retain home actions without overlap or horizontal scrolling",
+    "decorative animation plays once and respects reduced motion",
+    "no runtime errors, production mutations or expert-review state was introduced"
+  ],
+  "errors": [],
+  "mutations": [],
+  "months": [
+    {
+      "month": 0,
+      "key": "night-light",
+      "minMonth": 0
+    },
+    {
+      "month": 1,
+      "key": "bottle-flow",
+      "minMonth": 0
+    },
+    {
+      "month": 2,
+      "key": "night-light",
+      "minMonth": 0
+    },
+    {
+      "month": 3,
+      "key": "turn-talk",
+      "minMonth": 0
+    },
+    {
+      "month": 4,
+      "key": "overstim",
+      "minMonth": 0
+    },
+    {
+      "month": 5,
+      "key": "ready",
+      "minMonth": 4
+    },
+    {
+      "month": 6,
+      "key": "first-food",
+      "minMonth": 6
+    },
+    {
+      "month": 7,
+      "key": "texture",
+      "minMonth": 6
+    },
+    {
+      "month": 8,
+      "key": "self-feed",
+      "minMonth": 6
+    },
+    {
+      "month": 9,
+      "key": "new-food",
+      "minMonth": 6
+    },
+    {
+      "month": 10,
+      "key": "milk-transition",
+      "minMonth": 10
+    },
+    {
+      "month": 11,
+      "key": "milk-transition",
+      "minMonth": 10
+    },
+    {
+      "month": 12,
+      "key": "self-feed",
+      "minMonth": 6
+    }
+  ],
+  "layouts": [
+    {
+      "width": 320,
+      "size": 16,
+      "overflow": false,
+      "clipped": [],
+      "artHidden": true,
+      "overlap": false
+    },
+    {
+      "width": 320,
+      "size": 32,
+      "overflow": false,
+      "clipped": [],
+      "artHidden": true,
+      "overlap": false
+    },
+    {
+      "width": 360,
+      "size": 16,
+      "overflow": false,
+      "clipped": [],
+      "artHidden": true,
+      "overlap": false
+    },
+    {
+      "width": 360,
+      "size": 32,
+      "overflow": false,
+      "clipped": [],
+      "artHidden": true,
+      "overlap": false
+    },
+    {
+      "width": 390,
+      "size": 16,
+      "overflow": false,
+      "clipped": [],
+      "artHidden": false,
+      "overlap": false
+    },
+    {
+      "width": 390,
+      "size": 32,
+      "overflow": false,
+      "clipped": [],
+      "artHidden": true,
+      "overlap": false
+    },
+    {
+      "width": 430,
+      "size": 16,
+      "overflow": false,
+      "clipped": [],
+      "artHidden": false,
+      "overlap": false
+    },
+    {
+      "width": 430,
+      "size": 32,
+      "overflow": false,
+      "clipped": [],
+      "artHidden": true,
+      "overlap": false
+    }
+  ]
+}

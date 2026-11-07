@@ -1,0 +1,215 @@
+{
+  "checks": [
+    "2m shows four modern situation tiles without the old repeated flow diagrams",
+    "tile detail opens from the keyboard, keeps cautions/sources, and restores after navigation",
+    "all 104 monthly tips remain reachable through four topic choices, with one selected detail",
+    "4–12m keep all timestamps, periods and activity filters while the graph is optional",
+    "time and activity filters still combine without losing the selected period",
+    "5m no longer presents a mandatory solid-food meal plan; 6m examples carry numerical caveats",
+    "search links show the exact practical tip with all original action/caution text",
+    "invalid and early-age direct tips cannot display an older infant food recommendation",
+    "mobile light/dark, 320–430px and 200% root text reflow without horizontal overflow or clipped labels",
+    "five main tabs, eight encyclopedia topics and five settings sections render with the shared palette",
+    "network failure keeps local practical tips and retry available",
+    "no JavaScript runtime errors or mutating data requests"
+  ],
+  "runtimeErrors": [],
+  "mutationAttempts": [],
+  "viewports": [
+    {
+      "width": 320,
+      "dark": false,
+      "size": 16,
+      "month": 2
+    },
+    {
+      "width": 320,
+      "dark": false,
+      "size": 16,
+      "month": 4
+    },
+    {
+      "width": 320,
+      "dark": false,
+      "size": 32,
+      "month": 2
+    },
+    {
+      "width": 320,
+      "dark": false,
+      "size": 32,
+      "month": 4
+    },
+    {
+      "width": 320,
+      "dark": true,
+      "size": 16,
+      "month": 2
+    },
+    {
+      "width": 320,
+      "dark": true,
+      "size": 16,
+      "month": 4
+    },
+    {
+      "width": 320,
+      "dark": true,
+      "size": 32,
+      "month": 2
+    },
+    {
+      "width": 320,
+      "dark": true,
+      "size": 32,
+      "month": 4
+    },
+    {
+      "width": 360,
+      "dark": false,
+      "size": 16,
+      "month": 2
+    },
+    {
+      "width": 360,
+      "dark": false,
+      "size": 16,
+      "month": 4
+    },
+    {
+      "width": 360,
+      "dark": false,
+      "size": 32,
+      "month": 2
+    },
+    {
+      "width": 360,
+      "dark": false,
+      "size": 32,
+      "month": 4
+    },
+    {
+      "width": 360,
+      "dark": true,
+      "size": 16,
+      "month": 2
+    },
+    {
+      "width": 360,
+      "dark": true,
+      "size": 16,
+      "month": 4
+    },
+    {
+      "width": 360,
+      "dark": true,
+      "size": 32,
+      "month": 2
+    },
+    {
+      "width": 360,
+      "dark": true,
+      "size": 32,
+      "month": 4
+    },
+    {
+      "width": 390,
+      "dark": false,
+      "size": 16,
+      "month": 2
+    },
+    {
+      "width": 390,
+      "dark": false,
+      "size": 16,
+      "month": 4
+    },
+    {
+      "width": 390,
+      "dark": false,
+      "size": 32,
+      "month": 2
+    },
+    {
+      "width": 390,
+      "dark": false,
+      "size": 32,
+      "month": 4
+    },
+    {
+      "width": 390,
+      "dark": true,
+      "size": 16,
+      "month": 2
+    },
+    {
+      "width": 390,
+      "dark": true,
+      "size": 16,
+      "month": 4
+    },
+    {
+      "width": 390,
+      "dark": true,
+      "size": 32,
+      "month": 2
+    },
+    {
+      "width": 390,
+      "dark": true,
+      "size": 32,
+      "month": 4
+    },
+    {
+      "width": 430,
+      "dark": false,
+      "size": 16,
+      "month": 2
+    },
+    {
+      "width": 430,
+      "dark": false,
+      "size": 16,
+      "month": 4
+    },
+    {
+      "width": 430,
+      "dark": false,
+      "size": 32,
+      "month": 2
+    },
+    {
+      "width": 430,
+      "dark": false,
+      "size": 32,
+      "month": 4
+    },
+    {
+      "width": 430,
+      "dark": true,
+      "size": 16,
+      "month": 2
+    },
+    {
+      "width": 430,
+      "dark": true,
+      "size": 16,
+      "month": 4
+    },
+    {
+      "width": 430,
+      "dark": true,
+      "size": 32,
+      "month": 2
+    },
+    {
+      "width": 430,
+      "dark": true,
+      "size": 32,
+      "month": 4
+    }
+  ],
+  "focusedRechecks": [
+    "network failure|no JavaScript"
+  ]
+}

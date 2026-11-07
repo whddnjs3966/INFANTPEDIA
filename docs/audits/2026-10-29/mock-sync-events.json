@@ -1,0 +1,290 @@
+[
+  {
+    "method": "POST",
+    "table": "shared_babies",
+    "query": "?select=id",
+    "body": {
+      "invite_code": "W6VBYS",
+      "name": "QA가상아기A",
+      "birthdate": "2026-08-29",
+      "gender": "male",
+      "creator_id": null,
+      "creator_email": null
+    }
+  },
+  {
+    "method": "POST",
+    "table": "shared_devices",
+    "query": "",
+    "body": {
+      "baby_id": "7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+      "device_id": "452abfad-bbcc-4fc4-ab2b-fbb95ae00797",
+      "role": "parent"
+    }
+  },
+  {
+    "method": "PATCH",
+    "table": "shared_babies",
+    "query": "?id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": {
+      "name": "QA가상아기A",
+      "birthdate": "2026-08-29",
+      "gender": "male",
+      "updated_at": "2026-10-28T18:45:14.655Z"
+    }
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_measurements",
+    "query": "?baby_id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": null
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_vaccinations",
+    "query": "?baby_id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": null
+  },
+  {
+    "method": "PATCH",
+    "table": "shared_babies",
+    "query": "?id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": {
+      "name": "QA가상아기A",
+      "birthdate": "2026-08-29",
+      "gender": "male",
+      "updated_at": "2026-10-28T18:46:11.367Z"
+    }
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_measurements",
+    "query": "?baby_id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": null
+  },
+  {
+    "method": "POST",
+    "table": "shared_measurements",
+    "query": "?columns=%22baby_id%22%2C%22month%22%2C%22date%22%2C%22height%22%2C%22weight%22%2C%22head_circumference%22",
+    "body": [
+      {
+        "baby_id": "7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+        "month": 2,
+        "date": "2026-10-29",
+        "height": 58.4,
+        "weight": 5.6,
+        "head_circumference": 39.1
+      }
+    ]
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_vaccinations",
+    "query": "?baby_id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": null
+  },
+  {
+    "method": "PATCH",
+    "table": "shared_babies",
+    "query": "?id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": {
+      "name": "QA가상아기A",
+      "birthdate": "2026-08-29",
+      "gender": "male",
+      "updated_at": "2026-10-28T18:47:11.422Z"
+    }
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_measurements",
+    "query": "?baby_id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": null
+  },
+  {
+    "method": "POST",
+    "table": "shared_measurements",
+    "query": "?columns=%22baby_id%22%2C%22month%22%2C%22date%22%2C%22height%22%2C%22weight%22%2C%22head_circumference%22",
+    "body": [
+      {
+        "baby_id": "7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+        "month": 2,
+        "date": "2026-10-29",
+        "height": 58.4,
+        "weight": 5.6,
+        "head_circumference": 39.1
+      }
+    ]
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_vaccinations",
+    "query": "?baby_id=eq.7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+    "body": null
+  },
+  {
+    "method": "POST",
+    "table": "shared_vaccinations",
+    "query": "?columns=%22baby_id%22%2C%22vaccine_id%22%2C%22dose_number%22%2C%22completed_date%22",
+    "body": [
+      {
+        "baby_id": "7a2785f7-bdb1-472f-90a6-8dc47cec35ad",
+        "vaccine_id": "hepb",
+        "dose_number": 1,
+        "completed_date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "table": "shared_babies",
+    "query": "?select=id",
+    "body": {
+      "invite_code": "LELMGY",
+      "name": "QA가상아기B",
+      "birthdate": "2026-08-29",
+      "gender": "female",
+      "creator_id": null,
+      "creator_email": null
+    }
+  },
+  {
+    "method": "POST",
+    "table": "shared_devices",
+    "query": "",
+    "body": {
+      "baby_id": "e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+      "device_id": "452abfad-bbcc-4fc4-ab2b-fbb95ae00797",
+      "role": "parent"
+    }
+  },
+  {
+    "method": "POST",
+    "table": "shared_measurements",
+    "query": "?columns=%22baby_id%22%2C%22month%22%2C%22date%22%2C%22height%22%2C%22weight%22%2C%22head_circumference%22",
+    "body": [
+      {
+        "baby_id": "e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+        "month": 2,
+        "date": "2026-10-29",
+        "height": 58.4,
+        "weight": 5.6,
+        "head_circumference": 39.1
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "table": "shared_vaccinations",
+    "query": "?columns=%22baby_id%22%2C%22vaccine_id%22%2C%22dose_number%22%2C%22completed_date%22",
+    "body": [
+      {
+        "baby_id": "e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+        "vaccine_id": "hepb",
+        "dose_number": 1,
+        "completed_date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "method": "PATCH",
+    "table": "shared_babies",
+    "query": "?id=eq.e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+    "body": {
+      "name": "QA가상아기B",
+      "birthdate": "2026-08-29",
+      "gender": "female",
+      "updated_at": "2026-10-28T18:47:24.512Z"
+    }
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_measurements",
+    "query": "?baby_id=eq.e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+    "body": null
+  },
+  {
+    "method": "POST",
+    "table": "shared_measurements",
+    "query": "?columns=%22baby_id%22%2C%22month%22%2C%22date%22%2C%22height%22%2C%22weight%22%2C%22head_circumference%22",
+    "body": [
+      {
+        "baby_id": "e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+        "month": 2,
+        "date": "2026-10-29",
+        "height": 58.4,
+        "weight": 5.6,
+        "head_circumference": 39.1
+      }
+    ]
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_vaccinations",
+    "query": "?baby_id=eq.e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+    "body": null
+  },
+  {
+    "method": "POST",
+    "table": "shared_vaccinations",
+    "query": "?columns=%22baby_id%22%2C%22vaccine_id%22%2C%22dose_number%22%2C%22completed_date%22",
+    "body": [
+      {
+        "baby_id": "e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+        "vaccine_id": "hepb",
+        "dose_number": 1,
+        "completed_date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "method": "PATCH",
+    "table": "shared_babies",
+    "query": "?id=eq.e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+    "body": {
+      "name": "QA가상아기B",
+      "birthdate": "2026-08-29",
+      "gender": "female",
+      "updated_at": "2026-10-28T18:52:07.605Z"
+    }
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_measurements",
+    "query": "?baby_id=eq.e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+    "body": null
+  },
+  {
+    "method": "POST",
+    "table": "shared_measurements",
+    "query": "?columns=%22baby_id%22%2C%22month%22%2C%22date%22%2C%22height%22%2C%22weight%22%2C%22head_circumference%22",
+    "body": [
+      {
+        "baby_id": "e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+        "month": 2,
+        "date": "2026-10-29",
+        "height": 58.4,
+        "weight": 5.6,
+        "head_circumference": 39.1
+      }
+    ]
+  },
+  {
+    "method": "DELETE",
+    "table": "shared_vaccinations",
+    "query": "?baby_id=eq.e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+    "body": null
+  },
+  {
+    "method": "POST",
+    "table": "shared_vaccinations",
+    "query": "?columns=%22baby_id%22%2C%22vaccine_id%22%2C%22dose_number%22%2C%22completed_date%22",
+    "body": [
+      {
+        "baby_id": "e1f8e91d-ebb3-4f6a-aeeb-f607838690f6",
+        "vaccine_id": "hepb",
+        "dose_number": 1,
+        "completed_date": "2026-10-28"
+      }
+    ]
+  }
+]

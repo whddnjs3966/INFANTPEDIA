@@ -1,0 +1,97 @@
+{
+  "url": "https://babybilly.app/ko",
+  "title": "베이비빌리 | 200만 엄빠의 임신·출산·육아 앱",
+  "images": [
+    {
+      "alt": "BabyBilly Image",
+      "url": "https://babybilly.app/_next/static/media/babybilly.0t2.v~mu.ctp4.png"
+    },
+    {
+      "alt": "Main Image",
+      "url": "https://babybilly.app/_next/static/media/main-ko.0ga9it7f4gl_6.png"
+    },
+    {
+      "alt": "Main Image",
+      "url": ""
+    },
+    {
+      "alt": "Main Image",
+      "url": "https://babybilly.app/_next/static/media/main-ko.0fwyi-g0ja_d1.png"
+    },
+    {
+      "alt": "Main Image",
+      "url": ""
+    },
+    {
+      "alt": "병원 검사",
+      "url": "https://babybilly.app/_next/static/media/content1.0oulh_ebpgzbb.webp"
+    },
+    {
+      "alt": "불면증",
+      "url": "https://babybilly.app/_next/static/media/content2.08273-fglb-zt.webp"
+    },
+    {
+      "alt": "아빠의 역할",
+      "url": "https://babybilly.app/_next/static/media/content3.0p72w8ducsi30.webp"
+    },
+    {
+      "alt": "초음파 검사",
+      "url": "https://babybilly.app/_next/static/media/content7.1573s5zlwc~pa.webp"
+    },
+    {
+      "alt": "튼살 관리",
+      "url": "https://babybilly.app/_next/static/media/content4.0y70p13a-5xto.webp"
+    },
+    {
+      "alt": "약 복용",
+      "url": "https://babybilly.app/_next/static/media/content5.16hr_ktwkcapy.webp"
+    },
+    {
+      "alt": "추천 음식",
+      "url": "https://babybilly.app/_next/static/media/content6.176yl7ec1yfch.webp"
+    },
+    {
+      "alt": "분만법",
+      "url": "https://babybilly.app/_next/static/media/content8.07366gev5e2u..webp"
+    },
+    {
+      "alt": "임신 초기",
+      "url": "https://babybilly.app/_next/static/media/content10.01r~picw35-u6.webp"
+    },
+    {
+      "alt": "아기 이름 짓기",
+      "url": "https://babybilly.app/_next/static/media/content11.0t8y5jphk3hdk.webp"
+    },
+    {
+      "alt": "태교",
+      "url": "https://babybilly.app/_next/static/media/content12.16db_mz_jpdbv.webp"
+    },
+    {
+      "alt": "출산 세탁",
+      "url": "https://babybilly.app/_next/static/media/content9.0zre4n5h2e_51.webp"
+    },
+    {
+      "alt": "병원 검사",
+      "url": "https://babybilly.app/_next/static/media/content1.0oulh_ebpgzbb.webp"
+    },
+    {
+      "alt": "불면증",
+      "url": "https://babybilly.app/_next/static/media/content2.08273-fglb-zt.webp"
+    },
+    {
+      "alt": "아빠의 역할",
+      "url": "https://babybilly.app/_next/static/media/content3.0p72w8ducsi30.webp"
+    }
+  ],
+  "fonts": [
+    {
+      "text": "베이비빌리 | 200만 엄빠의 임신·출산·육아 앱",
+      "font": "pretendard, \"pretendard Fallback\"",
+      "size": "16px"
+    }
+  ],
+  "background": "rgba(0, 0, 0, 0)",
+  "storeScreenshotCount": 8,
+  "checkedOn": "2026-11-06",
+  "scope": "public web and store screenshots; no native app interaction"
+}

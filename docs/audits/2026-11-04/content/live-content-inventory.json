@@ -1,0 +1,61 @@
+{
+  "capturedOn": "2026-11-04",
+  "credentialScope": "public anon only",
+  "readOnly": true,
+  "tables": [
+    {
+      "name": "months_info",
+      "complete": true,
+      "rows": 13,
+      "expectedCount": 13,
+      "error": null,
+      "file": "live-months_info.json",
+      "sha256": "42ab5aadf116d12bc1c18ff4350dd33fdf6c17f2d56a21d8bd668bde631f19e8"
+    },
+    {
+      "name": "activities",
+      "complete": true,
+      "rows": 52,
+      "expectedCount": 52,
+      "error": null,
+      "file": "live-activities.json",
+      "sha256": "bf3c690487acf5767492801601658fd23bb1a004a82f6cfebf4480b2dcdcf8ae"
+    },
+    {
+      "name": "wonder_weeks",
+      "complete": true,
+      "rows": 10,
+      "expectedCount": 10,
+      "error": null,
+      "file": "live-wonder_weeks.json",
+      "sha256": "d9a0b0caa7e188b5b99e905a092f4e1ac32bbb73cdc9e52c543f87c92ef76901"
+    },
+    {
+      "name": "growth_standards",
+      "complete": false,
+      "rows": 0,
+      "expectedCount": null,
+      "error": "HTTP_404",
+      "file": "live-growth_standards.json",
+      "sha256": "39b9fea8c4f9006e777e86347e4bdd3eadffa5bdea988aa240ea534f23b608ca"
+    },
+    {
+      "name": "vaccination_schedule",
+      "complete": false,
+      "rows": 0,
+      "expectedCount": null,
+      "error": "HTTP_404",
+      "file": "live-vaccination_schedule.json",
+      "sha256": "1b83fce66bff09cd5ae4b0855901fe2aac06e43482cb4f81254cdd7b21eb65ee"
+    },
+    {
+      "name": "parenting_tips",
+      "complete": true,
+      "rows": 104,
+      "expectedCount": 104,
+      "error": null,
+      "file": "live-parenting_tips.json",
+      "sha256": "52738a1d069990b4f71a5b6f8c969df22504debb2467029ff4f1ca26e0ae98fc"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "origin": "http://127.0.0.1:3219",
+  "publicReads": [
+    {
+      "table": "parenting_tips",
+      "status": 200,
+      "rows": 8
+    }
+  ],
+  "liveTipsRead": true,
+  "sharedPalette": "#F6F8FA",
+  "tileCount": 4,
+  "topicDetail": true,
+  "directTip": true,
+  "runtimeErrors": [],
+  "mutationAttempts": []
+}

@@ -1,0 +1,207 @@
+[
+  {
+    "path": "src/app/encyclopedia/page.tsx",
+    "before": "deacd29f115bdd1fb2f894db1cd161908b982946174fec79ed9b6ff02a466001",
+    "after": "c7fe356e310335cf0fa94e585bc6abc7858efdd7f829990bdff9c5775176424a"
+  },
+  {
+    "path": "src/app/globals.css",
+    "before": "c5e3bd7774fa332a7d26cfe25f27ce0ab98bc0a8124e384ed92094b253fa7981",
+    "after": "cb97fec913b4137b53da519546bb0de5724a23d14bcac8875e79708d37de1e24"
+  },
+  {
+    "path": "src/app/growth/page.tsx",
+    "before": "5c19041f6edd32e4479d60e09507ee791efdd411e2be47c1ce1acedc56ce64f7",
+    "after": "4a6e92ac2ec9df2e3d5261c31ac29402870df22f70636e8b5b48736ce53b970d"
+  },
+  {
+    "path": "src/app/layout.tsx",
+    "before": "b7f3e1f3c9b7a16af7cccc2639ca1244126295ff811464f728c739cceeaa97c3",
+    "after": "d57396ed92960522c0c98ee7c5ab3486ec4b68623f258256457ee2639edc83d4"
+  },
+  {
+    "path": "src/app/login/page.tsx",
+    "before": "16b2b87d43f1be4d85b38923577fac03950deb213d2eabab6e517286322ca9eb",
+    "after": "c3ace94b39cff04defd37cb27d28f55136517dc758dfc20d88721fffdacb7163"
+  },
+  {
+    "path": "src/app/onboarding/page.tsx",
+    "before": "f6bef58d3cd0acaa527144c5abd97d796ad872771d6ce7b77e3c31bb97c9c988",
+    "after": "052d2ef892b9611a0eb1d1db5a1421ce0ab2373ff7d6268dfc4699b0728cf3ca"
+  },
+  {
+    "path": "src/app/page.tsx",
+    "before": "8fad71da8eeec76ada8b1f39af3c3665f7b2b533ac4b8f150ac3add0ef26918e",
+    "after": "bfa2041e8601f98126d9dc091331346a36834f1aa188054ef5eece1e767e5edd"
+  },
+  {
+    "path": "src/app/privacy/page.tsx",
+    "before": "fc5a825de45319350641cbebb469d72a2eed75c46f8fcf474fd7b6570c8a390d",
+    "after": "c37e972c5e2ca679990c51a5e60b6e4b206ff88d6d4a14fc70c8a5903bf4f651"
+  },
+  {
+    "path": "src/app/search/page.tsx",
+    "before": "f4ae0833804874793fc752fc87d47182339a773beb6198663d23b5f9dd9c083e",
+    "after": "752f0f2eed1e307cc73a9cb92b2bb58dddb77f82996543b4808c3a808538dd9a"
+  },
+  {
+    "path": "src/app/settings/page.tsx",
+    "before": "13e53c82c79c3a7e3c4f51147d3086db1bbcfe8c767c2c15b5891fd845a14346",
+    "after": "fb32ddd1d27411edfad650672385722ac65cd8ebeb81dce13129d911a7deefbb"
+  },
+  {
+    "path": "src/app/tips/page.tsx",
+    "before": "b0f474386d5fc1c647b3e8a3521f4eac92a254bd3052e6a822b495131f72f98a",
+    "after": "c58bb7787352adf37cb34e529d29c1bac27c2b9eec1fd907d4f45e6d1c46fb99"
+  },
+  {
+    "path": "src/app/wonder-weeks/page.tsx",
+    "before": "29d858446e999c44b162dc52b0c6e626df02fea9342e6f761078372cfae09d9e",
+    "after": "51cd79003a44dccbcc1029cb96168f8f4f4f72b7e3d66d6fcd043c8872451c34"
+  },
+  {
+    "path": "src/components/baby/BabySelector.tsx",
+    "before": "527dcff05d84065caa870af90857040af3ffd054ba5f1f22bc50f346931b35ba",
+    "after": "6a9eed051e0ed2769f744134a791c2f2f9f0655532702984754086db0173b355"
+  },
+  {
+    "path": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "before": "b4171efc02892dd10183494f080a725dac34323eb348ff83ce22b288a9ebd72b",
+    "after": "a86b851a59476b12a8d2333b3371c7f23a2e3784366c62ae17c855f86e47a855"
+  },
+  {
+    "path": "src/components/encyclopedia/CategoryAccordion.tsx",
+    "before": "4a91fd2a85288701f6be5ed9b41fba1750e62d82dbd317b68853c9f741e6aede",
+    "after": "872d8b6d0d83de7a1a2578259c0b5a8b1a5538f38bcd691eedaad7734cb5dd47"
+  },
+  {
+    "path": "src/components/encyclopedia/DentalGuide.tsx",
+    "before": "842cd587066569150128ec780378d30fd2c0798793aa2199ac4ec94a629a15e5",
+    "after": "7a7a428a727e1339676207d3a640815116197368c78f846ee5bfdc6d4fa6ebd1"
+  },
+  {
+    "path": "src/components/encyclopedia/FeedingGuide.tsx",
+    "before": "fc9738ccea7126ca1fc6c7eb542421c88ede9039bd4a10d63e92849eb5845e02",
+    "after": "c6fe5d049e53f9fb76ae4e70083b725480c4573c8e8e4e5ed537fdad6a7dd7f4"
+  },
+  {
+    "path": "src/components/encyclopedia/GuidePresentation.tsx",
+    "before": "7fcee9dd615626922cd0dfe24374c4f5ae7b0bcbd2abb5b0cd8e45b5976a80fa",
+    "after": "0965eab70dc158325f51930efcde2297435a14b598a05add52b91b7e915920ac"
+  },
+  {
+    "path": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "before": "4549909f8ca01a831a9d523aca581d806de876a3632b0891ef5e96dbc9d50b23",
+    "after": "178658f10629580ce58e63e1c384e82973d216eb70707306f3ed39039e9e6173"
+  },
+  {
+    "path": "src/components/encyclopedia/MilestoneItemRow.tsx",
+    "before": "b920025949ea4e260205f58d8011614e7c223d7170fcc7491584859e6c36c156",
+    "after": "d67a775f5152239edfd2302ec6bd2fc17333319357100002fca68e6748e48568"
+  },
+  {
+    "path": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "before": "2e22a23a9ec4610ba62fc4f3c177c9fa3a9ccdfdf3170e19109a65d8f447d091",
+    "after": "0c01ff1bb3d296e0892b9d08bb0013ef8ae5d54e7d526ee5143d1dd24c9490be"
+  },
+  {
+    "path": "src/components/encyclopedia/SleepGuide.tsx",
+    "before": "1baefa211d11521e14c7bd9806006dadb073039e2c02d81a1c6a5b2d8bfd3d7d",
+    "after": "97b8f656e18a601cf3c6668b392f5242c6d81acdacb6be052c8fc31f992a4d80"
+  },
+  {
+    "path": "src/components/growth/GrowthChart.tsx",
+    "before": "b0ae37d0a7aadccf7490cc0ff0ea0dad4d97157a0c46883abe9e071a2f8f2834",
+    "after": "1252d113dd47ca0ad0240a0bab69d2c7f15e5d51e1342e3b622c4d21751267ae"
+  },
+  {
+    "path": "src/components/growth/MeasurementInput.tsx",
+    "before": "d7864012dd7dee9e606ea48cbb82c130ad620314526e0a4e0c612c370077a24f",
+    "after": "87a4b9fd113295f1d88a7bff7f37bf3db29a03bdc5eed460336e222c27f126da"
+  },
+  {
+    "path": "src/components/growth/VaccinationSchedule.tsx",
+    "before": "8369f8fc4b30d41be64425f73077a0cdd7c8d0b42701960f03df1f49d9831b08",
+    "after": "1051ff57103e157183bd00a1052c58d307ffa99016b7980617d4ea45fb8e7781"
+  },
+  {
+    "path": "src/components/home/CircularFocus.tsx",
+    "before": "be9d414ee6e8e44e344e3dfc5358338e5a83791d2a72d9d8071658210398b2bc",
+    "after": "d240bd52862afb76744e277aa44ecfa54396c4a917a6a4de7bf76582bd8602ab"
+  },
+  {
+    "path": "src/components/home/DashboardCard.tsx",
+    "before": "c1f28f18d39cbd23205388e6b3e35866857e30fa24b4e322feb8a3d11cd57db7",
+    "after": "3ab9416e542cdf90a6ed5898aff62f69d917214016cade6e2b18a9b70c0c11bc"
+  },
+  {
+    "path": "src/components/home/GrowthAlertCard.tsx",
+    "before": "a0689c3eaf087736b5a9903775902d008c61773b31bbb864d2770f11f3282242",
+    "after": "86036277fd5a8591b96dc872d7f2e6ca7eed56ab51ac5676d634afe1ee1c186d"
+  },
+  {
+    "path": "src/components/home/HomeDiscovery.tsx",
+    "before": null,
+    "after": "f1b6b1c47f78ad6fec3f5d2c40376840ceb3928e0750f670de695fb675c38119"
+  },
+  {
+    "path": "src/components/illustrations/GuideArtwork.tsx",
+    "before": null,
+    "after": "59a84404960a37bf4819326bbd7c0f5d9e18f7d63c7dc36d6a20270740ee552d"
+  },
+  {
+    "path": "src/components/layout/ClientLayout.tsx",
+    "before": "e43c73b8170683fb433148e49c56188b2ce6b23f339df6575fb755c6478479f4",
+    "after": "d2a457222666baa9b063ab8a93f849d887111fbd3e38ddbfa5f81177a8b85cc6"
+  },
+  {
+    "path": "src/components/pwa/InstallPrompt.tsx",
+    "before": "021b7c6a304045715563e6a2a947253bf034e969780107f7df67a13ee89d1c19",
+    "after": "86fba16aa634a44ca09bc3d0b9714d5ba4c4388001cd2bf66af0a0375e03cd5e"
+  },
+  {
+    "path": "src/components/search/SearchBar.tsx",
+    "before": "a4049eb4867c05e22b2061654206246d7a0374540e8d5b89593bc44c97635142",
+    "after": "f363e0242ca5c5922493875b98d8824d792eda90e16c5417ec5cf1ae95789408"
+  },
+  {
+    "path": "src/components/search/SearchResults.tsx",
+    "before": "a6a81ec590543fc716fee22eb817fd7da804b8c0e71a82b1621c653d5c462995",
+    "after": "9bf80045ca2d9325f9c1fd6f2862b8699f4661557e7d762dc5a56d27f103e791"
+  },
+  {
+    "path": "src/components/tips/DailyScheduleCard.tsx",
+    "before": "5b46aac69231e83b23081ec6274437bbed1596945ade223e47fe903cd0a71122",
+    "after": "518e70ddbf64c9e5e59ecf8f6fd13edc98b2b4e317fc650dc8139d4173eabfdc"
+  },
+  {
+    "path": "src/components/tips/ScheduleActivityList.tsx",
+    "before": "899320f8ccbd500e9ab8e0ba04f9b6ede7645d9cb513c799824b000e6914e5c3",
+    "after": "085ccbe8ab6ae5ec819243ea2b0a2ca1dec194c5824b2b9e7225875686e68f19"
+  },
+  {
+    "path": "src/components/ui/LoadingSkeleton.tsx",
+    "before": "95b863b4dd76bc2ee72c14fc6f6eeae38642b139fc9eb2f24260963f81927ea2",
+    "after": "1eb218b3a0534eaf6193849173136f431cf2595c56f87cbba2c78590ed84066f"
+  },
+  {
+    "path": "src/lib/utils/home-guide-view.ts",
+    "before": null,
+    "after": "8fa62ac2af9dc4fefb0a54a4fc10c747ec6b32b46e050021c9a2649c253a5a07"
+  },
+  {
+    "path": "public/manifest.json",
+    "before": "73c847d76324d1031a70daf51e5b337391fc35faf5bf6b6cbd2d8855428bbafe",
+    "after": "fbd4abe06c3cd74efe67707bed83217a796a456a0d60e227fdd2d35d484aa923"
+  },
+  {
+    "path": "scripts/bright-home-browser-regression.cjs",
+    "before": null,
+    "after": "94c6be93f25b68b639167c9111441a68b0cf3627db44a8d467ea11e217d4d4a9"
+  },
+  {
+    "path": "src/components/sharing/SharingSection.tsx",
+    "before": "24bf78b7ddcb65c57547dc5094986429ded6b2e2dc28e36fb8babb6fb90bbd62",
+    "after": "6b65a75117e2ed85e28ccbeceb4f2099aa963d6920d405767bdc401acfa81409"
+  }
+]

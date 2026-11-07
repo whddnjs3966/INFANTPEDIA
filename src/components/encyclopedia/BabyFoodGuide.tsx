@@ -1,471 +1,67 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  UtensilsCrossed,
-  AlertTriangle,
-  ChevronDown,
-  Leaf,
-  ShieldAlert,
-  Lightbulb,
-  ChefHat,
-  Clock,
-  Ruler,
-  Apple,
-  Wheat,
-  Carrot,
-  Beef,
-  Milk,
-  CircleDot,
-  Check,
-} from "lucide-react";
+import { type ReactNode } from "react";
+import { AlertTriangle, Check, ChevronDown, Wheat, Carrot, Apple, Beef, Milk } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import FormattedContent from "@/components/ui/FormattedContent";
-import {
-  getBabyFoodGuide,
-  getStageForMonth,
-  getAvailableIngredients,
-  getNewIngredients,
-  type IngredientInfo,
-  type StageInfo,
-} from "@/lib/data/baby-food-guide-data";
+import TopicArtwork from "@/components/illustrations/TopicArtwork";
+import { GuideAccordion, GuideStats } from "./GuidePresentation";
+import { getBabyFoodGuide, getStageForMonth, getAvailableIngredients, getNewIngredients, type IngredientInfo, type StageInfo } from "@/lib/data/baby-food-guide-data";
 
-interface BabyFoodGuideProps {
-  month: number;
-}
-
-const categoryConfig: Record<string, { label: string; icon: React.ElementType; color: string; bg: string; text: string }> = {
-  grain: { label: "곡류", icon: Wheat, color: "text-amber-500", bg: "bg-amber-50 dark:bg-amber-950/30", text: "text-amber-700 dark:text-amber-300" },
-  vegetable: { label: "채소", icon: Carrot, color: "text-green-500", bg: "bg-green-50 dark:bg-green-950/30", text: "text-green-700 dark:text-green-300" },
-  fruit: { label: "과일", icon: Apple, color: "text-pink-500", bg: "bg-pink-50 dark:bg-pink-950/30", text: "text-pink-700 dark:text-pink-300" },
-  protein: { label: "단백질", icon: Beef, color: "text-red-500", bg: "bg-red-50 dark:bg-red-950/30", text: "text-red-700 dark:text-red-300" },
-  dairy: { label: "유제품", icon: Milk, color: "text-sky-500", bg: "bg-sky-50 dark:bg-sky-950/30", text: "text-sky-700 dark:text-sky-300" },
+const categoryConfig = {
+  grain: { label: "곡류", icon: Wheat, surface: "bg-amber-50 text-amber-900 dark:bg-amber-950/30 dark:text-amber-200" },
+  vegetable: { label: "채소", icon: Carrot, surface: "bg-green-50 text-green-900 dark:bg-green-950/30 dark:text-green-200" },
+  fruit: { label: "과일", icon: Apple, surface: "bg-rose-50 text-rose-900 dark:bg-rose-950/30 dark:text-rose-200" },
+  protein: { label: "단백질", icon: Beef, surface: "bg-orange-50 text-orange-900 dark:bg-orange-950/30 dark:text-orange-200" },
+  dairy: { label: "유제품", icon: Milk, surface: "bg-sky-50 text-sky-900 dark:bg-sky-950/30 dark:text-sky-200" },
 };
 
-function AccordionSection({
-  title,
-  icon: Icon,
-  iconBg,
-  iconColor,
-  children,
-  defaultOpen = false,
-}: {
-  title: string;
-  icon: React.ElementType;
-  iconBg: string;
-  iconColor: string;
-  children: React.ReactNode;
-  defaultOpen?: boolean;
-}) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-
-  return (
-    <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
-      >
-        <div className={cn("flex h-9 w-9 items-center justify-center rounded-xl shrink-0", iconBg)}>
-          <Icon size={17} className={iconColor} />
-        </div>
-        <span className="flex-1 text-[14px] font-bold text-stone-800 dark:text-stone-100">
-          {title}
-        </span>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ChevronDown size={16} className="text-gray-400" />
-        </motion.div>
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="px-4 pb-4 pt-0">
-              {children}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+function ReadingSection({ title, children, caution = false }: { title: string; children: ReactNode; caution?: boolean }) {
+  return <section className="space-y-3"><h4 className={cn("text-base font-semibold", caution ? "text-[var(--content-caution)]" : "text-[var(--foreground)]")}>{title}</h4>{children}</section>;
 }
 
 function StageProgress({ stages, currentStage }: { stages: StageInfo[]; currentStage?: StageInfo }) {
-  return (
-    <div className="flex items-center gap-1.5">
-      {stages.map((stage) => {
-        const isCurrent = currentStage?.stage === stage.stage;
-        const isPast = currentStage && stage.endMonth < currentStage.startMonth;
-        return (
-          <div key={stage.stage} className="flex-1 flex flex-col items-center gap-1.5">
-            <div
-              className={cn(
-                "w-full h-1.5 rounded-full transition-colors",
-                isCurrent
-                  ? "bg-orange-400 dark:bg-orange-500"
-                  : isPast
-                    ? "bg-orange-200 dark:bg-orange-800"
-                    : "bg-gray-200 dark:bg-stone-700"
-              )}
-            />
-            <span
-              className={cn(
-                "text-[11px] font-medium text-center leading-tight",
-                isCurrent
-                  ? "text-orange-600 dark:text-orange-400 font-bold"
-                  : "text-stone-400 dark:text-stone-500"
-              )}
-            >
-              {stage.stage.replace("초기 ", "").replace("단계", "")}
-            </span>
-          </div>
-        );
-      })}
-    </div>
-  );
+  return <ol aria-label="이유식 단계" className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,2.5rem),1fr))] gap-2">{stages.map(stage => <li key={stage.stage} className="min-w-0 space-y-2 text-center"><span aria-hidden className={cn("block h-1.5 rounded-full", currentStage?.stage === stage.stage ? "bg-[var(--brand)]" : currentStage && stage.endMonth < currentStage.startMonth ? "bg-blue-200 dark:bg-blue-800" : "bg-[var(--surface-muted)]")} /><span className={cn("block break-words text-sm leading-5", currentStage?.stage === stage.stage ? "font-semibold text-[var(--brand)]" : "text-[var(--muted-foreground)]")}>{stage.stage.replace("초기 ", "").replace("단계", "")}</span></li>)}</ol>;
 }
 
 function IngredientTag({ ingredient, isNew }: { ingredient: IngredientInfo; isNew: boolean }) {
-  const config = categoryConfig[ingredient.category];
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-medium",
-        config.bg,
-        config.text,
-        isNew && "ring-1 ring-orange-300 dark:ring-orange-700"
-      )}
-    >
-      {ingredient.name}
-      {isNew && <span className="text-[11px] text-orange-500 font-bold">NEW</span>}
-      {ingredient.allergyRisk && <AlertTriangle size={9} className="text-red-400" />}
-    </span>
-  );
+  return <span className={cn("inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm leading-5", categoryConfig[ingredient.category].surface)}>{ingredient.name}{isNew && <span className="font-semibold">NEW</span>}{ingredient.allergyRisk && <AlertTriangle size={13} aria-label="알레르기 주의" className="shrink-0 text-[var(--content-caution)]" />}</span>;
 }
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08 },
-  },
-};
+export default function BabyFoodGuide({ month }: { month: number }) {
+  const guide = getBabyFoodGuide(), currentStage = getStageForMonth(month);
+  const availableIngredients = getAvailableIngredients(month), newIngredients = getNewIngredients(month);
+  const grouped = availableIngredients.reduce<Partial<Record<IngredientInfo["category"], IngredientInfo[]>>>((result, ingredient) => { (result[ingredient.category] ??= []).push(ingredient); return result; }, {});
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 },
-};
+  if (month < 4) return <div className="surface-card space-y-3 p-5"><div className="flex items-center gap-3"><TopicArtwork kind="solids" className="h-[56px] w-[56px]" /><h3 className="text-lg font-semibold">아직 이유식 시작 전이에요</h3></div><p className="text-base leading-7 text-[var(--muted-foreground)]">생후 6개월 무렵, 목을 가누고 음식을 삼킬 준비가 됐는지 함께 살펴보세요. 개별 시작 시기는 의료진과 상의하세요.</p><a href="https://www.cdc.gov/infant-toddler-nutrition/foods-and-drinks/when-what-and-how-to-introduce-solid-foods.html" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-sm font-medium text-[var(--brand)] underline underline-offset-4">CDC · 이유식 시작 안내<span className="sr-only"> (새 창)</span></a></div>;
 
-export default function BabyFoodGuide({ month }: BabyFoodGuideProps) {
-  const guide = getBabyFoodGuide();
-  const currentStage = getStageForMonth(month);
-  const availableIngredients = getAvailableIngredients(month);
-  const newIngredients = getNewIngredients(month);
+  return <div className="space-y-4 pb-6 text-base leading-7 text-[var(--foreground)]">
+    <section className="surface-card space-y-4 p-5">
+      <div className="flex items-center gap-3"><TopicArtwork kind="solids" className="h-[56px] w-[56px]" /><div className="min-w-0"><h3 className="text-lg font-semibold">이유식 종합 가이드</h3><p className="text-sm leading-6 text-[var(--muted-foreground)]">{currentStage ? `선택 월령 참고: ${currentStage.stage}` : "완료기 이후"}</p></div></div>
+      <StageProgress stages={guide.stages} currentStage={currentStage} /><p className="text-sm leading-6 text-[var(--muted-foreground)]">월령만으로 시작 시기와 섭취량을 정하지 않아요. 생후 6개월 무렵의 준비 신호와 개별 안내를 함께 살펴보세요.</p>
+      {currentStage && <div className="space-y-3 border-t border-[var(--border)] pt-4"><h4 className="flex flex-wrap items-baseline gap-x-2 text-base font-semibold">{currentStage.stage}<span className="text-sm font-normal text-[var(--muted-foreground)]">{currentStage.monthRange}</span></h4><FormattedContent variant="prose" content={currentStage.description} className="text-base leading-7" /><details className="group border-t border-[var(--border)] pt-1"><summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-[var(--brand)]">질감·횟수·양 보기<ChevronDown size={16} aria-hidden className="shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" /></summary><div className="pb-1 pt-2"><GuideStats items={[{ label: "형태", value: currentStage.texture }, { label: "횟수", value: currentStage.frequency }, { label: "1회량", value: currentStage.amount }]} /></div></details></div>}
+    </section>
 
-  const groupedIngredients = availableIngredients.reduce<Record<string, IngredientInfo[]>>(
-    (acc, ing) => {
-      if (!acc[ing.category]) acc[ing.category] = [];
-      acc[ing.category].push(ing);
-      return acc;
-    },
-    {}
-  );
+    <section className="surface-card p-5">
+      <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2"><h3 className="text-lg font-semibold">사용 가능한 식재료</h3><p className="text-sm text-[var(--muted-foreground)]">{availableIngredients.length}가지{newIngredients.length > 0 && <span className="ml-2 font-medium text-[var(--brand)]">+{newIngredients.length} 새 재료</span>}</p></div>
+      <div className="divide-y divide-[var(--border)]">{(Object.keys(categoryConfig) as IngredientInfo["category"][]).map(category => { const ingredients = grouped[category]; if (!ingredients?.length) return null; const config = categoryConfig[category], Icon = config.icon; return <details key={category} className="group" open={category === "grain"}><summary className="flex min-h-12 cursor-pointer list-none items-center gap-2 text-base font-medium"><Icon size={18} aria-hidden className="shrink-0 text-[var(--brand)]" /><span className="min-w-0 flex-1">{config.label}<span className="ml-2 text-sm font-normal tabular-nums text-[var(--muted-foreground)]">{ingredients.length}가지</span></span><ChevronDown size={16} aria-hidden className="shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" /></summary><div className="flex flex-wrap gap-2 pb-4 pt-1">{ingredients.map(ingredient => <IngredientTag key={ingredient.name} ingredient={ingredient} isNew={newIngredients.some(item => item.name === ingredient.name)} />)}</div></details>; })}</div>
+      <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 border-t border-[var(--border)] pt-3 text-sm leading-6 text-[var(--muted-foreground)]"><span><strong className="font-semibold">NEW</strong> 이번 달 새 재료</span><span className="inline-flex items-center gap-1"><AlertTriangle size={13} aria-hidden />알레르기 주의</span></p>
+    </section>
 
-  if (month < 4) {
-    return (
-      <div className="mb-4">
-        <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-6 text-center shadow-[0_2px_8px_rgb(0,0,0,0.06)]">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-50 dark:bg-orange-950/40 mx-auto mb-3">
-            <UtensilsCrossed size={22} className="text-orange-400" />
-          </div>
-          <p className="text-[14px] font-bold text-stone-800 dark:text-stone-100 mb-1">
-            아직 이유식 시작 전이에요
-          </p>
-          <p className="text-[12px] text-stone-500 dark:text-stone-400 leading-relaxed">
-            이유식은 만 4~6개월 사이에 시작하는 것이 좋습니다.
-            <br />
-            목을 가눌 수 있고 음식에 관심을 보일 때 시작하세요.
-          </p>
-        </div>
-      </div>
-    );
-  }
+    {currentStage && <GuideAccordion title="조리·주의·메뉴" readingKey={`${currentStage.stage} 조리법 & 주의사항`} description={currentStage.stage} artwork="solids">
+      <ReadingSection title="조리 팁"><ul className="space-y-3">{currentStage.cookingTips.map(tip => <li key={tip} className="flex items-start gap-2.5"><Check size={17} aria-hidden className="mt-1 shrink-0 text-[var(--brand)]" /><span>{tip}</span></li>)}</ul></ReadingSection>
+      <ReadingSection title="주의사항" caution><ul className="space-y-3 border-l-2 border-[var(--content-caution)] pl-4 text-[var(--content-caution)]">{currentStage.cautionPoints.map(point => <li key={point}>{point}</li>)}</ul></ReadingSection>
+      <ReadingSection title="추천 메뉴"><ul className="flex flex-wrap gap-2">{currentStage.sampleMenu.map(menu => <li key={menu} className="rounded-lg bg-[var(--surface-peach)] px-3 py-1.5 text-sm text-[var(--art-peach-ink)]">{menu}</li>)}</ul></ReadingSection>
+    </GuideAccordion>}
 
-  return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="mb-4 space-y-3"
-    >
-      {/* Current Stage Card */}
-      <motion.div
-        variants={itemVariants}
-        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
-      >
-        <div className="flex items-center gap-2.5 mb-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-950/40">
-            <UtensilsCrossed size={17} className="text-orange-500" />
-          </div>
-          <div>
-            <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-              이유식 종합 가이드
-            </h3>
-            <p className="text-[11px] text-stone-500 dark:text-stone-400">
-              {currentStage ? `현재: ${currentStage.stage}` : "완료기 이후"}
-            </p>
-          </div>
-        </div>
+    <GuideAccordion title="알레르기 안전 가이드" description="식품·확인 방법·응급 증상" artwork="thermometer">
+      <FormattedContent variant="prose" content={guide.allergyGuide.description} className="text-base leading-7" />
+      <ReadingSection title="고위험 식품"><ul className="flex flex-wrap gap-2">{guide.allergyGuide.highRiskFoods.map(food => <li key={food} className="rounded-lg bg-[var(--surface-peach)] px-3 py-1.5 text-sm text-[var(--content-caution)]">{food}</li>)}</ul></ReadingSection>
+      <ReadingSection title="테스트 방법"><FormattedContent variant="prose" content={guide.allergyGuide.testingMethod} className="text-base leading-7" /></ReadingSection>
+      <section className="space-y-3 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-[var(--content-urgent)] dark:border-rose-900 dark:bg-rose-950/30"><h4 className="flex items-start gap-2 text-base font-semibold"><AlertTriangle size={18} aria-hidden className="mt-1 shrink-0" />응급 증상 (즉시 병원 방문)</h4><ul className="space-y-2">{guide.allergyGuide.emergencySigns.map(sign => <li key={sign}>{sign}</li>)}</ul></section>
+    </GuideAccordion>
 
-        <StageProgress stages={guide.stages} currentStage={currentStage} />
-
-        {currentStage && (
-          <div className="mt-4 pt-4 border-t border-stone-200 dark:border-stone-700">
-            <p className="text-[13px] font-bold text-stone-800 dark:text-stone-100 mb-1">
-              {currentStage.stage}
-              <span className="text-[11px] font-normal text-gray-400 ml-2">{currentStage.monthRange}</span>
-            </p>
-
-            <FormattedContent content={currentStage.description} className="text-[12px] mb-3" />
-
-            {/* Key stats */}
-            <div className="grid grid-cols-3 gap-2">
-              <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
-                <UtensilsCrossed size={13} className="mx-auto mb-1 text-orange-500" />
-                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{currentStage.texture}</p>
-                <p className="text-[11px] text-gray-400 mt-0.5">형태</p>
-              </div>
-              <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
-                <Clock size={13} className="mx-auto mb-1 text-blue-500" />
-                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{currentStage.frequency}</p>
-                <p className="text-[11px] text-gray-400 mt-0.5">횟수</p>
-              </div>
-              <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
-                <Ruler size={13} className="mx-auto mb-1 text-green-500" />
-                <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{currentStage.amount}</p>
-                <p className="text-[11px] text-gray-400 mt-0.5">1회량</p>
-              </div>
-            </div>
-          </div>
-        )}
-      </motion.div>
-
-      {/* Ingredients Card */}
-      <motion.div
-        variants={itemVariants}
-        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
-      >
-        <div className="flex items-center gap-2.5 mb-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-50 dark:bg-green-950/40">
-            <Leaf size={17} className="text-green-500" />
-          </div>
-          <div className="flex-1">
-            <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-              사용 가능한 식재료
-            </h3>
-            <p className="text-[11px] text-stone-500 dark:text-stone-400">
-              {availableIngredients.length}가지
-              {newIngredients.length > 0 && (
-                <span className="text-orange-500 font-medium"> +{newIngredients.length} 새 재료</span>
-              )}
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          {(["grain", "vegetable", "fruit", "protein", "dairy"] as const).map((cat) => {
-            const items = groupedIngredients[cat];
-            if (!items || items.length === 0) return null;
-            const config = categoryConfig[cat];
-            const CatIcon = config.icon;
-            return (
-              <div key={cat}>
-                <div className="flex items-center gap-1.5 mb-2">
-                  <CatIcon size={12} className={config.color} />
-                  <p className={cn("text-[11px] font-bold", config.text)}>
-                    {config.label}
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {items.map((ing) => (
-                    <IngredientTag
-                      key={ing.name}
-                      ingredient={ing}
-                      isNew={newIngredients.some((n) => n.name === ing.name)}
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Legend */}
-        <div className="flex items-center gap-4 mt-4 pt-3 border-t border-stone-200 dark:border-stone-700">
-          <span className="inline-flex items-center gap-1 text-[11px] text-stone-400 dark:text-stone-500">
-            <span className="text-[11px] text-orange-500 font-bold">NEW</span> 이번 달 새 재료
-          </span>
-          <span className="inline-flex items-center gap-1 text-[11px] text-stone-400 dark:text-stone-500">
-            <AlertTriangle size={9} className="text-red-400" /> 알레르기 주의
-          </span>
-        </div>
-      </motion.div>
-
-      {/* Cooking Tips & Caution */}
-      {currentStage && (
-        <motion.div variants={itemVariants}>
-          <AccordionSection
-            title={`${currentStage.stage} 조리법 & 주의사항`}
-            icon={ChefHat}
-            iconBg="bg-amber-50 dark:bg-amber-950/40"
-            iconColor="text-amber-500"
-          >
-            {/* Cooking Tips */}
-            <div className="mb-4">
-              <div className="flex items-center gap-1.5 mb-2.5">
-                <Lightbulb size={13} className="text-amber-500" />
-                <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">조리 팁</p>
-              </div>
-              <div className="space-y-2">
-                {currentStage.cookingTips.map((tip, idx) => (
-                  <div key={idx} className="flex items-start gap-2">
-                    <CircleDot size={8} className="text-amber-400 shrink-0 mt-1.5" />
-                    <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
-                      {tip}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Caution Points */}
-            <div className="mb-4">
-              <div className="flex items-center gap-1.5 mb-2.5">
-                <ShieldAlert size={13} className="text-red-500" />
-                <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">주의사항</p>
-              </div>
-              <div className="space-y-1.5">
-                {currentStage.cautionPoints.map((point, idx) => (
-                  <div key={idx} className="flex items-start gap-2 rounded-xl bg-red-50/60 dark:bg-red-950/20 p-2.5">
-                    <AlertTriangle size={11} className="text-red-400 shrink-0 mt-0.5" />
-                    <p className="text-[12px] text-red-700 dark:text-red-300 leading-relaxed">
-                      {point}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Sample Menu */}
-            <div>
-              <div className="flex items-center gap-1.5 mb-2.5">
-                <UtensilsCrossed size={13} className="text-orange-500" />
-                <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">추천 메뉴</p>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {currentStage.sampleMenu.map((menu, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-flex items-center rounded-lg bg-orange-50 dark:bg-orange-950/30 px-2.5 py-1 text-[11px] font-medium text-orange-700 dark:text-orange-300"
-                  >
-                    {menu}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </AccordionSection>
-        </motion.div>
-      )}
-
-      {/* Allergy Guide */}
-      <motion.div variants={itemVariants}>
-        <AccordionSection
-          title="알레르기 안전 가이드"
-          icon={ShieldAlert}
-          iconBg="bg-red-50 dark:bg-red-950/40"
-          iconColor="text-red-500"
-        >
-          <FormattedContent content={guide.allergyGuide.description} className="text-[12px] mb-4" />
-
-          {/* High Risk Foods */}
-          <div className="mb-4">
-            <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200 mb-2">
-              고위험 식품
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              {guide.allergyGuide.highRiskFoods.map((food, idx) => (
-                <span
-                  key={idx}
-                  className="inline-flex items-center gap-1 rounded-lg bg-red-50 dark:bg-red-950/30 px-2.5 py-1 text-[11px] font-medium text-red-700 dark:text-red-300"
-                >
-                  <AlertTriangle size={9} />
-                  {food}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Testing Method */}
-          <div className="mb-4 rounded-xl bg-amber-50/60 dark:bg-amber-950/20 p-3">
-            <div className="flex items-center gap-1.5 mb-1.5">
-              <Lightbulb size={12} className="text-amber-500" />
-              <p className="text-[12px] font-bold text-amber-700 dark:text-amber-300">테스트 방법</p>
-            </div>
-            <FormattedContent content={guide.allergyGuide.testingMethod} className="text-[12px]" />
-          </div>
-
-          {/* Emergency Signs */}
-          <div>
-            <div className="flex items-center gap-1.5 mb-2">
-              <AlertTriangle size={12} className="text-red-500" />
-              <p className="text-[12px] font-bold text-red-700 dark:text-red-300">응급 증상 (즉시 병원 방문)</p>
-            </div>
-            <div className="space-y-1.5">
-              {guide.allergyGuide.emergencySigns.map((sign, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-2 rounded-xl bg-red-50/60 dark:bg-red-950/20 p-2.5"
-                >
-                  <ShieldAlert size={11} className="text-red-400 shrink-0 mt-0.5" />
-                  <p className="text-[12px] text-red-700 dark:text-red-300 font-medium">
-                    {sign}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </AccordionSection>
-      </motion.div>
-
-      {/* General Tips */}
-      <motion.div variants={itemVariants}>
-        <AccordionSection
-          title="이유식 일반 꿀팁"
-          icon={Lightbulb}
-          iconBg="bg-yellow-50 dark:bg-yellow-950/40"
-          iconColor="text-yellow-500"
-        >
-          <div className="space-y-2">
-            {guide.generalTips.map((tip, idx) => (
-              <div key={idx} className="flex items-start gap-2">
-                <Check size={12} className="text-green-500 shrink-0 mt-0.5" />
-                <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {tip}
-                </p>
-              </div>
-            ))}
-          </div>
-        </AccordionSection>
-      </motion.div>
-    </motion.div>
-  );
+    <GuideAccordion title="먹는 연습을 도와요" readingKey="이유식 일반 꿀팁" description="일상에서 참고할 방법" artwork="book"><ul className="space-y-3">{guide.generalTips.map(tip => <li key={tip} className="flex items-start gap-2.5"><Check size={17} aria-hidden className="mt-1 shrink-0 text-[var(--brand)]" /><span>{tip}</span></li>)}</ul></GuideAccordion>
+  </div>;
 }
+

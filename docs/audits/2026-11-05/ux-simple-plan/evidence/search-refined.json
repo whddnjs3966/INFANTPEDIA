@@ -1,0 +1,19 @@
+{
+  "note": "Unlike initial full-tab fixture, this fixture evaluates PostgREST OR ilike predicates and limit for query 수유.",
+  "records": [
+    {
+      "scope": "all",
+      "height": 24517,
+      "results": 98,
+      "firstTitle": "아기가 수유 후 자주 토해요. 정상인가요?",
+      "status": "전체 월령 · 검색 결과 98건"
+    },
+    {
+      "scope": "current",
+      "height": 11981,
+      "results": 44,
+      "firstTitle": "아기가 수유 후 자주 토해요. 정상인가요?",
+      "status": "2개월 · 검색 결과 44건"
+    }
+  ]
+}

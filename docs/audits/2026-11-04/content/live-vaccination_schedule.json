@@ -1,0 +1,7 @@
+{
+  "table": "vaccination_schedule",
+  "complete": false,
+  "expectedCount": null,
+  "error": "HTTP_404",
+  "rows": []
+}

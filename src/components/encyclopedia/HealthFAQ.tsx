@@ -1,319 +1,121 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Search,
-  ChevronDown,
-  AlertTriangle,
-  Info,
-  AlertCircle,
-} from "lucide-react";
+import { useId, useMemo, useRef } from "react";
+import { BookOpen, ChevronDown, CircleHelp, Search, ShieldAlert, Stethoscope, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import FormattedContent from "@/components/ui/FormattedContent";
-import {
-  getFAQsForMonth,
-  searchFAQs,
-  faqCategories,
-  type FAQCategory,
-} from "@/lib/data/health-faq-data";
-import { useDragScroll } from "@/hooks/useDragScroll";
+import { getFAQsForMonth, faqCategories, type FAQCategory } from "@/lib/data/health-faq-data";
+import { useReadingValue } from "@/components/reading/ReadingScope";
+import EmphasizedText from "@/components/ui/EmphasizedText";
+import { healthEvidenceView } from "@/lib/utils/health-evidence-view";
+import HealthFAQEvidence from "./HealthFAQEvidence";
+import HealthCareAnswer from "./HealthCareAnswer";
+import EmergencyCareNotice from "./EmergencyCareNotice";
 
-interface HealthFAQProps {
-  month: number;
-}
-
-const urgencyConfig = {
-  emergency: {
-    label: "응급",
-    accent: "bg-red-500",
-    textAccent: "text-red-600 dark:text-red-400",
-    icon: AlertTriangle,
-  },
-  caution: {
-    label: "주의",
-    accent: "bg-amber-500",
-    textAccent: "text-amber-600 dark:text-amber-400",
-    icon: AlertCircle,
-  },
-  info: {
-    label: "정보",
-    accent: "bg-sky-500",
-    textAccent: "text-sky-600 dark:text-sky-400",
-    icon: Info,
-  },
-} as const;
-
-const urgencyGroups = [
-  { key: "emergency" as const, label: "응급 상황", desc: "즉시 병원 방문" },
-  { key: "caution" as const, label: "주의 관찰", desc: "경과 관찰·상담" },
-  { key: "info" as const, label: "일반 정보", desc: "참고 지식" },
+const groups = [
+  { key: "emergency" as const, label: "먼저 확인할 정보", icon: ShieldAlert, color: "text-[var(--content-urgent)]" },
+  { key: "caution" as const, label: "진료·상담과 돌봄", icon: Stethoscope, color: "text-[var(--content-caution)]" },
+  { key: "info" as const, label: "알아두면 좋은 정보", icon: CircleHelp, color: "text-[var(--brand)]" },
 ];
 
-export default function HealthFAQ({ month }: HealthFAQProps) {
-  const [selectedCategory, setSelectedCategory] = useState<FAQCategory | "all">(
-    "all"
-  );
-  const [searchQuery, setSearchQuery] = useState("");
-  const [openFAQ, setOpenFAQ] = useState<string | null>(null);
-  const {
-    ref: catRef,
-    dragProps: catDrag,
-    suppressClickIfDragging: suppressCatClick,
-  } = useDragScroll<HTMLDivElement>();
+export default function HealthFAQ({ month }: { month: number }) {
+  const id = useId();
+  const filterRef = useRef<HTMLButtonElement>(null);
+  const [storedCategory, setCategory] = useReadingValue<FAQCategory | "all">("health:category", "all");
+  const category = faqCategories.some(c => c.id === storedCategory) ? storedCategory : "all";
+  const [query, setQuery] = useReadingValue<string>("health:query", "");
+  const [open, setOpen] = useReadingValue<string | null>("health:open", null);
+  const [urgentOnly, setUrgentOnly] = useReadingValue<boolean>("health:urgent", false);
+  const [expanded, setExpanded] = useReadingValue<Record<string, boolean>>("health:groups", {});
+  const [filtersOpen, setFiltersOpen] = useReadingValue<boolean>("health:filters", false);
+  const monthFAQs = useMemo(() => getFAQsForMonth(month), [month]);
+  const keyword = query.trim().toLowerCase();
+  const filtered = monthFAQs.filter(f => (category === "all" || f.category === category) && (!urgentOnly || f.urgency === "emergency") && (!keyword || [f.question, f.answer, ...f.tags].some(s => s.toLowerCase().includes(keyword))));
+  const linked = monthFAQs.filter(f => f.evidence?.sources.length).length;
+  const categoryLabel = faqCategories.find(c => c.id === category)?.label ?? "전체";
+  function reset() { setQuery(""); setCategory("all"); setUrgentOnly(false); setOpen(null); setExpanded({}); setFiltersOpen(false); }
 
-  const faqs = useMemo(() => {
-    if (searchQuery.trim()) {
-      const results = searchFAQs(searchQuery);
-      if (selectedCategory !== "all") {
-        return results.filter((f) => f.category === selectedCategory);
-      }
-      return results;
-    }
-    if (selectedCategory === "all") {
-      return getFAQsForMonth(month);
-    }
-    return getFAQsForMonth(month, selectedCategory);
-  }, [month, selectedCategory, searchQuery]);
-
-  const grouped = useMemo(() => {
-    const g: Record<"emergency" | "caution" | "info", typeof faqs> = {
-      emergency: [],
-      caution: [],
-      info: [],
-    };
-    faqs.forEach((f) => g[f.urgency].push(f));
-    return g;
-  }, [faqs]);
-
-  const getCategoryCount = (catId: FAQCategory) =>
-    getFAQsForMonth(month, catId).length;
-
-  const totalCount = getFAQsForMonth(month).length;
-
-  return (
-    <div className="space-y-4 pb-8">
-      {/* Search */}
+  return <div className="space-y-3 pb-6" data-health-faq onKeyDown={event => {
+    if (event.key === "Escape" && filtersOpen) { setFiltersOpen(false); filterRef.current?.focus(); }
+  }}>
+    <EmergencyCareNotice />
+    <div>
+      <label htmlFor={`${id}-search`} className="sr-only">증상이나 궁금한 점 검색</label>
       <div className="relative">
-        <Search
-          size={15}
-          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
-          strokeWidth={2.3}
-        />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="증상·키워드를 검색하세요"
-          className="w-full rounded-2xl bg-white dark:bg-stone-900 py-2.5 pl-9 pr-4 text-[13px] font-medium text-stone-800 placeholder-stone-400 outline-none ring-1 ring-stone-200/80 dark:ring-stone-700/60 dark:text-stone-100 dark:placeholder-stone-500 focus:ring-2 focus:ring-[#14B8A6]/30 transition-shadow"
-        />
+        <Search size={19} aria-hidden className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)]" />
+        <input id={`${id}-search`} type="search" value={query} onChange={e => { setQuery(e.target.value); setOpen(null); }} placeholder="체온, 코막힘, 수유…" className="min-h-12 w-full rounded-xl border border-[var(--border)] bg-[var(--card)] py-3 pl-10 pr-14 text-base" />
+        {query && <button type="button" aria-label="검색어 지우기" onClick={() => { setQuery(""); setOpen(null); }} className="absolute right-1 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-lg"><X size={18} aria-hidden /></button>}
       </div>
+    </div>
 
-      {/* Category chips — neutral */}
-      <div
-        ref={catRef}
-        {...catDrag}
-        className="flex gap-1.5 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing select-none -mx-0.5 px-0.5"
-      >
-        <button
-          onClick={suppressCatClick(() => setSelectedCategory("all"))}
-          className={cn(
-            "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-bold tracking-tight transition-colors",
-            selectedCategory === "all"
-              ? "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900"
-              : "bg-white dark:bg-stone-900 text-stone-500 dark:text-stone-400 ring-1 ring-stone-200/80 dark:ring-stone-700/60"
-          )}
-        >
-          전체
-          {totalCount > 0 && (
-            <span className="ml-1 tabular-nums text-[11px] opacity-70">
-              {totalCount}
-            </span>
-          )}
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+        <button ref={filterRef} type="button" aria-label={`주제: ${categoryLabel}`} aria-describedby={`${id}-results`} aria-expanded={filtersOpen} aria-controls={`${id}-categories`} onClick={() => setFiltersOpen(value => !value)} className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm font-semibold">
+          주제: {categoryLabel}<span aria-hidden className="font-normal tabular-nums text-[var(--muted-foreground)]">{filtered.length}개</span><ChevronDown size={16} aria-hidden className={cn("shrink-0 text-[var(--muted-foreground)] transition-transform motion-reduce:transition-none", filtersOpen && "rotate-180")} />
         </button>
-        {faqCategories.map((cat) => {
-          const isActive = selectedCategory === cat.id;
-          const count = getCategoryCount(cat.id);
-          return (
-            <button
-              key={cat.id}
-              onClick={suppressCatClick(() => setSelectedCategory(cat.id))}
-              className={cn(
-                "shrink-0 rounded-full px-3 py-1.5 text-[12px] font-bold tracking-tight transition-colors",
-                isActive
-                  ? "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900"
-                  : "bg-white dark:bg-stone-900 text-stone-600 dark:text-stone-400 ring-1 ring-stone-200/80 dark:ring-stone-700/60"
-              )}
-            >
-              {cat.label}
-              {count > 0 && (
-                <span className="ml-1 tabular-nums text-[11px] opacity-70">
-                  {count}
-                </span>
-              )}
-            </button>
-          );
-        })}
+        <button type="button" aria-pressed={urgentOnly} onClick={() => {
+          if (!urgentOnly) { setCategory("all"); setQuery(""); }
+          setUrgentOnly(!urgentOnly); setOpen(null); setExpanded({});
+        }} className={cn("min-h-12 rounded-xl px-2 py-2 text-sm font-semibold", urgentOnly ? "bg-rose-50 text-[var(--content-urgent)] dark:bg-rose-950/40" : "text-[var(--muted-foreground)] hover:bg-[var(--surface-muted)]")}>
+          {urgentOnly ? "전체 분류 보기" : "긴급 상황 질문만"}
+        </button>
       </div>
-
-      {/* Empty state */}
-      {faqs.length === 0 ? (
-        <div className="rounded-3xl bg-white dark:bg-stone-900 p-8 text-center elevation-1">
-          <p className="text-[14px] font-medium text-stone-500 dark:text-stone-400">
-            {searchQuery
-              ? "검색 결과가 없어요"
-              : "해당 조건의 FAQ가 없어요"}
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-5">
-          {urgencyGroups.map((group) => {
-            const items = grouped[group.key];
-            if (items.length === 0) return null;
-            const config = urgencyConfig[group.key];
-            const Icon = config.icon;
-
-            return (
-              <section key={group.key} className="space-y-2">
-                {/* Group header */}
-                <div className="flex items-center gap-2 px-1">
-                  <Icon
-                    size={13}
-                    className={config.textAccent}
-                    strokeWidth={2.4}
-                  />
-                  <h3 className="text-[11px] font-black uppercase tracking-[0.12em] text-stone-700 dark:text-stone-300">
-                    {group.label}
-                  </h3>
-                  <span className="text-[11px] font-semibold tabular-nums text-stone-400 dark:text-stone-500">
-                    {items.length}
-                  </span>
-                  <span className="h-px flex-1 bg-stone-200 dark:bg-stone-800" />
-                  <span className="text-[10.5px] font-medium text-stone-400 dark:text-stone-500">
-                    {group.desc}
-                  </span>
-                </div>
-
-                {/* Items */}
-                <div className="space-y-2">
-                  {items.map((faq, idx) => {
-                    const isOpen = openFAQ === faq.id;
-                    const catInfo = faqCategories.find(
-                      (c) => c.id === faq.category
-                    );
-
-                    return (
-                      <motion.div
-                        key={faq.id}
-                        initial={{ opacity: 0, y: 4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: idx * 0.02 }}
-                        className={cn(
-                          "overflow-hidden rounded-3xl bg-white dark:bg-stone-900 transition-shadow",
-                          isOpen
-                            ? "shadow-[0_6px_20px_rgba(15,15,20,0.08)]"
-                            : "elevation-1"
-                        )}
-                      >
-                        <button
-                          onClick={() => setOpenFAQ(isOpen ? null : faq.id)}
-                          className="flex w-full items-start gap-3 p-4 text-left"
-                        >
-                          {/* Vertical accent bar */}
-                          <span
-                            className={cn(
-                              "mt-1 h-5 w-[3px] shrink-0 rounded-full",
-                              config.accent
-                            )}
-                          />
-
-                          <div className="flex-1 min-w-0">
-                            {/* Eyebrow */}
-                            <div className="flex items-center gap-1.5">
-                              {catInfo && (
-                                <>
-                                  <span className="text-[10.5px] font-bold tracking-[0.08em] text-stone-400 dark:text-stone-500">
-                                    {catInfo.label}
-                                  </span>
-                                  <span className="text-stone-300 dark:text-stone-700">
-                                    ·
-                                  </span>
-                                </>
-                              )}
-                              <span
-                                className={cn(
-                                  "text-[10.5px] font-bold tracking-[0.08em]",
-                                  config.textAccent
-                                )}
-                              >
-                                {config.label}
-                              </span>
-                            </div>
-                            {/* Question */}
-                            <p className="mt-0.5 text-[14px] font-bold leading-snug tracking-tight text-stone-900 dark:text-stone-100">
-                              {faq.question}
-                            </p>
-                          </div>
-
-                          {/* Chevron */}
-                          <motion.div
-                            animate={{ rotate: isOpen ? 180 : 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="mt-0.5 shrink-0"
-                          >
-                            <ChevronDown
-                              size={16}
-                              className="text-stone-400 dark:text-stone-500"
-                              strokeWidth={2.2}
-                            />
-                          </motion.div>
-                        </button>
-
-                        <AnimatePresence initial={false}>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.25, ease: "easeOut" }}
-                              className="overflow-hidden"
-                            >
-                              <div className="px-4 pb-4">
-                                <div className="border-t border-stone-100 pt-3 dark:border-stone-800">
-                                  <FormattedContent content={faq.answer} />
-                                </div>
-                                {faq.tags.length > 0 && (
-                                  <div className="mt-3 flex flex-wrap gap-1">
-                                    {faq.tags.map((tag) => (
-                                      <span
-                                        key={tag}
-                                        className="rounded-md bg-stone-100 px-1.5 py-0.5 text-[10.5px] font-medium text-stone-500 dark:bg-stone-800 dark:text-stone-400"
-                                      >
-                                        #{tag}
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </section>
-            );
+      <div id={`${id}-categories`} hidden={!filtersOpen}>
+        <div role="group" aria-label="건강 정보 주제" className="flex flex-wrap gap-2 rounded-xl bg-[var(--surface-muted)] p-2">
+          {[{ id: "all" as const, label: "전체" }, ...faqCategories].map(c => {
+            const count = c.id === "all" ? monthFAQs.length : monthFAQs.filter(f => f.category === c.id).length;
+            return <button key={c.id} type="button" aria-pressed={category === c.id} onClick={() => {
+              setCategory(c.id); setOpen(null); setExpanded({}); setFiltersOpen(false); filterRef.current?.focus();
+            }} className={cn("min-h-12 rounded-lg px-3 py-2 text-sm font-semibold", category === c.id ? "bg-[var(--card)] text-[var(--brand)]" : "text-[var(--foreground)]")}>
+              {c.label} <span className="font-normal tabular-nums text-[var(--muted-foreground)]">{count}</span>
+            </button>;
           })}
         </div>
-      )}
-
-      {/* Result count */}
-      {faqs.length > 0 && (
-        <p className="text-center text-[11px] font-medium tabular-nums text-stone-400 dark:text-stone-500">
-          총 {faqs.length}개
-        </p>
-      )}
+      </div>
+      <p id={`${id}-results`} role="status" aria-live="polite" aria-atomic="true" className="sr-only">{month}개월 · {keyword ? "검색 결과 " : "질문 "}<strong className="font-semibold text-[var(--foreground)]">{filtered.length}개</strong>{category !== "all" && ` · ${categoryLabel}`}</p>
     </div>
-  );
+
+    <div className="space-y-5">
+      {!filtered.length ? <div className="rounded-2xl border border-[var(--border)] p-4">
+        <p className="font-semibold">해당 조건의 질문이 없어요</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">다른 검색어를 쓰거나 주제와 분류를 바꿔보세요.</p>
+        <button type="button" onClick={reset} className="mt-2 min-h-12 font-semibold text-[var(--brand)]">검색 조건 초기화</button>
+      </div> : groups.map(group => {
+        const items = filtered.filter(f => f.urgency === group.key);
+        if (!items.length) return null;
+        const showAll = !!keyword || category !== "all" || urgentOnly || !!expanded[group.key];
+        const visible = showAll ? items : items.filter((f, index) => index < 2 || f.id === open);
+        const Icon = group.icon;
+        return <section key={group.key} aria-labelledby={`${id}-${group.key}`} className="space-y-2">
+          <h3 id={`${id}-${group.key}`} className="flex items-center gap-2 text-sm font-semibold"><Icon size={17} aria-hidden className={cn("shrink-0", group.color)} />{group.label} <span className="font-normal tabular-nums text-[var(--muted-foreground)]">{items.length}</span></h3>
+          {visible.map(faq => {
+            const isOpen = open === faq.id;
+            const topic = faqCategories.find(c => c.id === faq.category)?.label;
+            const preview = faq.care?.summary ?? (faq.urgency === "emergency" ? faq.answer : null);
+            return <article key={faq.id} data-reading-anchor={`faq:${faq.id}`} className={cn("rounded-2xl border bg-[var(--card)]", isOpen ? "border-[var(--brand)]" : "border-[var(--border)]")}>
+              <h4><button id={`${id}-${faq.id}-question`} type="button" aria-label={faq.question} aria-describedby={`${id}-${faq.id}-status`} aria-expanded={isOpen} aria-controls={`${id}-${faq.id}-answer`} onClick={() => setOpen(isOpen ? null : faq.id)} className="flex min-h-12 w-full items-start gap-3 rounded-2xl px-4 py-3 text-left">
+                <span className="min-w-0 flex-1"><span className="block break-words text-base font-semibold leading-7">{faq.question}</span><span id={`${id}-${faq.id}-status`} className="mt-1 block text-sm font-normal leading-6 text-[var(--muted-foreground)]">{topic}{healthEvidenceView(faq.evidence).compact && ` · ${healthEvidenceView(faq.evidence).compact}`}</span></span>
+                <ChevronDown size={17} aria-hidden className={cn("mt-1 shrink-0 text-[var(--muted-foreground)] transition-transform motion-reduce:transition-none", isOpen && "rotate-180")} />
+              </button></h4>
+              {preview && <div hidden={isOpen} className="px-4 pb-4" data-faq-preview><p className="whitespace-pre-line break-words text-base leading-7"><EmphasizedText text={preview} /></p></div>}
+              <div id={`${id}-${faq.id}-answer`} role="region" aria-labelledby={`${id}-${faq.id}-question`} hidden={!isOpen} className="border-t border-[var(--border)] p-4">
+                <HealthCareAnswer faq={faq} />
+                <p className="mt-4 text-sm leading-6 text-[var(--muted-foreground)]">대상: {faq.applicableMonths.length ? `${faq.applicableMonths.join("·")}개월` : "월령 공통"} · 아기의 현재 상태를 진단하는 결과는 아니에요.</p>
+                <HealthFAQEvidence evidence={faq.evidence} />
+              </div>
+            </article>;
+          })}
+          {!keyword && category === "all" && !urgentOnly && items.length > 2 && <button type="button" aria-expanded={!!expanded[group.key]} onClick={() => {
+            if (expanded[group.key]) setOpen(null);
+            setExpanded(old => ({ ...old, [group.key]: !old[group.key] }));
+          }} className="min-h-12 w-full rounded-xl px-3 text-sm font-semibold text-[var(--brand)] hover:bg-[var(--accent-soft)]">
+            {expanded[group.key] ? "간단히 보기" : `${group.label} ${items.length}개 모두 보기`}
+          </button>}
+        </section>;
+      })}
+    </div>
+    <aside aria-label="건강 정보 참고 안내" className="border-t border-[var(--border)] pt-4 text-sm leading-6 text-[var(--muted-foreground)]">
+      <p className="flex items-start gap-2"><BookOpen size={16} aria-hidden className="mt-1 shrink-0" /><span>이 월령 질문 {monthFAQs.length}개 중 {linked}개에 참고 자료가 연결돼 있어요.</span></p>
+      <p className="mt-2">각 답변에서 참고 자료를 확인할 수 있어요. 질문의 분류는 아기의 현재 상태에 대한 판단이 아니에요.</p>
+    </aside>
+  </div>;
 }

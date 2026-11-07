@@ -1,0 +1,2774 @@
+[
+  {
+    "file": "src/lib/utils/growth-alerts.ts",
+    "line": 15,
+    "text": "키",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/growth-alerts.ts",
+    "line": 16,
+    "text": "체중",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/growth-alerts.ts",
+    "line": 17,
+    "text": "머리둘레",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/growth-alerts.ts",
+    "line": 18,
+    "text": "성장 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/growth-alerts.ts",
+    "line": 76,
+    "text": "아직 성장 기록이 없어요. 아기의 키, 체중을 기록해보세요!",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/growth-alerts.ts",
+    "line": 101,
+    "text": "`${months - latestRecordedMonth}개월간 새 기록이 없어요. 최근 성장을 기록해주세요!`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/growth-alerts.ts",
+    "line": 165,
+    "text": "`${metricLabels[metric]}이 빠르게 성장 중이에요! (${prevMonth}→${currMonth}개월: +${actualGrowth.toFixed(1)}${unit})`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/record-date.ts",
+    "line": 5,
+    "text": "아기 프로필의 생년월일을 먼저 확인해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/record-date.ts",
+    "line": 6,
+    "text": "`${label}을 선택해 주세요.`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/record-date.ts",
+    "line": 7,
+    "text": "`${label}은 오늘보다 늦을 수 없어요.`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/utils/record-date.ts",
+    "line": 8,
+    "text": "아기가 태어난 날부터 오늘까지의 날짜를 선택해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/store/vaccination-store.ts",
+    "line": 29,
+    "text": "현재 아기가 바뀌었어요. 아기를 확인한 뒤 다시 기록해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/store/vaccination-store.ts",
+    "line": 30,
+    "text": "백신과 접종 차수를 확인해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/store/vaccination-store.ts",
+    "line": 31,
+    "text": "접종일",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/store/vaccination-store.ts",
+    "line": 39,
+    "text": "현재 아기가 바뀌었어요. 아기를 확인한 뒤 다시 시도해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/store/vaccination-store.ts",
+    "line": 41,
+    "text": "이 접종 기록을 찾을 수 없어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 19,
+    "text": "키",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 20,
+    "text": "몸무게",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 21,
+    "text": "머리둘레",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 94,
+    "text": "아기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 94,
+    "text": "의 최근 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 95,
+    "text": "`${latest.date} 측정 · ${latest.month}개월`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 95,
+    "text": "측정한 값을 기록하면 성장 변화를 볼 수 있어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 113,
+    "text": "성장 기록 추가",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 119,
+    "text": "성장 변화",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 120,
+    "text": "성장 항목 선택",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 126,
+    "text": "성장 참고 기준 선택",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 127,
+    "text": "남아 기준",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 127,
+    "text": "여아 기준",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 127,
+    "text": "두 기준 비교",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 129,
+    "text": "최근",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 129,
+    "text": "이전보다",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 129,
+    "text": "아직",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 129,
+    "text": "기록이 없어요. 아래 그래프는 참고 기준이에요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 130,
+    "text": "`${profile?.name || \"아기\"}의 ${config.label} 변화. 가로축 월령, 세로축 ${config.unit}. 측정한 값은 아래 기록 목록에서도 확인할 수 있어요.`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 130,
+    "text": "아기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 134,
+    "text": "`${value}개월`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 136,
+    "text": "`${label}개월`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 137,
+    "text": "남아 참고 범위",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 137,
+    "text": "남아 중앙값",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 138,
+    "text": "여아 참고 범위",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 138,
+    "text": "여아 중앙값",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 139,
+    "text": "우리 아기 측정값",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 144,
+    "text": "우리 아기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 145,
+    "text": "남아 중앙값",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 146,
+    "text": "여아 중앙값",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 148,
+    "text": "옅은 영역은 WHO 참고 범위(3~97백분위)예요. 월령별로 마지막 측정값을 표시해요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 153,
+    "text": "측정 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 153,
+    "text": "건",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 155,
+    "text": "아직 측정 기록이 없어요. 위의 ‘성장 기록 추가’로 첫 기록을 남겨보세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 159,
+    "text": "개월",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 161,
+    "text": "키",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 162,
+    "text": "몸무게",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 163,
+    "text": "머리둘레",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 168,
+    "text": "이 측정 기록을 삭제할까요?",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 170,
+    "text": "기록 유지",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 171,
+    "text": "선택한 측정 기록을 삭제했어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 171,
+    "text": "현재 아기와 기록을 확인한 뒤 다시 시도해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 171,
+    "text": "삭제하기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 174,
+    "text": "`${record.date} 측정 기록 수정`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 174,
+    "text": "수정",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 174,
+    "text": "`${record.date} 측정 기록 삭제`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 174,
+    "text": "삭제",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 179,
+    "text": "최근 5건만 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 179,
+    "text": "`기록 ${measurements.length}건 모두 보기`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 183,
+    "text": "WHO 참고 기준과 비교 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 184,
+    "text": "WHO 영유아 성장 기준(WHO Child Growth Standards)을 바탕으로 한 참고값이에요. 백분위는 제공된 3·50·97백분위 사이를 단순 추정한 값이에요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 185,
+    "text": "남아 또는 여아 기준을 선택하면 마지막 측정값과 비교할 수 있어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 188,
+    "text": "개월",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 188,
+    "text": "남아",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 188,
+    "text": "여아",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 188,
+    "text": "기준",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 188,
+    "text": "측정",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 188,
+    "text": "· 중앙값",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 188,
+    "text": "· 추정",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 188,
+    "text": "백분위",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 192,
+    "text": "수정한 기록을 이 기기에 저장했어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/GrowthChart.tsx",
+    "line": 192,
+    "text": "새 기록을 이 기기에 저장했어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 13,
+    "text": "이번 시기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 13,
+    "text": "미완료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 13,
+    "text": "완료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 13,
+    "text": "전체",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 43,
+    "text": "실제 접종일을 선택해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 44,
+    "text": "접종일은 오늘보다 늦을 수 없어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 45,
+    "text": "생년월일 이후의 접종일을 선택해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 49,
+    "text": "기록을 확인해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 51,
+    "text": "`${vaccine.name} ${doseNumber}차 접종일(${date})을 이 기기에 저장했어요.`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 53,
+    "text": "기록을 저장하지 못했어요. 입력한 날짜를 확인하고 다시 시도해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 60,
+    "text": "기록을 확인해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 62,
+    "text": "`${vaccine.name} ${doseNumber}차 접종 완료 기록을 삭제했어요.`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 63,
+    "text": "기기에 변경을 저장하지 못했어요. 다시 시도해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 74,
+    "text": "표시된",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 74,
+    "text": "회 중",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 74,
+    "text": "회 완료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 90,
+    "text": "`${dose.monthStart}개월`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 90,
+    "text": "`${dose.monthStart}~${dose.monthEnd}개월`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 90,
+    "text": "· 이번 접종 시기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 92,
+    "text": "접종 완료 ·",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 94,
+    "text": "`${vaccine.name} ${dose.doseLabel} ${record ? \"접종일 수정\" : \"접종 완료 기록\"}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 94,
+    "text": "접종일 수정",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 94,
+    "text": "접종 완료 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 95,
+    "text": "접종일 수정",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 95,
+    "text": "완료 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 100,
+    "text": "실제 접종일",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 104,
+    "text": "접종일 저장",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 105,
+    "text": "취소",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 107,
+    "text": "이 접종 완료 기록 삭제",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 112,
+    "text": "완료 기록을 삭제할까요?",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 113,
+    "text": "기록 유지",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 113,
+    "text": "삭제하기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 150,
+    "text": "의 접종 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 151,
+    "text": "이번 월령에 확인할 미완료 접종",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 151,
+    "text": "회",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 151,
+    "text": "개월 기준",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 152,
+    "text": "전체",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 152,
+    "text": "회 중",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 152,
+    "text": "회 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 152,
+    "text": "회 미완료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 153,
+    "text": "예방접종 기록 진행률",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 153,
+    "text": "`${total}회 중 ${done}회 완료 기록`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 155,
+    "text": "예방접종 목록 선택",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 158,
+    "text": "백신을 열고 실제 접종일을 기록해 주세요. 일정은 참고 정보이며 실제 접종은 소아과 전문의와 상담하세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 160,
+    "text": "이번 월령에 남은 접종 기록이 없어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 160,
+    "text": "이 목록에 표시할 접종 기록이 없어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 160,
+    "text": "전체 접종 일정 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/growth/VaccinationSchedule.tsx",
+    "line": 161,
+    "text": "질병관리청(KDCA) 국가예방접종 일정 기준 · 기록은 이 기기에 저장돼요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/GrowthAlertCard.tsx",
+    "line": 78,
+    "text": "성장 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/GrowthAlertCard.tsx",
+    "line": 78,
+    "text": "성장 알림",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/CircularFocus.tsx",
+    "line": 26,
+    "text": "`${babyName} 사진 변경`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/CircularFocus.tsx",
+    "line": 35,
+    "text": "의 하루",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/CircularFocus.tsx",
+    "line": 38,
+    "text": "의 하루",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/CircularFocus.tsx",
+    "line": 39,
+    "text": "만",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/CircularFocus.tsx",
+    "line": 39,
+    "text": "개월",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/CircularFocus.tsx",
+    "line": 39,
+    "text": "생후",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/CircularFocus.tsx",
+    "line": 39,
+    "text": "일",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/home/CircularFocus.tsx",
+    "line": 41,
+    "text": "아기 사진 선택",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 36,
+    "text": "원더윅스 데이터를 불러오지 못했어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 61,
+    "text": "뒤로",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 66,
+    "text": "홈",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 84,
+    "text": "원더윅스 도약기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 87,
+    "text": "아기가 첫 해 동안 겪는 10번의 정신적 도약을 시기별로 확인하세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 107,
+    "text": "진행 중",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 114,
+    "text": "일",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 132,
+    "text": "10번의 도약",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 135,
+    "text": "생후 약 5주부터 75주까지 · 현재 생후",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 137,
+    "text": "일",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 160,
+    "text": "아직 원더윅스 정보가 등록되지 않았어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/wonder-weeks/page.tsx",
+    "line": 228,
+    "text": "일",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 25,
+    "text": "수면",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 25,
+    "text": "수면 시간과 습관",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 26,
+    "text": "수유",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 26,
+    "text": "모유·분유 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 27,
+    "text": "놀이·발달",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 27,
+    "text": "함께 해볼 활동",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 28,
+    "text": "이유식",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 28,
+    "text": "단계와 식재료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 72,
+    "text": "편안한 밤 보내고 계신가요?",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 72,
+    "text": "좋은 아침이에요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 72,
+    "text": "오늘도 함께 알아가요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 72,
+    "text": "오늘도 수고하셨어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 86,
+    "text": "사진을 불러오지 못했어요. 다른 사진으로 다시 시도해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 91,
+    "text": "궁금한 육아 정보를 찾아보세요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 95,
+    "text": "최근 성장 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 96,
+    "text": "최근 성장 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 96,
+    "text": "전체 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 99,
+    "text": "측정 ·",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 101,
+    "text": "키",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 101,
+    "text": "몸무게",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 101,
+    "text": "머리둘레",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 101,
+    "text": "미입력",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 103,
+    "text": "아직 측정 기록이 없어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 103,
+    "text": "키나 몸무게 하나부터 남겨보세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 104,
+    "text": "성장 기록 추가",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 104,
+    "text": "첫 성장 기록 남기기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 108,
+    "text": "오늘 확인할 일정",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 109,
+    "text": "이번 시기에 확인해요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 113,
+    "text": "`이번 월령 접종 ${due.length}건 확인`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 113,
+    "text": "이번 월령의 접종을 기록했어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 113,
+    "text": "예방접종 일정을 확인해 보세요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 114,
+    "text": "`${due[0].vaccine.name} ${due[0].dose.doseNumber}차 등 · 실제 일정 확인하기`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 114,
+    "text": "전체 접종 일정과 기록을 살펴보세요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 120,
+    "text": "월령별 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 121,
+    "text": "`${months}개월, 함께 알아가요`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 121,
+    "text": "궁금한 주제를 바로 열어보세요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 125,
+    "text": "건강 관련 질문 찾아보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 128,
+    "text": "월령별 참고 정보",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 129,
+    "text": "월령별 참고 정보",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 129,
+    "text": "실제 기록과 다른 일반적인 안내예요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 130,
+    "text": "월령 정보를 불러오는 중",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 130,
+    "text": "하루 수유량",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 130,
+    "text": "안내 없음",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 130,
+    "text": "하루 수면",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 130,
+    "text": "안내 없음",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 130,
+    "text": "시간",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 130,
+    "text": "이 월령의 참고 정보가 아직 준비되지 않았어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 131,
+    "text": "일부 안내를 불러오지 못했어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 131,
+    "text": "아기 기록과 백과 가이드는 계속 이용할 수 있어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 131,
+    "text": "다시 시도",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 134,
+    "text": "원더윅스 살펴보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 134,
+    "text": "성장 도약기에 관한 참고 안내",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 135,
+    "text": "백과사전 전체 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 136,
+    "text": "현재 만",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 136,
+    "text": "개월이에요. 월령 가이드는 12개월 기준으로 제공해요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 17,
+    "text": "검색을 준비하고 있어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 59,
+    "text": "검색 정보를 불러오지 못했어요. 연결을 확인하고 다시 시도해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 85,
+    "text": "검색 결과로",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 88,
+    "text": "관련 주제 더 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 93,
+    "text": "검색 대상 월령",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 94,
+    "text": "전체 월령",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 95,
+    "text": "우리 아기 ·",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 95,
+    "text": "선택한 월령 ·",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 95,
+    "text": "개월",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/app/search/page.tsx",
+    "line": 97,
+    "text": "선택한 글을 찾을 수 없어요. 아래 검색 결과에서 다시 선택해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 11,
+    "text": "정보를 불러오지 못했어요. 연결을 확인하고 다시 시도해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 83,
+    "text": "`준비물: ${activity.materials.join(', ')}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 83,
+    "text": "`권장 시간: ${activity.duration}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 91,
+    "text": "`${month}개월 수면 가이드`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 91,
+    "text": "`총 수면: ${sleepGuide.totalSleep}\\n밤 수면: ${sleepGuide.nightSleep}\\n낮잠: ${sleepGuide.napInfo}\\n\\n졸림 신호\\n${sleepGuide.sleepSignals.join('\\n')}\\n\\n수면 환경\\n${sleepGuide.sleepEnvironment.join('\\n')}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 96,
+    "text": "`${month}개월 수유 가이드`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 96,
+    "text": "`수유 형태: ${feedingGuide.feedingType}\\n1회 수유량: ${feedingGuide.perFeedAmount}\\n하루 총량: ${feedingGuide.dailyTotal}\\n횟수: ${feedingGuide.frequency}\\n간격: ${feedingGuide.interval}\\n\\n트림 안내\\n${feedingGuide.burpingTips.join('\\n')}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 98,
+    "text": "`수유 자세 · ${position.name}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 99,
+    "text": "모유 보관 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 99,
+    "text": "`실온: ${feedingGuide.breastMilkStorage.roomTemp}\\n냉장: ${feedingGuide.breastMilkStorage.fridge}\\n냉동: ${feedingGuide.breastMilkStorage.freezer}\\n해동: ${feedingGuide.breastMilkStorage.thawing}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 100,
+    "text": "젖병 소독과 관리",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 101,
+    "text": "혼합수유 팁",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 107,
+    "text": "`수면교육 · ${method.name}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 107,
+    "text": "`적용 시기: ${method.suitableAge}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 107,
+    "text": "`예상 기간: ${method.duration}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 107,
+    "text": "`장점: ${method.pros.join(', ')}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 107,
+    "text": "`주의할 점: ${method.cons.join(', ')}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 111,
+    "text": "양치 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 112,
+    "text": "이앓이 증상과 대처법",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 113,
+    "text": "첫 치과 방문 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 118,
+    "text": "`이유식 ${stage.stage}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 118,
+    "text": "`형태: ${stage.texture}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 118,
+    "text": "`횟수: ${stage.frequency}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 118,
+    "text": "`양: ${stage.amount}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 118,
+    "text": "`추천 재료: ${stage.newIngredients.map(i=>i.name).join(', ')}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 120,
+    "text": "`주의 식품: ${foodGuide.allergyGuide.highRiskFoods.join(', ')}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/lib/queries/months.ts",
+    "line": 121,
+    "text": "이유식 기본 안내",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "발달",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "놀이",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "수면",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "이유식",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "수면",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "수유",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "울음",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "외출",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "치아",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 21,
+    "text": "건강",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 22,
+    "text": "월령별 백과",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 22,
+    "text": "육아 꿀팁",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 22,
+    "text": "육아 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 22,
+    "text": "건강 FAQ",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 22,
+    "text": "발달 체크",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 25,
+    "text": "전 월령 공통",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 27,
+    "text": "`${months[0]}개월`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 28,
+    "text": "`${Math.min(...months)}~${Math.max(...months)}개월`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 43,
+    "text": "어떤 정보가 궁금하세요?",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 43,
+    "text": "월령별 백과와 수면·수유 가이드, 건강 FAQ를 함께 찾아보세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 43,
+    "text": "검색어 예시",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 43,
+    "text": "수면",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 43,
+    "text": "이유식",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 43,
+    "text": "양치",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 43,
+    "text": "발달",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 44,
+    "text": "검색 결과",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 46,
+    "text": "앱 가이드부터 보여드려요. 온라인 정보도 확인하고 있어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 47,
+    "text": "일부 온라인 정보를 불러오지 못했어요. 불러온 결과와 앱에 준비된 가이드를 보여드려요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 47,
+    "text": "다시 시도",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 48,
+    "text": "검색 중",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 49,
+    "text": "`${month}개월 · `",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 49,
+    "text": "전체 월령 ·",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 49,
+    "text": "검색 결과",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 49,
+    "text": "건",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 50,
+    "text": "온라인 검색 결과를 확인하고 있어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 50,
+    "text": "확인할 수 있는 결과가 없어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 50,
+    "text": "이 검색어로 찾은 글이 없어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 50,
+    "text": "결과가 준비되면 여기에 표시해요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 50,
+    "text": "연결을 확인한 후 다시 시도하거나 다른 주제를 검색해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 50,
+    "text": "검색어를 짧게 바꾸거나 전체 월령으로 다시 찾아보세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/search/SearchResults.tsx",
+    "line": 57,
+    "text": "전체 내용 읽기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 24,
+    "text": "취침",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 25,
+    "text": "수유",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 26,
+    "text": "놀이",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 27,
+    "text": "목욕",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 28,
+    "text": "낮잠",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 29,
+    "text": "이유식",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 33,
+    "text": "수시",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 96,
+    "text": "`${month}개월 추천 하루 시간표`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 110,
+    "text": "개월 추천 하루 시간표",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 179,
+    "text": "총 수면",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 188,
+    "text": "낮잠",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 199,
+    "text": "기상",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 208,
+    "text": "취침",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 274,
+    "text": "시간표 관련 백과",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 275,
+    "text": "수면 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 275,
+    "text": "수유 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 275,
+    "text": "놀이·발달 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 275,
+    "text": "보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/DailyScheduleCard.tsx",
+    "line": 282,
+    "text": "아기마다 리듬이 다를 수 있어요. 참고용으로 활용해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 29,
+    "text": "`${month}개월 이유식 식단 예시`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 32,
+    "text": "이유식 식단 ·",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 38,
+    "text": "한 끼 양",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 39,
+    "text": "횟수",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 42,
+    "text": "식단 요일 선택",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 44,
+    "text": "`${day.day}요일${index === today ? \", 오늘\" : \"\"}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 44,
+    "text": ", 오늘",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 45,
+    "text": "오늘",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 51,
+    "text": "요일 식단 예시",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 51,
+    "text": "오늘로",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/tips/MealPlanCard.tsx",
+    "line": 62,
+    "text": "개월 이유식·식재료 가이드 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 14,
+    "text": "응급",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 15,
+    "text": "주의",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 16,
+    "text": "정보",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 20,
+    "text": "응급 안내",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 20,
+    "text": "응급으로 분류된 질문",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 21,
+    "text": "주의 관찰",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 21,
+    "text": "경과 관찰·상담",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 22,
+    "text": "일반 정보",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 22,
+    "text": "참고 지식",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 56,
+    "text": "건강 정보 검수 상태",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 57,
+    "text": "건강 정보의 출처와 검수를 확인해 주세요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 58,
+    "text": "현재 FAQ는 항목별 근거 원문과 전문가 검수 확인이 진행 전입니다. 답변을 펼치면 적용 월령과 출처·검수 상태를 볼 수 있어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 62,
+    "text": "증상이나 궁금한 점을 찾아보세요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 71,
+    "text": "예: 체온, 기침, 수유",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 75,
+    "text": "개월에 해당하는 정보에서 검색합니다.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 78,
+    "text": "건강 정보 주제",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 79,
+    "text": "전체",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 98,
+    "text": "응급 관련 안내",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 99,
+    "text": "이 목록은 건강 정보 모음이며, 아기의 현재 상태를 판단하는 결과가 아닙니다.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 106,
+    "text": "모든 분류 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 106,
+    "text": "`응급으로 분류된 질문 ${emergencyCount}개 모아 보기`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 110,
+    "text": "개월 ·",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 110,
+    "text": "응급 분류 ·",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 110,
+    "text": "`검색 결과 ${faqs.length}개`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 110,
+    "text": "`${faqs.length}개 질문`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 115,
+    "text": "해당 조건의 질문이 없어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 116,
+    "text": "다른 검색어를 입력하거나 주제와 분류를 바꿔보세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 117,
+    "text": "검색 조건 초기화",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 146,
+    "text": "검수 완료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 146,
+    "text": "검수 대기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 152,
+    "text": "대상:",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 152,
+    "text": "`${faq.applicableMonths.join(\"·\")}개월`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 152,
+    "text": "월령 공통",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 162,
+    "text": "간단히 보기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQ.tsx",
+    "line": 162,
+    "text": "`${group.label} ${items.length}개 모두 보기`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 6,
+    "text": "답변 출처와 검수 정보",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 7,
+    "text": "출처·검수 정보",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 9,
+    "text": "근거 출처",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 9,
+    "text": "(새 창)",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 9,
+    "text": "이 답변의 근거 원문이 아직 등록되지 않았어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 10,
+    "text": "의료 검수",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 10,
+    "text": "`${review.reviewer} · 검수 완료`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 10,
+    "text": "전문가 검수 대기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 11,
+    "text": "검수일",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 11,
+    "text": "미등록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/HealthFAQEvidence.tsx",
+    "line": 13,
+    "text": "이 답변은 전문가 검수가 확인되지 않은 참고 정보예요. 아기의 진단·치료 판단은 의료진과 상의해 주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 36,
+    "text": "곡류",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 37,
+    "text": "채소",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 38,
+    "text": "과일",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 39,
+    "text": "단백질",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 40,
+    "text": "유제품",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 73,
+    "text": "초기",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 73,
+    "text": "단계",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 136,
+    "text": "아직 이유식 시작 전이에요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 139,
+    "text": "이유식은 만 4~6개월 사이에 시작하는 것이 좋습니다.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 141,
+    "text": "목을 가눌 수 있고 음식에 관심을 보일 때 시작하세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 166,
+    "text": "이유식 종합 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 169,
+    "text": "`현재: ${currentStage.stage}`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 169,
+    "text": "완료기 이후",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 186,
+    "text": "형태",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 186,
+    "text": "횟수",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 186,
+    "text": "1회량",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 202,
+    "text": "사용 가능한 식재료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 205,
+    "text": "가지",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 207,
+    "text": "새 재료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 244,
+    "text": "이번 달 새 재료",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 247,
+    "text": "알레르기 주의",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 256,
+    "text": "`${currentStage.stage} 조리법 & 주의사항`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 265,
+    "text": "조리 팁",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 283,
+    "text": "주의사항",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 301,
+    "text": "추천 메뉴",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 321,
+    "text": "알레르기 안전 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 331,
+    "text": "고위험 식품",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 350,
+    "text": "테스트 방법",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 359,
+    "text": "응급 증상 (즉시 병원 방문)",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "line": 381,
+    "text": "이유식 일반 꿀팁",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 12,
+    "text": "해당 월령의 수유 가이드가 준비 중이에요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 15,
+    "text": "수유 정보",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 16,
+    "text": "1회 수유량",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 16,
+    "text": "일일 총량",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 16,
+    "text": "수유 횟수",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 16,
+    "text": "수유 간격",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 20,
+    "text": "수유 자세 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 24,
+    "text": "트림시키기 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 28,
+    "text": "젖병 소독 & 관리",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 32,
+    "text": "모유 보관 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 33,
+    "text": "실온",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 33,
+    "text": "냉장",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 33,
+    "text": "냉동",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 33,
+    "text": "해동 후",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 36,
+    "text": "혼합수유 팁",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/FeedingGuide.tsx",
+    "line": 38,
+    "text": "수유 트러블슈팅",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 8,
+    "text": "쉬움",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 8,
+    "text": "보통",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 8,
+    "text": "어려움",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 17,
+    "text": "수면 정보",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 18,
+    "text": "총 수면",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 18,
+    "text": "야간 수면",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 18,
+    "text": "낮잠",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 22,
+    "text": "졸림 신호",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 22,
+    "text": "이 신호가 보이면 재울 타이밍",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 27,
+    "text": "수면교육 방법",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 28,
+    "text": "수면교육은 보통 4개월 이후에 시작해요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 28,
+    "text": "지금은 아기와의 유대감 형성에 집중하고, 안아재우기 방법으로 부드럽게 수면 습관을 만들어주세요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 31,
+    "text": "장점",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 32,
+    "text": "단점",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 33,
+    "text": "진행 방법",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 37,
+    "text": "자주 하는 고민",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/SleepGuide.tsx",
+    "line": 40,
+    "text": "수면 환경 체크리스트",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 117,
+    "text": "윗니",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 135,
+    "text": "아랫니",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 142,
+    "text": "나온 이",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 146,
+    "text": "나올 수 있는 이",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 150,
+    "text": "아직",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 217,
+    "text": "치아 발달 현황",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 220,
+    "text": "나온 이",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 220,
+    "text": "개",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 221,
+    "text": "` · 나올 수 있는 이 ${upcomingCount}개`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 253,
+    "text": "유치 발달 타임라인",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 336,
+    "text": "개",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 365,
+    "text": "이앓이 증상 & 대처법",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 376,
+    "text": "주요 증상",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 397,
+    "text": "대처법",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 438,
+    "text": "양치 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 461,
+    "text": "불소 치약 안내",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 501,
+    "text": "치과 방문 가이드",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 512,
+    "text": "📅 첫 치과 방문",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 520,
+    "text": "🔄 정기 검진",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 530,
+    "text": "검진 시 확인 사항",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/DentalGuide.tsx",
+    "line": 565,
+    "text": "자주 묻는 질문 (FAQ)",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 124,
+    "text": "이 월령의 발달 이정표 데이터가 없습니다.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 136,
+    "text": "`${profile.name}의 관찰 기록이에요. 관찰한 날짜를 선택해 남기고 나중에 수정할 수 있어요.`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 136,
+    "text": "아기를 등록하면 관찰 날짜를 기록할 수 있어요.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 137,
+    "text": "의",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 137,
+    "text": "개월 관찰 기록만 초기화할까요?",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 137,
+    "text": "취소",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 137,
+    "text": "관찰 기록 초기화",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 143,
+    "text": "발달 관찰 기록",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 146,
+    "text": "개월",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 153,
+    "text": "이 월령 초기화",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 156,
+    "text": "초기화",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 168,
+    "text": "% 관찰",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "line": 173,
+    "text": "관찰한 발달 변화",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "line": 10,
+    "text": "이 월령의 추천 놀이 정보가 아직 없어요",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "line": 12,
+    "text": "추천 놀이 활동",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "line": 12,
+    "text": "`${month}개월 아기에게 적합한 놀이 ${monthData.activities.length}가지`",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "line": 13,
+    "text": "쉬움",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "line": 13,
+    "text": "보통",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "line": 15,
+    "text": "준비물",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "line": 16,
+    "text": "발달 영역",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "file": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "line": 17,
+    "text": "권장 연령:",
+    "reviewStatus": "unreviewed"
+  }
+]

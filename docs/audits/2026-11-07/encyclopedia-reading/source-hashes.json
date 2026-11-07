@@ -1,0 +1,87 @@
+[
+  {
+    "path": "src/components/encyclopedia/BabyFoodGuide.tsx",
+    "before": "a86b851a59476b12a8d2333b3371c7f23a2e3784366c62ae17c855f86e47a855",
+    "after": "e1ae57934e9ea034f01fe12615af87919635891ce17b7c5cec77191e44489714"
+  },
+  {
+    "path": "src/components/encyclopedia/CategoryAccordion.tsx",
+    "before": "872d8b6d0d83de7a1a2578259c0b5a8b1a5538f38bcd691eedaad7734cb5dd47",
+    "after": "419c040308ddf6c6f516c9a77f474a4c07ca215dfc1d9fc49a925bb6a31fdd3a"
+  },
+  {
+    "path": "src/components/encyclopedia/DentalGuide.tsx",
+    "before": "7a7a428a727e1339676207d3a640815116197368c78f846ee5bfdc6d4fa6ebd1",
+    "after": "95290a12aafa39879a5b1e5c405c0c35247c9af80dec1fbfd28d426c6aa232f2"
+  },
+  {
+    "path": "src/components/encyclopedia/FeedingGuide.tsx",
+    "before": "c6fe5d049e53f9fb76ae4e70083b725480c4573c8e8e4e5ed537fdad6a7dd7f4",
+    "after": "ca83b0ae1682182d6b65e28e894ebe7880091a53c1b362fb96c3abc22d828de8"
+  },
+  {
+    "path": "src/components/encyclopedia/GuidePresentation.tsx",
+    "before": "6b7125cc404eb64b73be7c2582514a21719311ffc21a90c6acca16baffd0844c",
+    "after": "052c6d491e0233c5b87d534dbd8d8f140c10d72573139a85a6f9f15efb5b9a8a"
+  },
+  {
+    "path": "src/components/encyclopedia/HealthCareAnswer.tsx",
+    "before": "c90ad69390a684c851c12e87af756dcbebf02ca889e628a60be38e46d255986e",
+    "after": "8950857bd96e67f6c255219f2a6b4846ee8508b77970ed26a5438c1d33c748b1"
+  },
+  {
+    "path": "src/components/encyclopedia/MilestoneChecklist.tsx",
+    "before": "178658f10629580ce58e63e1c384e82973d216eb70707306f3ed39039e9e6173",
+    "after": "3b509dc3cb81b169ef447d6adcc3b467d0df99db4c7f666556524e40714f625a"
+  },
+  {
+    "path": "src/components/encyclopedia/MilestoneItemRow.tsx",
+    "before": "d67a775f5152239edfd2302ec6bd2fc17333319357100002fca68e6748e48568",
+    "after": "7ce4c3a034c759b9d634d53d74e66a656add020b8e0f9e53e8dd2f3a95c5f5cb"
+  },
+  {
+    "path": "src/components/encyclopedia/MonthSummaryCard.tsx",
+    "before": "f1f0f518c2f34ed8cc893eb7787e63965b0ad4b683c1f5b9ccc85e5854bcd299",
+    "after": "c2a3752334b0db46471a5c34843e82a9343802538b6ffd54ba9fd79f2e939218"
+  },
+  {
+    "path": "src/components/encyclopedia/RecommendedActivities.tsx",
+    "before": "0c01ff1bb3d296e0892b9d08bb0013ef8ae5d54e7d526ee5143d1dd24c9490be",
+    "after": "0f6f1c95d29fb7b4684d922b536ea0da819c00b40a20ec8c98c7c6db1c5e1442"
+  },
+  {
+    "path": "src/components/encyclopedia/SleepGuide.tsx",
+    "before": "97b8f656e18a601cf3c6668b392f5242c6d81acdacb6be052c8fc31f992a4d80",
+    "after": "549b6c29bb50bd82d449e8475a88d0e02d539a2f804d143688098266290375a0"
+  },
+  {
+    "path": "src/components/illustrations/GuideArtwork.tsx",
+    "before": "59a84404960a37bf4819326bbd7c0f5d9e18f7d63c7dc36d6a20270740ee552d",
+    "after": "7a10e4f5a35866b5cd7ddfa62293d696610bdd71ce84198db960abe209604349"
+  },
+  {
+    "path": "src/components/illustrations/TopicArtwork.tsx",
+    "before": "1e611b61aa1b69d99d6d872a10a1d07d775666400df61a34d65bcbda7db163c7",
+    "after": "1753e664e89c5d4a55e990923cec3b6df60b16d725190418a93789ace9eab2b4"
+  },
+  {
+    "path": "src/components/ui/FormattedContent.tsx",
+    "before": "413e82eb283cb6840df5fc11bc0f6dd71c15cdb485980e988c2f8e97f1c8cc4f",
+    "after": "ceb9f2e10d91dc89c9cea5d1183f9a5de6a0bd35e2e2f6c65dc681eb185cf590"
+  },
+  {
+    "path": "src/lib/data/dental-guide-data.ts",
+    "before": "d19b99c1424a9b316b91ba713935e104dfa3547861668f99377b61a30da2b9cc",
+    "after": "c0ce1326346ceb63d0dc139a1f6950ecaf3166439be055ec88e495a1829708dd"
+  },
+  {
+    "path": "src/lib/data/feeding-guide-data.ts",
+    "before": "a6aa40b2011444487c11267d3e70ae73e9ce82984910d81b7694671344feadf9",
+    "after": "a18ba9970ef50c216ce435848f766fd15c18d809311eac347ae08a4df5d16267"
+  },
+  {
+    "path": "scripts/encyclopedia-reading-regression.cjs",
+    "before": null,
+    "after": "4e5f20923c596d90d9affb788c9a16f06b9a698b46aa19f0e681a10e3af4ec02"
+  }
+]

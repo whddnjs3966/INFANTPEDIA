@@ -1,0 +1,1341 @@
+[
+  {
+    "url": "/",
+    "mode": "light",
+    "sizes": {
+      "14": 17,
+      "16": 11,
+      "20": 6,
+      "24": 1
+    },
+    "total": 35,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/tips?month=4",
+    "mode": "light",
+    "sizes": {
+      "11": 5,
+      "12": 38,
+      "14": 40,
+      "16": 7,
+      "18": 4,
+      "20": 4,
+      "28": 1,
+      "36": 1
+    },
+    "total": 100,
+    "small": [
+      {
+        "text": "하루를 편안하게",
+        "size": 12
+      },
+      {
+        "text": "시각 예시",
+        "size": 12
+      },
+      {
+        "text": "00",
+        "size": 11
+      },
+      {
+        "text": "06",
+        "size": 11
+      },
+      {
+        "text": "12",
+        "size": 11
+      },
+      {
+        "text": "18",
+        "size": 11
+      },
+      {
+        "text": "24",
+        "size": 11
+      },
+      {
+        "text": "밤 시간",
+        "size": 12
+      },
+      {
+        "text": "낮잠",
+        "size": 12
+      },
+      {
+        "text": "수유·식사",
+        "size": 12
+      },
+      {
+        "text": "놀이·돌봄",
+        "size": 12
+      },
+      {
+        "text": "활동 시간 예시",
+        "size": 12
+      },
+      {
+        "text": "소요시간의 변동 범위",
+        "size": 12
+      },
+      {
+        "text": "빗금은 밤 시간대예요. 수면·깸·수유가 섞일 수 있으며 연속 수면을 뜻하지 않아요.",
+        "size": 12
+      },
+      {
+        "text": "낮잠 예시",
+        "size": 12
+      }
+    ],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=health&month=4",
+    "mode": "light",
+    "sizes": {
+      "11": 18,
+      "12": 18,
+      "14": 46,
+      "16": 9,
+      "20": 2,
+      "24": 1,
+      "28": 1,
+      "36": 1
+    },
+    "total": 96,
+    "small": [
+      {
+        "text": "궁금할 때, 건강 FAQ",
+        "size": 12
+      },
+      {
+        "text": "생후 3개월 미만의 발열은 바로 의료진에게 연락해 진료받으세요. FAQ를 찾느라 도움 요청을 늦추지 마세요.",
+        "size": 12
+      },
+      {
+        "text": "체온",
+        "size": 12
+      },
+      {
+        "text": "코막힘",
+        "size": 12
+      },
+      {
+        "text": "수유",
+        "size": 12
+      },
+      {
+        "text": "예방접종",
+        "size": 12
+      },
+      {
+        "text": "69",
+        "size": 12
+      },
+      {
+        "text": "13",
+        "size": 12
+      },
+      {
+        "text": "12",
+        "size": 12
+      },
+      {
+        "text": "13",
+        "size": 12
+      },
+      {
+        "text": "15",
+        "size": 12
+      },
+      {
+        "text": "16",
+        "size": 12
+      },
+      {
+        "text": "긴급 상황 질문만",
+        "size": 12
+      },
+      {
+        "text": "긴급 상황과 도움 요청",
+        "size": 12
+      },
+      {
+        "text": "발열",
+        "size": 11
+      }
+    ],
+    "lowContrast": [
+      {
+        "text": "8개 주제",
+        "size": 14,
+        "ratio": 4.39,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "text-sm text-stone-500 dark:text-stone-400"
+      }
+    ],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=sleep&month=4",
+    "mode": "light",
+    "sizes": {
+      "14": 28,
+      "16": 20,
+      "18": 8,
+      "20": 6,
+      "28": 1,
+      "36": 1
+    },
+    "total": 64,
+    "small": [],
+    "lowContrast": [
+      {
+        "text": "8개 주제",
+        "size": 14,
+        "ratio": 4.39,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "text-sm text-stone-500 dark:text-stone-400"
+      }
+    ],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=feeding&month=4",
+    "mode": "light",
+    "sizes": {
+      "14": 20,
+      "16": 9,
+      "18": 5,
+      "20": 8,
+      "28": 1,
+      "36": 1
+    },
+    "total": 44,
+    "small": [],
+    "lowContrast": [
+      {
+        "text": "8개 주제",
+        "size": 14,
+        "ratio": 4.39,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "text-sm text-stone-500 dark:text-stone-400"
+      }
+    ],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=babyfood&month=6",
+    "mode": "light",
+    "sizes": {
+      "14": 38,
+      "16": 11,
+      "18": 5,
+      "20": 2,
+      "28": 1,
+      "36": 1,
+      "10.5": 2
+    },
+    "total": 60,
+    "small": [
+      {
+        "text": "01",
+        "size": 10.5
+      },
+      {
+        "text": "02",
+        "size": 10.5
+      }
+    ],
+    "lowContrast": [
+      {
+        "text": "8개 주제",
+        "size": 14,
+        "ratio": 4.39,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "text-sm text-stone-500 dark:text-stone-400"
+      }
+    ],
+    "skippedComplexBackground": 38,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=dental&month=8",
+    "mode": "light",
+    "sizes": {
+      "14": 21,
+      "16": 3,
+      "18": 1,
+      "20": 2,
+      "28": 1,
+      "36": 1
+    },
+    "total": 29,
+    "small": [],
+    "lowContrast": [
+      {
+        "text": "8개 주제",
+        "size": 14,
+        "ratio": 4.39,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "text-sm text-stone-500 dark:text-stone-400"
+      }
+    ],
+    "skippedComplexBackground": 7,
+    "overflow": false
+  },
+  {
+    "url": "/growth",
+    "mode": "light",
+    "sizes": {
+      "14": 25,
+      "16": 7,
+      "18": 1,
+      "20": 3,
+      "28": 1
+    },
+    "total": 37,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/settings#settings-account",
+    "mode": "light",
+    "sizes": {
+      "14": 13,
+      "16": 1,
+      "20": 2,
+      "24": 1,
+      "28": 1,
+      "30": 1
+    },
+    "total": 19,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 2,
+    "overflow": false
+  },
+  {
+    "url": "/wonder-weeks",
+    "mode": "light",
+    "sizes": {
+      "11": 11,
+      "12": 2,
+      "13": 2,
+      "14": 52,
+      "15": 10,
+      "18": 1,
+      "26": 1,
+      "10.5": 51
+    },
+    "total": 130,
+    "small": [
+      {
+        "text": "홈",
+        "size": 13
+      },
+      {
+        "text": "Wonder Weeks",
+        "size": 11
+      },
+      {
+        "text": "아기가 첫 해 동안 겪는 10번의 정신적 도약을 시기별로 확인하세요.",
+        "size": 13
+      },
+      {
+        "text": "생후 약 5주부터 75주까지 · 현재 생후",
+        "size": 12
+      },
+      {
+        "text": "68 일",
+        "size": 12
+      },
+      {
+        "text": "LEAP  1",
+        "size": 10.5
+      },
+      {
+        "text": "31 ~ 38 일",
+        "size": 11
+      },
+      {
+        "text": "01",
+        "size": 10.5
+      },
+      {
+        "text": "02",
+        "size": 10.5
+      },
+      {
+        "text": "03",
+        "size": 10.5
+      },
+      {
+        "text": "04",
+        "size": 10.5
+      },
+      {
+        "text": "LEAP  2",
+        "size": 10.5
+      },
+      {
+        "text": "49 ~ 59 일",
+        "size": 11
+      },
+      {
+        "text": "01",
+        "size": 10.5
+      },
+      {
+        "text": "02",
+        "size": 10.5
+      }
+    ],
+    "lowContrast": [
+      {
+        "text": "홈",
+        "size": 13,
+        "ratio": 4.4,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          248,
+          245,
+          240
+        ],
+        "classes": "text-[13px] font-semibold text-stone-500 dark:text-stone-400"
+      },
+      {
+        "text": "Wonder Weeks",
+        "size": 11,
+        "ratio": 2.39,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          240,
+          253,
+          250
+        ],
+        "classes": "text-[11px] font-bold uppercase tracking-[0.12em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "아기가 첫 해 동안 겪는 10번의 정신적 도약을 시기별로 확인하세요.",
+        "size": 13,
+        "ratio": 4.39,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "mt-1.5 text-[13px] font-medium text-stone-500 dark:text-stone-400 leading-snug"
+      },
+      {
+        "text": "생후 약 5주부터 75주까지 · 현재 생후",
+        "size": 12,
+        "ratio": 2.37,
+        "color": "oklch(0.709 0.01 56.259)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "mt-0.5 text-[12px] font-medium text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "68 일",
+        "size": 12,
+        "ratio": 4.39,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "tabular-nums font-semibold text-stone-500 dark:text-stone-400"
+      },
+      {
+        "text": "LEAP  1",
+        "size": 10.5,
+        "ratio": 2.59,
+        "color": "oklch(0.709 0.01 56.259)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[10.5px] font-black tabular-nums tracking-[0.1em] text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "31 ~ 38 일",
+        "size": 11,
+        "ratio": 2.59,
+        "color": "oklch(0.709 0.01 56.259)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[11px] font-semibold tabular-nums text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "LEAP  2",
+        "size": 10.5,
+        "ratio": 2.59,
+        "color": "oklch(0.709 0.01 56.259)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[10.5px] font-black tabular-nums tracking-[0.1em] text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "49 ~ 59 일",
+        "size": 11,
+        "ratio": 2.59,
+        "color": "oklch(0.709 0.01 56.259)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[11px] font-semibold tabular-nums text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "01",
+        "size": 10.5,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "shrink-0 pt-[4px] text-[10.5px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "02",
+        "size": 10.5,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "shrink-0 pt-[4px] text-[10.5px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "03",
+        "size": 10.5,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "shrink-0 pt-[4px] text-[10.5px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "04",
+        "size": 10.5,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "shrink-0 pt-[4px] text-[10.5px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "05",
+        "size": 10.5,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "shrink-0 pt-[4px] text-[10.5px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      }
+    ],
+    "skippedComplexBackground": 90,
+    "overflow": false
+  },
+  {
+    "url": "/privacy",
+    "mode": "light",
+    "sizes": {
+      "11": 7,
+      "12": 1,
+      "13": 15,
+      "15": 6,
+      "26": 1
+    },
+    "total": 30,
+    "small": [
+      {
+        "text": "설정",
+        "size": 13
+      },
+      {
+        "text": "Privacy",
+        "size": 11
+      },
+      {
+        "text": "InfantPedia는 부모님과 아기의 정보를 최소한으로 수집하고, 안전하게 보관하기 위해 다음 원칙을 따릅니다.",
+        "size": 13
+      },
+      {
+        "text": "01",
+        "size": 11
+      },
+      {
+        "text": "InfantPedia(이하 \"서비스\")는 소셜 로그인 시   을 수집합니다.",
+        "size": 13
+      },
+      {
+        "text": "이메일 주소, 프로필 이름, 프로필 사진 URL",
+        "size": 13
+      },
+      {
+        "text": "아기 정보(이름·생년월일·성장 기록·예방접종 기록)는 사용자가 직접 입력하며, 로그인 상태에서는 클라우드에 저장되고 비로그인 상태에서는",
+        "size": 13
+      },
+      {
+        "text": "02",
+        "size": 11
+      },
+      {
+        "text": "사용자 식별 및 로그인 서비스 제공",
+        "size": 13
+      },
+      {
+        "text": "여러 기기 간 데이터 동기화",
+        "size": 13
+      },
+      {
+        "text": "서비스 품질 개선 및 오류 수정",
+        "size": 13
+      },
+      {
+        "text": "03",
+        "size": 11
+      },
+      {
+        "text": "수집된 개인정보는 서비스 이용 기간 동안 보관되며, 회원 탈퇴 즉시 모든 클라우드 데이터가 파기됩니다. 비로그인 사용자의 데이터는 서버",
+        "size": 13
+      },
+      {
+        "text": "04",
+        "size": 11
+      },
+      {
+        "text": "서비스는 사용자의 개인정보를 어떠한 제3자에게도 제공하지 않습니다. 단, 관련 법령에 따라 수사기관의 적법한 요청이 있는 경우에 한해 ",
+        "size": 13
+      }
+    ],
+    "lowContrast": [
+      {
+        "text": "설정",
+        "size": 13,
+        "ratio": 4.4,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          248,
+          245,
+          240
+        ],
+        "classes": "text-[13px] font-semibold text-stone-500 dark:text-stone-400"
+      },
+      {
+        "text": "Privacy",
+        "size": 11,
+        "ratio": 2.39,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          240,
+          253,
+          250
+        ],
+        "classes": "text-[11px] font-bold uppercase tracking-[0.12em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "InfantPedia는 부모님과 아기의 정보를 최소한으로 수집하고, 안전하게 보관하기 위해 다음 원칙을 따릅니다.",
+        "size": 13,
+        "ratio": 4.39,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "mt-1.5 text-[13px] font-medium text-stone-500 dark:text-stone-400 leading-snug"
+      },
+      {
+        "text": "01",
+        "size": 11,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[11px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "02",
+        "size": 11,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[11px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "03",
+        "size": 11,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[11px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "04",
+        "size": 11,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[11px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "05",
+        "size": 11,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[11px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "06",
+        "size": 11,
+        "ratio": 2.49,
+        "color": "rgb(20, 184, 166)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "classes": "text-[11px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+      },
+      {
+        "text": "시행일 · 2026년 4월 22일",
+        "size": 12,
+        "ratio": 2.37,
+        "color": "oklch(0.709 0.01 56.259)",
+        "background": [
+          247,
+          245,
+          240
+        ],
+        "classes": "pt-2 text-center text-[12px] font-medium text-stone-400 dark:text-stone-600"
+      }
+    ],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/",
+    "mode": "dark",
+    "sizes": {
+      "14": 17,
+      "16": 11,
+      "20": 6,
+      "24": 1
+    },
+    "total": 35,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/tips?month=4",
+    "mode": "dark",
+    "sizes": {
+      "11": 5,
+      "12": 38,
+      "14": 32,
+      "16": 3,
+      "18": 4,
+      "20": 4,
+      "28": 1,
+      "36": 1
+    },
+    "total": 88,
+    "small": [
+      {
+        "text": "하루를 편안하게",
+        "size": 12
+      },
+      {
+        "text": "시각 예시",
+        "size": 12
+      },
+      {
+        "text": "00",
+        "size": 11
+      },
+      {
+        "text": "06",
+        "size": 11
+      },
+      {
+        "text": "12",
+        "size": 11
+      },
+      {
+        "text": "18",
+        "size": 11
+      },
+      {
+        "text": "24",
+        "size": 11
+      },
+      {
+        "text": "밤 시간",
+        "size": 12
+      },
+      {
+        "text": "낮잠",
+        "size": 12
+      },
+      {
+        "text": "수유·식사",
+        "size": 12
+      },
+      {
+        "text": "놀이·돌봄",
+        "size": 12
+      },
+      {
+        "text": "활동 시간 예시",
+        "size": 12
+      },
+      {
+        "text": "소요시간의 변동 범위",
+        "size": 12
+      },
+      {
+        "text": "빗금은 밤 시간대예요. 수면·깸·수유가 섞일 수 있으며 연속 수면을 뜻하지 않아요.",
+        "size": 12
+      },
+      {
+        "text": "낮잠 예시",
+        "size": 12
+      }
+    ],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=health&month=4",
+    "mode": "dark",
+    "sizes": {
+      "11": 18,
+      "12": 18,
+      "14": 46,
+      "16": 9,
+      "20": 2,
+      "24": 1,
+      "28": 1,
+      "36": 1
+    },
+    "total": 96,
+    "small": [
+      {
+        "text": "궁금할 때, 건강 FAQ",
+        "size": 12
+      },
+      {
+        "text": "생후 3개월 미만의 발열은 바로 의료진에게 연락해 진료받으세요. FAQ를 찾느라 도움 요청을 늦추지 마세요.",
+        "size": 12
+      },
+      {
+        "text": "체온",
+        "size": 12
+      },
+      {
+        "text": "코막힘",
+        "size": 12
+      },
+      {
+        "text": "수유",
+        "size": 12
+      },
+      {
+        "text": "예방접종",
+        "size": 12
+      },
+      {
+        "text": "69",
+        "size": 12
+      },
+      {
+        "text": "13",
+        "size": 12
+      },
+      {
+        "text": "12",
+        "size": 12
+      },
+      {
+        "text": "13",
+        "size": 12
+      },
+      {
+        "text": "15",
+        "size": 12
+      },
+      {
+        "text": "16",
+        "size": 12
+      },
+      {
+        "text": "긴급 상황 질문만",
+        "size": 12
+      },
+      {
+        "text": "긴급 상황과 도움 요청",
+        "size": 12
+      },
+      {
+        "text": "발열",
+        "size": 11
+      }
+    ],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=sleep&month=4",
+    "mode": "dark",
+    "sizes": {
+      "14": 28,
+      "16": 20,
+      "18": 8,
+      "20": 6,
+      "28": 1,
+      "36": 1
+    },
+    "total": 64,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=feeding&month=4",
+    "mode": "dark",
+    "sizes": {
+      "14": 20,
+      "16": 9,
+      "18": 5,
+      "20": 8,
+      "28": 1,
+      "36": 1
+    },
+    "total": 44,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=babyfood&month=6",
+    "mode": "dark",
+    "sizes": {
+      "14": 38,
+      "16": 11,
+      "18": 5,
+      "20": 2,
+      "28": 1,
+      "36": 1,
+      "10.5": 2
+    },
+    "total": 60,
+    "small": [
+      {
+        "text": "01",
+        "size": 10.5
+      },
+      {
+        "text": "02",
+        "size": 10.5
+      }
+    ],
+    "lowContrast": [],
+    "skippedComplexBackground": 38,
+    "overflow": false
+  },
+  {
+    "url": "/encyclopedia?tab=dental&month=8",
+    "mode": "dark",
+    "sizes": {
+      "14": 25,
+      "16": 3,
+      "18": 1,
+      "20": 2,
+      "28": 1,
+      "36": 1
+    },
+    "total": 33,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 11,
+    "overflow": false
+  },
+  {
+    "url": "/growth",
+    "mode": "dark",
+    "sizes": {
+      "14": 25,
+      "16": 7,
+      "18": 1,
+      "20": 3,
+      "28": 1
+    },
+    "total": 37,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  },
+  {
+    "url": "/settings#settings-account",
+    "mode": "dark",
+    "sizes": {
+      "14": 13,
+      "16": 1,
+      "20": 2,
+      "24": 1,
+      "28": 1,
+      "30": 1
+    },
+    "total": 19,
+    "small": [],
+    "lowContrast": [],
+    "skippedComplexBackground": 2,
+    "overflow": false
+  },
+  {
+    "url": "/wonder-weeks",
+    "mode": "dark",
+    "sizes": {
+      "11": 10,
+      "12": 2,
+      "13": 2,
+      "14": 47,
+      "15": 9,
+      "18": 1,
+      "26": 1,
+      "10.5": 46
+    },
+    "total": 118,
+    "small": [
+      {
+        "text": "홈",
+        "size": 13
+      },
+      {
+        "text": "Wonder Weeks",
+        "size": 11
+      },
+      {
+        "text": "아기가 첫 해 동안 겪는 10번의 정신적 도약을 시기별로 확인하세요.",
+        "size": 13
+      },
+      {
+        "text": "생후 약 5주부터 75주까지 · 현재 생후",
+        "size": 12
+      },
+      {
+        "text": "68 일",
+        "size": 12
+      },
+      {
+        "text": "LEAP  1",
+        "size": 10.5
+      },
+      {
+        "text": "31 ~ 38 일",
+        "size": 11
+      },
+      {
+        "text": "01",
+        "size": 10.5
+      },
+      {
+        "text": "02",
+        "size": 10.5
+      },
+      {
+        "text": "03",
+        "size": 10.5
+      },
+      {
+        "text": "04",
+        "size": 10.5
+      },
+      {
+        "text": "LEAP  2",
+        "size": 10.5
+      },
+      {
+        "text": "49 ~ 59 일",
+        "size": 11
+      },
+      {
+        "text": "01",
+        "size": 10.5
+      },
+      {
+        "text": "02",
+        "size": 10.5
+      }
+    ],
+    "lowContrast": [
+      {
+        "text": "생후 약 5주부터 75주까지 · 현재 생후",
+        "size": 12,
+        "ratio": 4.13,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          12,
+          10,
+          9
+        ],
+        "classes": "mt-0.5 text-[12px] font-medium text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "LEAP  1",
+        "size": 10.5,
+        "ratio": 3.65,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          28,
+          25,
+          23
+        ],
+        "classes": "text-[10.5px] font-black tabular-nums tracking-[0.1em] text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "31 ~ 38 일",
+        "size": 11,
+        "ratio": 3.65,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          28,
+          25,
+          23
+        ],
+        "classes": "text-[11px] font-semibold tabular-nums text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "감각의 세계",
+        "size": 15,
+        "ratio": 3.65,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          28,
+          25,
+          23
+        ],
+        "classes": "mt-2 text-[15px] font-bold tracking-tight leading-snug text-stone-500 dark:text-stone-500"
+      },
+      {
+        "text": "LEAP  2",
+        "size": 10.5,
+        "ratio": 3.65,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          28,
+          25,
+          23
+        ],
+        "classes": "text-[10.5px] font-black tabular-nums tracking-[0.1em] text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "49 ~ 59 일",
+        "size": 11,
+        "ratio": 3.65,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          28,
+          25,
+          23
+        ],
+        "classes": "text-[11px] font-semibold tabular-nums text-stone-400 dark:text-stone-500"
+      },
+      {
+        "text": "패턴의 세계",
+        "size": 15,
+        "ratio": 3.65,
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": [
+          28,
+          25,
+          23
+        ],
+        "classes": "mt-2 text-[15px] font-bold tracking-tight leading-snug text-stone-500 dark:text-stone-500"
+      }
+    ],
+    "skippedComplexBackground": 105,
+    "overflow": false
+  },
+  {
+    "url": "/privacy",
+    "mode": "dark",
+    "sizes": {
+      "11": 7,
+      "12": 1,
+      "13": 15,
+      "15": 6,
+      "26": 1
+    },
+    "total": 30,
+    "small": [
+      {
+        "text": "설정",
+        "size": 13
+      },
+      {
+        "text": "Privacy",
+        "size": 11
+      },
+      {
+        "text": "InfantPedia는 부모님과 아기의 정보를 최소한으로 수집하고, 안전하게 보관하기 위해 다음 원칙을 따릅니다.",
+        "size": 13
+      },
+      {
+        "text": "01",
+        "size": 11
+      },
+      {
+        "text": "InfantPedia(이하 \"서비스\")는 소셜 로그인 시   을 수집합니다.",
+        "size": 13
+      },
+      {
+        "text": "이메일 주소, 프로필 이름, 프로필 사진 URL",
+        "size": 13
+      },
+      {
+        "text": "아기 정보(이름·생년월일·성장 기록·예방접종 기록)는 사용자가 직접 입력하며, 로그인 상태에서는 클라우드에 저장되고 비로그인 상태에서는",
+        "size": 13
+      },
+      {
+        "text": "02",
+        "size": 11
+      },
+      {
+        "text": "사용자 식별 및 로그인 서비스 제공",
+        "size": 13
+      },
+      {
+        "text": "여러 기기 간 데이터 동기화",
+        "size": 13
+      },
+      {
+        "text": "서비스 품질 개선 및 오류 수정",
+        "size": 13
+      },
+      {
+        "text": "03",
+        "size": 11
+      },
+      {
+        "text": "수집된 개인정보는 서비스 이용 기간 동안 보관되며, 회원 탈퇴 즉시 모든 클라우드 데이터가 파기됩니다. 비로그인 사용자의 데이터는 서버",
+        "size": 13
+      },
+      {
+        "text": "04",
+        "size": 11
+      },
+      {
+        "text": "서비스는 사용자의 개인정보를 어떠한 제3자에게도 제공하지 않습니다. 단, 관련 법령에 따라 수사기관의 적법한 요청이 있는 경우에 한해 ",
+        "size": 13
+      }
+    ],
+    "lowContrast": [
+      {
+        "text": "시행일 · 2026년 4월 22일",
+        "size": 12,
+        "ratio": 2.59,
+        "color": "oklch(0.444 0.011 73.639)",
+        "background": [
+          12,
+          10,
+          9
+        ],
+        "classes": "pt-2 text-center text-[12px] font-medium text-stone-400 dark:text-stone-600"
+      }
+    ],
+    "skippedComplexBackground": 0,
+    "overflow": false
+  }
+]

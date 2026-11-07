@@ -1,0 +1,42 @@
+{
+  "origin": "http://127.0.0.1:3219",
+  "homeName": "20px",
+  "headers": [
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "title": "육아 백과",
+      "fontSize": "22px"
+    },
+    {
+      "route": "/growth",
+      "title": "성장 기록",
+      "fontSize": "22px"
+    },
+    {
+      "route": "/tips?month=2",
+      "title": "육아 꿀팁",
+      "fontSize": "22px"
+    },
+    {
+      "route": "/settings",
+      "title": "설정",
+      "fontSize": "22px"
+    }
+  ],
+  "publicReads": [
+    {
+      "table": "months_info",
+      "status": 200
+    },
+    {
+      "table": "wonder_weeks",
+      "status": 200
+    },
+    {
+      "table": "parenting_tips",
+      "status": 200
+    }
+  ],
+  "runtimeErrors": [],
+  "mutationAttempts": []
+}

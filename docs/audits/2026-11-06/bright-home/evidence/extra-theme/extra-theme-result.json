@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "onboarding action uses readable light and dark brand colors",
+    "current wonder-week selection uses the new palette in both themes"
+  ],
+  "errors": []
+}

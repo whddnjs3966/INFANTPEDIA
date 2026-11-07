@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 interface FormattedContentProps {
   content: string;
   className?: string;
+  variant?: "numbered" | "prose";
 }
 
 // 측정값/수치 — 중립 하이콘트라스트 볼드
@@ -79,7 +80,7 @@ function highlightText(text: string): React.ReactNode[] {
       parts.push(
         <strong
           key={i}
-          className="font-bold text-amber-600 dark:text-amber-400"
+          className="font-bold text-amber-800 dark:text-amber-300"
         >
           {segment}
         </strong>
@@ -104,6 +105,7 @@ function highlightText(text: string): React.ReactNode[] {
 export default function FormattedContent({
   content,
   className,
+  variant = "numbered",
 }: FormattedContentProps) {
   // Split by sentence-ending patterns: Korean period + whitespace
   const sentences = content
@@ -116,7 +118,7 @@ export default function FormattedContent({
     return (
       <p
         className={cn(
-          "text-[14px] leading-[1.7] text-stone-600 dark:text-stone-300",
+          "text-base leading-[1.75] text-[var(--foreground)]",
           className
         )}
       >
@@ -125,6 +127,8 @@ export default function FormattedContent({
     );
   }
 
+  if (variant === "prose") return <div className={cn("space-y-2.5", className)}>{sentences.map((sentence, index) => <p key={index} className="break-words text-base leading-7 text-[var(--foreground)]">{highlightText(sentence)}</p>)}</div>;
+
   // Multiple sentences → editorial numbered list
   return (
     <ol className={cn("space-y-3", className)}>
@@ -132,11 +136,11 @@ export default function FormattedContent({
         <li key={idx} className="flex gap-3">
           <span
             aria-hidden
-            className="shrink-0 pt-[4px] text-[10.5px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400"
+            className="shrink-0 pt-1 text-sm font-bold tabular-nums text-[var(--brand)]"
           >
             {String(idx + 1).padStart(2, "0")}
           </span>
-          <p className="flex-1 text-[14px] leading-[1.7] text-stone-600 dark:text-stone-300">
+          <p className="min-w-0 flex-1 break-words text-base leading-[1.75] text-[var(--foreground)]">
             {highlightText(sentence)}
           </p>
         </li>

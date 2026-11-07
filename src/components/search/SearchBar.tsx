@@ -1,96 +1,45 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Search, X, ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowLeft, Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-interface SearchBarProps {
-  onSearch: (keyword: string) => void;
-  initialValue?: string;
-}
+interface SearchBarProps { autoFocus?: boolean; backHref?: string; onSearch: (keyword: string) => void; initialValue?: string; }
 
-export default function SearchBar({ onSearch, initialValue = "" }: SearchBarProps) {
-  const [value, setValue] = useState(initialValue);
+export default function SearchBar({ onSearch, initialValue = "", autoFocus = true, backHref }: SearchBarProps) {
+  const [draft, setDraft] = useState({ source: initialValue, value: initialValue });
+  const value = draft.source === initialValue ? draft.value : initialValue;
+  const setValue = (next: string) => setDraft({ source: initialValue, value: next });
   const inputRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    inputRef.current?.focus();
+  const composingRef = useRef(false);
+  const onSearchRef = useRef(onSearch);
+  const router = useRouter();
+  const cancelPending = useCallback(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = null;
   }, []);
-
-  const debouncedSearch = useCallback(
-    (keyword: string) => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
-      debounceRef.current = setTimeout(() => {
-        onSearch(keyword);
-      }, 300);
-    },
-    [onSearch]
-  );
-
-  useEffect(() => {
-    return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
-    };
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    debouncedSearch(newValue);
+  useEffect(() => { if (autoFocus) inputRef.current?.focus(); return cancelPending; }, [cancelPending, autoFocus]);
+  useEffect(() => { onSearchRef.current = onSearch; }, [onSearch]);
+  useEffect(() => { cancelPending(); }, [initialValue, cancelPending]);
+  const schedule = (keyword: string) => {
+    cancelPending();
+    if (!keyword.trim()) { onSearch(""); return; }
+    debounceRef.current = setTimeout(() => { debounceRef.current = null; onSearchRef.current(keyword); }, 300);
   };
-
-  const handleClear = () => {
-    setValue("");
-    onSearch("");
-    inputRef.current?.focus();
-  };
+  const clear = () => { cancelPending(); setValue(""); onSearch(""); inputRef.current?.focus(); };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="sticky top-0 z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-4 pt-4 pb-3"
-    >
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => router.back()}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 active:scale-95 transition-transform"
-          aria-label="뒤로가기"
-        >
-          <ArrowLeft size={20} />
-        </button>
-
-        <div className="relative flex-1">
-          <Search
-            size={18}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-          />
-          <input
-            ref={inputRef}
-            type="text"
-            value={value}
-            onChange={handleChange}
-            placeholder="검색어를 입력하세요"
-            className="w-full rounded-full border border-pink-200/60 dark:border-gray-600 bg-pink-50/30 dark:bg-gray-800 py-2.5 pl-10 pr-10 text-sm text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none focus:border-pink-300 dark:focus:border-pink-500 focus:ring-2 focus:ring-pink-200/50 dark:focus:ring-pink-800/50 transition-all"
-          />
-          {value && (
-            <button
-              onClick={handleClear}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 active:scale-90 transition-transform"
-              aria-label="검색어 지우기"
-            >
-              <X size={18} />
-            </button>
-          )}
+    <header className="sticky top-0 z-20 bg-[var(--surface-bg)] px-5 pb-3 pt-safe">
+      <form role="search" aria-label="육아 정보 검색" onSubmit={event => { event.preventDefault(); if (composingRef.current) return; cancelPending(); onSearch(value); }} className="flex items-center gap-2 pt-3">
+        <button type="button" onClick={() => { cancelPending(); if (backHref) router.replace(backHref, { scroll: false }); else if (window.history.length > 1) router.back(); else router.replace("/encyclopedia"); }} className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-stone-700 dark:bg-[var(--card)] dark:text-stone-200" aria-label="이전 화면으로"><ArrowLeft size={21} aria-hidden="true" /></button>
+        <div className="relative min-w-0 flex-1">
+          <label htmlFor="content-search" className="sr-only">검색어</label>
+          <Search size={19} aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-500 dark:text-stone-400" />
+          <input ref={inputRef} id="content-search" type="search" autoComplete="off" maxLength={100} value={value} onChange={event => { setValue(event.target.value); if (!composingRef.current) schedule(event.target.value); }} onCompositionStart={() => { composingRef.current = true; cancelPending(); }} onCompositionEnd={event => { composingRef.current = false; schedule(event.currentTarget.value); }} placeholder="수면, 이유식, 증상 등을 검색" className="min-h-13 w-full rounded-xl border border-stone-300 bg-white py-3 pl-11 pr-12 text-base text-stone-900 placeholder:text-stone-500 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700/25 dark:border-stone-600 dark:bg-[var(--card)] dark:text-stone-100 dark:placeholder:text-stone-400 dark:focus:border-blue-300 dark:focus:ring-blue-300/30 [&::-webkit-search-cancel-button]:appearance-none" />
+          {value && <button type="button" onClick={clear} aria-label="검색어 지우기" className="absolute right-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-xl text-stone-600 dark:text-stone-300"><X size={20} aria-hidden="true" /></button>}
         </div>
-      </div>
-    </motion.div>
+      </form>
+    </header>
   );
 }

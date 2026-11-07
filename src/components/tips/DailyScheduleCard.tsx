@@ -1,328 +1,53 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Clock,
-  ChevronDown,
-  Moon,
-  Sun,
-  Timer,
-  CloudMoon,
-  Sunrise,
-  Lightbulb,
-  Info,
-} from "lucide-react";
+import { useId } from "react";
+import Link from "next/link";
+import { ArrowRight, Bath, ChevronDown, Clock3, Milk, Moon, Smile } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState, useMemo } from "react";
-import {
-  getScheduleForMonth,
-  type ScheduleItem,
-} from "@/lib/data/daily-schedule-data";
+import { useReadingValue } from "@/components/reading/ReadingScope";
+import { getScheduleForMonth, type DailySchedule } from "@/lib/data/daily-schedule-data";
+import { nightWindows, scheduleSegments, splitAtMidnight } from "@/lib/utils/daily-schedule-view";
 
-const typeConfig: Record<string, { bg: string; text: string; dot: string; bar: string; label: string }> = {
-  sleep: { bg: "bg-indigo-50 dark:bg-indigo-950/30", text: "text-indigo-700 dark:text-indigo-300", dot: "bg-indigo-400", bar: "bg-indigo-400", label: "취침" },
-  feed: { bg: "bg-pink-50 dark:bg-pink-950/30", text: "text-pink-700 dark:text-pink-300", dot: "bg-pink-400", bar: "bg-pink-400", label: "수유" },
-  play: { bg: "bg-blue-50 dark:bg-blue-950/30", text: "text-blue-700 dark:text-blue-300", dot: "bg-blue-400", bar: "bg-blue-400", label: "놀이" },
-  bath: { bg: "bg-cyan-50 dark:bg-cyan-950/30", text: "text-cyan-700 dark:text-cyan-300", dot: "bg-cyan-400", bar: "bg-cyan-400", label: "목욕" },
-  nap: { bg: "bg-purple-50 dark:bg-purple-950/30", text: "text-purple-700 dark:text-purple-300", dot: "bg-purple-400", bar: "bg-purple-400", label: "낮잠" },
-  meal: { bg: "bg-amber-50 dark:bg-amber-950/30", text: "text-amber-700 dark:text-amber-300", dot: "bg-amber-400", bar: "bg-amber-400", label: "이유식" },
+import ScheduleActivityList from "./ScheduleActivityList";
+
+const types = {
+  feed: { label: "수유", icon: Milk, color: "bg-rose-400", surface: "bg-rose-50 text-rose-900 dark:bg-rose-950/40 dark:text-rose-200" },
+  meal: { label: "식사", icon: Milk, color: "bg-amber-400", surface: "bg-amber-50 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200" },
+  nap: { label: "낮잠", icon: Moon, color: "bg-violet-400", surface: "bg-violet-50 text-violet-900 dark:bg-violet-950/40 dark:text-violet-200" },
+  sleep: { label: "수면", icon: Moon, color: "bg-indigo-400", surface: "bg-indigo-50 text-indigo-900 dark:bg-indigo-950/40 dark:text-indigo-200" },
+  play: { label: "놀이·돌봄", icon: Smile, color: "bg-blue-400", surface: "bg-blue-50 text-blue-900 dark:bg-blue-950/40 dark:text-blue-200" },
+  bath: { label: "목욕", icon: Bath, color: "bg-sky-400", surface: "bg-sky-50 text-sky-900 dark:bg-sky-950/40 dark:text-sky-200" },
 };
 
-function timeToMinutes(time: string): number | null {
-  if (!time || time === "수시" || time === "—") return null;
-  const [h, m] = time.split(":").map(Number);
-  if (isNaN(h) || isNaN(m)) return null;
-  let mins = h * 60 + m - 360;
-  if (mins < 0) mins += 1440;
-  return mins;
+function DayChart({ schedule }: { schedule: DailySchedule }) {
+  const segments = scheduleSegments(schedule), night = nightWindows(schedule);
+  const lanes = [{ label: "밤 시간", kinds: ["night"] }, { label: "낮잠", kinds: ["nap"] }, { label: "수유·식사", kinds: ["feed", "meal"] }, { label: "놀이·돌봄", kinds: ["play", "bath"] }];
+  return <figure className="rounded-2xl border border-[var(--border)] bg-[var(--surface-bg)] p-4" aria-label="24시간 참고 일과 그래프">
+    <figcaption className="mb-4 text-sm font-bold">하루 리듬 한눈에 <span className="ml-1 text-sm font-normal text-[var(--muted-foreground)]">시각 예시</span></figcaption>
+    <div className="flex justify-between text-[11px] tabular-nums text-[var(--muted-foreground)]" aria-hidden>{["00", "06", "12", "18", "24"].map(t => <span key={t}>{t}</span>)}</div>
+    <div className="mt-2 space-y-3" aria-hidden>{lanes.map(lane => <div key={lane.label} className="space-y-1.5"><span className="block break-words text-sm font-semibold">{lane.label}</span><div className="relative h-8 overflow-hidden rounded-lg bg-[var(--card)] ring-1 ring-[var(--border)]">
+      {[25, 50, 75].map(left => <span key={left} className="absolute inset-y-0 border-l border-dashed border-[var(--border)]" style={{ left: `${left}%` }} />)}
+      {lane.kinds[0] === "night" ? night.map((n, i) => <span key={i} className="absolute inset-y-0 border border-dashed border-indigo-300 bg-indigo-100/70 dark:border-indigo-700 dark:bg-indigo-950/80" style={{ left: `${n.start / 14.4}%`, width: `${(n.end - n.start) / 14.4}%`, backgroundImage: "repeating-linear-gradient(135deg,transparent,transparent 5px,rgba(99,102,241,.15) 5px,rgba(99,102,241,.15) 7px)" }} />) : segments.filter(s => lane.kinds.includes(s.type)).map(s => <span key={s.index}>{splitAtMidnight(s.start, s.maxEnd).map((p, i) => <span key={`max-${i}`} className={cn("absolute inset-y-1 rounded-sm opacity-25", types[s.type as keyof typeof types].color)} style={{ left: `${p.start / 14.4}%`, width: `${(p.end - p.start) / 14.4}%` }} />)}{splitAtMidnight(s.start, s.minEnd).map((p, i) => <span key={`min-${i}`} className={cn("absolute inset-y-1 rounded-sm", types[s.type as keyof typeof types].color)} style={{ left: `${p.start / 14.4}%`, width: `${(p.end - p.start) / 14.4}%` }} />)}</span>)}
+    </div></div>)}</div>
+    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm leading-5 text-[var(--muted-foreground)]"><span className="flex items-center gap-1.5"><span className="h-2.5 w-3 rounded-sm bg-blue-400" />활동 시간 예시</span><span className="flex items-center gap-1.5"><span className="h-2.5 w-3 rounded-sm bg-blue-400/25" />소요시간의 변동 범위</span></div>
+    <p className="mt-3 text-sm leading-5 text-indigo-800 dark:text-indigo-200">빗금은 밤 시간대예요. 수면·깸·수유가 섞일 수 있으며 연속 수면을 뜻하지 않아요.</p>
+    <p className="sr-only">시간축은 0시부터 24시까지입니다. 활동 막대는 명시된 소요시간을 나타냅니다. 빈 구간은 활동이 지정되지 않았으며, 밤 시간대는 실제 수면량이 아닙니다. 아래 목록에서 각 시각과 활동 시간을 확인할 수 있습니다.</p>
+  </figure>;
 }
 
-interface TimeBarSegment {
-  left: number;
-  width: number;
-  type: string;
-}
-
-function buildTimeBarSegments(items: ScheduleItem[]): TimeBarSegment[] {
-  const totalMinutes = 1440;
-  const segments: TimeBarSegment[] = [];
-
-  const timed = items
-    .map((item) => ({ ...item, mins: timeToMinutes(item.time) }))
-    .filter((item): item is typeof item & { mins: number } => item.mins !== null)
-    .sort((a, b) => a.mins - b.mins);
-
-  for (let i = 0; i < timed.length; i++) {
-    const current = timed[i];
-    const next = timed[i + 1];
-    const startMin = current.mins;
-    const endMin = next ? next.mins : totalMinutes;
-    const duration = endMin - startMin;
-    if (duration <= 0) continue;
-
-    segments.push({
-      left: (startMin / totalMinutes) * 100,
-      width: (duration / totalMinutes) * 100,
-      type: current.type,
-    });
-  }
-
-  return segments;
-}
-
-interface DailyScheduleCardProps {
-  month: number;
-}
-
-export default function DailyScheduleCard({ month }: DailyScheduleCardProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
-  const schedule = getScheduleForMonth(month);
-
-  const segments = useMemo(() => {
-    if (!schedule || schedule.wakeUp === "—") return [];
-    return buildTimeBarSegments(schedule.items);
-  }, [schedule]);
-
+export default function DailyScheduleCard({ month }: { month: number }) {
+  const [isOpen, setIsOpen] = useReadingValue<boolean>("schedule:open", true);
+  const [showGraph, setShowGraph] = useReadingValue<boolean>("schedule:v4:graph", false);
+  const id = useId(), schedule = getScheduleForMonth(month);
   if (!schedule) return null;
-
-  const hasTimedSchedule = schedule.wakeUp !== "—";
-
-  return (
-    <div className="mx-4 mb-3">
-      {/* Accordion Card */}
-      <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
-        {/* Header */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
-        >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 dark:bg-teal-950/40 shrink-0">
-            <Clock size={17} className="text-teal-500" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-              {month}개월 추천 하루 시간표
-            </p>
-            {hasTimedSchedule && (
-              <p className="text-[11px] text-stone-400 dark:text-stone-500 mt-0.5">
-                {schedule.wakeUp} ~ {schedule.bedtime}
-              </p>
-            )}
-          </div>
-          <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <ChevronDown size={16} className="text-stone-400" />
-          </motion.div>
-        </button>
-
-        {/* Content */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="overflow-hidden"
-            >
-              <div className="px-4 pb-4 space-y-4">
-                {/* Divider */}
-                <div className="border-t border-stone-200 dark:border-stone-700" />
-
-                {/* 24-Hour Timeline Bar */}
-                {hasTimedSchedule && segments.length > 0 && (
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-1">
-                        <Sun size={11} className="text-amber-400" />
-                        <span className="text-[11px] text-stone-400 dark:text-stone-500">06</span>
-                      </div>
-                      <span className="text-[11px] text-stone-400 dark:text-stone-500">12</span>
-                      <span className="text-[11px] text-stone-400 dark:text-stone-500">18</span>
-                      <div className="flex items-center gap-1">
-                        <span className="text-[11px] text-stone-400 dark:text-stone-500">00</span>
-                        <Moon size={11} className="text-indigo-400" />
-                      </div>
-                    </div>
-                    <div className="relative h-3 w-full rounded-full bg-stone-100 dark:bg-stone-800 overflow-hidden">
-                      {segments.map((seg, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ delay: i * 0.02, duration: 0.3 }}
-                          className={cn(
-                            "absolute top-0 h-full origin-left",
-                            typeConfig[seg.type]?.bar || "bg-gray-300",
-                            i === 0 && "rounded-l-full",
-                            i === segments.length - 1 && "rounded-r-full"
-                          )}
-                          style={{ left: `${seg.left}%`, width: `${seg.width}%` }}
-                        />
-                      ))}
-                    </div>
-                    {/* Legend */}
-                    <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
-                      {Object.entries(typeConfig).map(([type, cfg]) => {
-                        const hasType = segments.some((s) => s.type === type);
-                        if (!hasType) return null;
-                        return (
-                          <div key={type} className="flex items-center gap-1">
-                            <div className={cn("h-2 w-2 rounded-full", cfg.bar)} />
-                            <span className="text-[11px] text-stone-500 dark:text-stone-400">
-                              {cfg.label}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Summary Stats */}
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
-                    <div className="flex items-center gap-2">
-                      <CloudMoon size={14} className="text-indigo-500 shrink-0" />
-                      <div>
-                        <p className="text-[11px] text-stone-400">총 수면</p>
-                        <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">{schedule.totalSleepHours}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
-                    <div className="flex items-center gap-2">
-                      <Moon size={14} className="text-purple-500 shrink-0" />
-                      <div>
-                        <p className="text-[11px] text-stone-400">낮잠</p>
-                        <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">{schedule.napCount}</p>
-                      </div>
-                    </div>
-                  </div>
-                  {hasTimedSchedule && (
-                    <>
-                      <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
-                        <div className="flex items-center gap-2">
-                          <Sunrise size={14} className="text-amber-500 shrink-0" />
-                          <div>
-                            <p className="text-[11px] text-stone-400">기상</p>
-                            <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">{schedule.wakeUp}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5">
-                        <div className="flex items-center gap-2">
-                          <Moon size={14} className="text-slate-500 shrink-0" />
-                          <div>
-                            <p className="text-[11px] text-stone-400">취침</p>
-                            <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">{schedule.bedtime}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Vertical Timeline */}
-                <div className="relative">
-                  {schedule.items.map((item, idx) => {
-                    const isExpanded = expandedIdx === idx;
-                    const cfg = typeConfig[item.type] || { bg: "bg-gray-50 dark:bg-stone-800", text: "text-gray-700 dark:text-gray-300", dot: "bg-gray-400" };
-                    return (
-                      <div
-                        key={idx}
-                        className="flex items-start gap-3 mb-0.5 last:mb-0"
-                      >
-                        {/* Time */}
-                        <div className="w-11 shrink-0 pt-2 text-right">
-                          <span className="text-[12px] font-mono font-bold text-gray-600 dark:text-stone-400">
-                            {item.time}
-                          </span>
-                        </div>
-
-                        {/* Dot + line */}
-                        <div className="flex flex-col items-center pt-1.5">
-                          <div
-                            className={cn(
-                              "h-2.5 w-2.5 rounded-full shrink-0 ring-2 ring-white dark:ring-gray-900",
-                              cfg.dot
-                            )}
-                          />
-                          {idx < schedule.items.length - 1 && (
-                            <div
-                              className="w-px bg-gray-200 dark:bg-stone-700 flex-1"
-                              style={{ minHeight: isExpanded ? 72 : 28 }}
-                            />
-                          )}
-                        </div>
-
-                        {/* Activity */}
-                        <div className="flex-1 pb-1">
-                          <button
-                            onClick={() => setExpandedIdx(isExpanded ? null : idx)}
-                            className={cn(
-                              "w-full rounded-xl px-3 py-2 text-left transition-colors",
-                              cfg.bg
-                            )}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className={cn("text-[12px] font-semibold", cfg.text)}>
-                                {item.activity}
-                              </span>
-                              {item.duration && item.duration !== "~" && (
-                                <div className="flex items-center gap-0.5 ml-2 shrink-0">
-                                  <Timer size={10} className="text-stone-400" />
-                                  <span className="text-[11px] text-gray-400 font-medium">
-                                    {item.duration}
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                          </button>
-
-                          <AnimatePresence>
-                            {isExpanded && item.tip && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="mt-1.5 rounded-xl bg-amber-50/60 dark:bg-amber-950/20 px-3 py-2">
-                                  <div className="flex items-start gap-1.5">
-                                    <Lightbulb size={11} className="text-amber-500 shrink-0 mt-0.5" />
-                                    <p className="text-[11px] text-amber-700 dark:text-amber-300 leading-relaxed">
-                                      {item.tip}
-                                    </p>
-                                  </div>
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Footer */}
-                <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 px-3 py-2.5">
-                  <div className="flex items-center gap-2">
-                    <Info size={13} className="text-gray-400 shrink-0" />
-                    <p className="text-[11px] text-stone-500 dark:text-stone-400">
-                      아기마다 리듬이 다를 수 있어요. 참고용으로 활용해 주세요.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+  const responsive = schedule.mode === "responsive";
+  return <section className="surface-card mx-5 mb-5 overflow-hidden" data-reading-anchor="schedule" aria-label={`${month}개월 하루 리듬`}>
+    <h3><button type="button" aria-expanded={isOpen} aria-controls={`${id}-body`} onClick={() => setIsOpen(!isOpen)} className="flex min-h-12 w-full items-center gap-3 p-5 text-left"><Clock3 size={21} strokeWidth={1.8} aria-hidden className="shrink-0 text-[var(--brand)]" /><span className="min-w-0 flex-1"><span className="block text-lg font-semibold tracking-tight">{responsive ? "하루를 조금 편하게" : `${month}개월 하루 리듬`}</span><span className="mt-1 block text-sm font-normal leading-6 text-[var(--muted-foreground)]">{responsive ? "시간표 대신, 자주 막히는 순간의 작은 요령" : "정해진 목표가 아닌, 조절해서 보는 일과 예시"}</span></span><ChevronDown size={18} aria-hidden className={cn("shrink-0 text-[var(--muted-foreground)] transition-transform motion-reduce:transition-none", isOpen && "rotate-180")} /></button></h3>
+    <div id={`${id}-body`} hidden={!isOpen} className="space-y-5 px-5 pb-5">
+      <ScheduleActivityList schedule={schedule} />
+      {responsive ? <p className="rounded-2xl bg-[var(--surface-bg)] px-4 py-3 text-sm leading-6 text-[var(--muted-foreground)]"><strong className="font-semibold text-[var(--foreground)]">밤에도 깨거나 먹을 수 있어요.</strong> 통잠을 목표로 수유를 미루지 않아요. 아기의 상태와 의료진의 개별 안내가 우선이에요.</p> : <div><button type="button" aria-expanded={showGraph} aria-controls={`${id}-graph`} onClick={() => setShowGraph(!showGraph)} className="flex min-h-12 w-full items-center justify-between gap-2 rounded-2xl bg-[var(--surface-bg)] px-4 text-left text-sm font-semibold">하루 전체 그래프<ChevronDown size={16} aria-hidden className={cn(showGraph && "rotate-180")} /></button><div id={`${id}-graph`} hidden={!showGraph} className="mt-3"><DayChart schedule={schedule} /><p className="mt-3 text-sm leading-6 text-[var(--muted-foreground)]">시각·소요시간은 참고 예시예요. 낮잠·먹기의 권장 횟수나 연속 수면량이 아니에요. 다음 시각은 아기의 상태에 따라 달라져요.</p></div></div>}
+      <nav aria-label="일과 관련 가이드" className="flex flex-wrap gap-x-5 gap-y-1">{[{ tab: "sleep", label: "수면 가이드" }, { tab: "feeding", label: "수유 가이드" }].map(link => <Link key={link.tab} href={`/encyclopedia?tab=${link.tab}&month=${month}`} scroll={false} className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--brand)]">{link.label}<ArrowRight size={14} aria-hidden /></Link>)}</nav>
+      <details className="border-t border-[var(--border)] pt-1 text-sm leading-6 text-[var(--muted-foreground)]"><summary className="min-h-11 cursor-pointer py-2.5">일과 예시 참고 자료</summary><p>돌봄 팁은 2026-11-06 공개 자료와 대조했어요. 월령별 시각과 수치는 참고 예시이며 개별 돌봄 안내를 우선해요.</p><a href="https://www.nhs.uk/baby/caring-for-a-newborn/helping-your-baby-to-sleep/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center font-medium text-[var(--brand)] underline">NHS · 아기 수면 안내 (새 창)</a><br /><a href="https://safetosleep.nichd.nih.gov/reduce-risk/safe-sleep-environment" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center font-medium text-[var(--brand)] underline">NIH · 안전한 수면 환경 (새 창)</a></details>
     </div>
-  );
+  </section>;
 }

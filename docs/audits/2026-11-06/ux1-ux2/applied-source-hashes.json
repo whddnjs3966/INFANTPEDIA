@@ -1,0 +1,74 @@
+[
+  {
+    "file": "src\\app\\globals.css",
+    "sha256": "70FB9E509E15A844946F20D74D84C6444CC0FDB5481458A6C88E13164C815F92"
+  },
+  {
+    "file": "src\\app\\encyclopedia\\page.tsx",
+    "sha256": "C76E7947E3EC826BA1764B9E20FB0DCF3B0A76812B0F704F936056FCC032AC64"
+  },
+  {
+    "file": "src\\app\\search\\page.tsx",
+    "sha256": "F4AE0833804874793FC752FC87D47182339A773BEB6198663D23B5F9DD9C083E"
+  },
+  {
+    "file": "src\\components\\encyclopedia\\CategoryAccordion.tsx",
+    "sha256": "4A91FD2A85288701F6BE5ED9B41FBA1750E62D82DBD317B68853C9F741E6AEDE"
+  },
+  {
+    "file": "src\\components\\encyclopedia\\EmergencyCareNotice.tsx",
+    "sha256": "F0E39F36335DB8516A80613181F02A8418E1192C7E09CCD1BBE610D8EC8EF547"
+  },
+  {
+    "file": "src\\components\\encyclopedia\\GuidePresentation.tsx",
+    "sha256": "7FCEE9DD615626922CD0DFE24374C4F5AE7B0BCBD2ABB5B0CD8E45B5976A80FA"
+  },
+  {
+    "file": "src\\components\\encyclopedia\\HealthCareAnswer.tsx",
+    "sha256": "C90AD69390A684C851C12E87AF756DCBEBF02CA889E628A60BE38E46D255986E"
+  },
+  {
+    "file": "src\\components\\encyclopedia\\HealthFAQ.tsx",
+    "sha256": "BA313428E810C6D9257435699D3265250A6D1673B8ED5514FC4E8319BCE4F42B"
+  },
+  {
+    "file": "src\\components\\encyclopedia\\HealthFAQEvidence.tsx",
+    "sha256": "0A68B6993DD5CCC5E08F7C9060B4621BAB004CB375B42D03F217C6D68F20D9D3"
+  },
+  {
+    "file": "src\\components\\encyclopedia\\MonthSelector.tsx",
+    "sha256": "01599DF98641C782F5C1A3EFBA8D61BEA968054AEC56DE97310F0830F6C1DCE1"
+  },
+  {
+    "file": "src\\components\\encyclopedia\\MonthSummaryCard.tsx",
+    "sha256": "898663262796861B650986EC9E4A41F50BB8EEBA721EA929CA19C84E3335BC36"
+  },
+  {
+    "file": "src\\components\\layout\\PageHeader.tsx",
+    "sha256": "E5902F5B0A45F90209AFFF027ABA46D690235E958CC7E8FCF0492F572ACC5514"
+  },
+  {
+    "file": "src\\components\\search\\SearchResults.tsx",
+    "sha256": "4F97F10870E97905EE94E76A663871875DF50CBE8CED1AF2E3125C3926809FDC"
+  },
+  {
+    "file": "src\\components\\ui\\EmphasizedText.tsx",
+    "sha256": "BDDE5B5BE6A058623C13B9D3EF84C294C849440DB5C488AFA79380B4B9520F2A"
+  },
+  {
+    "file": "src\\lib\\data\\care-text-presentation.ts",
+    "sha256": "222D949F4424D322D827B660ADEFAB9A26832AA0A45367230548325E82C06CF6"
+  },
+  {
+    "file": "src\\lib\\data\\month-summary-presentation.ts",
+    "sha256": "BF561B1F5C8F0B97A2A76E485392936A0788BF647913F7351514BE1ADD157076"
+  },
+  {
+    "file": "src\\lib\\utils\\content-presentation.ts",
+    "sha256": "1C0ECB27CE1F6000E67901E82B7BF9C38775DC881B6855E655ED9EC304635939"
+  },
+  {
+    "file": "src\\lib\\utils\\health-evidence-view.ts",
+    "sha256": "E556E7C376AB9E9EA94889A4BCB91F902C218301394B1E56CBEAA9526185DEB0"
+  }
+]

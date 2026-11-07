@@ -1,0 +1,872 @@
+{
+  "phase": "before",
+  "views": [
+    {
+      "month": 6,
+      "topic": "encyclopedia",
+      "initial": {
+        "height": 835,
+        "characters": 269
+      },
+      "expandedPanels": 6
+    },
+    {
+      "month": 6,
+      "topic": "milestone",
+      "initial": {
+        "height": 763,
+        "characters": 186
+      },
+      "expandedPanels": 4
+    },
+    {
+      "month": 6,
+      "topic": "activities",
+      "initial": {
+        "height": 654,
+        "characters": 146
+      },
+      "expandedPanels": 5
+    },
+    {
+      "month": 6,
+      "topic": "babyfood",
+      "initial": {
+        "height": 1388,
+        "characters": 325
+      },
+      "expandedPanels": 3
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "initial": {
+        "height": 2072,
+        "characters": 401
+      },
+      "expandedPanels": 9
+    },
+    {
+      "month": 6,
+      "topic": "feeding",
+      "initial": {
+        "height": 984,
+        "characters": 160
+      },
+      "expandedPanels": 6
+    },
+    {
+      "month": 6,
+      "topic": "dental",
+      "initial": {
+        "height": 2568,
+        "characters": 902
+      },
+      "expandedPanels": 5
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "initial": {
+        "height": 1865,
+        "characters": 987
+      },
+      "expandedPanels": 75
+    }
+  ],
+  "panels": [
+    {
+      "month": 6,
+      "topic": "encyclopedia",
+      "label": "설명 원문 자세히",
+      "characters": 98,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "encyclopedia",
+      "label": "수유·수면 참고 수치",
+      "characters": 120,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "encyclopedia",
+      "label": "발달\n1개 이야기 · 혼자 앉기와 상체 조절",
+      "characters": 170,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "encyclopedia",
+      "label": "놀이\n1개 이야기 · 까꿍놀이와 숨기놀이",
+      "characters": 188,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "encyclopedia",
+      "label": "수면\n1개 이야기 · 밤중 수유 줄이기",
+      "characters": 282,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "encyclopedia",
+      "label": "수유·먹기\n1개 이야기 · 이유식 초기 (쌀미음 → 채소 → 과일)",
+      "characters": 206,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "milestone",
+      "label": "🏃\n대근육0/4",
+      "characters": 201,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "milestone",
+      "label": "✋\n소근육0/3",
+      "characters": 154,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "milestone",
+      "label": "🗣️\n언어0/3",
+      "characters": 175,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "milestone",
+      "label": "👶\n사회성0/4",
+      "characters": 186,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "activities",
+      "label": "까꿍 놀이 (변형)\n10~15분\n쉬움",
+      "characters": 147,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "activities",
+      "label": "블록 쌓기\n10~15분\n쉬움",
+      "characters": 147,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "activities",
+      "label": "컵 쌓기 놀이\n10분\n쉬움",
+      "characters": 142,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "activities",
+      "label": "박수 치기 놀이\n5~10분\n쉬움",
+      "characters": 122,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "activities",
+      "label": "이유식 탐색 놀이\n10~20분\n보통",
+      "characters": 158,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "babyfood",
+      "label": "초기 2단계 조리법 & 주의사항",
+      "characters": 332,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "babyfood",
+      "label": "알레르기 안전 가이드",
+      "characters": 411,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "babyfood",
+      "label": "이유식 일반 꿀팁",
+      "characters": 277,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "안아재우기\n쉬움\n7~14일\n0개월 이후",
+      "characters": 293,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "페이드아웃\n보통\n7~14일\n4개월 이후",
+      "characters": 308,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "퍼버법\n보통\n3~7일\n4개월 이후",
+      "characters": 333,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "캠핑아웃\n보통\n14~21일\n6개월 이후",
+      "characters": 331,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "울려재우기(CIO)\n어려움\n2~3일\n6개월 이후",
+      "characters": 319,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "밤중 수유가 아직 있어요",
+      "characters": 86,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "이앓이로 잠을 못 자요",
+      "characters": 54,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "낮잠 전환기예요 (3→2회)",
+      "characters": 48,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "sleep",
+      "label": "분리 불안으로 울어요",
+      "characters": 47,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "feeding",
+      "label": "수유 자세 가이드",
+      "characters": 584,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "feeding",
+      "label": "트림시키기 가이드",
+      "characters": 171,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "feeding",
+      "label": "젖병 소독 & 관리",
+      "characters": 397,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "feeding",
+      "label": "모유 보관 가이드",
+      "characters": 66,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "feeding",
+      "label": "혼합수유 팁",
+      "characters": 99,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "feeding",
+      "label": "수유 트러블슈팅",
+      "characters": 517,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "dental",
+      "label": "유치 발달 타임라인",
+      "characters": 337,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "dental",
+      "label": "이앓이 증상 & 대처법",
+      "characters": 667,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "dental",
+      "label": "양치 가이드",
+      "characters": 567,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "dental",
+      "label": "치과 방문 가이드",
+      "characters": 173,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "dental",
+      "label": "자주 묻는 질문 (FAQ)",
+      "characters": 521,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 체온이 39도 이상입니다. 응급 상황인가요?\n발열 · 참고 자료 2개",
+      "characters": 456,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "열성 경련이란 무엇인가요? 어떻게 대처하나요?\n발열",
+      "characters": 272,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "발열 시 병원에 꼭 가야 하는 경우는?\n발열 · 참고 자료 3개",
+      "characters": 508,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 변에 피가 섞여 나왔어요. 어떻게 해야 하나요?\n소화",
+      "characters": 227,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "장중첩증이 의심되는 증상은 무엇인가요?\n소화",
+      "characters": 257,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 이물질을 삼킨 것 같아요!\n소화",
+      "characters": 272,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "크루프(급성 후두염)의 증상과 대처법은?\n호흡기",
+      "characters": 269,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 숨쉴 때 쌕쌕 소리가 나요.\n호흡기",
+      "characters": 237,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "폐렴이 의심되는 증상은 무엇인가요?\n호흡기",
+      "characters": 228,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "탈수 증상은 어떻게 알 수 있나요?\n일반",
+      "characters": 253,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 열 없이 경련(발작)을 했어요.\n일반",
+      "characters": 247,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "영아 돌연사 증후군(SIDS)을 예방하려면?\n일반",
+      "characters": 287,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "응급실에 가야 할 때와 소아과에 갈 때를 어떻게 구분하나요?\n일반 · 참고 자료 3개",
+      "characters": 513,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 체온은 어디에서 재는 것이 가장 정확한가요?\n발열 · 참고 자료 2개",
+      "characters": 456,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 체온이 37.5도입니다. 열이 있는 건가요?\n발열 · 참고 자료 2개",
+      "characters": 489,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 체온이 38도일 때 어떻게 해야 하나요?\n발열 · 참고 자료 2개",
+      "characters": 531,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아세트아미노펜(타이레놀) 해열제 복용법을 알려주세요.\n발열 · 참고 자료 2개",
+      "characters": 500,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "이부프로펜(부루펜) 해열제는 언제부터 먹일 수 있나요?\n발열 · 참고 자료 2개",
+      "characters": 479,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "해열제를 먹였는데 열이 안 내려가요. 어떻게 하나요?\n발열 · 참고 자료 2개",
+      "characters": 514,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "예방접종 후 열이 나는데 정상인가요?\n발열 · 참고 자료 2개",
+      "characters": 523,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "열이 날 때 목욕을 시켜도 되나요?\n발열 · 참고 자료 2개",
+      "characters": 465,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "열이 날 때 이불을 덮어서 땀을 내야 하나요?\n발열 · 참고 자료 3개",
+      "characters": 494,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "해열제는 체온이 몇 도일 때 먹여야 하나요?\n발열 · 참고 자료 3개",
+      "characters": 466,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "해열제 두 종류를 교대로 먹여도 되나요?\n발열 · 참고 자료 3개",
+      "characters": 498,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 아토피 피부염은 어떻게 관리하나요?\n피부",
+      "characters": 259,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "기저귀 발진이 심한데 어떻게 치료하나요?\n피부",
+      "characters": 243,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기에게 습진이 생겼어요. 아토피와 다른 건가요?\n피부",
+      "characters": 250,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "두드러기가 갑자기 올라왔어요. 어떻게 하나요?\n피부",
+      "characters": 233,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 목이나 겨드랑이에 짓무름이 있어요.\n피부",
+      "characters": 233,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 피부에 물집이 생겼어요. 수족구병인가요?\n피부",
+      "characters": 254,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 피부에 혈관종이 있다고 하는데 괜찮은가요?\n피부",
+      "characters": 219,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 설사는 어떤 변이 설사인가요?\n소화",
+      "characters": 219,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 설사할 때 먹이는 건 어떻게 하나요?\n소화",
+      "characters": 247,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 우유(분유) 알레르기가 있는 것 같아요.\n소화 · 참고 자료 2개",
+      "characters": 505,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "위식도 역류(GERD)와 단순 토유는 어떻게 구분하나요?\n소화 · 참고 자료 2개",
+      "characters": 482,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "노로바이러스/로타바이러스 장염은 어떻게 대처하나요?\n소화",
+      "characters": 253,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 코가 막혀서 숨을 잘 못 쉬어요.\n호흡기 · 참고 자료 2개",
+      "characters": 472,
+      "nativeDisclosuresOpened": 1
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 기침을 해요. 어떻게 해야 하나요?\n호흡기",
+      "characters": 245,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "가래가 끓는 소리가 나요. 괜찮은가요?\n호흡기",
+      "characters": 224,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "세기관지염이란 무엇인가요?\n호흡기",
+      "characters": 280,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "중이염은 어떤 증상이 있나요?\n호흡기",
+      "characters": 229,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 호흡수가 빠른 것 같아요. 정상 호흡수는?\n호흡기",
+      "characters": 220,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 코피가 났어요. 어떻게 해야 하나요?\n호흡기",
+      "characters": 253,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 체중이 잘 안 늘어요. 걱정해야 하나요?\n일반",
+      "characters": 266,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "대천문(숨구멍)은 언제 닫히나요? 만져도 되나요?\n일반",
+      "characters": 280,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 머리를 자주 부딪혀요. 걱정해야 하나요?\n일반",
+      "characters": 266,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 사시(눈 몰림)는 정상인가요?\n일반",
+      "characters": 230,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 고관절 탈구(DDH)인지 어떻게 확인하나요?\n일반",
+      "characters": 256,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "겨드랑이 체온계로 정확하게 재는 방법이 있나요?\n발열",
+      "characters": 194,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "고막 체온계는 몇 개월부터 사용할 수 있나요?\n발열",
+      "characters": 188,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "돌발진(장미진)이란 무엇인가요?\n발열",
+      "characters": 231,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "땀띠가 났어요. 어떻게 관리하나요?\n피부",
+      "characters": 246,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 보습제는 어떤 것을 선택해야 하나요?\n피부",
+      "characters": 213,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 목욕은 얼마나 자주 시켜야 하나요?\n피부",
+      "characters": 213,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 손톱, 발톱은 어떻게 깎아야 하나요?\n피부",
+      "characters": 225,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "자외선 차단제는 아기에게 언제부터 바를 수 있나요?\n피부",
+      "characters": 239,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 변비는 며칠 동안 변을 안 보면 의심해야 하나요?\n소화",
+      "characters": 225,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 변비에 좋은 마사지 방법이 있나요?\n소화",
+      "characters": 234,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 수유 후 자주 토해요. 정상인가요?\n소화",
+      "characters": 241,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 변 색깔이 초록색이에요. 괜찮은가요?\n소화",
+      "characters": 225,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "이유식 시작 후 변이 크게 달라졌어요.\n소화",
+      "characters": 249,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 트림을 잘 시키는 방법이 있나요?\n소화",
+      "characters": 268,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 감기에 감기약을 먹여도 되나요?\n호흡기",
+      "characters": 226,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 코에서 누런 콧물이 나와요.\n호흡기",
+      "characters": 225,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "가습기 사용 시 주의사항은?\n호흡기",
+      "characters": 226,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 코골이가 심해요. 정상인가요?\n호흡기",
+      "characters": 202,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 재채기를 자주 해요. 감기인가요?\n호흡기",
+      "characters": 222,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "수면 문제가 건강 문제와 관련이 있을 수 있나요?\n일반",
+      "characters": 240,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기에게 약을 먹이는 좋은 방법이 있나요?\n일반",
+      "characters": 239,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "소아청소년과는 어떤 기준으로 선택해야 하나요?\n일반",
+      "characters": 248,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "영유아 건강검진은 언제 받아야 하나요?\n일반",
+      "characters": 263,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기가 이가 나올 때 어떤 증상이 있나요?\n일반",
+      "characters": 251,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 배꼽이 튀어나왔어요(제대 탈장).\n일반",
+      "characters": 248,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "비타민 D 보충제는 아기에게 꼭 필요한가요?\n일반",
+      "characters": 250,
+      "nativeDisclosuresOpened": 0
+    },
+    {
+      "month": 6,
+      "topic": "health",
+      "label": "아기 눈에 눈곱이 많이 껴요.\n일반",
+      "characters": 266,
+      "nativeDisclosuresOpened": 0
+    }
+  ],
+  "errors": [],
+  "mutations": []
+}

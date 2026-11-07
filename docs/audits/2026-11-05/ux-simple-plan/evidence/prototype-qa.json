@@ -1,0 +1,34 @@
+{
+  "checks": [
+    {
+      "width": 320,
+      "theme": "light"
+    },
+    {
+      "width": 320,
+      "theme": "dark"
+    },
+    {
+      "width": 390,
+      "theme": "light"
+    },
+    {
+      "width": 390,
+      "theme": "dark"
+    },
+    {
+      "width": 736,
+      "theme": "light"
+    },
+    {
+      "width": 736,
+      "theme": "dark"
+    }
+  ],
+  "interactions": [
+    "월령 요약 원문 펼치기",
+    "FAQ 전환·답변 펼치기",
+    "월령 조건·금기·검수 상태 보존"
+  ],
+  "errors": []
+}

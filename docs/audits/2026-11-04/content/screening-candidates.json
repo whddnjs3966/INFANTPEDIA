@@ -1,0 +1,288 @@
+{
+  "status": "regex screening only; NOT all errors; context and primary evidence review required",
+  "pattern": "옆으로.*재|높여.*재|밤중.*(끊|물로)|물로 대체|반으로 잘라|#7119|직장 38.5|미온수 마사지|과학적으로 검증|HA 분유|생과일은 아직|잠들 때까지 개입|38도 이하|수유 후 반드시",
+  "instances": 20,
+  "uniqueCandidates": 20,
+  "items": [
+    {
+      "id": "daily-schedule-data:dailySchedules:[6].items[11].tip",
+      "file": "src/lib/data/daily-schedule-data.ts",
+      "path": "dailySchedules.[6].items[11].tip",
+      "month": 6,
+      "kind": "content-field",
+      "value": "밤중 수유를 끊기 시작할 수 있어요. 점진적으로 줄여보세요.",
+      "sourceLines": [
+        163
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "health-faq-data:healthFAQs:[4].answer",
+      "file": "src/lib/data/health-faq-data.ts",
+      "path": "healthFAQs.[4].answer",
+      "month": null,
+      "kind": "content-field",
+      "value": "겨드랑이 38도(직장 38.5도)는 발열 상태입니다. 생후 3개월 미만이라면 즉시 소아과를 방문하세요. 3개월 이상이라면 해열제(아세트아미노펜)를 체중에 맞게 투여하고, 옷을 가볍게 입히고, 미지근한 물수건으로 몸을 닦아주세요. 수분 보충(모유/분유)을 충분히 하고, 1~2시간 후 재측정합니다.",
+      "sourceLines": [
+        88
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "health-faq-data:healthFAQs:[9].answer",
+      "file": "src/lib/data/health-faq-data.ts",
+      "path": "healthFAQs.[9].answer",
+      "month": null,
+      "kind": "content-field",
+      "value": "해열제 투여 후 1시간이 지나도 열이 내려가지 않으면 미지근한 물수건으로 몸을 닦아주세요(미온수 마사지). 차가운 물이나 얼음은 사용하지 마세요. 다른 종류의 해열제를 교대 투여할 수 있지만(아세트아미노펜 → 이부프로펜), 반드시 소아과 의사와 상의 후 진행하세요. 열이 3일 이상 지속되면 반드시 병원을 방문합니다.",
+      "sourceLines": [
+        138
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "health-faq-data:healthFAQs:[12].answer",
+      "file": "src/lib/data/health-faq-data.ts",
+      "path": "healthFAQs.[12].answer",
+      "month": null,
+      "kind": "content-field",
+      "value": "미지근한 물(36~37도)로 짧게(5~10분) 목욕시키는 것은 체온을 낮추는 데 도움이 될 수 있습니다. 단, 찬물 목욕은 절대 금지입니다. 오한(으슬으슬 떨림)이 있을 때는 목욕을 피하세요. 목욕 후 바로 물기를 닦고 가볍게 옷을 입히세요. 아이가 많이 힘들어하면 무리하게 목욕시키지 말고 미온수 마사지로 대체하세요.",
+      "sourceLines": [
+        168
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "health-faq-data:healthFAQs:[15].answer",
+      "file": "src/lib/data/health-faq-data.ts",
+      "path": "healthFAQs.[15].answer",
+      "month": null,
+      "kind": "content-field",
+      "value": "일반적으로 겨드랑이 체온 38도(직장 38.5도) 이상일 때 해열제를 투여합니다. 37.5~38도 사이의 미열에서는 해열제 투여보다 옷을 가볍게 입히고, 수분 보충, 미지근한 물수건 닦기 등 물리적 방법을 먼저 시도하세요. 열이 있어도 아이가 잘 먹고, 잘 놀고, 기분이 좋다면 해열제를 서두르지 않아도 됩니다.",
+      "sourceLines": [
+        198
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "health-faq-data:healthFAQs:[50].answer",
+      "file": "src/lib/data/health-faq-data.ts",
+      "path": "healthFAQs.[50].answer",
+      "month": null,
+      "kind": "content-field",
+      "value": "우유 단백질 알레르기 증상: 구토, 설사(혈변 동반 가능), 심한 배앓이, 피부 발진, 호흡 곤란 등. 생후 1~3개월에 주로 나타납니다. 의심되면 소아과에서 검사를 받고, 확진 시 완전 가수분해 분유(HA 분유)나 아미노산 분유로 변경합니다. 모유 수유 중이라면 엄마가 유제품을 2~4주간 제한해볼 수 있습니다. 대부분 1세 전후로 자연 관해됩니다.",
+      "sourceLines": [
+        556
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "health-faq-data:healthFAQs:[54].answer",
+      "file": "src/lib/data/health-faq-data.ts",
+      "path": "healthFAQs.[54].answer",
+      "month": null,
+      "kind": "content-field",
+      "value": "신생아~영아는 코로만 숨을 쉬므로 코막힘이 매우 불편합니다. 대처법: 1) 식염수를 코에 2~3방울 넣고 1분 후 흡입기로 부드럽게 빼주세요. 2) 실내 습도 50~60% 유지. 3) 따뜻한 수건을 코 위에 잠시 올려주세요. 4) 머리를 약간 높여 재워주세요. 면봉으로 코 안쪽을 파는 것은 점막 손상 위험이 있으므로 피하세요. 코막힘으로 수유가 어렵거나 호흡 곤란 시 소아과를 방문하세요.",
+      "sourceLines": [
+        600
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "health-faq-data:healthFAQs:[86].answer",
+      "file": "src/lib/data/health-faq-data.ts",
+      "path": "healthFAQs.[86].answer",
+      "month": null,
+      "kind": "content-field",
+      "value": "응급실 즉시 방문: 호흡 곤란, 경련, 의식 저하, 심한 탈수, 심한 출혈, 고열(3개월 미만), 이물질 삼킴, 심한 알레르기 반응, 머리 외상 후 구토. 소아과 방문(업무 시간): 발열이 있으나 의식 양호, 경미한 발진, 가벼운 기침·콧물, 변비/설사(탈수 없음), 수유 문제. 판단이 어려우면 소아과 전화 상담이나 #7119(응급의료 전화)에 연락하세요.",
+      "sourceLines": [
+        924
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "sleep-guide-data:months:[6].commonIssues[0].solution",
+      "file": "src/lib/data/sleep-guide-data.ts",
+      "path": "months.[6].commonIssues[0].solution",
+      "month": 6,
+      "kind": "content-field",
+      "value": "6개월 이후에는 밤중 수유를 줄여볼 수 있어요. 서서히 수유량을 줄이거나 물로 대체해 보세요.",
+      "sourceLines": [
+        425
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "sleep-guide-data:months:[8].commonIssues[2].issue",
+      "file": "src/lib/data/sleep-guide-data.ts",
+      "path": "months.[8].commonIssues[2].issue",
+      "month": 8,
+      "kind": "content-field",
+      "value": "밤중 수유를 끊고 싶어요",
+      "sourceLines": [
+        515
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "sleep-guide-data:months:[12].commonIssues[2].solution",
+      "file": "src/lib/data/sleep-guide-data.ts",
+      "path": "months.[12].commonIssues[2].solution",
+      "month": 12,
+      "kind": "content-field",
+      "value": "밤수유 습관이 남아있다면 물로 대체하거나, 토닥여 다시 재워보세요.",
+      "sourceLines": [
+        678
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "sleep-guide-data:methods:[2].pros[2]",
+      "file": "src/lib/data/sleep-guide-data.ts",
+      "path": "methods.[2].pros[2]",
+      "month": null,
+      "kind": "content-field",
+      "value": "과학적으로 검증된 방법이에요",
+      "sourceLines": [
+        95
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "sleep-guide-data:methods:[4].description",
+      "file": "src/lib/data/sleep-guide-data.ts",
+      "path": "methods.[4].description",
+      "month": null,
+      "kind": "content-field",
+      "value": "아기를 침대에 눕히고 잠들 때까지 개입하지 않는 방법입니다. 가장 빠르게 효과를 볼 수 있지만 부모에게 심리적 부담이 큽니다.",
+      "sourceLines": [
+        144
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "sleep-guide-data:methods:[4].steps[3]",
+      "file": "src/lib/data/sleep-guide-data.ts",
+      "path": "methods.[4].steps[3]",
+      "month": null,
+      "kind": "content-field",
+      "value": "아기가 잠들 때까지 개입하지 마세요",
+      "sourceLines": [
+        160
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "feeding-guide-data:months:[0].burpingTips[4]",
+      "file": "src/lib/data/feeding-guide-data.ts",
+      "path": "months.[0].burpingTips[4]",
+      "month": 0,
+      "kind": "content-field",
+      "value": "신생아는 소화기관이 미숙하므로 수유 후 반드시 트림을 시켜주세요.",
+      "sourceLines": [
+        172
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "feeding-guide-data:months:[10].troubleshooting[3].solution",
+      "file": "src/lib/data/feeding-guide-data.ts",
+      "path": "months.[10].troubleshooting[3].solution",
+      "month": 10,
+      "kind": "content-field",
+      "value": "떡뻥, 쌀과자, 바나나, 부드럽게 삶은 채소 스틱 등이 좋습니다. 설탕, 소금이 첨가된 과자는 피하고, 질식 위험이 있는 둥근 음식(포도, 체리토마토)은 반으로 잘라주세요.",
+      "sourceLines": [
+        668
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "baby-food-guide-data:guide:stages[1].cookingTips[1]",
+      "file": "src/lib/data/baby-food-guide-data.ts",
+      "path": "guide.stages[1].cookingTips[1]",
+      "month": null,
+      "kind": "content-field",
+      "value": "과일은 열을 가해 익힌 후 갈아서 제공하세요 (생과일은 아직 이릅니다)",
+      "sourceLines": [
+        126
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "baby-food-guide-data:guide:stages[3].cautionPoints[0]",
+      "file": "src/lib/data/baby-food-guide-data.ts",
+      "path": "guide.stages[3].cautionPoints[0]",
+      "month": null,
+      "kind": "content-field",
+      "value": "포도, 방울토마토 등 둥근 과일은 반으로 잘라주세요 (질식 위험)",
+      "sourceLines": [
+        196
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "dental-guide-data:guide:teethingSymptoms[4]",
+      "file": "src/lib/data/dental-guide-data.ts",
+      "path": "guide.teethingSymptoms[4]",
+      "month": null,
+      "kind": "content-field",
+      "value": "미열 (38도 이하)이 날 수 있음",
+      "sourceLines": [
+        265
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    },
+    {
+      "id": "dental-guide-data:guide:commonIssues[5].solution",
+      "file": "src/lib/data/dental-guide-data.ts",
+      "path": "guide.commonIssues[5].solution",
+      "month": null,
+      "kind": "content-field",
+      "value": "이앓이로 인한 열은 보통 38도 이하입니다. 38.5도 이상의 고열은 다른 원인일 수 있으니 소아과를 방문하세요.",
+      "sourceLines": [
+        392
+      ],
+      "reviewStatus": "unreviewed",
+      "evidenceStatus": "unmapped",
+      "reviewer": null
+    }
+  ]
+}

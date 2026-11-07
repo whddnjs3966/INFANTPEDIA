@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Download, X } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -10,6 +10,7 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function InstallPrompt() {
+  const reduceMotion = useReducedMotion();
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [showBanner, setShowBanner] = useState(false);
@@ -22,7 +23,6 @@ export default function InstallPrompt() {
       const daysSinceDismissed =
         (Date.now() - parseInt(dismissedAt, 10)) / (1000 * 60 * 60 * 24);
       if (daysSinceDismissed < 7) {
-        setDismissed(true);
         return;
       }
     }
@@ -58,29 +58,30 @@ export default function InstallPrompt() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: 60 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 60 }}
+        exit={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
+        transition={{ duration: reduceMotion ? 0 : 0.18 }}
         className="fixed bottom-20 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2"
       >
-        <div className="relative overflow-hidden rounded-2xl bg-white p-4 shadow-lg">
+        <div className="relative overflow-hidden rounded-2xl bg-[var(--card)] p-4 shadow-lg">
           <button
             onClick={handleDismiss}
-            className="absolute right-3 top-3 rounded-full p-1 text-gray-400 active:bg-gray-100"
+            className="absolute right-3 top-3 flex min-h-11 min-w-11 items-center justify-center rounded-full p-1 text-[var(--muted-foreground)] active:bg-[var(--surface-muted)]"
             aria-label="닫기"
           >
             <X size={16} />
           </button>
 
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-cyan-400">
-              <Download size={20} className="text-white" />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-100 to-blue-200">
+              <Download size={20} className="text-blue-800" />
             </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-bold text-gray-800">
+            <div className="min-w-0 flex-1 pr-12">
+              <p className="text-sm font-bold text-[var(--foreground)]">
                 홈 화면에 추가하기
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-[var(--muted-foreground)]">
                 앱처럼 바로 실행할 수 있어요
               </p>
             </div>
@@ -88,7 +89,7 @@ export default function InstallPrompt() {
 
           <button
             onClick={handleInstall}
-            className="mt-3 w-full rounded-xl bg-gradient-to-r from-teal-400 to-cyan-400 py-2.5 text-sm font-semibold text-white active:scale-[0.98]"
+            className="mt-3 min-h-11 w-full rounded-xl bg-[var(--brand)] py-2.5 text-sm font-semibold text-[var(--brand-foreground)] active:scale-[0.98]"
           >
             설치하기
           </button>

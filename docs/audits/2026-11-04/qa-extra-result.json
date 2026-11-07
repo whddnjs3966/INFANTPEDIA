@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "confirmed invitation can start a second family invite and cancel only one",
+    "mobile dark mode and 200% text keep tab labels inside each target and long names usable",
+    "browser crash journal rolls back all interrupted deletion values before UI hydration",
+    "persistent recovery failure fences UI until storage succeeds on a fresh document"
+  ],
+  "errors": [],
+  "productionRequests": 0
+}

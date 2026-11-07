@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "2-month rhythm shows both day/night care without fixed overnight uninterrupted sleep",
+    "situation detail works and persists across navigation",
+    "6-month example graph distinguishes night time from explicit activity duration",
+    "health FAQ renders topic counts, danger signs and step/avoid/help blocks",
+    "sources and medical review remain separately visible with no fake reviewed badge",
+    "zero-result/category/urgent filters retain the always-visible emergency route",
+    "search detail preserves structured clinical context and evidence",
+    "online tip correction is visible with evidence and its unsafe legacy advice is absent",
+    "mobile sizes, dark mode, keyboard and enlarged text remain usable"
+  ],
+  "errors": [],
+  "productionRequests": 0
+}

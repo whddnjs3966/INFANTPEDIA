@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-07",
+  "checks": 69,
+  "illustratedTabs": 8,
+  "vaccinationLayouts": 4,
+  "headers": 10,
+  "summaryFAQ": 18,
+  "presentation": 12,
+  "safety": 17,
+  "layoutCombinations": {
+    "tabs": 40,
+    "headers": 80
+  },
+  "typecheck": "passed",
+  "lint": "passed",
+  "webpackBuild": "passed",
+  "mainAppChecks": 8,
+  "sourceFilesVerified": 14,
+  "evidenceFiles": 46
+}

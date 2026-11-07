@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "FAQ keeps source links, date, full care text and the emergency route without approval UI",
+    "search list and detail have no approval status but preserve source and action content",
+    "all monthly FAQ views contain no pending, completed or reviewer UI",
+    "low-age care, monthly topics and meal references remain source-only",
+    "monthly summary has no editorial waiting state and all screens run without JavaScript errors"
+  ],
+  "errors": []
+}

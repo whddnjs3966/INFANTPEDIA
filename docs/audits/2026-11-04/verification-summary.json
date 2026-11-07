@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-04",
+  "suites": {
+    "atomic-disconnect": 19,
+    "atomic-restore": 19,
+    "atomic-auto": 16,
+    "atomic-registration": 25,
+    "atomic-create-client": 8,
+    "atomic-db": 31,
+    "atomic-client": 11,
+    "atomic-create-db": 14,
+    "records": 22,
+    "cloud-read": 17,
+    "sharing-paused": 10,
+    "backup": 16,
+    "local-lifecycle": 17,
+    "account-delete": 11,
+    "restore-journal": 7,
+    "lifecycle-stage": 20,
+    "browser-main": 11,
+    "browser-extra": 4
+  },
+  "total": 278,
+  "typecheck": "passed",
+  "eslint": "passed",
+  "webpackProductionBuild": "passed",
+  "localJwtVerifier": {
+    "valid": true,
+    "expiredDenied": true,
+    "tamperedDenied": true,
+    "roleEscalationDenied": true
+  },
+  "logicalFixtureRestore": {
+    "tables": 12,
+    "permissions": "verified",
+    "productionSupabaseBackup": false
+  },
+  "actualSupabaseAuthTested": false,
+  "physicalDevicesTested": false,
+  "productionDatabaseChanged": false
+}

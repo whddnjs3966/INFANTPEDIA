@@ -1,0 +1,21 @@
+{
+  "regressionScenarios": 85,
+  "browser": {
+    "home": 11,
+    "headers": 10,
+    "summaryFAQ": 18,
+    "sourceOnly": 5,
+    "extraTheme": 2
+  },
+  "content": {
+    "presentation": 12,
+    "safety": 17,
+    "practicalTips": 10
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "webpackBuild": "passed",
+  "mainAppChecks": 8,
+  "sourceFilesVerified": 41,
+  "evidenceFilesCopied": 49
+}

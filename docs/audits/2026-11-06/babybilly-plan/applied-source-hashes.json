@@ -1,0 +1,54 @@
+[
+  {
+    "path": "src\\components\\encyclopedia\\HealthFAQ.tsx",
+    "sha256": "2A92E305F280B061BBE6DB344C031243A19740971E6D1BBAA70EDC5F0C88E95E"
+  },
+  {
+    "path": "src\\components\\encyclopedia\\HealthFAQEvidence.tsx",
+    "sha256": "122DD63BFA11AECBE44557A532D6945E6889E147D3F4E835ABC6A78A3C933E8F"
+  },
+  {
+    "path": "src\\components\\encyclopedia\\MonthSummaryCard.tsx",
+    "sha256": "328913C1A591CAA66FE164E21C302EEAD1855936EFCD0625CBA831929CBA5B5C"
+  },
+  {
+    "path": "src\\components\\search\\SearchResults.tsx",
+    "sha256": "A6A81EC590543FC716FEE22EB817FD7DA804B8C0E71A82B1621C653D5C462995"
+  },
+  {
+    "path": "src\\components\\tips\\DailyScheduleCard.tsx",
+    "sha256": "5B46AAC69231E83B23081EC6274437BBED1596945ADE223E47FE903CD0A71122"
+  },
+  {
+    "path": "src\\components\\tips\\MealPlanCard.tsx",
+    "sha256": "AB9142A377BD892DFFE3976BE92D12A53201DF2AB1B71561D59A329FBD357AD3"
+  },
+  {
+    "path": "src\\components\\tips\\PracticalTipBody.tsx",
+    "sha256": "B47382D527814A47BD5D3AC16E55324B352651EFEDE5EEE64201530C6EE5CEDB"
+  },
+  {
+    "path": "src\\components\\tips\\TipsCategoryAccordion.tsx",
+    "sha256": "C7D40A2DC3A45BEFC442462DFFD2719CB1DE8DABBDEC9D60EDFFBF0925C17471"
+  },
+  {
+    "path": "src\\lib\\data\\health-faq-data.ts",
+    "sha256": "6E15F62A2F7504CCF370831B059FF617809AE928CB745B452D5BEC3B88F14401"
+  },
+  {
+    "path": "src\\lib\\data\\month-summary-presentation.ts",
+    "sha256": "0C758E13C446D5F3755EFEFC34982272FA49EB9B8218D91931E882B407651D1C"
+  },
+  {
+    "path": "src\\lib\\data\\practical-tips-data.ts",
+    "sha256": "45AB188D5FC175DBB5A1BFB863C837B371E4A7E0864ED93A1690ED46B5412F20"
+  },
+  {
+    "path": "src\\lib\\utils\\health-evidence-view.ts",
+    "sha256": "079EB73775311F053F3E1855CF453DF752E6A66068C9835496AD4499DAB8B9FA"
+  },
+  {
+    "path": "src\\lib\\utils\\reviewed-public-content.ts",
+    "sha256": "E00E9D38CED81551F5BAFA348E52BE022F6C272C505CE866A777D43F2925C5EC"
+  }
+]

@@ -9,7 +9,7 @@ type ColorScheme = "blue" | "pink" | "purple" | "mint" | "yellow" | "peach";
 const iconColorMap: Record<ColorScheme, string> = {
   blue: "text-blue-500",
   pink: "text-pink-500",
-  purple: "text-teal-500",
+  purple: "text-blue-500",
   mint: "text-emerald-500",
   yellow: "text-amber-500",
   peach: "text-orange-500",
@@ -43,14 +43,14 @@ export default function DashboardCard({
       transition={{ duration: 0.3, delay: index * 0.08 }}
       className={cn(
         "relative overflow-hidden rounded-2xl p-4",
-        "bg-white dark:bg-stone-900",
+        "bg-white dark:bg-[var(--card)]",
         "border border-stone-200 dark:border-stone-700",
         "shadow-[0_2px_8px_rgb(0,0,0,0.06)] transition-shadow"
       )}
     >
       <div className="relative z-10">
         <div className="mb-2 flex items-center gap-2">
-          <div className={cn("rounded-lg bg-stone-100 dark:bg-stone-800 p-1.5", iconColor)}>
+          <div className={cn("rounded-lg bg-stone-100 dark:bg-[var(--surface-muted)] p-1.5", iconColor)}>
             <Icon size={18} />
           </div>
           <span className="text-xs font-semibold text-stone-600 dark:text-stone-300">{title}</span>

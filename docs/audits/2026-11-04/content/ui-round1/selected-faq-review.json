@@ -1,0 +1,616 @@
+{
+  "date": "2026-11-04",
+  "clinicalReview": "pending",
+  "items": [
+    {
+      "id": "fever_01",
+      "question": "아기 체온은 어디에서 재는 것이 가장 정확한가요?",
+      "care": {
+        "summary": "체온은 측정 부위와 기기에 따라 해석이 달라요. 측정한 값과 부위를 함께 확인하세요.",
+        "steps": [
+          "전자 체온계의 설명서에 맞게 측정하고 값·부위·시간을 기록하세요.",
+          "직장 체온 38°C 이상은 발열 기준입니다. 겨드랑이 등 다른 부위의 값을 일정한 차이로 환산해 진료 여부를 정하지 마세요."
+        ],
+        "avoid": [
+          "익숙하지 않은 측정법을 무리하게 시도하지 마세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_04",
+      "question": "아기 체온이 37.5도입니다. 열이 있는 건가요?",
+      "care": {
+        "summary": "37.5°C라는 숫자 하나만으로 아기의 상태를 판단하기는 어려워요.",
+        "steps": [
+          "측정 부위와 기기 사용법을 확인하세요. 목욕이나 두꺼운 옷으로 체온이 영향을 받았는지도 살펴보세요.",
+          "아기가 잘 먹는지, 소변과 반응·호흡이 평소와 같은지 함께 확인하세요."
+        ],
+        "avoid": [
+          "아기가 아파 보이면 재측정 시간만 기다리지 마세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요. 숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_05",
+      "question": "아기 체온이 38도일 때 어떻게 해야 하나요?",
+      "care": {
+        "summary": "38°C 이상의 체온이 확인되면 나이와 현재 상태를 먼저 확인하세요.",
+        "steps": [
+          "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요.",
+          "더 큰 아기도 반응·호흡·수유·소변 상태를 확인하고, 걱정되거나 상태가 나빠지면 의료진과 상담하세요.",
+          "모유·분유 등 평소 수분 공급을 이어가고 너무 덥게 싸지 마세요."
+        ],
+        "avoid": [
+          "해열제를 먹이고 열이 내려가는지만으로 안전하다고 판단하지 마세요.",
+          "해열을 목적으로 물수건으로 몸을 닦거나 찬물로 식히지 마세요."
+        ],
+        "seekHelp": "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_06",
+      "question": "아기 체온이 39도 이상입니다. 응급 상황인가요?",
+      "care": {
+        "summary": "고열은 체온과 함께 아기의 나이·반응·호흡·수분 상태를 살펴야 해요.",
+        "steps": [
+          "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요.",
+          "수유를 잘 못 하거나 소변이 줄고 평소와 다르게 처지면 지체하지 말고 진료를 받으세요."
+        ],
+        "avoid": [
+          "해열제 투여 후 정해진 시간까지 기다려야 진료받을 수 있는 것은 아니에요."
+        ],
+        "seekHelp": "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_07",
+      "question": "생후 3개월 미만 아기가 열이 나면 왜 위험한가요?",
+      "care": {
+        "summary": "어린 영아는 열이 날 때 심각한 감염 여부를 빠르게 확인해야 해요.",
+        "steps": [
+          "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요.",
+          "측정한 체온과 부위, 수유·소변 변화, 최근 접종과 먹인 약이 있다면 의료진에게 알려주세요."
+        ],
+        "avoid": [
+          "아기가 겉으로 괜찮아 보여도 스스로 해열제만 먹이며 기다리지 마세요."
+        ],
+        "seekHelp": "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_08",
+      "question": "아세트아미노펜(타이레놀) 해열제 복용법을 알려주세요.",
+      "care": {
+        "summary": "아세트아미노펜은 제품 농도와 현재 체중을 확인해 의료진·약사의 안내대로 사용하세요.",
+        "steps": [
+          "약 이름뿐 아니라 성분·농도와 제품 설명서의 대상 연령·용량·간격을 확인하세요.",
+          "제공된 계량 도구를 쓰고 먹인 시간과 양을 기록하세요."
+        ],
+        "avoid": [
+          "다른 감기약에 같은 성분이 들어 있지 않은지 확인하고 임의로 함께 먹이지 마세요.",
+          "오래된 체중이나 다른 제품의 mL 용량을 그대로 사용하지 마세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "식약처 · 의약품 안전사용 매뉴얼",
+            "url": "https://nedrug.mfds.go.kr/pbp/CCBFC03/getItem?tchmtrId=SU201911240002"
+          },
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_09",
+      "question": "이부프로펜(부루펜) 해열제는 언제부터 먹일 수 있나요?",
+      "care": {
+        "summary": "이부프로펜은 아기의 나이·체중·탈수 여부와 제품 허가사항을 먼저 확인해야 해요.",
+        "steps": [
+          "사용 가능한 대상과 용량은 국내 제품 설명서와 의료진·약사의 안내로 확인하세요.",
+          "약을 먹인 시간·성분·양을 기록하세요."
+        ],
+        "avoid": [
+          "탈수가 의심되거나 구토·설사가 심하면 임의 투여하지 말고 의료진과 상담하세요.",
+          "다른 해열제와 임의로 교대하거나 용량을 늘리지 마세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "식약처 · 의약품 안전사용 매뉴얼",
+            "url": "https://nedrug.mfds.go.kr/pbp/CCBFC03/getItem?tchmtrId=SU201911240002"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_10",
+      "question": "해열제를 먹였는데 열이 안 내려가요. 어떻게 하나요?",
+      "care": {
+        "summary": "해열제 후 체온이 정상으로 내려가지 않는다는 이유만으로 약을 더 먹이지 마세요.",
+        "steps": [
+          "아기의 호흡·반응·수유·소변 상태와 실제 투여한 성분·시간·양을 확인하세요.",
+          "약이 도움이 되지 않거나 열이 이어지면 의료진에게 상담하세요."
+        ],
+        "avoid": [
+          "물수건 냉각이나 찬물 목욕으로 열을 내리려 하지 마세요.",
+          "정해진 간격을 줄이거나 다른 약을 임의로 추가하지 마세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요. 숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          },
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_12",
+      "question": "예방접종 후 열이 나는데 정상인가요?",
+      "care": {
+        "summary": "접종 후 열이 날 수 있지만, 아기의 나이와 상태를 함께 살펴야 해요.",
+        "steps": [
+          "접종한 백신과 날짜, 체온·측정 부위, 수유·소변·반응을 확인하세요.",
+          "열이 지속되거나 걱정되는 변화가 있으면 접종 의료기관에 상담하세요."
+        ],
+        "avoid": [
+          "어린 영아의 발열을 접종 때문이라고 단정하며 진료를 미루지 마세요.",
+          "체온 숫자만 보고 해열제를 자동으로 먹이지 말고 의료진 안내를 확인하세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요. 숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_13",
+      "question": "열이 날 때 목욕을 시켜도 되나요?",
+      "care": {
+        "summary": "열을 내리기 위한 목욕이나 물수건 닦기는 권하지 않아요.",
+        "steps": [
+          "아기가 편안하게 쉴 수 있게 하고 평소 수분 공급을 이어가세요.",
+          "너무 덥게 싸거나 반대로 춥게 벗기지 마세요."
+        ],
+        "avoid": [
+          "찬물·얼음·알코올로 몸을 식히지 마세요.",
+          "불편해하는데 억지로 목욕시키지 마세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요. 숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          },
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_14",
+      "question": "열이 날 때 이불을 덮어서 땀을 내야 하나요?",
+      "care": {
+        "summary": "두껍게 덮어 땀을 내게 하지 말고, 아기가 덥거나 춥지 않게 돌봐주세요.",
+        "steps": [
+          "과도한 옷과 두꺼운 침구를 피하세요.",
+          "잠잘 때는 단단하고 평평한 수면 면에 등을 대고 눕히고 느슨한 이불·베개를 치우세요."
+        ],
+        "avoid": [
+          "해열 목적으로 일부러 땀을 내게 하거나 찬물로 식히지 마세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요. 숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          },
+          {
+            "title": "NIH · 안전한 아기 수면 환경",
+            "url": "https://safetosleep.nichd.nih.gov/reduce-risk/safe-sleep-environment"
+          },
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_15",
+      "question": "발열 시 병원에 꼭 가야 하는 경우는?",
+      "care": {
+        "summary": "체온보다 먼저 확인할 위험 신호가 있어요.",
+        "steps": [
+          "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요.",
+          "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요.",
+          "평소와 다르게 처지거나 잘 먹지 못하고 소변이 줄면 신속히 의료진과 상담하세요."
+        ],
+        "avoid": [
+          "해열제 효과나 다음 날까지 기다리느라 도움 요청을 늦추지 마세요."
+        ],
+        "seekHelp": "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          },
+          {
+            "title": "소방청 · 119 응급 안내·상담",
+            "url": "https://www.nfa.go.kr/nfa/news/pressrelease/explanation/?cntId=44&mode=view"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_16",
+      "question": "해열제는 체온이 몇 도일 때 먹여야 하나요?",
+      "care": {
+        "summary": "해열제 사용은 숫자 하나보다 아기의 불편감과 나이·상태를 함께 보고 정해요.",
+        "steps": [
+          "생후 3개월 미만의 발열은 우선 의료진에게 연락하세요.",
+          "더 큰 아기도 불편해하거나 힘들어하면 제품 설명서와 의료진·약사의 안내를 확인하세요."
+        ],
+        "avoid": [
+          "체온을 정상 수치로 만들려고 반복 투여하지 마세요.",
+          "겨드랑이와 직장 체온을 고정된 차이로 바꿔 투여 기준을 정하지 마세요."
+        ],
+        "seekHelp": "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          },
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "식약처 · 의약품 안전사용 매뉴얼",
+            "url": "https://nedrug.mfds.go.kr/pbp/CCBFC03/getItem?tchmtrId=SU201911240002"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "fever_17",
+      "question": "해열제 두 종류를 교대로 먹여도 되나요?",
+      "care": {
+        "summary": "두 종류의 해열제를 임의로 교대하지 마세요.",
+        "steps": [
+          "의료진이 교대를 지시했다면 약 성분·1회량·간격·하루 한도를 구체적으로 확인하세요.",
+          "먹인 시간과 양을 기록하고, 여러 양육자가 같은 기록을 확인하세요."
+        ],
+        "avoid": [
+          "체온이 떨어지지 않는다고 다른 약을 추가하거나 간격을 줄이지 마세요."
+        ],
+        "seekHelp": "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요. 숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          },
+          {
+            "title": "식약처 · 의약품 안전사용 매뉴얼",
+            "url": "https://nedrug.mfds.go.kr/pbp/CCBFC03/getItem?tchmtrId=SU201911240002"
+          },
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "digestion_15",
+      "question": "아기가 우유(분유) 알레르기가 있는 것 같아요.",
+      "care": {
+        "summary": "우유 단백 알레르기는 증상만으로 단정하거나 분유 이름만 보고 치료 제품을 고르지 않아요.",
+        "steps": [
+          "반복되는 증상과 먹은 음식·제품을 기록해 소아과에서 평가받으세요.",
+          "필요한 분유 종류는 의료진이 정합니다. 부분 가수분해 제품과 치료용 고도 가수분해·아미노산 제품은 같지 않아요."
+        ],
+        "avoid": [
+          "HA 등 제품명만으로 분해 정도나 알레르기 치료 적합성을 판단하지 마세요.",
+          "모유 수유자의 식단이나 아기의 분유를 임의로 제한·변경하지 마세요."
+        ],
+        "seekHelp": "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "NHS · 분유 종류와 우유 단백 알레르기",
+            "url": "https://www.nhs.uk/baby/breastfeeding-and-bottle-feeding/bottle-feeding/types-of-formula/"
+          },
+          {
+            "title": "소방청 · 119 응급 안내·상담",
+            "url": "https://www.nfa.go.kr/nfa/news/pressrelease/explanation/?cntId=44&mode=view"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "digestion_16",
+      "question": "위식도 역류(GERD)와 단순 토유는 어떻게 구분하나요?",
+      "care": {
+        "summary": "게워냄과 역류질환은 아기의 불편감·수유·성장 상태를 함께 평가해야 해요.",
+        "steps": [
+          "수유를 힘들어하거나 통증이 의심되고 성장이 걱정되면 소아과에서 평가받으세요.",
+          "수유 뒤 깨어 있는 아기를 보호자가 안아 돌보는 것과 잠자리에 눕히는 것은 구분하세요.",
+          "잠잘 때는 등을 대고 단단하고 평평한 수면 면에 눕히세요."
+        ],
+        "avoid": [
+          "역류를 막으려고 매트리스를 기울이거나 베개로 머리를 올려 재우지 마세요."
+        ],
+        "seekHelp": "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "NIH · 안전한 아기 수면 환경",
+            "url": "https://safetosleep.nichd.nih.gov/reduce-risk/safe-sleep-environment"
+          },
+          {
+            "title": "NHS · 분유 종류와 우유 단백 알레르기",
+            "url": "https://www.nhs.uk/baby/breastfeeding-and-bottle-feeding/bottle-feeding/types-of-formula/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "respiratory_01",
+      "question": "아기 코가 막혀서 숨을 잘 못 쉬어요.",
+      "care": {
+        "summary": "코막힘이 있어도 머리를 높이거나 경사진 곳에서 재우지 마세요.",
+        "steps": [
+          "수유·호흡·반응이 평소와 같은지 먼저 확인하세요.",
+          "코막힘 때문에 먹기 어렵거나 증상이 걱정되면 소아과에서 아기에게 맞는 돌봄 방법을 안내받으세요.",
+          "잠잘 때는 등을 대고 단단하고 평평한 수면 면을 사용하세요."
+        ],
+        "avoid": [
+          "베개나 수건을 받쳐 머리를 올려 재우지 마세요.",
+          "면봉을 코 안 깊이 넣거나 임의로 감기약을 사용하지 마세요."
+        ],
+        "seekHelp": "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "NIH · 안전한 아기 수면 환경",
+            "url": "https://safetosleep.nichd.nih.gov/reduce-risk/safe-sleep-environment"
+          },
+          {
+            "title": "소방청 · 119 응급 안내·상담",
+            "url": "https://www.nfa.go.kr/nfa/news/pressrelease/explanation/?cntId=44&mode=view"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "id": "general_16",
+      "question": "응급실에 가야 할 때와 소아과에 갈 때를 어떻게 구분하나요?",
+      "care": {
+        "summary": "응급 위험 신호가 있으면 바로 119에 도움을 요청하세요.",
+        "steps": [
+          "숨쉬기 어렵거나 입술이 파래지고, 반응이 떨어지거나 경련이 있으면 119에 도움을 요청하세요.",
+          "그 외에도 아기가 평소와 다르게 아파 보이거나 잘 먹지 못하면 소아과에 신속히 상담하세요.",
+          "생후 3개월 미만에서 발열이 있거나 의심되면 바로 의료진에게 연락해 진료를 받으세요. 해열제 반응을 기다리며 진료를 미루지 마세요."
+        ],
+        "avoid": [
+          "의식·호흡 문제가 있는데 전화 상담이나 진료 예약만 기다리지 마세요."
+        ],
+        "seekHelp": "한국에서는 응급 신고와 응급의료 안내·상담을 119에서 받을 수 있어요."
+      },
+      "evidence": {
+        "sources": [
+          {
+            "title": "소방청 · 119 응급 안내·상담",
+            "url": "https://www.nfa.go.kr/nfa/news/pressrelease/explanation/?cntId=44&mode=view"
+          },
+          {
+            "title": "AAP · 영아의 발열",
+            "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+          },
+          {
+            "title": "NHS · 소아 발열 시 돌봄",
+            "url": "https://www.nhs.uk/symptoms/fever-in-children/"
+          }
+        ],
+        "checkedOn": "2026-11-04",
+        "scope": "이 답변의 행동 안내와 주의사항",
+        "review": {
+          "status": "pending"
+        }
+      }
+    }
+  ]
+}

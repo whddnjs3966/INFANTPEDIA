@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import TopicArtwork from "@/components/illustrations/TopicArtwork";
 import type { ReactNode } from "react";
 
 interface PageHeaderProps {
@@ -13,44 +14,28 @@ interface PageHeaderProps {
   action?: ReactNode;
 }
 
+
 export default function PageHeader({ eyebrow, title, description, showSearch, action }: PageHeaderProps) {
   const router = useRouter();
+  const reduceMotion = useReducedMotion();
 
-  return (
-    <motion.header
-      initial={{ opacity: 0, y: -4 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
-      className="pt-safe px-5 pb-3"
-    >
-      <div className="flex items-end justify-between gap-3 pt-3">
-        <div className="min-w-0 flex-1">
-          {eyebrow && (
-            <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#14B8A6] dark:text-teal-400">
-              {eyebrow}
-            </p>
-          )}
-          <h1 className="text-[26px] font-black tracking-[-0.02em] text-stone-900 dark:text-stone-50 leading-[1.15]">
-            {title}
-          </h1>
-          {description && (
-            <p className="mt-1 text-[13px] font-medium text-stone-500 dark:text-stone-400 leading-snug">
-              {description}
-            </p>
-          )}
-        </div>
-        {action ? (
-          action
-        ) : showSearch ? (
-          <button
-            onClick={() => router.push("/search")}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/80 dark:bg-stone-800/80 backdrop-blur text-stone-700 dark:text-stone-200 ring-1 ring-stone-200/80 dark:ring-stone-700/80 active:scale-95 transition-transform"
-            aria-label="검색"
-          >
-            <Search size={18} strokeWidth={2.2} />
-          </button>
-        ) : null}
+
+  return <motion.header
+    data-page-header
+    initial={reduceMotion ? false : { opacity: 0, y: -2 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: reduceMotion ? 0 : 0.2 }}
+    className="pt-safe px-5 pb-4"
+  >
+    <div className="flex items-center gap-3">
+      <TopicArtwork label={title} kind={title === "육아 꿀팁" ? "outing" : undefined} className="h-[56px] w-[56px]" />
+      <div className="min-w-0 flex-1">
+        <h1 className="break-words text-[1.375rem] font-semibold leading-7 tracking-[-0.025em] text-[var(--foreground)]">{title}</h1>
+        {eyebrow && <p className="mt-0.5 break-words text-sm font-medium leading-5 text-[var(--muted-foreground)]">{eyebrow}</p>}
       </div>
-    </motion.header>
-  );
+      {action ?? (showSearch ? <button type="button" onClick={() => router.push("/search")} className="header-action" aria-label="육아 정보 검색"><Search size={19} strokeWidth={1.8} aria-hidden /></button> : null)}
+    </div>
+    {description && <p className="mt-2.5 text-sm leading-6 text-[var(--muted-foreground)]">{description}</p>}
+  </motion.header>;
 }
+

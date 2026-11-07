@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "width": 320,
+      "dark": false,
+      "date": "2026-09-01",
+      "recordPreserved": true
+    },
+    {
+      "width": 320,
+      "dark": true,
+      "date": "2026-09-01",
+      "recordPreserved": true
+    },
+    {
+      "width": 390,
+      "dark": false,
+      "date": "2026-09-01",
+      "recordPreserved": true
+    },
+    {
+      "width": 390,
+      "dark": true,
+      "date": "2026-09-01",
+      "recordPreserved": true
+    }
+  ],
+  "errors": []
+}

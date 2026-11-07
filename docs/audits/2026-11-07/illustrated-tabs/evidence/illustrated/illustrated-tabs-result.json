@@ -1,0 +1,256 @@
+{
+  "checks": [
+    "all four non-home tabs expose one decorative header artwork and keep title hierarchy",
+    "guide disclosure shows active border, exact content and persisted reading state",
+    "tips show bottle/play/sleep illustrations while keeping selected methods and caution text",
+    "record and vaccination selectors keep their destinations and actual measurement values",
+    "320/390px, both themes and doubled text keep tab controls and measured values within the page",
+    "settings tabs remain keyboard navigable and keep only the selected panel visible",
+    "multi-baby record selector and dialog reflow with large text and preserve selection",
+    "no runtime errors, external mutations or expert-review status introduced"
+  ],
+  "errors": [],
+  "mutations": [],
+  "layouts": [
+    {
+      "route": "/encyclopedia?tab=encyclopedia&month=2",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/growth?tab=vaccination",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=encyclopedia&month=2",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/growth?tab=vaccination",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=encyclopedia&month=2",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/growth?tab=vaccination",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=encyclopedia&month=2",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/growth?tab=vaccination",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=encyclopedia&month=2",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/growth?tab=vaccination",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=encyclopedia&month=2",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/growth?tab=vaccination",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=encyclopedia&month=2",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/growth?tab=vaccination",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=encyclopedia&month=2",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/growth?tab=vaccination",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    }
+  ]
+}

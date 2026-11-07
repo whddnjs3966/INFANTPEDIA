@@ -1,0 +1,27 @@
+{
+  "faqCount": 89,
+  "practicalTipCount": 30,
+  "monthlySources": 13,
+  "checks": [
+    {
+      "name": "healthFAQs",
+      "unchangedExceptRemovedApprovalMetadata": true,
+      "sha256": "9d8397b6110eeb0de3c50cecf6e8f5a4dd3c881406c510649616ecc086902dde"
+    },
+    {
+      "name": "practicalTips",
+      "unchangedExceptRemovedApprovalMetadata": true,
+      "sha256": "4b2b130e7b0ba0179bb4547fde6ca36d6a0fb9fed64ade64bed592c6caec73ff"
+    },
+    {
+      "name": "monthSummaryPresentation",
+      "unchangedExceptRemovedApprovalMetadata": true,
+      "sha256": "e8806c7c0220f2198f8655ca86f874e896055acb779c129c7719948c4217a1b2"
+    },
+    {
+      "name": "publicContentCorrections",
+      "unchangedExceptRemovedApprovalMetadata": true,
+      "sha256": "1d51e4c2102852ddb01686b6cdb6ff39afdeca557cfa06ef296135824bd02854"
+    }
+  ]
+}

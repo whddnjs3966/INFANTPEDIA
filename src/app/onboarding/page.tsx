@@ -1,22 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import NextLink from "next/link";
+import { getKoreaDate } from "@/lib/utils/date";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useBabyStore, type BabyGender } from "@/lib/store/baby-store";
 import { useMeasurementStore } from "@/lib/store/measurement-store";
 import { useVaccinationStore } from "@/lib/store/vaccination-store";
 import { useSyncStore } from "@/lib/store/sync-store";
+import { useAuth } from "@/hooks/useAuth";
 import { joinByInviteCode } from "@/lib/sync/sync-service";
+import { isLegacySharingPaused, SHARING_PAUSED_MESSAGE } from "@/lib/sync/sharing-availability";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Link, RefreshCw } from "lucide-react";
 import FloatingDecorations from "@/components/layout/FloatingDecorations";
+import FamilyInviteAccept from "@/components/sharing/FamilyInviteAccept";
+import AccountBackupRestore from "@/components/sharing/AccountBackupRestore";
 
 export default function OnboardingPage() {
   const router = useRouter();
+  const sharingPaused = isLegacySharingPaused();
+  const { user, loading: authLoading } = useAuth();
   const addBaby = useBabyStore((s) => s.addBaby);
 
   // New baby form
@@ -144,7 +152,7 @@ export default function OnboardingPage() {
             오신 것을 환영합니다!
           </h1>
           <p className="mt-2 text-center text-sm text-stone-500 dark:text-stone-400">
-            아기의 성장을 함께 기록하고 알아가요 💕
+            월령에 맞는 정보를 찾고, 성장 기록을 남겨보세요
           </p>
         </motion.div>
 
@@ -153,7 +161,7 @@ export default function OnboardingPage() {
             {/* New baby form */}
             <motion.form
               onSubmit={handleSubmit}
-              className="rounded-3xl bg-white dark:bg-stone-800 p-6 shadow-lg"
+              className="rounded-3xl bg-white dark:bg-[var(--surface-muted)] p-6 shadow-lg"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
@@ -161,7 +169,7 @@ export default function OnboardingPage() {
               <div className="space-y-5">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-sm font-semibold text-stone-700 dark:text-stone-200">
-                    👶 아기 이름
+                    👶 아기 이름 또는 애칭
                   </Label>
                   <Input
                     id="name"
@@ -169,7 +177,7 @@ export default function OnboardingPage() {
                     placeholder="예: 서연이"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base placeholder:text-stone-300 focus:border-teal-300 focus:ring-teal-200"
+                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base placeholder:text-stone-300 focus:border-blue-300 focus:ring-blue-200"
                   />
                 </div>
 
@@ -187,7 +195,7 @@ export default function OnboardingPage() {
                         "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
                         gender === "male"
                           ? "border-blue-300 bg-blue-50 text-blue-700 shadow-sm dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                          : "border-stone-200 bg-white text-stone-400 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-500"
+                          : "border-stone-200 bg-white text-stone-400 dark:border-stone-600 dark:bg-[var(--surface-muted)] dark:text-stone-500"
                       )}
                     >
                       <span className="text-xl">👦</span>
@@ -201,7 +209,7 @@ export default function OnboardingPage() {
                         "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
                         gender === "female"
                           ? "border-pink-300 bg-pink-50 text-pink-700 shadow-sm dark:border-pink-700 dark:bg-pink-900/30 dark:text-pink-400"
-                          : "border-stone-200 bg-white text-stone-400 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-500"
+                          : "border-stone-200 bg-white text-stone-400 dark:border-stone-600 dark:bg-[var(--surface-muted)] dark:text-stone-500"
                       )}
                     >
                       <span className="text-xl">👧</span>
@@ -219,8 +227,8 @@ export default function OnboardingPage() {
                     type="date"
                     value={birthdate}
                     onChange={(e) => setBirthdate(e.target.value)}
-                    max={new Date().toISOString().split("T")[0]}
-                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base focus:border-teal-300 focus:ring-teal-200"
+                    max={getKoreaDate()}
+                    className="h-12 rounded-xl border-stone-200 bg-stone-50 text-base focus:border-blue-300 focus:ring-blue-200"
                   />
                 </div>
 
@@ -237,7 +245,7 @@ export default function OnboardingPage() {
                 <motion.div whileTap={{ scale: 0.97 }}>
                   <Button
                     type="submit"
-                    className="h-12 w-full rounded-xl bg-[#14B8A6] text-base font-bold text-white shadow-md active:bg-[#0D9488]"
+                    className="h-12 w-full rounded-xl bg-[var(--brand)] text-base font-bold text-[var(--brand-foreground)] shadow-md active:bg-[var(--brand-pressed)]"
                   >
                     시작하기 🚀
                   </Button>
@@ -245,24 +253,27 @@ export default function OnboardingPage() {
               </div>
             </motion.form>
 
+            <NextLink href="/encyclopedia" className="mt-4 flex min-h-12 w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 text-base font-semibold text-stone-800 dark:border-stone-600 dark:bg-[var(--card)] dark:text-stone-100">아기 등록 전에 둘러보기</NextLink>
+            {sharingPaused && <p role="status" className="mt-4 rounded-2xl bg-[var(--accent-soft)] p-4 text-sm leading-6 text-[var(--foreground)]">{SHARING_PAUSED_MESSAGE}</p>}
             {/* Invite code toggle */}
             <motion.button
+              disabled={sharingPaused}
               onClick={() => setShowInvite(true)}
-              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-stone-800 text-base font-bold text-[#14B8A6] dark:text-teal-300 shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
+              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-[var(--surface-muted)] text-base font-bold text-[var(--brand)] shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
               whileTap={{ scale: 0.97 }}
             >
               <Link size={18} strokeWidth={2.4} />
-              초대코드가 있으신가요?
+              {sharingPaused ? "초대코드 연결 일시 중지" : "초대코드가 있으신가요?"}
             </motion.button>
           </>
         ) : (
           <>
             {/* Invite code form */}
             <motion.div
-              className="rounded-3xl bg-white dark:bg-stone-800 p-6 shadow-lg"
+              className="rounded-3xl bg-white dark:bg-[var(--surface-muted)] p-6 shadow-lg"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
@@ -296,6 +307,7 @@ export default function OnboardingPage() {
                   />
                 </div>
 
+                {!authLoading && !user && <p className="text-sm leading-6 text-stone-600 dark:text-stone-300">가족 공유는 로그인이 필요해요. <NextLink href="/login" className="inline-flex min-h-12 items-center font-semibold text-[var(--brand)] underline underline-offset-4">로그인하고 계속하기</NextLink></p>}
                 {inviteError && (
                   <motion.p
                     initial={{ opacity: 0, y: -5 }}
@@ -310,8 +322,8 @@ export default function OnboardingPage() {
                   <Button
                     type="button"
                     onClick={handleInviteJoin}
-                    disabled={inviteLoading || inviteCode.length < 6}
-                    className="h-12 w-full rounded-xl bg-[#14B8A6] text-base font-bold text-white shadow-md active:bg-[#0D9488] disabled:opacity-50"
+                    disabled={sharingPaused || inviteLoading || inviteCode.length < 6}
+                    className="h-12 w-full rounded-xl bg-[var(--brand)] text-base font-bold text-[var(--brand-foreground)] shadow-md active:bg-[var(--brand-pressed)] disabled:opacity-50"
                   >
                     {inviteLoading ? (
                       <>
@@ -332,7 +344,7 @@ export default function OnboardingPage() {
                 setShowInvite(false);
                 setInviteError("");
               }}
-              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-stone-800 text-base font-bold text-[#14B8A6] dark:text-teal-300 shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
+              className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white dark:bg-[var(--surface-muted)] text-base font-bold text-[var(--brand)] shadow-md ring-1 ring-stone-200/80 dark:ring-stone-700 active:bg-stone-50 dark:active:bg-stone-700"
               whileTap={{ scale: 0.97 }}
             >
               <span className="text-lg">👶</span>
@@ -341,13 +353,14 @@ export default function OnboardingPage() {
           </>
         )}
 
+        <div className="mt-5 space-y-4"><FamilyInviteAccept /><AccountBackupRestore /></div>
         <motion.p
           className="mt-4 text-center text-xs text-stone-400 dark:text-stone-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          데이터는 클라우드에 안전하게 백업 및 동기화됩니다 ☁️
+          아기 정보는 이 브라우저에 저장돼요. 브라우저 데이터를 지우기 전에 기록을 확인해 주세요.
         </motion.p>
       </motion.div>
     </div>

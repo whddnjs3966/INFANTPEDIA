@@ -6,7 +6,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint src",
+    "check:ux": "node scripts/ux-regression.cjs",
+    "check:navigation": "node scripts/navigation-regression.cjs",
+    "check:records": "node scripts/record-regression.cjs",
+    "check:sharing-paused": "node scripts/sharing-paused-regression.cjs",
+    "check:backup": "node scripts/backup-regression.cjs",
+    "check:cloud-read": "node scripts/cloud-read-regression.cjs",
+    "check:atomic-disconnect": "node scripts/atomic-disconnect-regression.cjs",
+    "check:atomic-restore": "node scripts/atomic-restore-regression.cjs",
+    "check:restore-journal": "node scripts/restore-journal-regression.cjs",
+    "check:atomic-auto": "node scripts/atomic-auto-regression.cjs",
+    "check:atomic-registration": "node scripts/atomic-registration-regression.cjs",
+    "check:atomic-create-db": "node scripts/atomic-create-db-regression.cjs",
+    "check:atomic-create-client": "node scripts/atomic-create-client-regression.cjs",
+    "check:atomic-db": "node scripts/atomic-db-regression.cjs",
+    "check:atomic-client": "node scripts/atomic-client-regression.cjs",
+    "check:local-lifecycle": "node scripts/local-lifecycle-regression.cjs",
+    "check:account-delete": "node scripts/account-delete-regression.cjs",
+    "check:lifecycle-stage": "node scripts/lifecycle-stage-regression.cjs",
+    "check:content-safety": "node scripts/content-safety-regression.cjs",
+    "check:content-presentation": "node scripts/content-presentation-regression.cjs",
+    "check:practical-tips": "node scripts/practical-tips-regression.cjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
@@ -37,6 +58,8 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.14",
+    "pg": "8.23.1",
     "sharp": "^0.34.5"
   }
 }

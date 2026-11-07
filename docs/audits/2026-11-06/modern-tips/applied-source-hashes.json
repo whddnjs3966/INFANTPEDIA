@@ -1,0 +1,82 @@
+[
+  {
+    "path": "src\\app\\globals.css",
+    "sha256": "BEFB91DAFAB75925BEB363CBBB2E7BA4CB8569B438A125639F09D9CA80036A3C"
+  },
+  {
+    "path": "src\\app\\encyclopedia\\page.tsx",
+    "sha256": "6F5A713411F3FAEFC841A1F7BE3F71ACACB8768773A218B36E19AB1BD2FB5023"
+  },
+  {
+    "path": "src\\app\\tips\\page.tsx",
+    "sha256": "B0F474386D5FC1C647B3E8A3521F4EAC92A254BD3052E6A822B495131F72F98A"
+  },
+  {
+    "path": "src\\components\\encyclopedia\\MonthSelector.tsx",
+    "sha256": "FA4F4CCF52C433B0CE8B04F67B2276D52FADDEDCCE7E7CC1C7682D50EF4DA1B0"
+  },
+  {
+    "path": "src\\components\\encyclopedia\\MonthSummaryCard.tsx",
+    "sha256": "DFFEEB38B5B8ABBA2CAAB41532362ACF5B77742E7470158826E11293ABF4A924"
+  },
+  {
+    "path": "src\\components\\layout\\BottomTabBar.tsx",
+    "sha256": "895D49AA8A72E1D182185C48B81A2967CF75C1FFB599C4D5E5806EED114F35A3"
+  },
+  {
+    "path": "src\\components\\layout\\PageHeader.tsx",
+    "sha256": "9B2C111F67B738036F7C08099E6D90CE753A774862916E20E27ED5A0E46329CC"
+  },
+  {
+    "path": "src\\components\\tips\\DailyScheduleCard.tsx",
+    "sha256": "7CFEAE1B38EB126E634B4C46CE9603F12C658A94AFED9C90A68BE85D2C723E5C"
+  },
+  {
+    "path": "src\\components\\tips\\MealPlanCard.tsx",
+    "sha256": "4BF2A0DF77996DB8CC9BDBA6C35E1A51C95BCEC416633D3DD9C2C96A8255078F"
+  },
+  {
+    "path": "src\\components\\tips\\PracticalTipBody.tsx",
+    "sha256": "9A350DBEBE8CC574792B6A4EA0F033614AA538F56CDF6C7925C9080AAD73D409"
+  },
+  {
+    "path": "src\\components\\tips\\ScheduleActivityList.tsx",
+    "sha256": "899320F8CCBD500E9AB8E0BA04F9B6EDE7645D9CB513C799824B000E6914E5C3"
+  },
+  {
+    "path": "src\\components\\tips\\TipsCategoryAccordion.tsx",
+    "sha256": "7BB2C1AE8C6630BF6D29DEDE1809069DF93762224E76803EA1876D38D9E07BB6"
+  },
+  {
+    "path": "src\\components\\tips\\TodaysTipCard.tsx",
+    "sha256": "1C1CA74F4D16CC0F217700825C313C2ADA024FA88ADD0450B16F2476D760DA2D"
+  },
+  {
+    "path": "src\\lib\\data\\daily-schedule-data.ts",
+    "sha256": "4AD295F11D0D14FAEE35DD67EA9444A005BC35724F5613C341E9FFF340909222"
+  },
+  {
+    "path": "src\\lib\\data\\daily-tips-data.ts",
+    "sha256": "99AE3BA7B85D012E912BEAA551F51D3CD6EC2FC292FE0CFA50713CF686D6B65E"
+  },
+  {
+    "path": "src\\lib\\data\\parenting-tip-revisions.ts",
+    "sha256": "3342B6D23EF6F76D648929CDC5CAF5DA164DCD776D9B024E0026B4138C90634B"
+  },
+  {
+    "path": "src\\lib\\data\\practical-tips-data.ts",
+    "sha256": "A9B79851647312C69BFA053738E48880FDAFED847CA199FAA00A2C850D2F14DE"
+  },
+  {
+    "path": "src\\lib\\queries\\months.ts",
+    "sha256": "8BBCF6B19F4135F40C0BC41B4456029740C6143F627E59A67CD9CB90CC3A2B76"
+  },
+  {
+    "path": "src\\lib\\utils\\reviewed-public-content.ts",
+    "sha256": "0672E198E260DE153D9FB8439E0B4877CADA126D74D85B64D6F0F91A64796559"
+  },
+  {
+    "path": "src\\lib\\data\\meal-plan-data.ts",
+    "sha256": "9BA5606995BC30DA4BBB20418574A5612B15AEB60E4D007E81C36BB4902DBA7B"
+  }
+]

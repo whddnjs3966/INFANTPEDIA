@@ -1,0 +1,136 @@
+{
+  "generatedOn": "2026-11-06",
+  "scope": "local source inventory; fields are NOT clinical claims or verified medical facts",
+  "files": 11,
+  "fieldInstances": 9045,
+  "contentFieldInstances": 6273,
+  "uniqueTextValues": 2214,
+  "sourceAttribution": "Source lines can have multiple matches; generated/shared values repeat across months.",
+  "counts": {
+    "scheduleMonths": 13,
+    "scheduleItems": 133,
+    "faq": 89,
+    "faqCategories": {
+      "fever": 18,
+      "skin": 18,
+      "digestion": 18,
+      "respiratory": 17,
+      "general": 18
+    },
+    "faqWithSource": 18,
+    "mealPlanMonths": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "mealDays": 56,
+    "meals": 133,
+    "ingredients": 28,
+    "foodStages": 5,
+    "sleepMethods": 5,
+    "milestones": 169,
+    "activities": 65,
+    "dailyTips": 30,
+    "vaccines": 12,
+    "vaccineDoses": 26,
+    "growthMedianRows": 13,
+    "growthRangeRows": 78
+  },
+  "modules": [
+    {
+      "file": "src/lib/data/daily-schedule-data.ts",
+      "group": "dailySchedules",
+      "sha256": "4ad295f11d0d14faee35dd67ea9444a005bc35724f5613c341e9fff340909222",
+      "fields": 1200
+    },
+    {
+      "file": "src/lib/data/health-faq-data.ts",
+      "group": "healthFAQs",
+      "sha256": "6e15f62a2f7504ccf370831b059ff617809ae928cb745b452d5bec3b88f14401",
+      "fields": 1377
+    },
+    {
+      "file": "src/lib/data/meal-plan-data.ts",
+      "group": "mealPlans",
+      "sha256": "9ba5606995bc30da4bbb20418574a5612b15aeb60e4d007e81c36bb4902dba7b",
+      "fields": 1649
+    },
+    {
+      "file": "src/lib/data/sleep-guide-data.ts",
+      "group": "months",
+      "sha256": "511a7b47e1c69f3dd3146001a34bc667cc00e80a7357f9d7c7fa1db88acd762a",
+      "fields": 360
+    },
+    {
+      "file": "src/lib/data/sleep-guide-data.ts",
+      "group": "methods",
+      "sha256": "511a7b47e1c69f3dd3146001a34bc667cc00e80a7357f9d7c7fa1db88acd762a",
+      "fields": 90
+    },
+    {
+      "file": "src/lib/data/feeding-guide-data.ts",
+      "group": "months",
+      "sha256": "a6aa40b2011444487c11267d3e70ae73e9ce82984910d81b7694671344feadf9",
+      "fields": 1080
+    },
+    {
+      "file": "src/lib/data/baby-food-guide-data.ts",
+      "group": "guide",
+      "sha256": "6aac4651c5229817bd156944dc8339f7c4184b6cbc6844bb986b0f131a741494",
+      "fields": 386
+    },
+    {
+      "file": "src/lib/data/baby-food-guide-data.ts",
+      "group": "ingredients",
+      "sha256": "6aac4651c5229817bd156944dc8339f7c4184b6cbc6844bb986b0f131a741494",
+      "fields": 168
+    },
+    {
+      "file": "src/lib/data/dental-guide-data.ts",
+      "group": "guide",
+      "sha256": "d19b99c1424a9b316b91ba713935e104dfa3547861668f99377b61a30da2b9cc",
+      "fields": 259
+    },
+    {
+      "file": "src/lib/data/growth-data.ts",
+      "group": "growthData",
+      "sha256": "91ea51550a2b2ad4630aed5088e5603e2cb426514cea02ac881c57d400affd87",
+      "fields": 104
+    },
+    {
+      "file": "src/lib/data/growth-data.ts",
+      "group": "growthRanges",
+      "sha256": "91ea51550a2b2ad4630aed5088e5603e2cb426514cea02ac881c57d400affd87",
+      "fields": 234
+    },
+    {
+      "file": "src/lib/data/growth-data.ts",
+      "group": "vaccinations",
+      "sha256": "91ea51550a2b2ad4630aed5088e5603e2cb426514cea02ac881c57d400affd87",
+      "fields": 157
+    },
+    {
+      "file": "src/lib/data/milestone-data.ts",
+      "group": "months",
+      "sha256": "4cdcdf3d04db1c03bcd38691a6bf8ced96857f82a41a232f0ef22c1c9168ff16",
+      "fields": 858
+    },
+    {
+      "file": "src/lib/data/recommended-activities-data.ts",
+      "group": "months",
+      "sha256": "305752d409205ae51f0d75826a42cf6f650ea32cc2d39e98df1ed2382a49687a",
+      "fields": 692
+    },
+    {
+      "file": "src/lib/data/daily-tips-data.ts",
+      "group": "dailyTips",
+      "sha256": "99ae3ba7b85d012e912beaa551f51d3cd6ec2fc292fe0cfa50713cf686d6b65e",
+      "fields": 431
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "actual main app loads the new home and blue theme",
+    "home recommendation opens the exact practical tip",
+    "encyclopedia displays the shared theme",
+    "health displays the shared theme",
+    "growth displays the shared theme",
+    "tips displays the shared theme",
+    "settings displays the shared theme",
+    "no JavaScript errors or API mutations"
+  ],
+  "errors": [],
+  "apiRequests": [],
+  "blocked": [],
+  "publicReads": 6
+}

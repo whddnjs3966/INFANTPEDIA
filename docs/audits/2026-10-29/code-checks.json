@@ -1,0 +1,85 @@
+{
+  "timeBasis": "2026-10-29 Asia/Seoul; controlled date cases",
+  "results": [
+    {
+      "id": "newborn-days-before-noon",
+      "expected": 0,
+      "actual": -1,
+      "pass": false
+    },
+    {
+      "id": "newborn-month-before-noon",
+      "expected": 0,
+      "actual": -1,
+      "pass": false
+    },
+    {
+      "id": "calendar-month-short-february",
+      "expected": 1,
+      "actual": 0,
+      "pass": false
+    },
+    {
+      "id": "measurement-store-filter",
+      "expected": 0,
+      "actual": 0,
+      "pass": true
+    },
+    {
+      "id": "vaccination-store-filter",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "id": "growth-ui-raw-measurements",
+      "expected": 0,
+      "actual": 1,
+      "pass": false
+    },
+    {
+      "id": "vaccination-ui-raw-completion",
+      "expected": false,
+      "actual": true,
+      "pass": false
+    },
+    {
+      "id": "milestone-second-baby-isolation",
+      "expected": false,
+      "actual": true,
+      "pass": false
+    }
+  ],
+  "contentInventory": {
+    "health-faq": {
+      "faqCategories": 5,
+      "healthFAQs": 89
+    },
+    "milestone": {
+      "months": 13,
+      "items": 169
+    },
+    "growth": {
+      "growthData": 13,
+      "vaccinations": 12
+    },
+    "daily-tips": {
+      "dailyTips": 40
+    },
+    "sleep-guide": {
+      "sleepTrainingMethods": 5
+    },
+    "feeding-guide": {},
+    "recommended-activities": {
+      "allMonthActivities": 13
+    },
+    "baby-food-guide": {},
+    "meal-plan": {
+      "mealPlans": 8
+    },
+    "daily-schedule": {
+      "dailySchedules": 13
+    },
+    "dental-guide": {}
+  }
+}

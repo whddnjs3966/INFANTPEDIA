@@ -5,31 +5,34 @@ import type { ReactNode } from "react";
 
 interface SectionHeaderProps {
   title: string;
+  level?: 2 | 3;
   caption?: string;
   action?: { label: string; onClick: () => void };
   children?: ReactNode;
 }
 
-export default function SectionHeader({ title, caption, action }: SectionHeaderProps) {
+export default function SectionHeader({ title, caption, action, level = 2 }: SectionHeaderProps) {
+  const Heading = level === 3 ? "h3" : "h2";
   return (
-    <div className="flex items-end justify-between gap-3 px-1">
+    <div className="flex items-center justify-between gap-4">
       <div className="min-w-0">
-        <h2 className="text-[18px] font-black tracking-[-0.015em] text-stone-900 dark:text-stone-50 leading-tight">
+        <Heading className="text-xl font-bold leading-7 tracking-[-0.02em] text-[var(--foreground)]">
           {title}
-        </h2>
+        </Heading>
         {caption && (
-          <p className="mt-0.5 text-[12px] font-medium text-stone-400 dark:text-stone-500 truncate">
+          <p className="mt-1 text-sm leading-6 text-[var(--muted-foreground)]">
             {caption}
           </p>
         )}
       </div>
       {action && (
         <button
+          type="button"
           onClick={action.onClick}
-          className="flex shrink-0 items-center gap-0.5 text-[12px] font-bold text-[#14B8A6] dark:text-teal-400 active:opacity-60 transition-opacity"
+          className="flex min-h-12 shrink-0 items-center gap-1 rounded-xl px-3 text-sm font-semibold text-[var(--brand)] transition-colors hover:bg-[var(--accent-soft)] active:bg-[var(--accent-soft)]"
         >
           {action.label}
-          <ChevronRight size={14} strokeWidth={2.4} />
+          <ChevronRight size={18} strokeWidth={2} aria-hidden="true" />
         </button>
       )}
     </div>

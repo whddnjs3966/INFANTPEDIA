@@ -1,0 +1,178 @@
+{
+  "results": [
+    {
+      "case": "http-route",
+      "path": "/",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/onboarding",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/encyclopedia",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/growth",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/tips",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/settings",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/search",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/wonder-weeks",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/login",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/privacy",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/admin/login",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/manifest.json",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/sw.js",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "http-route",
+      "path": "/offline.html",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "case": "unauthenticated-admin-denied",
+      "path": "/api/admin/session",
+      "status": 401,
+      "pass": true
+    },
+    {
+      "case": "unauthenticated-admin-denied",
+      "path": "/api/admin/babies",
+      "status": 401,
+      "pass": true
+    },
+    {
+      "case": "unauthenticated-admin-denied",
+      "path": "/api/admin/stats",
+      "status": 401,
+      "pass": true
+    },
+    {
+      "case": "expired-admin-session-rejected",
+      "tokenYear": 2000,
+      "status": 200,
+      "pass": false
+    }
+  ],
+  "manifestAssets": [
+    {
+      "src": "/icons/icon-48.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/icon-72.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/icon-96.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/icon-128.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/icon-144.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/icon-384.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/maskable-192.png",
+      "exists": true
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "exists": true
+    },
+    {
+      "src": "/screenshots/home.png",
+      "exists": true
+    },
+    {
+      "src": "/screenshots/encyclopedia.png",
+      "exists": true
+    },
+    {
+      "src": "/screenshots/growth.png",
+      "exists": true
+    },
+    {
+      "src": "/screenshots/vaccination.png",
+      "exists": true
+    },
+    {
+      "src": "/screenshots/tips.png",
+      "exists": true
+    },
+    {
+      "src": "/screenshots/dark-mode.png",
+      "exists": true
+    }
+  ]
+}

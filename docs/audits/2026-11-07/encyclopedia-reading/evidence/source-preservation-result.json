@@ -1,0 +1,11 @@
+{
+  "cases": 65,
+  "sourceFieldsPreserved": 3893,
+  "safetyCorrections": [
+    "CDC readiness intro",
+    "NIH sleep after feeding",
+    "FDA teething anesthetic warning",
+    "NHS fever boundary and brushing"
+  ],
+  "note": "Compares updated source fields with rendered guide content, including collapsed native details."
+}

@@ -1,0 +1,505 @@
+{
+  "checks": [
+    "font sizes shrink without changing root scale or editable field size",
+    "four page headers expose title, baby context, decorative icon and a compact 44px search action",
+    "encyclopedia search preserves monthly context and return destination",
+    "home has a 20px name, separate age/day metadata and accessible photo action",
+    "home baby switching persists the active profile and restores focus after Escape",
+    "home photo upload still saves an image for the selected baby only",
+    "record baby picker keeps the ordinary surface and current selection semantics",
+    "320–430px, light/dark and 200% text keep all five tab headers unclipped",
+    "long baby names reflow in the hero, selection sheet and settings banner",
+    "runtime has no JavaScript errors or mutating API requests"
+  ],
+  "errors": [],
+  "mutations": [],
+  "fonts": {
+    "root": "16px",
+    "body": "15px",
+    "title": "22px",
+    "small": "13px",
+    "content": "15px"
+  },
+  "viewports": [
+    {
+      "route": "/",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 320,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 320,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 320,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 320,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/",
+      "width": 360,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 360,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 360,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 360,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 360,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/",
+      "width": 360,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 360,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 360,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 360,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 360,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/",
+      "width": 360,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 360,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 360,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 360,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 360,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/",
+      "width": 360,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 360,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 360,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 360,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 360,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 430,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 430,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 430,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 430,
+      "dark": false,
+      "size": 16
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 430,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 430,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 430,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 430,
+      "dark": false,
+      "size": 32
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 430,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/growth",
+      "width": 430,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 430,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/settings",
+      "width": 430,
+      "dark": true,
+      "size": 16
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/encyclopedia?tab=health&month=2",
+      "width": 430,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/growth",
+      "width": 430,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/tips?month=2",
+      "width": 430,
+      "dark": true,
+      "size": 32
+    },
+    {
+      "route": "/settings",
+      "width": 430,
+      "dark": true,
+      "size": 32
+    }
+  ]
+}

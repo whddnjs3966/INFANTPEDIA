@@ -10,7 +10,7 @@ import { getGrowthAlerts, type GrowthAlert } from "@/lib/utils/growth-alerts";
 const severityStyles = {
   info: {
     border: "border-blue-200/50 dark:border-blue-800/40",
-    bg: "bg-white dark:bg-stone-900",
+    bg: "bg-white dark:bg-[var(--card)]",
     iconBg: "bg-blue-100 dark:bg-blue-900/50",
     iconColor: "text-blue-600 dark:text-blue-400",
     textColor: "text-blue-700 dark:text-blue-300",
@@ -18,7 +18,7 @@ const severityStyles = {
   },
   warning: {
     border: "border-amber-200/50 dark:border-amber-800/40",
-    bg: "bg-white dark:bg-stone-900",
+    bg: "bg-white dark:bg-[var(--card)]",
     iconBg: "bg-amber-100 dark:bg-amber-900/50",
     iconColor: "text-amber-600 dark:text-amber-400",
     textColor: "text-amber-700 dark:text-amber-300",

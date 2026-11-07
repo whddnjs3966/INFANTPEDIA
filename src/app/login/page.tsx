@@ -71,7 +71,7 @@ function LoginContent() {
 
     if (provider === "naver") {
       // Naver uses custom API route (not Supabase built-in)
-      window.location.href = "/api/auth/naver";
+      window.location.assign("/api/auth/naver");
       return;
     }
 
@@ -132,7 +132,7 @@ function LoginContent() {
         ].map((item, i) => (
           <div
             key={i}
-            className="flex items-center gap-3 rounded-xl bg-white/60 px-4 py-3 dark:bg-stone-800/60"
+            className="flex items-center gap-3 rounded-xl bg-white/60 px-4 py-3 dark:bg-[var(--surface-muted)]/60"
           >
             <span className="text-lg">{item.emoji}</span>
             <span className="text-sm text-gray-600 dark:text-gray-300">{item.text}</span>

@@ -1,0 +1,23 @@
+{
+  "origin": "http://127.0.0.1:3219",
+  "faqSources": true,
+  "searchDetail": true,
+  "mealExample": true,
+  "approvalUiAbsent": true,
+  "publicReads": [
+    {
+      "table": "activities",
+      "status": 200
+    },
+    {
+      "table": "parenting_tips",
+      "status": 200
+    },
+    {
+      "table": "parenting_tips",
+      "status": 200
+    }
+  ],
+  "runtimeErrors": [],
+  "mutationAttempts": []
+}

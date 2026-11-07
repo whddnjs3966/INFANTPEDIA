@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-07",
+  "categories": 8,
+  "newArt": 8,
+  "before": {
+    "views": 8,
+    "panels": 113
+  },
+  "after": {
+    "views": 24,
+    "panels": 322
+  },
+  "sourcePreservation": {
+    "cases": 65,
+    "sourceFieldsPreserved": 3893,
+    "safetyCorrections": [
+      "CDC readiness intro",
+      "NIH sleep after feeding",
+      "FDA teething anesthetic warning",
+      "NHS fever boundary and brushing"
+    ],
+    "note": "Compares updated source fields with rendered guide content, including collapsed native details."
+  },
+  "reflowCases": 64,
+  "existingRegressions": {
+    "summaryFAQ": 18,
+    "presentation": 12,
+    "safety": 17,
+    "practical": 10
+  },
+  "typecheck": "passed",
+  "lint": "passed",
+  "webpackBuild": "passed",
+  "sourceFilesVerified": 17,
+  "evidenceFiles": 60,
+  "main": {
+    "checks": [
+      "actual main app loads the new home and blue theme",
+      "home recommendation opens the exact practical tip",
+      "encyclopedia displays the shared theme",
+      "health displays the shared theme",
+      "growth displays the shared theme",
+      "tips displays the shared theme",
+      "settings displays the shared theme",
+      "no JavaScript errors or API mutations"
+    ],
+    "errors": [],
+    "apiRequests": [],
+    "blocked": [],
+    "publicReads": 6
+  }
+}

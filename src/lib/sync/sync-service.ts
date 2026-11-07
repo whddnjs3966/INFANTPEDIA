@@ -1,4 +1,6 @@
+import { decodeCloudSnapshot, type CloudSnapshot } from "@/lib/sync/cloud-snapshot";
 import { supabase } from '@/lib/supabase';
+import { isLegacySharingPaused, SHARING_PAUSED_MESSAGE } from '@/lib/sync/sharing-availability';
 import type { BabyProfile } from '@/lib/store/baby-store';
 import type { Measurement } from '@/lib/store/measurement-store';
 import type { VaccinationRecord } from '@/lib/store/vaccination-store';
@@ -9,11 +11,6 @@ function generateInviteCode(): string {
   const array = new Uint8Array(6);
   crypto.getRandomValues(array);
   return Array.from(array, (b) => chars[b % chars.length]).join('');
-}
-
-// Generate unique IDs for synced records
-function syncId(): string {
-  return crypto.randomUUID();
 }
 
 // Validate invite code format: 6 chars, alphanumeric only
@@ -34,26 +31,6 @@ export function getDeviceId(): string {
   return id;
 }
 
-// Helper: map DB rows to local types
-function mapMeasurements(rows: Record<string, unknown>[]): Measurement[] {
-  return rows.map((m) => ({
-    id: syncId(),
-    month: m.month as number,
-    date: m.date as string,
-    height: (m.height as number) || undefined,
-    weight: (m.weight as number) || undefined,
-    headCircumference: (m.head_circumference as number) || undefined,
-  }));
-}
-
-function mapVaccinations(rows: Record<string, unknown>[]): VaccinationRecord[] {
-  return rows.map((v) => ({
-    vaccineId: v.vaccine_id as string,
-    doseNumber: v.dose_number as number,
-    completedDate: v.completed_date as string,
-  }));
-}
-
 // ─── Share baby (create invite code or auto-sync) ───
 export async function shareBaby(
   baby: BabyProfile,
@@ -62,6 +39,7 @@ export async function shareBaby(
   creatorId?: string,
   creatorEmail?: string
 ): Promise<{ code: string; sharedBabyId: string } | { error: string }> {
+  if (isLegacySharingPaused()) return { error: SHARING_PAUSED_MESSAGE };
   const deviceId = getDeviceId();
   const MAX_RETRIES = 3;
 
@@ -141,54 +119,33 @@ export async function shareBaby(
 }
 
 // ─── Join via invite code ───
-export async function joinByInviteCode(
-  code: string
-): Promise<{
-  baby: { id: string; name: string; birthdate: string; gender: string };
-  measurements: Measurement[];
-  vaccinations: VaccinationRecord[];
-} | { error: string }> {
-  const normalized = code.toUpperCase().trim();
-  if (!isValidInviteCode(normalized)) {
-    return { error: '초대코드는 6자리 영문/숫자입니다' };
-  }
-
-  const deviceId = getDeviceId();
-
-  const { data: sharedBaby, error: lookupErr } = await supabase
-    .from('shared_babies')
-    .select('*')
-    .eq('invite_code', normalized)
-    .single();
-
-  if (lookupErr || !sharedBaby) {
-    return { error: '유효하지 않은 초대코드입니다' };
-  }
-
-  const babyId = sharedBaby.id;
-
-  // Register device (ignore duplicate)
-  await supabase.from('shared_devices').upsert(
-    { baby_id: babyId, device_id: deviceId, role: 'parent' },
-    { onConflict: 'baby_id,device_id' }
-  );
-
-  // Fetch all data (handle individual errors gracefully)
-  const [measRes, vacRes] = await Promise.all([
-    supabase.from('shared_measurements').select('*').eq('baby_id', babyId),
-    supabase.from('shared_vaccinations').select('*').eq('baby_id', babyId),
+async function readSnapshot(baby: { id: string }, expectedAccountId: string): Promise<CloudSnapshot | { error: string }> {
+  const [meas, vac] = await Promise.all([
+    supabase.from('shared_measurements').select('*', { count: 'exact' }).eq('baby_id', baby.id),
+    supabase.from('shared_vaccinations').select('*', { count: 'exact' }).eq('baby_id', baby.id),
   ]);
+  if (meas.error || vac.error || !Array.isArray(meas.data) || !Array.isArray(vac.data) || meas.count !== meas.data.length || vac.count !== vac.data.length) return { error: '기록 전체를 불러오지 못했어요. 기기의 기록은 유지됩니다.' };
+  const auth = await supabase.auth.getUser();
+  if (auth.error || auth.data.user?.id !== expectedAccountId) return { error: '로그인 계정이 바뀌었어요. 다시 로그인 상태를 확인해 주세요.' };
+  return decodeCloudSnapshot(baby, meas.data, vac.data, baby.id);
+}
 
-  return {
-    baby: {
-      id: babyId,
-      name: sharedBaby.name,
-      birthdate: sharedBaby.birthdate,
-      gender: sharedBaby.gender,
-    },
-    measurements: mapMeasurements(measRes.data || []),
-    vaccinations: mapVaccinations(vacRes.data || []),
-  };
+export async function joinByInviteCode(code: string, expectedAccountId?: string): Promise<CloudSnapshot | { error: string }> {
+  if (isLegacySharingPaused()) return { error: SHARING_PAUSED_MESSAGE };
+  const normalized = code.toUpperCase().trim();
+  if (!isValidInviteCode(normalized)) return { error: '초대코드는 6자리 영문/숫자입니다' };
+  try {
+    const auth = await supabase.auth.getUser();
+    const accountId = auth.data.user?.id;
+    if (auth.error || !accountId || (expectedAccountId && expectedAccountId !== accountId)) return { error: '가족 공유를 가져오려면 먼저 로그인해 주세요.' };
+    const { data: baby, error } = await supabase.from('shared_babies').select('*').eq('invite_code', normalized).single();
+    if (error || !baby || typeof baby.id !== 'string') return { error: '초대코드 또는 조회 권한을 확인해 주세요.' };
+    const profileCheck = decodeCloudSnapshot(baby, [], [], baby.id);
+    if ('error' in profileCheck) return profileCheck;
+    const device = await supabase.from('shared_devices').upsert({ baby_id: baby.id, device_id: getDeviceId(), role: 'parent' }, { onConflict: 'baby_id,device_id' });
+    if (device.error) return { error: '공유 연결을 확인하지 못했어요. 기기 기록은 유지됩니다.' };
+    return await readSnapshot(baby, accountId);
+  } catch { return { error: '공유 정보를 불러오지 못했어요. 연결을 확인하고 다시 시도해 주세요.' }; }
 }
 
 // ─── Sync: push local changes to cloud ───
@@ -200,9 +157,10 @@ export async function pushToCloud(
   creatorId?: string,
   creatorEmail?: string
 ): Promise<{ error?: string }> {
+  if (isLegacySharingPaused()) return { error: SHARING_PAUSED_MESSAGE };
   try {
     // Update baby profile
-    const { error: profileErr } = await supabase
+    const { data: savedProfile, error: profileErr } = await supabase
       .from('shared_babies')
       .update({
         name: baby.name,
@@ -212,14 +170,15 @@ export async function pushToCloud(
         ...(creatorId ? { creator_id: creatorId } : {}),
         ...(creatorEmail ? { creator_email: creatorEmail } : {}),
       })
-      .eq('id', sharedBabyId);
+      .eq('id', sharedBabyId).select('id').single();
 
-    if (profileErr) {
-      return { error: `프로필 업로드 실패: ${profileErr.message}` };
+    if (profileErr || savedProfile?.id !== sharedBabyId) {
+      return { error: '프로필 업로드를 확인하지 못했어요.' };
     }
 
     // Replace measurements
-    await supabase.from('shared_measurements').delete().eq('baby_id', sharedBabyId);
+    const { error: measurementDeleteError } = await supabase.from('shared_measurements').delete().eq('baby_id', sharedBabyId);
+    if (measurementDeleteError) return { error: '기존 측정 데이터 갱신에 실패했어요.' };
     if (measurements.length > 0) {
       const { error } = await supabase.from('shared_measurements').insert(
         measurements.map((m) => ({
@@ -235,7 +194,8 @@ export async function pushToCloud(
     }
 
     // Replace vaccinations
-    await supabase.from('shared_vaccinations').delete().eq('baby_id', sharedBabyId);
+    const { error: vaccinationDeleteError } = await supabase.from('shared_vaccinations').delete().eq('baby_id', sharedBabyId);
+    if (vaccinationDeleteError) return { error: '기존 접종 데이터 갱신에 실패했어요.' };
     if (vaccinations.length > 0) {
       const { error } = await supabase.from('shared_vaccinations').insert(
         vaccinations.map((v) => ({
@@ -255,39 +215,13 @@ export async function pushToCloud(
 }
 
 // ─── Sync: pull cloud data to local ───
-export async function pullFromCloud(
-  sharedBabyId: string
-): Promise<{
-  baby: { name: string; birthdate: string; gender: string };
-  measurements: Measurement[];
-  vaccinations: VaccinationRecord[];
-} | { error: string }> {
+export async function pullFromCloud(sharedBabyId: string): Promise<CloudSnapshot | { error: string }> {
+  if (isLegacySharingPaused()) return { error: SHARING_PAUSED_MESSAGE };
   try {
-    const { data: sharedBaby, error } = await supabase
-      .from('shared_babies')
-      .select('*')
-      .eq('id', sharedBabyId)
-      .single();
-
-    if (error || !sharedBaby) {
-      return { error: '공유 데이터를 불러올 수 없습니다' };
-    }
-
-    const [measRes, vacRes] = await Promise.all([
-      supabase.from('shared_measurements').select('*').eq('baby_id', sharedBabyId),
-      supabase.from('shared_vaccinations').select('*').eq('baby_id', sharedBabyId),
-    ]);
-
-    return {
-      baby: {
-        name: sharedBaby.name,
-        birthdate: sharedBaby.birthdate,
-        gender: sharedBaby.gender,
-      },
-      measurements: mapMeasurements(measRes.data || []),
-      vaccinations: mapVaccinations(vacRes.data || []),
-    };
-  } catch (e: unknown) {
-    return { error: `데이터 불러오기 실패: ${e instanceof Error ? e.message : '알 수 없는 오류'}` };
-  }
+    const auth = await supabase.auth.getUser();
+    if (auth.error || !auth.data.user) return { error: '먼저 로그인 상태를 확인해 주세요.' };
+    const { data: baby, error } = await supabase.from('shared_babies').select('*').eq('id', sharedBabyId).single();
+    if (error || !baby || baby.id !== sharedBabyId) return { error: '공유 프로필을 확인하지 못했어요.' };
+    return await readSnapshot(baby, auth.data.user.id);
+  } catch { return { error: '기록을 불러오지 못했어요. 기기 기록은 유지됩니다.' }; }
 }

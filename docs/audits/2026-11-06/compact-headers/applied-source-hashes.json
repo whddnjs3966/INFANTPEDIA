@@ -1,0 +1,38 @@
+[
+  {
+    "path": "src\\app\\globals.css",
+    "sha256": "C5E3BD7774FA332A7D26CFE25F27CE0AB98BC0A8124E384ED92094B253FA7981"
+  },
+  {
+    "path": "src\\app\\page.tsx",
+    "sha256": "8FAD71DA8EEEC76ADA8B1F39AF3C3665F7B2B533AC4B8F150AC3ADD0EF26918E"
+  },
+  {
+    "path": "src\\app\\encyclopedia\\page.tsx",
+    "sha256": "DEACD29F115BDD1FB2F894DB1CD161908B982946174FEC79ED9B6FF02A466001"
+  },
+  {
+    "path": "src\\app\\privacy\\page.tsx",
+    "sha256": "FC5A825DE45319350641CBEBB469D72A2EED75C46F8FCF474FD7B6570C8A390D"
+  },
+  {
+    "path": "src\\app\\settings\\page.tsx",
+    "sha256": "13E53C82C79C3A7E3C4F51147D3086DB1BBCFE8C767C2C15B5891FD845A14346"
+  },
+  {
+    "path": "src\\app\\wonder-weeks\\page.tsx",
+    "sha256": "29D858446E999C44B162DC52B0C6E626DF02FEA9342E6F761078372CFAE09D9E"
+  },
+  {
+    "path": "src\\components\\baby\\BabySelector.tsx",
+    "sha256": "527DCFF05D84065CAA870AF90857040AF3FFD054BA5F1F22BC50F346931B35BA"
+  },
+  {
+    "path": "src\\components\\home\\CircularFocus.tsx",
+    "sha256": "BE9D414EE6E8E44E344E3DFC5358338E5A83791D2A72D9D8071658210398B2BC"
+  },
+  {
+    "path": "src\\components\\layout\\PageHeader.tsx",
+    "sha256": "AC4EBDC5F629FEF3E0AE9951F77D2E3E5CC963AD7868FCFB89B386C6F62F2166"
+  }
+]

@@ -1,240 +1,166 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Check, Clock, AlertCircle, Syringe, ChevronDown } from "lucide-react";
+import { useId, useMemo, useRef, useState } from "react";
+import { Check, ChevronDown, Pencil, Syringe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { vaccinations, type Vaccination } from "@/lib/data/growth-data";
-import { useVaccinationStore } from "@/lib/store/vaccination-store";
+import { useVaccinationStore, type VaccinationRecord } from "@/lib/store/vaccination-store";
+import { useBabyStore } from "@/lib/store/baby-store";
+import { getKoreaDate } from "@/lib/utils/date";
 
-interface VaccinationScheduleProps {
-  currentMonth: number;
+interface VaccinationScheduleProps { currentMonth: number }
+type View = "current" | "remaining" | "completed" | "all";
+const viewLabels: Record<View, string> = { current: "이번 시기", remaining: "미완료", completed: "완료", all: "전체" };
+
+function isValidDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00Z`);
+  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 }
 
-const VACCINE_MONTHS = [0, 1, 2, 4, 6, 12];
-
-function VaccineCard({
-  vaccine,
-  currentMonth,
-  index,
-}: {
+function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate, onNotice }: {
   vaccine: Vaccination;
+  doses: Vaccination["doses"];
+  records: VaccinationRecord[];
   currentMonth: number;
-  index: number;
+  babyId: string;
+  birthdate: string;
+  onNotice: (message: string) => void;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const records = useVaccinationStore((s) => s.records);
-  const toggleVaccination = useVaccinationStore((s) => s.toggleVaccination);
+  const [open, setOpen] = useState(false);
+  const [editorDose, setEditorDose] = useState<number | null>(null);
+  const [deleteDose, setDeleteDose] = useState<number | null>(null);
+  const [date, setDate] = useState(getKoreaDate());
+  const [error, setError] = useState("");
+  const savingRef = useRef(false);
+  const id = useId();
+  const getRecord = (dose: number) => records.find((record) => record.vaccineId === vaccine.id && record.doseNumber === dose);
+  const done = doses.filter((dose) => getRecord(dose.doseNumber)).length;
 
-  const isCompleted = (vaccineId: string, doseNumber: number) =>
-    records.some((r) => r.vaccineId === vaccineId && r.doseNumber === doseNumber);
-  const getRecord = (vaccineId: string, doseNumber: number) =>
-    records.find((r) => r.vaccineId === vaccineId && r.doseNumber === doseNumber);
+  const save = (event: React.FormEvent, doseNumber: number) => {
+    event.preventDefault();
+    if (savingRef.current) return;
+    if (!isValidDate(date)) { setError("실제 접종일을 선택해 주세요."); return; }
+    if (date > getKoreaDate()) { setError("접종일은 오늘보다 늦을 수 없어요."); return; }
+    if (date < birthdate) { setError("생년월일 이후의 접종일을 선택해 주세요."); return; }
+    savingRef.current = true;
+    try {
+      const result = useVaccinationStore.getState().saveVaccination(vaccine.id, doseNumber, date, babyId);
+      if (!result.ok) { setError(result.error || "기록을 확인해 주세요."); return; }
+      setEditorDose(null); setError("");
+      onNotice(`${vaccine.name} ${doseNumber}차 접종일(${date})을 이 기기에 저장했어요.`);
+    } catch {
+      setError("기록을 저장하지 못했어요. 입력한 날짜를 확인하고 다시 시도해 주세요.");
+    } finally { savingRef.current = false; }
+  };
 
-  useEffect(() => { setMounted(true); }, []);
-
-  const allDone = vaccine.doses.every((d) =>
-    mounted ? isCompleted(vaccine.id, d.doseNumber) : currentMonth > d.monthEnd
-  );
-  const hasCurrent = vaccine.doses.some(
-    (d) => currentMonth >= d.monthStart && currentMonth <= d.monthEnd
-  );
+  const remove = (doseNumber: number) => {
+    try {
+      const result = useVaccinationStore.getState().removeVaccination(vaccine.id, doseNumber, babyId);
+      if (!result.ok) { setError(result.error || "기록을 확인해 주세요."); return; }
+      setDeleteDose(null); setError("");
+      onNotice(`${vaccine.name} ${doseNumber}차 접종 완료 기록을 삭제했어요.`);
+    } catch { setError("기기에 변경을 저장하지 못했어요. 다시 시도해 주세요."); }
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05 }}
-      className={cn(
-        "rounded-2xl bg-white dark:bg-stone-900 transition-all",
-        hasCurrent && !allDone
-          ? "shadow-[0_8px_30px_rgb(251,191,36,0.12)] ring-1 ring-amber-200/50 bg-amber-50/40 dark:ring-amber-900/50 dark:bg-amber-950/20"
-          : allDone
-          ? "shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-green-50/30 dark:bg-green-950/20 ring-1 ring-green-100/50 dark:ring-green-900/30"
-          : "shadow-[0_8px_30px_rgb(0,0,0,0.03)]"
-      )}
-    >
-      <button onClick={() => setIsOpen(!isOpen)} className="flex w-full items-center gap-3 p-4">
-        <div className={cn(
-          "flex h-10 w-10 items-center justify-center rounded-2xl",
-          allDone ? "bg-green-50 dark:bg-green-900/40" : hasCurrent ? "bg-amber-50 dark:bg-amber-900/40" : "bg-gray-50 dark:bg-stone-700"
-        )}>
-          {allDone ? (
-            <Check size={18} className="text-green-500" />
-          ) : hasCurrent ? (
-            <AlertCircle size={18} className="text-amber-500" />
-          ) : (
-            <Syringe size={18} className="text-stone-400" />
-          )}
-        </div>
-        <div className="flex-1 text-left">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">{vaccine.name}</span>
-            <span className="rounded-full bg-stone-100 dark:bg-stone-700 px-2 py-0.5 text-[11px] font-medium text-stone-500 dark:text-stone-400">
-              {vaccine.nameEn}
-            </span>
-          </div>
-          <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">{vaccine.description}</p>
-        </div>
-        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-          <ChevronDown size={16} className="text-stone-400" />
-        </motion.div>
-      </button>
-
-      {isOpen && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          className="dark:px-4 pb-4 pt-3"
-        >
-          <div className="space-y-2">
-            {vaccine.doses.map((dose) => {
-              const completed = mounted && isCompleted(vaccine.id, dose.doseNumber);
-              const record = mounted ? getRecord(vaccine.id, dose.doseNumber) : undefined;
-              const isCurrent = currentMonth >= dose.monthStart && currentMonth <= dose.monthEnd;
-
-              return (
-                <div
-                  key={`${vaccine.id}-${dose.doseNumber}`}
-                  className={cn(
-                    "flex items-center gap-3 rounded-[16px] px-3 py-2",
-                    completed ? "bg-green-50/50 dark:bg-green-900/20" : isCurrent ? "bg-amber-50 dark:bg-amber-900/20" : "bg-gray-50/80 dark:bg-stone-800/50"
-                  )}
-                >
-                  {/* Checkbox — padded for 48px touch target */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleVaccination(vaccine.id, dose.doseNumber);
-                    }}
-                    className="shrink-0 flex items-center justify-center min-h-[44px] min-w-[44px] -ml-2.5"
-                  >
-                    {completed ? (
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-400">
-                        <Check size={12} className="text-white" />
-                      </div>
-                    ) : isCurrent ? (
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-400">
-                        <Clock size={12} className="text-white" />
-                      </div>
-                    ) : (
-                      <div className="h-5 w-5 rounded-full border-2" />
-                    )}
-                  </button>
-
-                  <div className="flex-1">
-                    <span className={cn(
-                      "text-xs font-medium",
-                      completed ? "text-green-700 dark:text-green-400 line-through" : isCurrent ? "text-amber-700 dark:text-amber-400" : "text-stone-500 dark:text-stone-400"
-                    )}>
-                      {dose.doseLabel}
-                    </span>
-                    {dose.note && (
-                      <span className="ml-2 text-[11px] text-stone-400 dark:text-stone-500">({dose.note})</span>
-                    )}
-                    {record && (
-                      <span className="ml-2 text-[11px] text-green-500">{record.completedDate}</span>
-                    )}
+    <section className="@container surface-card overflow-hidden">
+      <h3>
+        <button type="button" aria-expanded={open} aria-controls={`${id}-doses`} onClick={() => setOpen(!open)} className="flex min-h-16 w-full items-start gap-3 p-5 text-left transition-colors hover:bg-[var(--surface-bg)] @max-[16rem]:gap-2 @max-[16rem]:px-3">
+          <span className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-2xl bg-[var(--surface-peach)] text-[var(--brand)] @max-[16rem]:hidden"><Syringe size={20} aria-hidden /></span>
+          <span className="min-w-0 flex-1">
+            <span className="block break-words text-lg font-semibold leading-7 tracking-tight text-[var(--foreground)]">{vaccine.name}</span>
+            <span className="mt-1 block break-words text-sm leading-6 text-[var(--muted-foreground)]">{vaccine.nameEn} · {vaccine.description}</span>
+            <span className="mt-3 inline-flex max-w-full break-words rounded-lg bg-[var(--surface-sky)] px-2.5 py-1 text-sm font-semibold leading-6 text-[var(--brand)]">표시된 {doses.length}회 중 {done}회 완료</span>
+          </span>
+          <ChevronDown size={20} aria-hidden className={cn("mt-3 shrink-0 text-stone-600 transition-transform dark:text-stone-300", open && "rotate-180")} />
+        </button>
+      </h3>
+      {open && (
+        <div id={`${id}-doses`} className="space-y-3 border-t border-[var(--border)] p-5 @max-[16rem]:p-2">
+          {doses.map((dose) => {
+            const record = getRecord(dose.doseNumber);
+            const current = currentMonth >= dose.monthStart && currentMonth <= dose.monthEnd;
+            const dateId = `${id}-${dose.doseNumber}-date`;
+            return (
+              <div key={dose.doseNumber} className="min-w-0 rounded-2xl bg-[var(--surface-bg)] p-4 @max-[16rem]:p-2">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <p className="flex items-center gap-1.5 text-base font-bold text-[var(--foreground)]">{record && <Check size={17} aria-hidden className="text-[var(--brand)]" />}{dose.doseLabel}</p>
+                    <p className="mt-1 text-sm leading-6 text-[var(--muted-foreground)]">{dose.monthStart === dose.monthEnd ? `${dose.monthStart}개월` : `${dose.monthStart}~${dose.monthEnd}개월`}{current && !record ? " · 이번 접종 시기" : ""}</p>
+                    {dose.note && <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{dose.note}</p>}
+                    {record && <p className="mt-2 text-sm font-semibold leading-6 text-[var(--brand)]">접종 완료 · {record.completedDate}</p>}
                   </div>
-
-                  <span className="text-[11px] text-stone-400 dark:text-stone-500">
-                    {dose.monthStart === dose.monthEnd
-                      ? `${dose.monthStart}개월`
-                      : `${dose.monthStart}~${dose.monthEnd}개월`}
-                  </span>
+                  <button type="button" aria-label={`${vaccine.name} ${dose.doseLabel} ${record ? "접종일 수정" : "접종 완료 기록"}`} aria-expanded={editorDose === dose.doseNumber} onClick={() => { setEditorDose(dose.doseNumber); setDeleteDose(null); setDate(record?.completedDate || getKoreaDate()); setError(""); }} className={cn("flex min-h-12 min-w-0 max-w-full flex-wrap items-center justify-center gap-1.5 break-words rounded-xl px-3 py-2 text-sm font-semibold transition-colors @max-[16rem]:[&>svg]:hidden", record ? "border border-[var(--border)] bg-[var(--card)] text-[var(--brand)]" : "bg-[var(--brand)] text-[var(--brand-foreground)] hover:bg-[var(--brand-pressed)]")}>
+                    {record ? <Pencil size={15} aria-hidden /> : <Check size={16} aria-hidden />}{record ? "접종일 수정" : "완료 기록"}
+                  </button>
                 </div>
-              );
-            })}
-          </div>
-        </motion.div>
+                {editorDose === dose.doseNumber && (
+                  <form onSubmit={(event) => save(event, dose.doseNumber)} noValidate className="mt-4 space-y-3 border-t border-stone-200 pt-3 dark:border-stone-600 @max-[16rem]:-mx-2">
+                    <label htmlFor={dateId} className="block text-sm font-semibold text-stone-800 dark:text-stone-200">실제 접종일</label>
+                    <input id={dateId} type="date" min={birthdate} max={getKoreaDate()} value={date} onChange={(event) => { setDate(event.target.value); setError(""); }} aria-invalid={!!error} aria-describedby={error ? `${dateId}-error` : undefined} className="min-h-12 min-w-0 max-w-full w-full rounded-xl border border-stone-300 bg-white px-3 text-base text-stone-900 dark:border-stone-600 dark:bg-[var(--card)] dark:text-stone-100 @max-[16rem]:px-2" />
+                    {date && <p className="break-words text-sm leading-6 text-[var(--muted-foreground)]">선택한 날짜: <time dateTime={date}>{date}</time></p>}
+                    {error && <p id={`${dateId}-error`} role="alert" className="text-sm font-medium text-red-700 dark:text-red-300">{error}</p>}
+                    <div className="flex flex-wrap gap-2">
+                      <button type="submit" className="min-h-12 min-w-0 max-w-full break-words rounded-xl bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-[var(--brand-foreground)] hover:bg-[var(--brand-pressed)] @max-[16rem]:w-full">접종일 저장</button>
+                      <button type="button" onClick={() => { setEditorDose(null); setError(""); }} className="min-h-12 min-w-0 max-w-full rounded-xl px-4 py-2 text-sm font-semibold text-stone-700 dark:text-stone-200 @max-[16rem]:w-full">취소</button>
+                    </div>
+                    {record && <button type="button" onClick={() => { setEditorDose(null); setDeleteDose(dose.doseNumber); }} className="min-h-12 min-w-0 max-w-full break-words rounded-xl px-3 py-2 text-sm font-semibold text-red-700 dark:text-red-300">이 접종 완료 기록 삭제</button>}
+                  </form>
+                )}
+                {deleteDose === dose.doseNumber && (
+                  <div className="mt-3 rounded-xl bg-red-50 p-3 dark:bg-red-950/40">
+                    <p role="alert" className="text-sm font-semibold text-red-800 dark:text-red-200">{dose.doseLabel} 완료 기록을 삭제할까요?</p>{error && <p role="alert" className="mt-2 text-sm text-red-700 dark:text-red-300">{error}</p>}
+                    <div className="mt-2 flex flex-wrap gap-2"><button type="button" onClick={() => setDeleteDose(null)} className="min-h-12 min-w-0 max-w-full break-words rounded-xl bg-white px-3 py-2 text-sm font-semibold text-stone-800 dark:bg-[var(--surface-muted)] dark:text-stone-100">기록 유지</button><button type="button" onClick={() => remove(dose.doseNumber)} className="min-h-12 min-w-0 max-w-full break-words rounded-xl bg-red-700 px-3 py-2 text-sm font-semibold text-white">삭제하기</button></div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       )}
-    </motion.div>
+    </section>
   );
 }
 
 export default function VaccinationSchedule({ currentMonth }: VaccinationScheduleProps) {
-  const [mounted, setMounted] = useState(false);
-  const completedCount = useVaccinationStore((s) => s.getCompletedCount());
+  const profile = useBabyStore((state) => state.profile);
+  const legacyOwnerId = useBabyStore((state) => state.legacyOwnerId);
+  const allRecords = useVaccinationStore((state) => state.records);
+  const [view, setView] = useState<View>("current");
+  const [notice, setNotice] = useState("");
+  const profileId = profile?.id;
+  const records = useMemo(() => allRecords.filter((record) => !!profileId && (record.babyId === profileId || (!record.babyId && legacyOwnerId === profileId))), [allRecords, profileId, legacyOwnerId]);
+  const completed = (vaccineId: string, doseNumber: number) => records.some((record) => record.vaccineId === vaccineId && record.doseNumber === doseNumber);
+  const total = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.length, 0);
+  const done = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter((dose) => completed(vaccine.id, dose.doseNumber)).length, 0);
+  const due = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter((dose) => currentMonth >= dose.monthStart && currentMonth <= dose.monthEnd && !completed(vaccine.id, dose.doseNumber)).length, 0);
+  const groups = vaccinations.map((vaccine) => ({ vaccine, doses: vaccine.doses.filter((dose) => {
+    const isDone = completed(vaccine.id, dose.doseNumber);
+    if (view === "all") return true;
+    if (view === "completed") return isDone;
+    if (view === "remaining") return !isDone;
+    return !isDone && currentMonth >= dose.monthStart && currentMonth <= dose.monthEnd;
+  }) })).filter((group) => group.doses.length > 0);
 
-  useEffect(() => { setMounted(true); }, []);
-
-  const totalDoses = vaccinations.reduce((sum, v) => sum + v.doses.length, 0);
-  const currentDoses = vaccinations.reduce(
-    (sum, v) =>
-      sum + v.doses.filter((d) => currentMonth >= d.monthStart && currentMonth <= d.monthEnd).length,
-    0
-  );
-  const done = mounted ? completedCount : 0;
-  const remaining = totalDoses - done;
+  if (!profile) return null;
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-[20px] bg-green-50/80 dark:bg-green-950/30 p-3.5 text-center">
-          <p className="text-xl font-extrabold text-green-600 dark:text-green-400">{done}</p>
-          <p className="text-[11px] font-medium text-green-600/70 dark:text-green-400/70 mt-0.5">접종 완료</p>
-        </div>
-        <div className="rounded-[20px] bg-amber-50/80 dark:bg-amber-950/30 p-3.5 text-center">
-          <p className="text-xl font-extrabold text-amber-600 dark:text-amber-400">{currentDoses}</p>
-          <p className="text-[11px] font-medium text-amber-600/70 dark:text-amber-400/70 mt-0.5">접종 시기</p>
-        </div>
-        <div className="rounded-[20px] bg-gray-50 dark:bg-stone-800/50 p-3.5 text-center">
-          <p className="text-xl font-extrabold text-stone-500 dark:text-stone-400">{remaining}</p>
-          <p className="text-[11px] font-medium text-gray-400 md:text-gray-500 mt-0.5">남은 접종</p>
-        </div>
+    <div className="@container space-y-6 pb-8" key={profile.id}>
+      <section aria-labelledby="vaccination-summary-title" className="surface-card p-5">
+        <h2 id="vaccination-summary-title" className="break-words text-xl font-semibold tracking-tight text-[var(--foreground)]">{profile.name}의 접종 기록</h2>
+        <div className="mt-5 flex flex-wrap items-end justify-between gap-3"><div><p className="text-sm text-[var(--muted-foreground)]">이번 월령에 확인할 미완료 접종</p><p className="mt-1 text-base font-medium text-[var(--foreground)]"><strong className="mr-1 text-4xl font-bold leading-tight tracking-tight tabular-nums text-[var(--brand)]">{due}</strong>회</p></div><span className="rounded-xl bg-[var(--accent-soft)] px-3 py-2 text-sm font-semibold text-[var(--brand)]">{currentMonth}개월 기준</span></div>
+        <div className="mt-5 border-t border-[var(--border)] pt-4"><p className="flex flex-wrap justify-between gap-2 text-sm text-[var(--muted-foreground)]"><span>전체 {total}회 중 <strong className="font-semibold text-[var(--foreground)]">{done}회 기록</strong></span><span>{total - done}회 미완료</span></p>
+        <div role="progressbar" aria-label="예방접종 기록 진행률" aria-valuenow={done} aria-valuemin={0} aria-valuemax={total} aria-valuetext={`${total}회 중 ${done}회 완료 기록`} className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--surface-muted)]"><div className="h-full rounded-full bg-[var(--brand)]" style={{ width: `${done / total * 100}%` }} /></div></div>
+      </section>
+      <div role="group" aria-label="예방접종 목록 선택" className="grid grid-cols-4 gap-1 rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] p-1 @max-[16rem]:grid-cols-2">
+        {(Object.keys(viewLabels) as View[]).map((key) => <button type="button" key={key} aria-pressed={view === key} onClick={() => { setView(key); setNotice(""); }} className={cn("min-h-12 rounded-xl px-1 text-sm font-bold transition-colors", view === key ? "bg-[var(--card)] text-[var(--brand)] shadow-sm" : "text-[var(--muted-foreground)]")}>{viewLabels[key]}</button>)}
       </div>
-
-      {/* Progress Bar */}
-      <div className="rounded-2xl bg-white dark:bg-stone-900 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-        <div className="mb-3 flex items-center justify-between">
-          <p className="text-xs font-medium text-stone-500 dark:text-stone-400">접종 진행률</p>
-          <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400">{Math.round((done / totalDoses) * 100)}%</p>
-        </div>
-        <div className="h-3 rounded-full bg-stone-100 dark:bg-stone-700">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${(done / totalDoses) * 100}%` }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="h-3 rounded-full bg-[#14B8A6]"
-          />
-        </div>
-        <div className="mt-3 flex justify-between">
-          {VACCINE_MONTHS.map((m) => (
-            <div key={m} className={cn(
-              "flex flex-col items-center",
-              m <= currentMonth ? "text-green-500" : "text-gray-300 dark:text-gray-600"
-            )}>
-              <div className={cn(
-                "h-2.5 w-2.5 rounded-full border-2",
-                m < currentMonth ? "bg-green-400"
-                  : m === currentMonth ? "bg-amber-400"
-                  : "bg-white dark:bg-stone-800"
-              )} />
-              <span className="mt-1 text-[11px]">{m}m</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Tip */}
-      <div className="rounded-2xl bg-blue-50 dark:bg-blue-900/30 px-4 py-3">
-        <p className="text-xs text-blue-600 dark:text-blue-400">
-          💡 각 접종 항목을 탭하여 열고, 완료된 접종을 체크하세요. 접종 기록은 기기에 안전하게 저장됩니다.
-        </p>
-      </div>
-
-      {/* Vaccine Cards */}
-      <div className="space-y-2">
-        {vaccinations.map((vaccine, i) => (
-          <VaccineCard key={vaccine.id} vaccine={vaccine} currentMonth={currentMonth} index={i} />
-        ))}
-      </div>
-
-      <p className="text-center text-[11px] text-stone-400 dark:text-stone-500">
-        * 질병관리청(KDCA) 국가예방접종 일정 기준
-        <br />* 실제 접종은 소아과 전문의와 상담하세요
-      </p>
+      <p className="text-sm leading-6 text-[var(--muted-foreground)]">백신을 열고 실제 접종일을 기록해 주세요. 일정은 참고 정보이며 실제 접종은 소아과 전문의와 상담하세요.</p>
+      {notice && <p role="status" className="rounded-2xl bg-blue-50 p-4 text-sm font-semibold text-blue-900 dark:bg-blue-950/50 dark:text-blue-200">{notice}</p>}
+      {groups.length === 0 ? <div className="surface-card p-5"><p className="text-base leading-7 text-[var(--muted-foreground)]">{view === "current" ? "이번 월령에 남은 접종 기록이 없어요." : "이 목록에 표시할 접종 기록이 없어요."}</p><button type="button" onClick={() => setView("all")} className="mt-3 min-h-12 min-w-0 max-w-full break-words rounded-xl bg-[var(--accent-soft)] px-4 py-2 text-base font-semibold text-[var(--brand)]">전체 접종 일정 보기</button></div> : <div className="space-y-3">{groups.map(({ vaccine, doses }) => <VaccineCard key={`${profile.id}-${view}-${vaccine.id}`} vaccine={vaccine} doses={doses} currentMonth={currentMonth} records={records} babyId={profile.id} birthdate={profile.birthdate} onNotice={setNotice} />)}</div>}
+      <p className="text-sm leading-6 text-[var(--muted-foreground)]">질병관리청(KDCA) 국가예방접종 일정 기준 · 기록은 이 기기에 저장돼요.</p>
     </div>
   );
 }
+

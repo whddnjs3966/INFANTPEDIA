@@ -95,15 +95,15 @@ export default function PrivacyPage() {
     <div className="min-h-screen" style={{ backgroundColor: "var(--surface-bg)" }}>
       {/* ── Top bar with back ── */}
       <header className="pt-safe sticky top-0 z-10 bg-[var(--surface-bg)]/80 backdrop-blur-xl">
-        <div className="flex items-center gap-2 px-5 pt-3 pb-3">
+        <div className="flex flex-wrap items-center gap-2 px-5 pt-3 pb-3">
           <Link
             href="/settings"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 dark:bg-stone-800/80 ring-1 ring-stone-200/80 dark:ring-stone-700/80 text-stone-700 dark:text-stone-200 active:scale-95 transition-transform"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/80 dark:bg-[var(--surface-muted)]/80 ring-1 ring-stone-200/80 dark:ring-stone-700/80 text-stone-700 dark:text-stone-200 active:scale-95 transition-transform"
             aria-label="뒤로"
           >
             <ChevronLeft size={18} strokeWidth={2.3} />
           </Link>
-          <span className="text-[13px] font-semibold text-stone-500 dark:text-stone-400">
+          <span className="text-sm font-semibold text-[var(--muted-foreground)]">
             설정
           </span>
         </div>
@@ -111,16 +111,16 @@ export default function PrivacyPage() {
 
       {/* ── Title ── */}
       <div className="px-5 pt-2 pb-5">
-        <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-teal-50 dark:bg-teal-950/40 px-2.5 py-1">
-          <ShieldCheck size={13} className="text-[#14B8A6] dark:text-teal-400" strokeWidth={2.4} />
-          <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#14B8A6] dark:text-teal-400">
+        <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 px-2.5 py-1">
+          <ShieldCheck size={13} className="text-[var(--brand)]" strokeWidth={2.4} />
+          <span className="text-sm font-bold uppercase tracking-[0.12em] text-[var(--brand)]">
             Privacy
           </span>
         </div>
-        <h1 className="text-[26px] font-black tracking-[-0.02em] text-stone-900 dark:text-stone-50 leading-[1.15]">
+        <h1 className="text-[1.375rem] font-bold tracking-[-0.02em] text-stone-900 dark:text-stone-50 leading-[1.15]">
           개인정보처리방침
         </h1>
-        <p className="mt-1.5 text-[13px] font-medium text-stone-500 dark:text-stone-400 leading-snug">
+        <p className="mt-1.5 text-sm font-medium text-[var(--muted-foreground)] leading-snug">
           InfantPedia는 부모님과 아기의 정보를 최소한으로 수집하고,
           안전하게 보관하기 위해 다음 원칙을 따릅니다.
         </p>
@@ -131,27 +131,28 @@ export default function PrivacyPage() {
         {sections.map((s) => (
           <section
             key={s.no}
-            className="rounded-3xl bg-white dark:bg-stone-900 p-5 elevation-1"
+            className="rounded-3xl bg-white dark:bg-[var(--card)] p-5 elevation-1"
           >
-            <div className="mb-2.5 flex items-center gap-2.5">
-              <span className="text-[11px] font-black tabular-nums tracking-[0.08em] text-[#14B8A6] dark:text-teal-400">
+            <div className="mb-2.5 flex flex-wrap items-center gap-2.5">
+              <span className="text-sm font-black tabular-nums tracking-[0.08em] text-[var(--brand)]">
                 {s.no}
               </span>
-              <span className="h-px flex-1 bg-stone-100 dark:bg-stone-800" />
-              <h2 className="text-[15px] font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+              <span className="h-px flex-1 bg-stone-100 dark:bg-[var(--surface-muted)]" />
+              <h2 className="text-base font-bold text-stone-900 dark:text-stone-100 tracking-tight">
                 {s.title}
               </h2>
             </div>
-            <div className="space-y-2 text-[13px] leading-relaxed text-stone-600 dark:text-stone-400">
+            <div className="space-y-2 text-base leading-7 text-[var(--foreground)]">
               {s.body}
             </div>
           </section>
         ))}
 
-        <p className="pt-2 text-center text-[12px] font-medium text-stone-400 dark:text-stone-600">
+        <p className="pt-2 text-center text-sm font-medium text-[var(--muted-foreground)]">
           시행일 · 2026년 4월 22일
         </p>
       </div>
     </div>
   );
 }
+

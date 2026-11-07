@@ -1,190 +1,32 @@
 "use client";
-
-import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Baby, Frown, Luggage, ChevronDown } from "lucide-react";
+import { useId } from "react";
+import { Plus, Minus } from "lucide-react";
+import TopicArtwork from "@/components/illustrations/TopicArtwork";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useReadingValue } from "@/components/reading/ReadingScope";
 import FormattedContent from "@/components/ui/FormattedContent";
+import HealthFAQEvidence from "@/components/encyclopedia/HealthFAQEvidence";
+import type { HealthEvidence } from "@/lib/data/health-faq-data";
+import type { PracticalTip } from "@/lib/data/practical-tips-data";
+import PracticalTipBody from "./PracticalTipBody";
 
-interface Tip {
-  id: number;
-  title: string;
-  content: string;
-  category: string;
-  month_id: number;
-}
-
-interface TipsCategoryAccordionProps {
-  tips: Tip[];
-  isLoading: boolean;
-}
-
-const categories = [
-  {
-    key: "sleep_tips",
-    label: "수면 꿀팁",
-    icon: Moon,
-    iconColor: "text-indigo-500",
-    iconBg: "bg-indigo-50 dark:bg-indigo-950/30",
-    accentBar: "bg-indigo-500",
-  },
-  {
-    key: "feeding_tips",
-    label: "수유 꿀팁",
-    icon: Baby,
-    iconColor: "text-rose-500",
-    iconBg: "bg-rose-50 dark:bg-rose-950/30",
-    accentBar: "bg-rose-500",
-  },
-  {
-    key: "crying_tips",
-    label: "울음 달래기",
-    icon: Frown,
-    iconColor: "text-amber-500",
-    iconBg: "bg-amber-50 dark:bg-amber-950/30",
-    accentBar: "bg-amber-500",
-  },
-  {
-    key: "outing_tips",
-    label: "외출·여행",
-    icon: Luggage,
-    iconColor: "text-emerald-500",
-    iconBg: "bg-emerald-50 dark:bg-emerald-950/30",
-    accentBar: "bg-emerald-500",
-  },
-];
-
-export default function TipsCategoryAccordion({
-  tips,
-  isLoading,
-}: TipsCategoryAccordionProps) {
-  const [openCategory, setOpenCategory] = useState<string | null>(null);
-
-  const toggle = (key: string) => {
-    setOpenCategory((prev) => (prev === key ? null : key));
-  };
-
-  if (isLoading) {
-    return (
-      <div className="space-y-3 px-5">
-        {categories.map((cat) => (
-          <div
-            key={cat.key}
-            className="h-[72px] animate-pulse rounded-3xl bg-stone-200/60 dark:bg-stone-800/60"
-          />
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-3 px-5">
-      {categories.map((cat) => {
-        const catTips = tips.filter((t) => t.category === cat.key);
-        const isOpen = openCategory === cat.key;
-        const Icon = cat.icon;
-        const hasContent = catTips.length > 0;
-
-        return (
-          <div key={cat.key}>
-            <motion.button
-              onClick={() => toggle(cat.key)}
-              whileTap={{ scale: 0.985 }}
-              className={cn(
-                "flex w-full items-center gap-3.5 rounded-3xl bg-white dark:bg-stone-900 p-4 text-left elevation-1 transition-shadow",
-                isOpen && "shadow-[0_6px_20px_rgba(15,15,20,0.08)]"
-              )}
-            >
-              <div
-                className={cn(
-                  "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl",
-                  cat.iconBg
-                )}
-              >
-                <Icon size={21} className={cat.iconColor} strokeWidth={2.1} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-[15px] font-bold text-stone-900 dark:text-stone-100 tracking-tight">
-                    {cat.label}
-                  </span>
-                  {hasContent ? (
-                    <span className="inline-flex items-center rounded-full bg-stone-100 dark:bg-stone-800 px-2 py-0.5 text-[10.5px] font-bold tabular-nums text-stone-500 dark:text-stone-400">
-                      {catTips.length}
-                    </span>
-                  ) : (
-                    <span className="text-[11px] font-medium text-stone-400 dark:text-stone-500">
-                      데이터 없음
-                    </span>
-                  )}
-                </div>
-                {hasContent && (
-                  <p className="mt-0.5 text-[12px] font-medium text-stone-500 dark:text-stone-400 truncate">
-                    {catTips[0].title}
-                    {catTips.length > 1 && ` 외 ${catTips.length - 1}건`}
-                  </p>
-                )}
-              </div>
-              <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.25 }}
-                className="shrink-0"
-              >
-                <ChevronDown
-                  size={18}
-                  className="text-stone-400 dark:text-stone-500"
-                  strokeWidth={2.2}
-                />
-              </motion.div>
-            </motion.button>
-
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="overflow-hidden"
-                >
-                  <div className="space-y-2.5 pt-2.5">
-                    {catTips.length === 0 ? (
-                      <div className="rounded-2xl bg-stone-50 dark:bg-stone-800/60 p-5 text-center">
-                        <p className="text-[13px] font-medium text-stone-500 dark:text-stone-400">
-                          이 월령의 {cat.label} 정보가 아직 없어요
-                        </p>
-                      </div>
-                    ) : (
-                      catTips.map((tip, idx) => (
-                        <motion.article
-                          key={tip.id}
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.2, delay: idx * 0.04 }}
-                          className="rounded-3xl bg-white dark:bg-stone-900 p-5 elevation-1"
-                        >
-                          <div className="mb-3 flex items-center gap-2.5">
-                            <span
-                              className={cn(
-                                "h-[18px] w-[3px] rounded-full",
-                                cat.accentBar
-                              )}
-                            />
-                            <h4 className="text-[15px] font-bold text-stone-900 dark:text-stone-100 tracking-tight leading-snug">
-                              {tip.title}
-                            </h4>
-                          </div>
-                          <FormattedContent content={tip.content} />
-                        </motion.article>
-                      ))
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        );
-      })}
+interface Tip { evidence?: HealthEvidence; practical?: PracticalTip; id: number; title: string; content: string; category: string; month_id: number; }
+const categories = [{ key: "sleep_tips", label: "잠", art: "sleep" }, { key: "feeding_tips", label: "먹기", art: "feeding" }, { key: "crying_tips", label: "교감·달래기", art: "play" }, { key: "outing_tips", label: "외출", art: "outing" }] as const;
+export default function TipsCategoryAccordion({ tips, isLoading }: { tips: Tip[]; isLoading: boolean }) {
+  const [storedCategory, setCategory] = useReadingValue<string | null>("tips:category", null);
+  const [openTip, setOpenTip] = useReadingValue<string | null>("tips:v4:detail", null);
+  const active = categories.some(c => c.key === storedCategory) ? storedCategory : "sleep_tips";
+  const id = useId(), items = tips.filter(tip => tip.category === active);
+  if (isLoading) return <div role="status" aria-label="주제별 팁을 불러오는 중" className="mx-5 h-40 animate-pulse rounded-3xl bg-[var(--surface-muted)]" />;
+  return <div className="px-5" data-practical-topics>
+    <div role="group" aria-label="팁 주제 선택" className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,4rem),1fr))] gap-2 rounded-2xl">
+      {categories.map(({ key, label, art }) => <button key={key} type="button" aria-pressed={active === key} onClick={() => setCategory(key)} className={cn("flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 rounded-2xl px-1 py-2 text-sm font-semibold transition-colors", active === key ? "bg-[var(--card)] text-[var(--brand)] ring-2 ring-[var(--brand)]/30" : "bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]")}><TopicArtwork kind={art} className="h-12 w-12" /><span className="break-words text-center leading-5">{label}</span></button>)}
     </div>
-  );
+    <div className="mt-4 space-y-3" aria-live="polite">
+      {items.length ? items.map(tip => { const open = openTip === String(tip.id), panel = `${id}-${tip.id}`; return <article key={tip.id} data-reading-anchor={`tips:item:${tip.id}`} className="surface-card overflow-hidden">
+        <h3><button type="button" aria-expanded={open} aria-controls={panel} onClick={() => setOpenTip(open ? null : String(tip.id))} className="group flex min-h-16 w-full items-start gap-3 p-5 text-left"><span className="min-w-0 flex-1"><span className="block text-base font-semibold leading-6 tracking-tight">{tip.title}</span>{tip.practical && <span className="mt-2 block text-sm font-normal leading-6 text-[var(--muted-foreground)]">{tip.practical.takeaway}</span>}</span><span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--surface-muted)] text-[var(--muted-foreground)]">{open ? <Minus size={15} aria-hidden /> : <Plus size={15} aria-hidden />}</span></button></h3>
+        <div id={panel} hidden={!open} className="px-5 pb-5">{tip.practical ? <PracticalTipBody tip={tip.practical} /> : <><FormattedContent content={tip.content} className="text-base leading-7" />{tip.evidence && <HealthFAQEvidence evidence={tip.evidence} />}</>}</div>
+      </article>; }) : <p className="py-5 text-base leading-7 text-[var(--muted-foreground)]">이 월령의 팁이 아직 없어요. 다른 주제를 골라보세요.</p>}
+    </div>
+  </div>;
 }

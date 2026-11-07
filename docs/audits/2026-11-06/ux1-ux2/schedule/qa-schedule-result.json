@@ -1,0 +1,26 @@
+{
+  "checks": [
+    "4m starts with 5 morning events; clock and title are 16px",
+    "whole day preserves all 13 events and groups them 5/5/3 without duplicated durations",
+    "time and activity filters combine without losing the selected period",
+    "keyboard expands one detail at a time and remembers reading state on return",
+    "0–3m retain responsive signal-based care, never forced clock-time tabs",
+    "4–12m retain every event in all-day mode",
+    "mobile light/dark and 200% root text: no horizontal overflow or clipped schedule labels",
+    "FAQ action content is 16px, evidence metadata is 14px and review status unchanged"
+  ],
+  "errors": [],
+  "measurements": {
+    "default": {
+      "sectionHeight": 683,
+      "listHeight": 411,
+      "rows": 5,
+      "timeSize": "16px"
+    },
+    "fullDay": {
+      "sectionHeight": 1355,
+      "listHeight": 1083,
+      "rows": 13
+    }
+  }
+}

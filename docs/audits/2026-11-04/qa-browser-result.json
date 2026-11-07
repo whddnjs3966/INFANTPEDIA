@@ -1,0 +1,18 @@
+{
+  "environment": "local PostgreSQL + locally signed JWT gateway + isolated Next app",
+  "productionRequests": 0,
+  "checks": [
+    "owner family UI creates recipient-bound reader invite against real local DB",
+    "new browser accepts invite and restores a reader backup without a placeholder",
+    "owner UI changes role and revokes access while reader local data remains",
+    "existing baby merge compares choices and preserves other baby, photo and memo",
+    "another tab update fences stale UI and online operations until reload",
+    "mobile layout has no horizontal overflow across 360/390/430 widths and text enlargement",
+    "owner server-delete UI purges only server backup and preserves local records",
+    "storage quota failure during device delete rolls all local values back",
+    "device deletion removes only selected baby and resets cleanly on a new document",
+    "account deletion API deletes own backups/auth and preserves another owner and local records",
+    "device full reset clears local records without deleting remaining server backups"
+  ],
+  "errors": []
+}

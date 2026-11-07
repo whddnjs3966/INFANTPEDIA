@@ -1,0 +1,13 @@
+{
+  "origin": "http://127.0.0.1:3219",
+  "checked": [
+    "2개월 리듬",
+    "실제 공개 팁 교정 표시",
+    "FAQ 구조화 안내"
+  ],
+  "publicGetRequests": 2,
+  "publicTables": [
+    "parenting_tips"
+  ],
+  "databaseWrites": 0
+}

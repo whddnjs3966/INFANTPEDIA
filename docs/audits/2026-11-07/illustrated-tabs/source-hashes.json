@@ -1,0 +1,72 @@
+[
+  {
+    "path": "src/app/growth/page.tsx",
+    "before": "4a6e92ac2ec9df2e3d5261c31ac29402870df22f70636e8b5b48736ce53b970d",
+    "after": "82823817c68ddbe57b3b6cdec3eed42434bbae4c04c21c59f7e2ce2764552fd8"
+  },
+  {
+    "path": "src/app/settings/page.tsx",
+    "before": "fb32ddd1d27411edfad650672385722ac65cd8ebeb81dce13129d911a7deefbb",
+    "after": "3db6fd0d066abd3c5ce9d32d3c51d4d8bd435dadece7d8f34c67b072f784b6b0"
+  },
+  {
+    "path": "src/components/baby/BabySelector.tsx",
+    "before": "6a9eed051e0ed2769f744134a791c2f2f9f0655532702984754086db0173b355",
+    "after": "8b6b099ca37d8b77ccf6edc6735dc8d87907cdac136dfe0c4c2d4b6b31a97672"
+  },
+  {
+    "path": "src/components/encyclopedia/GuidePresentation.tsx",
+    "before": "0965eab70dc158325f51930efcde2297435a14b598a05add52b91b7e915920ac",
+    "after": "6b7125cc404eb64b73be7c2582514a21719311ffc21a90c6acca16baffd0844c"
+  },
+  {
+    "path": "src/components/encyclopedia/MonthSummaryCard.tsx",
+    "before": "328913c1a591caa66fe164e21c302eead1855936efcd0625cba831929cba5b5c",
+    "after": "f1f0f518c2f34ed8cc893eb7787e63965b0ad4b683c1f5b9ccc85e5854bcd299"
+  },
+  {
+    "path": "src/components/growth/GrowthChart.tsx",
+    "before": "1252d113dd47ca0ad0240a0bab69d2c7f15e5d51e1342e3b622c4d21751267ae",
+    "after": "13bd6e90f46a83e383f81d26143df2694c4fb7a6f02f004e64ff938b289cd496"
+  },
+  {
+    "path": "src/components/growth/VaccinationSchedule.tsx",
+    "before": "1051ff57103e157183bd00a1052c58d307ffa99016b7980617d4ea45fb8e7781",
+    "after": "cea12cc87bdc235917e65007ddd3ac3fc5a9e4507a42b9fb976d28bf79224f04"
+  },
+  {
+    "path": "src/components/illustrations/TopicArtwork.tsx",
+    "before": null,
+    "after": "1e611b61aa1b69d99d6d872a10a1d07d775666400df61a34d65bcbda7db163c7"
+  },
+  {
+    "path": "src/components/layout/PageHeader.tsx",
+    "before": "ac4ebdc5f629fef3e0ae9951f77d2e3e5cc963ad7868fcfb89b386c6f62f2166",
+    "after": "57732960ae0ca7fcaa9926429c367b6befefe9867e6851d00dab23d6334fcfd5"
+  },
+  {
+    "path": "src/components/tips/ScheduleActivityList.tsx",
+    "before": "085ccbe8ab6ae5ec819243ea2b0a2ca1dec194c5824b2b9e7225875686e68f19",
+    "after": "ec4aded160738f2cbdfbc85dbac0373b1455ffbb1a4d4e7936978f63614f2123"
+  },
+  {
+    "path": "src/components/tips/TipsCategoryAccordion.tsx",
+    "before": "c7d40a2dc3a45befc442462dffd2719cb1de8dabbdec9d60edffbf0925c17471",
+    "after": "53313d5a0eb3323864844a375071d14418e1c2ac426b2f7ef700150839c8a529"
+  },
+  {
+    "path": "src/components/tips/TodaysTipCard.tsx",
+    "before": "1c1ca74f4d16cc0f217700825c313c2ada024fa88add0450b16f2476d760da2d",
+    "after": "e3615ccee287e53c09d5ff9b96babb0c85e05ebab781511e115d0fc91ebe4dcd"
+  },
+  {
+    "path": "scripts/illustrated-tabs-browser-regression.cjs",
+    "before": null,
+    "after": "be06443f8e0f7f88d74919591f9f1c1ddb3d70973b5215c05cb922fee90a9e9e"
+  },
+  {
+    "path": "scripts/illustrated-vaccination-browser-regression.cjs",
+    "before": null,
+    "after": "675b1a5d9088e481ebdc188be63c596e3a59574f28cf4d25a2e9c0b7d9a0db7e"
+  }
+]

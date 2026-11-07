@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-04",
+  "suites": {
+    "content-safety": 15,
+    "browser-content": 9,
+    "navigation": 10,
+    "records": 22,
+    "sharing-paused": 10
+  },
+  "total": 66,
+  "typecheck": "passed",
+  "eslint": "passed",
+  "webpackBuild": "passed",
+  "faq": {
+    "total": 89,
+    "sourceLinked": 18,
+    "clinicallyReviewed": 0
+  },
+  "productionDatabaseModified": false,
+  "conditionalSqlPrepared": true,
+  "localAppSmoke": {
+    "port": 3219,
+    "checks": 3,
+    "publicGetOnly": true,
+    "databaseWrites": 0
+  }
+}

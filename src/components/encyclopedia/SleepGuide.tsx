@@ -1,399 +1,45 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Moon,
-  Sun,
-  ChevronDown,
-  Check,
-  Star,
-  AlertCircle,
-  Clock,
-  Sunrise,
-  CloudMoon,
-  ThumbsUp,
-  ThumbsDown,
-  ListOrdered,
-  Eye,
-  CircleDot,
-  Info,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { AlertCircle, Check, ChevronDown, Eye, Info, Moon, Star } from "lucide-react";
 import FormattedContent from "@/components/ui/FormattedContent";
-import {
-  getSleepGuideForMonth,
-  getSuitableMethodsForMonth,
-  type SleepTrainingMethod,
-  type SleepIssue,
-} from "@/lib/data/sleep-guide-data";
+import { getSleepGuideForMonth, getSuitableMethodsForMonth } from "@/lib/data/sleep-guide-data";
+import { GuideAccordion, GuideCard, GuideContent, GuideHeading, GuideStats } from "./GuidePresentation";
 
-interface SleepGuideProps {
-  month: number;
-}
+const difficultyLabels = { easy: "쉬움", medium: "보통", hard: "어려움" };
 
-const difficultyConfig = {
-  easy: {
-    label: "쉬움",
-    stars: 1,
-    color: "text-green-500",
-    badgeBg: "bg-green-50 dark:bg-green-950/30",
-    badgeText: "text-green-700 dark:text-green-300",
-  },
-  medium: {
-    label: "보통",
-    stars: 2,
-    color: "text-amber-500",
-    badgeBg: "bg-amber-50 dark:bg-amber-950/30",
-    badgeText: "text-amber-700 dark:text-amber-300",
-  },
-  hard: {
-    label: "어려움",
-    stars: 3,
-    color: "text-red-500",
-    badgeBg: "bg-red-50 dark:bg-red-950/30",
-    badgeText: "text-red-700 dark:text-red-300",
-  },
-};
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 },
-};
-
-function MethodCard({ method }: { method: SleepTrainingMethod }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const config = difficultyConfig[method.difficulty];
-
-  return (
-    <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
-      >
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 shrink-0">
-          <Moon size={17} className="text-indigo-500" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-              {method.name}
-            </span>
-            <span className={cn("flex items-center gap-0.5", config.color)}>
-              {Array.from({ length: config.stars }).map((_, i) => (
-                <Star key={i} size={10} fill="currentColor" />
-              ))}
-            </span>
-          </div>
-          <div className="mt-0.5 flex items-center gap-1.5">
-            <span className={cn("rounded-lg px-1.5 py-0.5 text-[11px] font-medium", config.badgeBg, config.badgeText)}>
-              {config.label}
-            </span>
-            <span className="rounded-lg bg-indigo-50 dark:bg-indigo-950/30 px-1.5 py-0.5 text-[11px] font-medium text-indigo-700 dark:text-indigo-300">
-              {method.duration}
-            </span>
-            <span className="text-[11px] text-stone-400 dark:text-stone-500">
-              {method.suitableAge}
-            </span>
-          </div>
-        </div>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ChevronDown size={16} className="text-gray-400" />
-        </motion.div>
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="px-4 pb-4 space-y-4">
-              <div className="border-t border-stone-200 dark:border-stone-700 pt-3">
-                <FormattedContent content={method.description} className="text-[12px]" />
-              </div>
-
-              {/* Pros */}
-              <div>
-                <div className="flex items-center gap-1.5 mb-2">
-                  <ThumbsUp size={13} className="text-green-500" />
-                  <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">장점</p>
-                </div>
-                <div className="space-y-1.5">
-                  {method.pros.map((pro, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <CircleDot size={8} className="text-green-400 shrink-0 mt-1.5" />
-                      <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">{pro}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Cons */}
-              <div>
-                <div className="flex items-center gap-1.5 mb-2">
-                  <ThumbsDown size={13} className="text-red-500" />
-                  <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">단점</p>
-                </div>
-                <div className="space-y-1.5">
-                  {method.cons.map((con, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <CircleDot size={8} className="text-red-400 shrink-0 mt-1.5" />
-                      <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">{con}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Steps */}
-              <div>
-                <div className="flex items-center gap-1.5 mb-2">
-                  <ListOrdered size={13} className="text-indigo-500" />
-                  <p className="text-[12px] font-bold text-stone-700 dark:text-stone-200">진행 방법</p>
-                </div>
-                <div className="space-y-2">
-                  {method.steps.map((step, i) => (
-                    <div key={i} className="flex items-start gap-2.5">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-[11px] font-bold text-indigo-600 dark:text-indigo-300">
-                        {i + 1}
-                      </span>
-                      <p className="text-[12px] text-gray-600 dark:text-gray-300 leading-relaxed">
-                        {step}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-function IssueAccordion({ issue }: { issue: SleepIssue }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-[0_2px_8px_rgb(0,0,0,0.06)] overflow-hidden">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full min-h-[48px] items-center gap-3 p-4 text-left"
-      >
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-950/40 shrink-0">
-          <AlertCircle size={17} className="text-purple-500" />
-        </div>
-        <span className="flex-1 text-[13px] font-bold text-stone-800 dark:text-stone-100">
-          {issue.issue}
-        </span>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ChevronDown size={16} className="text-gray-400" />
-        </motion.div>
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="px-4 pb-4">
-              <div className="border-t border-stone-200 dark:border-stone-700 pt-3">
-                <FormattedContent content={issue.solution} className="text-[12px]" />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-export default function SleepGuide({ month }: SleepGuideProps) {
-  const guide = useMemo(() => getSleepGuideForMonth(month), [month]);
-  const methods = useMemo(() => getSuitableMethodsForMonth(month), [month]);
-
+export default function SleepGuide({ month }: { month: number }) {
+  const guide = getSleepGuideForMonth(month);
+  const methods = getSuitableMethodsForMonth(month);
   if (!guide) return null;
 
-  const showMethodWarning = month < 4;
+  return <GuideContent>
+    <GuideCard>
+      <GuideHeading title="수면 참고" icon={<Moon size={21} />} tone="lilac" />
+      <details className="group"><summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 text-sm font-semibold text-[var(--brand)]">수면 참고 수치<ChevronDown size={16} aria-hidden className="group-open:rotate-180" /></summary><div className="pt-3"><GuideStats items={[{ label: "총 수면", value: guide.totalSleep }, { label: "야간 수면", value: guide.nightSleep }, { label: "낮잠", value: guide.napInfo }]} /></div></details><p className="text-sm leading-6 text-[var(--muted-foreground)]">밤 수면은 중간에 깨거나 먹는 시간을 사이에 두고 나뉠 수 있어요. 수치는 참고 범위예요.</p>
+    </GuideCard>
 
-  return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="space-y-3"
-    >
-      {/* Sleep Stats Card */}
-      <motion.div
-        variants={itemVariants}
-        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
-      >
-        <div className="flex items-center gap-2.5 mb-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40">
-            <Moon size={17} className="text-indigo-500" />
-          </div>
-          <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-            수면 정보
-          </h3>
-        </div>
+    <GuideCard>
+      <GuideHeading title="졸림 신호" description="이 신호가 보이면 재울 타이밍" icon={<Eye size={21} />} tone="amber" />
+      <ul className="grid gap-x-5 gap-y-2 sm:grid-cols-2">{guide.sleepSignals.map(signal => <li key={signal} className="flex items-start gap-2.5"><span aria-hidden="true" className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-700 dark:bg-amber-300" /><span>{signal}</span></li>)}</ul>
+    </GuideCard>
 
-        <div className="grid grid-cols-3 gap-2">
-          <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
-            <Clock size={13} className="mx-auto mb-1 text-indigo-500" />
-            <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{guide.totalSleep}</p>
-            <p className="text-[11px] text-gray-400 mt-0.5">총 수면</p>
-          </div>
-          <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
-            <CloudMoon size={13} className="mx-auto mb-1 text-teal-500" />
-            <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{guide.nightSleep}</p>
-            <p className="text-[11px] text-gray-400 mt-0.5">야간 수면</p>
-          </div>
-          <div className="rounded-xl bg-gray-50 dark:bg-stone-800/60 p-2.5 text-center">
-            <Sunrise size={13} className="mx-auto mb-1 text-sky-500" />
-            <p className="text-[11px] font-bold text-stone-700 dark:text-stone-200 break-keep">{guide.napInfo}</p>
-            <p className="text-[11px] text-gray-400 mt-0.5">낮잠</p>
-          </div>
-        </div>
-      </motion.div>
+    <section className="space-y-3">
+      <GuideHeading title="수면교육 방법" icon={<Star size={21} />} tone="lilac" />
+      {month < 4 && <aside className="rounded-2xl bg-[var(--surface-lavender)] p-4 text-[var(--foreground)]"><div className="flex items-start gap-2.5"><Info size={20} aria-hidden="true" className="mt-0.5 shrink-0 text-violet-700 dark:text-violet-300" /><div><p className="font-semibold">수면교육은 보통 4개월 이후에 시작해요</p><p className="mt-2">지금은 아기와의 유대감 형성에 집중하고, 안아재우기 방법으로 부드럽게 수면 습관을 만들어주세요.</p></div></div></aside>}
+      {methods.map(method => <GuideAccordion key={method.id} title={method.name} compact artwork="moon" icon={<Moon size={20} />} tone="lilac" meta={<><span>{difficultyLabels[method.difficulty]}</span><span>{method.duration}</span><span>{method.suitableAge}</span></>}>
+        <FormattedContent variant="prose" content={method.description} />
+        <div className="border-l-2 border-[var(--content-caution)] pl-3"><h4 className="mb-2 text-sm font-semibold text-[var(--content-caution)]">알아둘 점</h4><ul className="list-disc space-y-2 pl-4">{method.cons.map(con => <li key={con}>{con}</li>)}</ul></div>
+        <div><h4 className="mb-3 text-sm font-semibold text-[var(--brand)]">진행 순서</h4><ol className="space-y-3">{method.steps.map((step, index) => <li key={step} className="flex items-start gap-3"><span aria-hidden className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--surface-lavender)] text-sm font-semibold text-violet-800 dark:text-violet-200">{index + 1}</span><span>{step}</span></li>)}</ol></div>
+        <details className="group border-t border-[var(--border)] pt-1"><summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 py-2 text-sm font-semibold text-[var(--brand)] [&::-webkit-details-marker]:hidden">장점 {method.pros.length}가지<ChevronDown size={16} aria-hidden className="shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" /></summary><ul className="space-y-2 pb-1 pt-2">{method.pros.map(pro => <li key={pro} className="flex items-start gap-2.5"><Check size={17} aria-hidden="true" className="mt-1 shrink-0 text-[var(--brand)]" /><span>{pro}</span></li>)}</ul></details>
+      </GuideAccordion>)}
+    </section>
 
-      {/* Sleep Signals Card */}
-      <motion.div
-        variants={itemVariants}
-        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
-      >
-        <div className="flex items-center gap-2.5 mb-1">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/40">
-            <Eye size={17} className="text-amber-500" />
-          </div>
-          <div>
-            <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-              졸림 신호
-            </h3>
-            <p className="text-[11px] text-stone-500 dark:text-stone-400">
-              이 신호가 보이면 재울 타이밍
-            </p>
-          </div>
-        </div>
+    <section className="space-y-3"><GuideHeading title="자주 하는 고민" icon={<AlertCircle size={21} />} tone="lilac" />{guide.commonIssues.map(issue => <GuideAccordion key={issue.issue} title={issue.issue} compact artwork={/수유|먹/.test(issue.issue) ? "feeding" : /이앓|치아/.test(issue.issue) ? "tooth" : "moon"} icon={<Moon size={20} />} tone="lilac"><FormattedContent variant="prose" content={issue.solution} /></GuideAccordion>)}</section>
 
-        <div className="flex flex-wrap gap-1.5 mt-3">
-          {guide.sleepSignals.map((signal, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 px-2.5 py-1.5 text-[11px] font-medium text-amber-700 dark:text-amber-300"
-            >
-              <Sun size={11} className="text-amber-400" />
-              {signal}
-            </span>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Sleep Training Methods */}
-      <motion.div variants={itemVariants}>
-        <div className="flex items-center gap-2.5 mb-3 px-1">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40">
-            <Star size={17} className="text-indigo-500" />
-          </div>
-          <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-            수면교육 방법
-          </h3>
-        </div>
-
-        {showMethodWarning && (
-          <div className="mb-3 rounded-2xl border border-blue-200/40 dark:border-blue-800/30 bg-blue-50/60 dark:bg-blue-950/20 p-4">
-            <div className="flex items-start gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-900/50 shrink-0">
-                <Info size={17} className="text-blue-500" />
-              </div>
-              <div>
-                <p className="text-[13px] font-bold text-blue-800 dark:text-blue-200">
-                  수면교육은 보통 4개월 이후에 시작해요
-                </p>
-                <p className="mt-1 text-[12px] leading-relaxed text-blue-600 dark:text-blue-300">
-                  지금은 아기와의 유대감 형성에 집중하고, 안아재우기 방법으로 부드럽게 수면 습관을 만들어주세요.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="space-y-3">
-          {methods.map((method) => (
-            <MethodCard key={method.id} method={method} />
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Common Issues */}
-      <motion.div variants={itemVariants}>
-        <div className="flex items-center gap-2.5 mb-3 px-1">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-950/40">
-            <AlertCircle size={17} className="text-purple-500" />
-          </div>
-          <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-            자주 하는 고민
-          </h3>
-        </div>
-        <div className="space-y-3">
-          {guide.commonIssues.map((issue, i) => (
-            <IssueAccordion key={i} issue={issue} />
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Sleep Environment Checklist */}
-      <motion.div
-        variants={itemVariants}
-        className="rounded-2xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 p-5 shadow-[0_2px_8px_rgb(0,0,0,0.06)]"
-      >
-        <div className="flex items-center gap-2.5 mb-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/40">
-            <Check size={17} className="text-emerald-500" />
-          </div>
-          <h3 className="text-[14px] font-bold text-stone-800 dark:text-stone-100">
-            수면 환경 체크리스트
-          </h3>
-        </div>
-        <div className="space-y-2">
-          {guide.sleepEnvironment.map((tip, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-3 rounded-xl bg-gray-50 dark:bg-stone-800/60 px-3 py-2.5"
-            >
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500">
-                <Check size={11} className="text-white" strokeWidth={3} />
-              </div>
-              <span className="text-[12px] text-gray-700 dark:text-gray-300 leading-relaxed">
-                {tip}
-              </span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      <div className="pb-4" />
-    </motion.div>
-  );
+    <GuideCard>
+      <GuideHeading title="수면 환경 체크리스트" icon={<Check size={21} />} />
+      <ul className="divide-y divide-stone-100 dark:divide-[var(--border)]">{guide.sleepEnvironment.map(tip => <li key={tip} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0"><Check size={19} aria-hidden="true" className="mt-1 shrink-0 text-blue-800 dark:text-blue-300" /><span>{tip}</span></li>)}</ul>
+    </GuideCard>
+  </GuideContent>;
 }
+
