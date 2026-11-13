@@ -1,0 +1,184 @@
+/* Styles for the illustrated encyclopedia, scoped so other tabs can be reviewed separately. */
+[data-encyclopedia-redesign] {
+  --background: #F8FAFF;
+  --surface-bg: #F8FAFF;
+  --foreground: #303344;
+  --card: #FFFFFF;
+  --muted-foreground: #687086;
+  --brand: #3268D5;
+  --brand-foreground: #FFFFFF;
+  --accent-soft: #EAF1FF;
+  --border: #E7ECF6;
+  --surface-muted: #EEF2FA;
+  --surface-sky: #ECF4FF;
+  --surface-peach: #FFF0E8;
+  --surface-lavender: #F0ECFF;
+  --shadow-card: 0 3px 12px rgb(63 85 130 / .045);
+  background: var(--background);
+  color: var(--foreground);
+  padding-inline: 20px;
+  padding-top: max(env(safe-area-inset-top), 16px);
+  line-height: 1.65;
+  letter-spacing: -.1px;
+}
+
+.dark [data-encyclopedia-redesign] {
+  --background: #1D2130;
+  --surface-bg: #1D2130;
+  --foreground: #F5F7FF;
+  --card: #282E40;
+  --muted-foreground: #BDC5DA;
+  --brand: #A6CEFF;
+  --brand-foreground: #172B46;
+  --accent-soft: #304263;
+  --border: #424B61;
+  --surface-muted: #32394D;
+  --surface-sky: #283A54;
+  --surface-peach: #3D302E;
+  --surface-lavender: #39334F;
+  --shadow-card: none;
+}
+
+.encyclopedia-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px 44px;
+  align-items: center;
+  gap: 8px;
+  min-height: 65px;
+  margin-bottom: 10px;
+}
+
+.encyclopedia-header h1 {
+  font-size: 1.375rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: -.35px;
+  overflow-wrap: anywhere;
+}
+
+.encyclopedia-header p {
+  margin-top: 2px;
+  font-size: .8125rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+  overflow-wrap: anywhere;
+}
+
+.encyclopedia-header .header-action {
+  background: transparent;
+  box-shadow: none;
+}
+
+.encyclopedia-header .header-action:hover { background: var(--accent-soft); }
+
+.encyclopedia-header-art {
+  display: block;
+  width: 76px;
+  height: 65px;
+  object-fit: contain;
+  pointer-events: none;
+  animation: encyclopedia-hello 620ms ease-out both;
+}
+
+[data-encyclopedia-redesign] [data-month-selector] {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+[data-encyclopedia-redesign] [data-month-selector] button[aria-expanded] > span:first-child {
+  padding: 2px 9px;
+  border-radius: 10px;
+  background: var(--surface-muted);
+  line-height: 1.35;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+[data-encyclopedia-redesign] [data-month-selector] button {
+  word-break: keep-all;
+}
+
+.encyclopedia-topics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.encyclopedia-topic {
+  display: flex;
+  min-width: 0;
+  min-height: 70px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  padding: 5px 2px;
+  font-size: .8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
+  transition: background-color 180ms ease, transform 160ms ease;
+}
+
+.encyclopedia-topic:hover { background: var(--card); }
+.encyclopedia-topic:active { transform: scale(.98); }
+
+.encyclopedia-topic.encyclopedia-topic-active {
+  border-color: color-mix(in srgb, var(--brand) 16%, transparent);
+  background: var(--accent-soft);
+  color: var(--brand);
+}
+
+.encyclopedia-topic-art {
+  width: 48px;
+  height: 42px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.encyclopedia-heading {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.48;
+  letter-spacing: -.3px;
+}
+
+[data-encyclopedia-redesign] #encyclopedia-topic-content :where(h3, h4, p, summary, dd) {
+  overflow-wrap: anywhere;
+}
+
+[data-encyclopedia-redesign] details > summary { cursor: pointer; }
+
+body:has([data-encyclopedia-redesign]) nav[aria-label="주요 메뉴"] {
+  margin: 0;
+  border-radius: 22px 22px 0 0;
+  border-bottom: 0;
+  background: var(--card);
+  box-shadow: 0 -4px 18px rgb(58 79 122 / .045);
+}
+
+body:has([data-encyclopedia-redesign]) nav[aria-label="주요 메뉴"] [aria-current="page"] :is(svg, span) { color: #3268D5; }
+body:has([data-encyclopedia-redesign]) nav[aria-label="주요 메뉴"] [aria-current="page"] > span:first-child { max-width: calc(100% - 4px); background: #EAF1FF; }
+body:has([data-encyclopedia-redesign]) nav[aria-label="주요 메뉴"] a > span:last-child { white-space: nowrap; letter-spacing: -.2px; }
+.dark body:has([data-encyclopedia-redesign]) nav[aria-label="주요 메뉴"] [aria-current="page"] :is(svg, span) { color: #A6CEFF; }
+.dark body:has([data-encyclopedia-redesign]) nav[aria-label="주요 메뉴"] [aria-current="page"] > span:first-child { background: #304263; }
+
+@container (max-width: 15rem) {
+  .encyclopedia-header { grid-template-columns: minmax(0, 1fr) 40px 44px; gap: 6px; }
+  .encyclopedia-header-art { width: 40px; height: 36px; }
+  .encyclopedia-topics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@keyframes encyclopedia-hello {
+  from { opacity: 0; transform: translateY(5px) rotate(-3deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .encyclopedia-header-art { animation: none; }
+  .encyclopedia-topic { transition: none; }
+  .encyclopedia-topic:active { transform: none; }
+}

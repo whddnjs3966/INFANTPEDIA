@@ -1,10 +1,13 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  // Skip Supabase auth for admin routes (uses separate auth system)
-  if (request.nextUrl.pathname.startsWith("/admin")) {
-    return;
+  const path = request.nextUrl.pathname;
+  if (/^\/(?:api\/)?admin(?:\/|$)/.test(path)) {
+    if (process.env.NODE_ENV !== "development" || !process.env.INFANTPEDIA_LOCAL_ADMIN_UID?.trim()) {
+      return new NextResponse(null, { status: 404, headers: { "Cache-Control": "private, no-store" } });
+    }
+    if (path.startsWith("/api/")) return;
   }
   return await updateSession(request);
 }

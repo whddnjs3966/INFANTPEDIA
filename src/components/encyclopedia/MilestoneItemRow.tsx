@@ -1,7 +1,8 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { Check, Pencil } from "lucide-react";
+import { Check, ChevronDown, Pencil } from "lucide-react";
+import { useReadingValue } from "@/components/reading/ReadingScope";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { useMilestoneStore } from "@/lib/store/milestone-store";
 import { getKoreaDate } from "@/lib/utils/date";
@@ -25,6 +26,7 @@ export default function MilestoneItemRow({ milestone, isCompleted, completedDate
   const [date, setDate] = useState(completedDate || getKoreaDate());
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useReadingValue<boolean>(`milestone:details:${milestone.id}`, false);
   const savingRef = useRef(false);
   const actionRef = useRef<HTMLButtonElement>(null);
   const editRef = useRef<HTMLButtonElement>(null);
@@ -60,15 +62,20 @@ export default function MilestoneItemRow({ milestone, isCompleted, completedDate
       actionRef.current?.focus();
     } catch { setError('기기에 변경을 저장하지 못했어요. 다시 시도해 주세요.'); }
   };
-  return <article data-reading-anchor={`milestone:${milestone.id}`} className="bg-[var(--card)] px-4 py-4 first:rounded-t-2xl last:rounded-b-2xl">
-    <div className="flex gap-3">
-      <button ref={actionRef} type="button" aria-pressed={isCompleted} aria-label={`${milestone.title}: ${isCompleted ? '관찰 취소' : '관찰 날짜 기록'}`} onClick={() => { if (!isCompleted) startEditing(); else { setEditing(false); setError(''); setConfirmRemove(true); } }} className="-ml-1 flex h-[44px] w-[44px] shrink-0 items-start justify-center pt-1">
-        <span className={cn("flex h-[24px] w-[24px] items-center justify-center rounded-lg border-2", isCompleted ? "border-[var(--brand)] bg-[var(--brand)] text-[var(--brand-foreground)]" : "border-stone-400 dark:border-stone-500")}>{isCompleted && <Check size={15} strokeWidth={3} aria-hidden="true" />}</span>
+  return <article data-reading-anchor={`milestone:${milestone.id}`} className="px-3 py-1.5">
+    <div className="flex items-start gap-1">
+      <button ref={actionRef} type="button" aria-pressed={isCompleted} aria-label={`${milestone.title}: ${isCompleted ? '관찰 취소' : '관찰 날짜 기록'}`} onClick={() => { if (!isCompleted) startEditing(); else { setEditing(false); setError(''); setConfirmRemove(true); } }} className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-lg">
+        <span className={cn("flex h-[23px] w-[23px] items-center justify-center rounded-lg border-2", isCompleted ? "border-[var(--brand)] bg-[var(--brand)] text-[var(--brand-foreground)]" : "border-[var(--muted-foreground)]/60")}>{isCompleted && <Check size={15} strokeWidth={3} aria-hidden="true" />}</span>
       </button>
       <div className="min-w-0 flex-1">
-        <h4 className="text-base font-semibold leading-7 text-stone-900 dark:text-stone-100">{milestone.title}</h4>
-        <p className="mt-2 text-base leading-7 text-stone-600 dark:text-stone-300">{milestone.description}</p>
-        {isCompleted && <div className="mt-2 flex flex-wrap items-center gap-x-2"><p className="text-sm font-semibold text-[var(--brand)]">{completedDate ? <><time dateTime={completedDate}>{completedDate}</time> 관찰</> : '관찰일이 아직 없어요'}</p><button ref={editRef} type="button" aria-label={`${milestone.title} 관찰일 수정`} onClick={startEditing} className="inline-flex min-h-12 items-center gap-1 rounded-xl px-2 text-sm font-semibold text-[var(--brand)]"><Pencil size={14} aria-hidden="true" />날짜 수정</button></div>}
+        <h4>
+          <button type="button" aria-expanded={detailsOpen} aria-controls={`${id}-description`} onClick={() => setDetailsOpen(value => !value)} className="flex min-h-11 w-full items-center justify-between gap-2 rounded-lg py-2 text-left text-base font-semibold leading-[1.5]">
+            <span className="min-w-0 break-words">{milestone.title}</span>
+            <ChevronDown size={15} aria-hidden className={cn("shrink-0 text-[var(--muted-foreground)] transition-transform duration-200 motion-reduce:transition-none", detailsOpen && "rotate-180")} />
+          </button>
+        </h4>
+        <p id={`${id}-description`} hidden={!detailsOpen} className="pb-2 text-base leading-[1.65] text-[var(--muted-foreground)]">{milestone.description}</p>
+        {isCompleted && <div className="flex flex-wrap items-center gap-x-2 pb-1"><p className="text-sm font-semibold text-[var(--brand)]">{completedDate ? <><time dateTime={completedDate}>{completedDate}</time> 관찰</> : '관찰일이 아직 없어요'}</p><button ref={editRef} type="button" aria-label={`${milestone.title} 관찰일 수정`} onClick={startEditing} className="inline-flex min-h-11 items-center gap-1 rounded-xl px-2 text-sm font-semibold text-[var(--brand)]"><Pencil size={14} aria-hidden="true" />날짜 수정</button></div>}
       </div>
     </div>
     {editing && <form onSubmit={save} noValidate aria-label={`${milestone.title} 관찰 날짜`} className="mt-3 space-y-3 border-t border-stone-200 pt-4 dark:border-stone-700" onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); cancelEditing(); } }}>

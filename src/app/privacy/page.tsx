@@ -20,9 +20,8 @@ const sections: { no: string; title: string; body: React.ReactNode }[] = [
           을 수집합니다.
         </p>
         <p>
-          아기 정보(이름·생년월일·성장 기록·예방접종 기록)는 사용자가 직접 입력하며,
-          로그인 상태에서는 클라우드에 저장되고 비로그인 상태에서는 기기 내
-          localStorage에만 보관됩니다.
+          이름·생년월일·성장 기록·예방접종 기록 등 사용자가 입력한 아기 정보는 기본적으로 이 기기에 저장됩니다.
+          온라인 백업을 사용할 수 있는 환경에서 사용자가 백업을 설정하면, 해당 안내에 표시한 기록을 서버에 저장합니다.
         </p>
       </>
     ),
@@ -33,7 +32,7 @@ const sections: { no: string; title: string; body: React.ReactNode }[] = [
     body: (
       <ul className="list-disc space-y-1 pl-5">
         <li>사용자 식별 및 로그인 서비스 제공</li>
-        <li>여러 기기 간 데이터 동기화</li>
+        <li>사용자가 설정한 백업과 복원</li>
         <li>서비스 품질 개선 및 오류 수정</li>
       </ul>
     ),
@@ -43,20 +42,18 @@ const sections: { no: string; title: string; body: React.ReactNode }[] = [
     title: "보관 및 파기",
     body: (
       <p>
-        수집된 개인정보는 서비스 이용 기간 동안 보관되며, 회원 탈퇴 즉시
-        모든 클라우드 데이터가 파기됩니다. 비로그인 사용자의 데이터는 서버에
-        저장되지 않으므로 별도 파기 절차가 필요하지 않습니다.
+        기기 기록은 사용자가 삭제하거나 브라우저 데이터를 지울 때까지 기기에 보관됩니다.
+        서버에 백업한 기록과 계정은 삭제 화면에 안내된 범위와 절차에 따라 처리됩니다.
       </p>
     ),
   },
   {
     no: "04",
-    title: "제3자 제공",
+    title: "가족에게 공유되는 범위",
     body: (
       <p>
-        서비스는 사용자의 개인정보를 어떠한 제3자에게도 제공하지 않습니다.
-        단, 관련 법령에 따라 수사기관의 적법한 요청이 있는 경우에 한해 예외로
-        합니다.
+        가족 공유를 사용할 수 있는 환경에서는 사용자가 초대한 계정에 지정한 권한으로 기록 접근을 허용합니다.
+        접근을 해제하면 서버 기록에 대한 접근이 종료됩니다. 가족이 이미 기기에 저장한 복사본은 해당 기기에서 관리합니다.
       </p>
     ),
   },
@@ -66,13 +63,7 @@ const sections: { no: string; title: string; body: React.ReactNode }[] = [
     body: (
       <>
         <p>
-          클라우드 데이터는 Supabase(AWS 기반 인프라)에 암호화되어
-          저장됩니다. 인증은 Supabase Auth를 통해 관리되며, 소셜 로그인만
-          지원하므로 비밀번호는 저장하지 않습니다.
-        </p>
-        <p>
-          전송 구간은 HTTPS로 암호화되고, 로그인 세션은 만료 시점 이후
-          자동 폐기됩니다.
+          서버 백업과 인증에는 Supabase를 사용합니다. 앱과 서버가 통신할 때 HTTPS를 사용합니다.
         </p>
       </>
     ),
@@ -82,9 +73,9 @@ const sections: { no: string; title: string; body: React.ReactNode }[] = [
     title: "사용자 권리",
     body: (
       <ul className="list-disc space-y-1 pl-5">
-        <li>설정 페이지에서 저장된 데이터를 언제든지 삭제할 수 있습니다.</li>
+        <li>설정의 데이터 관리에서 이 기기에 저장한 기록을 삭제할 수 있습니다.</li>
         <li>로그아웃 후에도 로컬 데이터만으로 서비스를 계속 이용할 수 있습니다.</li>
-        <li>계정 삭제를 통해 서버에 저장된 모든 기록을 영구 삭제할 수 있습니다.</li>
+        <li>서버 삭제를 이용할 수 있는 경우, 삭제 전에 소유한 백업과 공유 접근의 처리 범위를 확인할 수 있습니다.</li>
       </ul>
     ),
   },
@@ -92,7 +83,7 @@ const sections: { no: string; title: string; body: React.ReactNode }[] = [
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "var(--surface-bg)" }}>
+    <div className="min-h-screen [overflow-wrap:anywhere]" style={{ backgroundColor: "var(--surface-bg)" }}>
       {/* ── Top bar with back ── */}
       <header className="pt-safe sticky top-0 z-10 bg-[var(--surface-bg)]/80 backdrop-blur-xl">
         <div className="flex flex-wrap items-center gap-2 px-5 pt-3 pb-3">

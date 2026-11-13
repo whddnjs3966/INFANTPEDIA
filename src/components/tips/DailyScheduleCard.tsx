@@ -36,16 +36,22 @@ function DayChart({ schedule }: { schedule: DailySchedule }) {
 }
 
 export default function DailyScheduleCard({ month }: { month: number }) {
-  const [isOpen, setIsOpen] = useReadingValue<boolean>("schedule:open", true);
+  const [isOpen, setIsOpen] = useReadingValue<boolean>("schedule:open", false);
   const [showGraph, setShowGraph] = useReadingValue<boolean>("schedule:v4:graph", false);
   const id = useId(), schedule = getScheduleForMonth(month);
   if (!schedule) return null;
   const responsive = schedule.mode === "responsive";
-  return <section className="surface-card mx-5 mb-5 overflow-hidden" data-reading-anchor="schedule" aria-label={`${month}개월 하루 리듬`}>
-    <h3><button type="button" aria-expanded={isOpen} aria-controls={`${id}-body`} onClick={() => setIsOpen(!isOpen)} className="flex min-h-12 w-full items-center gap-3 p-5 text-left"><Clock3 size={21} strokeWidth={1.8} aria-hidden className="shrink-0 text-[var(--brand)]" /><span className="min-w-0 flex-1"><span className="block text-lg font-semibold tracking-tight">{responsive ? "하루를 조금 편하게" : `${month}개월 하루 리듬`}</span><span className="mt-1 block text-sm font-normal leading-6 text-[var(--muted-foreground)]">{responsive ? "시간표 대신, 자주 막히는 순간의 작은 요령" : "정해진 목표가 아닌, 조절해서 보는 일과 예시"}</span></span><ChevronDown size={18} aria-hidden className={cn("shrink-0 text-[var(--muted-foreground)] transition-transform motion-reduce:transition-none", isOpen && "rotate-180")} /></button></h3>
-    <div id={`${id}-body`} hidden={!isOpen} className="space-y-5 px-5 pb-5">
+  return <section className="tips-card" data-reading-anchor="schedule" aria-label={`${month}개월 하루 리듬`}>
+    <h3><button id={`${id}-title`} type="button" aria-expanded={isOpen} aria-controls={`${id}-body`} onClick={() => setIsOpen(!isOpen)} className="tips-row">
+      <span aria-hidden className="flex size-[36px] shrink-0 items-center justify-center rounded-xl bg-[var(--surface-peach)] text-[var(--art-peach-ink)]"><Clock3 size={19} strokeWidth={1.8} /></span>
+      <span className="tips-row-title">하루 리듬 살펴보기</span>
+      <ChevronDown size={17} aria-hidden className="tips-chevron" />
+    </button></h3>
+    {responsive && <p className="px-3.5 pb-3 text-sm leading-relaxed text-[var(--muted-foreground)]"><strong className="font-semibold text-[var(--foreground)]">밤에도 깨거나 먹을 수 있어요.</strong> 통잠을 목표로 수유를 미루지 않아요. 아기의 상태와 의료진의 개별 안내가 우선이에요.</p>}
+    <div id={`${id}-body`} role="region" aria-labelledby={`${id}-title`} hidden={!isOpen} className="tips-detail space-y-4">
+      <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">{responsive ? "시간표 대신, 자주 막히는 순간의 작은 요령" : "정해진 목표가 아닌, 조절해서 보는 일과 예시"}</p>
       <ScheduleActivityList schedule={schedule} />
-      {responsive ? <p className="rounded-2xl bg-[var(--surface-bg)] px-4 py-3 text-sm leading-6 text-[var(--muted-foreground)]"><strong className="font-semibold text-[var(--foreground)]">밤에도 깨거나 먹을 수 있어요.</strong> 통잠을 목표로 수유를 미루지 않아요. 아기의 상태와 의료진의 개별 안내가 우선이에요.</p> : <div><button type="button" aria-expanded={showGraph} aria-controls={`${id}-graph`} onClick={() => setShowGraph(!showGraph)} className="flex min-h-12 w-full items-center justify-between gap-2 rounded-2xl bg-[var(--surface-bg)] px-4 text-left text-sm font-semibold">하루 전체 그래프<ChevronDown size={16} aria-hidden className={cn(showGraph && "rotate-180")} /></button><div id={`${id}-graph`} hidden={!showGraph} className="mt-3"><DayChart schedule={schedule} /><p className="mt-3 text-sm leading-6 text-[var(--muted-foreground)]">시각·소요시간은 참고 예시예요. 낮잠·먹기의 권장 횟수나 연속 수면량이 아니에요. 다음 시각은 아기의 상태에 따라 달라져요.</p></div></div>}
+      {!responsive && <div><button type="button" aria-expanded={showGraph} aria-controls={`${id}-graph`} onClick={() => setShowGraph(!showGraph)} className="tips-row bg-[var(--surface-sky)]"><span className="tips-row-title">하루 전체 그래프</span><ChevronDown size={16} aria-hidden className="tips-chevron" /></button><div id={`${id}-graph`} hidden={!showGraph} className="mt-3"><DayChart schedule={schedule} /><p className="mt-3 text-sm leading-6 text-[var(--muted-foreground)]">시각·소요시간은 참고 예시예요. 낮잠·먹기의 권장 횟수나 연속 수면량이 아니에요. 다음 시각은 아기의 상태에 따라 달라져요.</p></div></div>}
       <nav aria-label="일과 관련 가이드" className="flex flex-wrap gap-x-5 gap-y-1">{[{ tab: "sleep", label: "수면 가이드" }, { tab: "feeding", label: "수유 가이드" }].map(link => <Link key={link.tab} href={`/encyclopedia?tab=${link.tab}&month=${month}`} scroll={false} className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--brand)]">{link.label}<ArrowRight size={14} aria-hidden /></Link>)}</nav>
       <details className="border-t border-[var(--border)] pt-1 text-sm leading-6 text-[var(--muted-foreground)]"><summary className="min-h-11 cursor-pointer py-2.5">일과 예시 참고 자료</summary><p>돌봄 팁은 2026-11-06 공개 자료와 대조했어요. 월령별 시각과 수치는 참고 예시이며 개별 돌봄 안내를 우선해요.</p><a href="https://www.nhs.uk/baby/caring-for-a-newborn/helping-your-baby-to-sleep/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center font-medium text-[var(--brand)] underline">NHS · 아기 수면 안내 (새 창)</a><br /><a href="https://safetosleep.nichd.nih.gov/reduce-risk/safe-sleep-environment" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center font-medium text-[var(--brand)] underline">NIH · 안전한 수면 환경 (새 창)</a></details>
     </div>

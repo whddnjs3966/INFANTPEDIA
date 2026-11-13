@@ -9,8 +9,10 @@ import SyncManager from "@/components/sync/SyncManager";
 import AtomicSyncManager from "@/components/sync/AtomicSyncManager";
 import { useEffect, useSyncExternalStore } from "react";
 import { isLocalRestoreBlocked, recoverLocalRestore, subscribeLocalDataSafety, isLocalDocumentStale } from "@/lib/sync/local-restore-journal";
+import "./bright-shell.css";
 
 const subscribeHydration = () => () => {};
+const illustratedTabs = new Set(["/", "/encyclopedia", "/growth", "/tips", "/settings"]);
 
 export default function ClientLayout({
   children,
@@ -106,6 +108,7 @@ export default function ClientLayout({
 
   return (
     <div
+      data-bright-shell={illustratedTabs.has(pathname) ? "" : undefined}
       className="mx-auto min-h-screen w-full max-w-[480px]"
       style={{ backgroundColor: "var(--surface-bg)" }}
     >

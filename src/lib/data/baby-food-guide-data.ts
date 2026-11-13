@@ -1,3 +1,5 @@
+import type { HealthEvidence } from "./health-faq-data";
+
 export interface IngredientInfo {
   name: string;
   emoji: string;
@@ -14,7 +16,6 @@ export interface StageInfo {
   description: string;
   texture: string;
   frequency: string;
-  amount: string;
   startMonth: number;
   endMonth: number;
   newIngredients: IngredientInfo[];
@@ -27,7 +28,10 @@ export interface AllergyGuide {
   title: string;
   description: string;
   highRiskFoods: string[];
-  testingMethod: string;
+  introduction: string;
+  higherRisk: string;
+  emergencyAction: string;
+  evidence: HealthEvidence;
   emergencySigns: string[];
 }
 
@@ -38,32 +42,31 @@ export interface BabyFoodGuideData {
 }
 
 const allIngredients: IngredientInfo[] = [
-  // 4-5개월: 쌀
-  { name: '쌀', emoji: '🍚', startMonth: 4, category: 'grain', allergyRisk: false, tip: '불린 쌀을 곱게 갈아 10배죽으로 시작하세요' },
+  // 이유식을 시작할 때 참고할 재료 예시
+  { name: '쌀', emoji: '🍚', startMonth: 6, category: 'grain', allergyRisk: false, tip: '충분히 익혀 아기가 삼킬 수 있는 부드러운 질감으로 준비하세요' },
 
-  // 5-6개월: 채소, 과일
-  { name: '감자', emoji: '🥔', startMonth: 5, category: 'vegetable', allergyRisk: false, tip: '삶아서 으깬 후 쌀미음에 섞어주세요' },
-  { name: '고구마', emoji: '🍠', startMonth: 5, category: 'vegetable', allergyRisk: false, tip: '찐 고구마를 체에 내려 부드럽게 만드세요' },
-  { name: '애호박', emoji: '🥒', startMonth: 5, category: 'vegetable', allergyRisk: false, tip: '껍질과 씨를 제거하고 푹 삶아주세요' },
-  { name: '브로콜리', emoji: '🥦', startMonth: 5, category: 'vegetable', allergyRisk: false, tip: '꽃 부분만 사용하고 줄기는 제거하세요' },
-  { name: '당근', emoji: '🥕', startMonth: 5, category: 'vegetable', allergyRisk: false, tip: '충분히 익혀야 소화가 잘 됩니다' },
-  { name: '시금치', emoji: '🥬', startMonth: 5, category: 'vegetable', allergyRisk: false, tip: '데친 후 찬물에 헹궈 잎부분만 사용하세요' },
-  { name: '사과', emoji: '🍎', startMonth: 5, category: 'fruit', allergyRisk: false, tip: '껍질을 벗기고 강판에 갈아주세요' },
-  { name: '배', emoji: '🍐', startMonth: 5, category: 'fruit', allergyRisk: false, tip: '갈아서 즙을 내거나 쪄서 으깨주세요' },
-  { name: '바나나', emoji: '🍌', startMonth: 5, category: 'fruit', allergyRisk: false, tip: '잘 익은 바나나를 포크로 으깨주세요' },
+  // 채소와 과일
+  { name: '감자', emoji: '🥔', startMonth: 6, category: 'vegetable', allergyRisk: false, tip: '푹 익혀 으깨 주세요' },
+  { name: '고구마', emoji: '🍠', startMonth: 6, category: 'vegetable', allergyRisk: false, tip: '찐 고구마를 체에 내려 부드럽게 만드세요' },
+  { name: '애호박', emoji: '🥒', startMonth: 6, category: 'vegetable', allergyRisk: false, tip: '껍질과 씨를 제거하고 푹 삶아주세요' },
+  { name: '브로콜리', emoji: '🥦', startMonth: 6, category: 'vegetable', allergyRisk: false, tip: '꽃 부분만 사용하고 줄기는 제거하세요' },
+  { name: '당근', emoji: '🥕', startMonth: 6, category: 'vegetable', allergyRisk: false, tip: '충분히 익혀야 소화가 잘 됩니다' },
+  { name: '시금치', emoji: '🥬', startMonth: 6, category: 'vegetable', allergyRisk: false, tip: '데친 후 찬물에 헹궈 잎부분만 사용하세요' },
+  { name: '사과', emoji: '🍎', startMonth: 6, category: 'fruit', allergyRisk: false, tip: '껍질을 벗기고 강판에 갈아주세요' },
+  { name: '배', emoji: '🍐', startMonth: 6, category: 'fruit', allergyRisk: false, tip: '쪄서 으깨 주세요' },
+  { name: '바나나', emoji: '🍌', startMonth: 6, category: 'fruit', allergyRisk: false, tip: '잘 익은 바나나를 포크로 으깨주세요' },
 
   // 7-8개월: 단백질, 추가 채소
   { name: '두부', emoji: '🧈', startMonth: 7, category: 'protein', allergyRisk: true, tip: '끓는 물에 데친 후 으깨서 사용하세요' },
   { name: '닭가슴살', emoji: '🍗', startMonth: 7, category: 'protein', allergyRisk: false, tip: '푹 삶아 결대로 찢은 후 곱게 다져주세요' },
-  { name: '소고기', emoji: '🥩', startMonth: 7, category: 'protein', allergyRisk: false, tip: '기름기 적은 부위를 곱게 다져 익히세요. 철분 보충에 좋습니다' },
-  { name: '달걀노른자', emoji: '🥚', startMonth: 7, category: 'protein', allergyRisk: true, tip: '완숙으로 삶아 노른자만 으깨서 사용하세요' },
+  { name: '소고기', emoji: '🥩', startMonth: 6, category: 'protein', allergyRisk: false, tip: '완전히 익혀 아기가 삼킬 수 있도록 부드럽게 다져요' },
+  { name: '완전히 익힌 달걀', emoji: '🥚', startMonth: 6, category: 'protein', allergyRisk: true, tip: '흰자와 노른자를 모두 익혀 아기가 삼킬 수 있게 으깨요' },
   { name: '오이', emoji: '🥒', startMonth: 7, category: 'vegetable', allergyRisk: false, tip: '껍질과 씨를 제거하고 갈아서 사용하세요' },
   { name: '양배추', emoji: '🥗', startMonth: 7, category: 'vegetable', allergyRisk: false, tip: '부드러운 안쪽 잎을 푹 삶아 다져주세요' },
   { name: '무', emoji: '🟤', startMonth: 7, category: 'vegetable', allergyRisk: false, tip: '푹 삶아 부드럽게 으깨주세요' },
   { name: '미역', emoji: '🌿', startMonth: 7, category: 'vegetable', allergyRisk: false, tip: '불린 후 잘게 다져 죽에 넣어주세요' },
 
   // 9-10개월
-  { name: '달걀흰자', emoji: '🥚', startMonth: 9, category: 'protein', allergyRisk: true, tip: '노른자에 적응한 후 소량부터 시작하세요' },
   { name: '돼지고기', emoji: '🥓', startMonth: 9, category: 'protein', allergyRisk: false, tip: '지방이 적은 안심 부위를 곱게 다져주세요' },
   { name: '흰살생선', emoji: '🐟', startMonth: 9, category: 'protein', allergyRisk: true, tip: '가시를 완전히 제거하고 살만 발라 사용하세요' },
   { name: '버섯', emoji: '🍄', startMonth: 9, category: 'vegetable', allergyRisk: false, tip: '느타리, 새송이 등을 잘게 다져 사용하세요' },
@@ -73,66 +76,56 @@ const allIngredients: IngredientInfo[] = [
   // 11-12개월
   { name: '우유(조리용)', emoji: '🥛', startMonth: 11, category: 'dairy', allergyRisk: true, tip: '조리용으로만 사용하고, 돌 이후 음용 가능합니다' },
   { name: '새우', emoji: '🦐', startMonth: 11, category: 'protein', allergyRisk: true, tip: '잘게 다져 소량부터 시작, 알레르기 주의하세요' },
-  { name: '견과류(갈아서)', emoji: '🥜', startMonth: 11, category: 'protein', allergyRisk: true, tip: '곱게 갈아 소량만 사용하세요. 통째로 주면 질식 위험!' },
+  { name: '땅콩·견과류(곱게 갈아 섞기)', emoji: '🥜', startMonth: 6, category: 'protein', allergyRisk: true, tip: '한 종류씩 곱게 갈아 부드러운 음식에 섞어요. 통견과나 땅콩버터 덩어리는 피하세요' },
   { name: '토마토', emoji: '🍅', startMonth: 11, category: 'fruit', allergyRisk: false, tip: '껍질과 씨를 제거하고 익혀서 사용하세요' },
 ];
 
+export const solidFoodPreparation = '이유식은 대체로 생후 6개월 무렵에 시작해요. 아기가 머리와 목을 가누고 도움을 받으면 똑바로 앉으며, 음식을 혀로 밀어내기보다 삼킬 수 있는지 살펴요.';
+export const solidFoodEvidence: HealthEvidence = {
+  checkedOn: '2026-11-13', scope: '이유식 시작 시기·준비 신호·질감',
+  sources: [
+    { title: 'WHO · 이유식 지침', url: 'https://www.who.int/health-topics/complementary-feeding' },
+    { title: 'CDC · 첫 이유식 준비 신호', url: 'https://www.cdc.gov/infant-toddler-nutrition/foods-and-drinks/when-what-and-how-to-introduce-solid-foods.html' },
+  ],
+};
+
 const stages: StageInfo[] = [
   {
-    stage: '초기 1단계',
+    stage: '이유식 준비',
     monthRange: '만 4~5개월',
     emoji: '🥣',
-    description: '이유식의 첫걸음! 쌀미음으로 시작하여 숟가락에 익숙해지는 시기입니다. 모유/분유가 여전히 주식이며, 이유식은 맛보기 수준으로 진행합니다.',
-    texture: '묽은 미음 (10배죽)',
-    frequency: '1일 1회',
-    amount: '1~2큰술 (30~50ml)',
+    description: solidFoodPreparation,
+    texture: '준비 신호 살피기',
+    frequency: '아기가 준비되면 시작',
     startMonth: 4,
     endMonth: 5,
-    newIngredients: allIngredients.filter(i => i.startMonth >= 4 && i.startMonth <= 5),
-    cookingTips: [
-      '쌀을 30분 이상 불린 후 물과 1:10 비율로 끓여 미음을 만드세요',
-      '처음에는 쌀미음만 3~5일간 먹여 반응을 확인하세요',
-      '이유식 온도는 체온 정도(36~37°C)가 적당합니다',
-      '실리콘 숟가락을 사용하고, 아이 입술에 살짝 대어 스스로 빨아먹게 하세요',
-      '남은 이유식은 실온에 1시간 이상 두지 마세요',
-    ],
-    cautionPoints: [
-      '꿀은 만 1세 이전 절대 금지 (보툴리눔 독소 위험)',
-      '소금, 설탕 등 조미료를 넣지 마세요',
-      '아이가 거부하면 억지로 먹이지 말고 다음에 다시 시도하세요',
-      '이유식 시작 시기는 목을 가눌 수 있고, 음식에 관심을 보일 때가 적절합니다',
-    ],
-    sampleMenu: [
-      '쌀미음',
-      '감자미음',
-      '고구마미음',
-      '애호박미음',
-      '브로콜리미음',
-    ],
+    newIngredients: [],
+    cookingTips: [],
+    cautionPoints: [],
+    sampleMenu: [],
   },
   {
     stage: '초기 2단계',
     monthRange: '만 6개월',
     emoji: '🥄',
-    description: '다양한 채소와 과일을 한 가지씩 추가하는 시기입니다. 새로운 식재료는 3~5일 간격으로 도입하여 알레르기 반응을 확인합니다.',
-    texture: '걸쭉한 미음~묽은 죽 (8배죽)',
-    frequency: '1일 1~2회',
-    amount: '50~80ml',
+    description: '아기가 준비됐다면 소량부터 맛보고 삼키는 연습을 해요. 채소·곡류와 함께 부드럽게 익힌 고기나 콩류 등 철분이 있는 재료를 포함해요.',
+    texture: '부드럽게 으깨거나 갈아 삼키기 쉬운 형태',
+    frequency: '소량부터 시작해 식사 기회를 늘려요',
     startMonth: 6,
     endMonth: 6,
-    newIngredients: allIngredients.filter(i => i.startMonth === 5 || i.startMonth === 6),
+    newIngredients: allIngredients.filter(i => i.startMonth === 6),
     cookingTips: [
       '채소는 푹 삶아 곱게 으깬 후 쌀죽에 섞어주세요',
-      '과일은 열을 가해 익힌 후 갈아서 제공하세요 (생과일은 아직 이릅니다)',
-      '한 번에 한 가지 새 재료만 추가하세요',
+      '단단한 과일은 익혀 으깨고, 잘 익은 바나나처럼 부드러운 과일은 으깨 제공해요',
+      '알레르기를 일으킬 수 있는 새 재료는 한 번에 한 종류씩 소량부터 제공해요',
       '이유식 농도를 서서히 걸쭉하게 조절하세요',
-      '냉동 보관 시 1회분씩 소분하여 얼리세요 (1주일 내 사용)',
+      '조리분은 먹일 만큼만 덜고, 나머지는 보관 안내에 따라 소분해요',
     ],
     cautionPoints: [
-      '새 식재료 도입 시 오전에 먹여 알레르기 반응을 관찰하세요',
-      '피부 발진, 구토, 설사 등이 나타나면 해당 식재료를 중단하세요',
-      '과일만으로 식사를 대체하지 마세요 (단맛에 길들 수 있음)',
-      '이유식 후 모유/분유를 충분히 먹이세요',
+      '알레르기 반응을 관찰할 수 있을 때 새 식재료를 제공해요',
+      '먹고 나서 발진이나 구토가 생기면 해당 식품을 중단하고 의료진과 상담하세요',
+      '과일과 채소, 곡류, 철분이 있는 식품을 다양하게 제공해요',
+      '모유나 영아용 분유를 아기 신호에 맞춰 계속 제공해요',
     ],
     sampleMenu: [
       '당근감자죽',
@@ -146,25 +139,24 @@ const stages: StageInfo[] = [
     stage: '중기',
     monthRange: '만 7~8개월',
     emoji: '🥗',
-    description: '죽의 농도를 높이고 단백질 식품을 도입하는 중요한 시기입니다. 두부, 닭고기, 소고기 등을 다져서 넣어 철분과 단백질을 보충합니다.',
-    texture: '죽 (5~7배죽), 곱게 다진 재료',
-    frequency: '1일 2회',
-    amount: '80~120ml',
+    description: '아기의 먹는 능력에 맞춰 질감을 조금씩 높여요. 두부, 닭고기, 소고기 등 다양한 재료를 부드럽게 준비해요.',
+    texture: '부드러운 죽·으깬 재료',
+    frequency: '식사 기회 하루 2~3회 참고',
     startMonth: 7,
     endMonth: 8,
     newIngredients: allIngredients.filter(i => i.startMonth >= 7 && i.startMonth <= 8),
     cookingTips: [
       '소고기는 핏물을 빼고 곱게 다져 죽에 넣어주세요',
       '닭가슴살은 결대로 찢은 후 잘게 다져 사용하세요',
-      '채소는 5mm 이하로 다져 죽에 넣으세요',
+      '채소를 충분히 익혀 손가락으로 눌렀을 때 부드럽게 으깨지는지 확인해요',
       '두부는 끓는 물에 데친 후 으깨서 사용하세요',
-      '이유식에 참기름을 1~2방울 넣으면 영양 흡수가 좋아집니다',
+      '완전히 익힌 재료를 먹을 수 있는 질감으로 섞어 제공해요',
     ],
     cautionPoints: [
       '고기는 반드시 완전히 익혀야 합니다',
-      '달걀은 노른자부터 시작하고 흰자는 9개월 이후에 시도하세요',
-      '새 재료 2가지를 동시에 시작하지 마세요',
-      '손으로 음식을 잡으려 하면 핑거푸드를 소량 제공해볼 수 있습니다',
+      '달걀은 흰자와 노른자를 완전히 익혀 소량부터 제공해요. 습진이 심하거나 이미 음식 알레르기가 있으면 도입 전에 의료진과 상담하세요',
+      '알레르기를 일으킬 수 있는 식품은 한 번에 한 종류씩 도입해요',
+      '아기가 똑바로 앉아 스스로 집어 먹을 수 있을 때 손에 쥐기 쉽고 부드러운 음식을 줘요. 보호자가 옆에서 지켜봐요',
     ],
     sampleMenu: [
       '소고기당근죽',
@@ -178,17 +170,16 @@ const stages: StageInfo[] = [
     stage: '후기',
     monthRange: '만 9~11개월',
     emoji: '🍲',
-    description: '무른밥으로 전환하고 다양한 식감을 경험하는 시기입니다. 잇몸으로 으깰 수 있는 크기로 재료를 잘라주고, 하루 3회 이유식을 먹입니다.',
-    texture: '무른밥 (3~4배죽), 잘게 썬 재료',
-    frequency: '1일 3회',
-    amount: '120~150ml',
+    description: '무른밥과 부드러운 재료로 다양한 식감을 경험해요. 씹고 삼키는 능력에 맞춰 질감을 조절해요.',
+    texture: '무른밥·부드럽게 잘라 낸 재료',
+    frequency: '식사 기회 하루 3~4회 참고',
     startMonth: 9,
     endMonth: 11,
     newIngredients: allIngredients.filter(i => i.startMonth >= 9 && i.startMonth <= 11),
     cookingTips: [
-      '재료를 7~10mm 크기로 잘라 잇몸으로 으깰 수 있게 하세요',
+      '재료는 부드럽게 익히고 둥근 재료는 작게 세로로 나눠요',
       '흰살생선은 가시를 완전히 제거하고 으깨 사용하세요',
-      '간식으로 과일 스틱이나 떡뻥을 제공할 수 있습니다',
+      '과일은 익혀 부드럽게 하거나 잘 익어 쉽게 으깨지는 것을 준비해요',
       '아기 스스로 숟가락을 잡도록 격려해주세요',
       '치즈는 무염 아기용 치즈를 선택하세요',
     ],
@@ -196,12 +187,12 @@ const stages: StageInfo[] = [
       '포도·방울토마토 등 둥근 과일은 세로로 작게 4조각 내고 단단한 재료는 부드럽게 준비하세요. 아기가 바르게 앉아 먹도록 하고 보호자가 곁에서 지켜보세요.',
       '견과류는 통째로 주지 말고 반드시 갈아서 사용하세요',
       '새우, 조개 등 갑각류는 알레르기 위험이 높으니 소량부터 시작하세요',
-      '이유식이 주식이 되어가므로 모유/분유량을 서서히 줄여가세요',
+      '첫돌 전에는 모유나 영아용 분유가 주요 영양원이에요. 이유식과 함께 계속 제공해요',
     ],
     sampleMenu: [
       '소고기버섯무른밥',
       '흰살생선파프리카무른밥',
-      '달걀노른자시금치무른밥',
+      '완숙 달걀시금치무른밥',
       '돼지고기양배추무른밥',
       '닭가슴살치즈리조또',
     ],
@@ -213,7 +204,6 @@ const stages: StageInfo[] = [
     description: '어른 식사와 비슷한 형태로 전환하는 시기입니다. 진밥이나 일반밥을 먹고, 가족과 함께 식사하는 습관을 들입니다. 간은 여전히 싱겁게 합니다.',
     texture: '진밥~일반밥, 작게 썬 재료',
     frequency: '1일 3회 + 간식 1~2회',
-    amount: '150~200ml',
     startMonth: 12,
     endMonth: 12,
     newIngredients: allIngredients.filter(i => i.startMonth >= 11 && i.startMonth <= 12),
@@ -240,39 +230,43 @@ const stages: StageInfo[] = [
   },
 ];
 
+export const babyFoodStorage = {
+  title: '조리한 이유식 보관·재가열',
+  entries: [
+    { label: '덜어 담고 식히기', text: '먹일 양을 깨끗한 그릇에 먼저 덜어요. 조리한 음식은 가능한 한 1~2시간 안에 식혀 냉장 또는 냉동하고, 쌀밥·쌀죽은 1시간 안에 식혀 바로 냉장 또는 냉동해요.' },
+    { label: '보관한 이유식', text: '냉장한 이유식은 2일 안에 사용하고, 쌀밥·쌀죽은 24시간 안에 사용해요. 냉동한 음식은 냉장 해동하고 완전히 녹은 뒤 24시간 안에 사용해요.' },
+    { label: '데우고 먹인 뒤', text: '속까지 충분히 뜨겁게 데운 뒤 섞고, 먹기 좋은 온도로 식혀요. 한 번만 재가열하고 아기가 먹다 남긴 음식은 보관하지 말고 버려요.' },
+  ],
+  evidence: {
+    checkedOn: '2026-11-13', scope: '조리된 영유아 음식과 쌀 음식의 보관·재가열',
+    sources: [{ title: 'NHS · 이유식 보관과 재가열', url: 'https://www.nhs.uk/best-start-in-life/baby/weaning/safe-weaning/storing-and-reheating-food/' }],
+  },
+};
+
 const allergyGuide: AllergyGuide = {
   title: '이유식 알레르기 가이드',
-  description: '식품 알레르기는 영아기에 가장 흔하게 나타납니다. 새로운 식재료를 도입할 때는 반드시 소량부터 시작하고 반응을 관찰하세요.',
-  highRiskFoods: [
-    '달걀 (특히 흰자)',
-    '우유 및 유제품',
-    '밀 (밀가루)',
-    '땅콩',
-    '대두 (두부, 두유)',
-    '갑각류 (새우, 게)',
-    '견과류 (호두, 아몬드 등)',
-    '생선',
-  ],
-  testingMethod: '새로운 식재료는 3~5일 간격으로 한 가지씩 소량(1/2~1작은술)부터 시작하세요. 오전 중에 먹여 낮 동안 반응을 관찰하고, 이상이 없으면 양을 서서히 늘려가세요. 2가지 이상의 새 재료를 동시에 시작하지 마세요.',
-  emergencySigns: [
-    '피부 두드러기, 발진, 부종',
-    '구토 또는 반복적인 설사',
-    '입술이나 혀의 부종',
-    '호흡 곤란 또는 쌕쌕거림',
-    '심한 보챔이나 축 처짐',
-    '얼굴이 창백해지거나 파래짐',
-  ],
+  description: '아기가 이유식을 먹을 준비가 되면, 알레르기를 일으킬 수 있는 식품을 한 번에 한 종류씩 소량으로 도입해요. 별다른 반응 없이 먹었다면 이후 식사에도 꾸준히 포함할 수 있어요.',
+  highRiskFoods: ['완전히 익힌 달걀', '우유 및 유제품', '밀', '땅콩', '대두', '갑각류', '견과류', '생선', '참깨'],
+  introduction: '달걀은 흰자와 노른자를 완전히 익혀 부드럽게 으깨요. 땅콩·견과류는 곱게 갈아 음식에 섞고 통째로 주거나 땅콩버터를 덩어리째 주지 마세요. 의심되는 반응이 있으면 해당 식품을 중단하고 의료진에게 상담하세요.',
+  higherRisk: '심한 습진이나 달걀 알레르기가 있으면 땅콩을 처음 먹이기 전에 소아청소년과에 도입 시기와 방법을 확인하세요. 이미 진단받은 식품 알레르기는 담당 의료진의 안내를 따라요.',
+  emergencyAction: '아래 증상이 나타나면 바로 119에 연락하세요.',
+  emergencySigns: ['숨쉬기 어려움 또는 갑작스러운 쌕쌕거림', '입술·혀·목이 갑자기 부음', '아기가 축 늘어지거나 평소처럼 반응하지 않음'],
+  evidence: {
+    checkedOn: '2026-11-13', scope: '알레르기 유발 식품 도입·고위험군·응급 징후',
+    sources: [
+      { title: 'NHS · 영유아 식품 알레르기', url: 'https://www.nhs.uk/baby/weaning-and-feeding/food-allergies-in-babies-and-young-children/' },
+      { title: 'NIAID · 영아 땅콩 도입 지침', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5226648/' },
+      { title: 'NHS · 아나필락시스', url: 'https://www.nhs.uk/conditions/anaphylaxis/' },
+    ],
+  },
 };
 
 const generalTips: string[] = [
-  '이유식은 가능한 직접 만들어 신선한 재료를 사용하세요',
-  '이유식 도구(냄비, 칼, 도마)는 별도로 사용하고 열탕 소독하세요',
-  '남은 이유식은 즉시 냉장/냉동 보관하고, 재가열은 1회만 하세요',
-  '아이의 컨디션이 안 좋거나 예방접종 당일에는 새 식재료를 도입하지 마세요',
-  '이유식 시간을 규칙적으로 정해 식사 리듬을 만들어주세요',
-  '먹는 양에 집착하지 말고 즐거운 식사 분위기를 만들어주세요',
-  '수분 보충을 위해 이유식 후 보리차나 물을 소량 제공하세요',
-  '식재료는 유기농, 무농약 제품을 선택하면 더 좋습니다',
+  '아기가 똑바로 앉아 먹도록 하고 보호자가 곁에서 지켜보세요',
+  '손과 조리도구를 씻고 생고기·생선이 익힌 음식에 닿지 않게 분리하세요',
+  '생후 12개월 전에는 꿀을 넣거나 우유를 음료로 주지 마세요',
+  '먹는 양은 아기의 배고픔·포만 신호에 맞춰요',
+  '생후 6개월 무렵 이유식과 함께 컵에 담은 물을 몇 모금 제공할 수 있어요',
 ];
 
 export function getBabyFoodGuide(): BabyFoodGuideData {

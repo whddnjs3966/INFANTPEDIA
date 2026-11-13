@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ChevronDown, Circle, Pencil, Plus, Ruler, Trash2, Weight } from "lucide-react";
+import { BookOpen, ChevronDown, ChevronRight, ClipboardList, Pencil, Plus, Syringe, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { growthData, growthRanges } from "@/lib/data/growth-data";
 import { useMeasurementStore, type Measurement } from "@/lib/store/measurement-store";
@@ -16,9 +18,9 @@ type ChartType = "height" | "weight" | "head";
 type GenderMode = "male" | "female" | "both";
 
 const chartConfig = {
-  height: { label: "키", unit: "cm", icon: Ruler, key: "height" as const },
-  weight: { label: "몸무게", unit: "kg", icon: Weight, key: "weight" as const },
-  head: { label: "머리둘레", unit: "cm", icon: Circle, key: "headCircumference" as const },
+  height: { label: "키", unit: "cm", key: "height" as const },
+  weight: { label: "몸무게", unit: "kg", key: "weight" as const },
+  head: { label: "머리둘레", unit: "cm", key: "headCircumference" as const },
 };
 
 function referenceValue(type: ChartType, gender: "male" | "female", month: number) {
@@ -29,12 +31,6 @@ function referenceValue(type: ChartType, gender: "male" | "female", month: numbe
   return gender === "male" ? row.maleHead : row.femaleHead;
 }
 
-function percentile(value: number, p3: number, p50: number, p97: number) {
-  if (value <= p3) return Math.max(1, Math.round(value / p3 * 3));
-  if (value >= p97) return Math.min(99, Math.round(97 + (value - p97) / (p97 - p50) * 3));
-  return Math.round(value <= p50 ? 3 + (value - p3) / (p50 - p3) * 47 : 50 + (value - p50) / (p97 - p50) * 47);
-}
-
 export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   const profile = useBabyStore((state) => state.profile);
   const legacyOwnerId = useBabyStore((state) => state.legacyOwnerId);
@@ -43,11 +39,13 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   const isDark = useThemeStore((state) => state.theme === "dark");
   const [chartType, setChartType] = useState<ChartType>("height");
   const [genderMode, setGenderMode] = useState<GenderMode>(profile?.gender || "male");
+  const [showReference, setShowReference] = useState(false);
   const [inputOpen, setShowInput] = useState(false);
   const [editing, setEditing] = useState<Measurement | undefined>();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
   const [notice, setNotice] = useState("");
+  const fillId = useId();
   const searchParams = useSearchParams();
   const router = useRouter();
   const profileId = profile?.id;
@@ -58,7 +56,6 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   const measurements = useMemo(() => allMeasurements
     .filter((record) => !!profileId && (record.babyId === profileId || (!record.babyId && legacyOwnerId === profileId)))
     .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id)), [allMeasurements, profileId, legacyOwnerId]);
-  const latest = measurements[0];
   const config = chartConfig[chartType];
   const metricRecords = measurements.filter((record) => record[config.key] !== undefined);
   const latestMetric = metricRecords[0];
@@ -76,6 +73,12 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
       baby: measured?.[config.key],
     };
   });
+  const measuredMonths = chartData.filter((row) => row.baby !== undefined).map((row) => row.month);
+  const firstMonth = measuredMonths[0];
+  const lastMonth = measuredMonths.at(-1);
+  const plottedData = showReference || firstMonth === undefined || lastMonth === undefined
+    ? chartData
+    : chartData.filter((row) => row.month >= Math.max(0, firstMonth - 1) && row.month <= Math.min(12, lastMonth + 1));
   const visibleRecords = showAll ? measurements : measurements.slice(0, 5);
 
   const closeInput = () => {
@@ -87,78 +90,72 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
   };
 
   return (
-    <div className="@container space-y-8 pb-8">
-      <section aria-labelledby="growth-latest-title" className="surface-card p-5">
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div>
-            <h2 id="growth-latest-title" className="break-words text-xl font-semibold tracking-tight text-[var(--foreground)]">{profile?.name || "아기"}의 최근 기록</h2>
-            <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">{latest ? `${latest.date} 측정 · ${latest.month}개월` : "측정한 값을 기록하면 성장 변화를 볼 수 있어요."}</p>
-          </div>
-        </div>
-        {latest && (
-          <dl className="mt-5 grid grid-cols-3 divide-x divide-[var(--border)] @max-[16rem]:grid-cols-1 @max-[16rem]:divide-x-0 @max-[16rem]:divide-y">
-            {(["height", "weight", "head"] as ChartType[]).map((type) => {
-              const item = chartConfig[type];
-              const record = measurements.find((entry) => entry[item.key] !== undefined);
-              return (
-                <div key={type} className="min-w-0 px-2 first:pl-0 last:pr-0 @max-[16rem]:px-0 @max-[16rem]:py-3 @max-[16rem]:first:pt-0 @max-[16rem]:last:pb-0">
-                  <dt className="text-sm text-[var(--muted-foreground)]">{item.label}</dt>
-                  <dd className="mt-1 flex flex-wrap items-baseline gap-x-1 text-2xl font-bold leading-9 tracking-tight tabular-nums text-[var(--foreground)]">{record?.[item.key] ?? "—"}<span className="text-sm font-medium tracking-normal">{record ? item.unit : ""}</span></dd>
-                  {record && record.date !== latest.date && <dd className="mt-1 break-words text-sm text-[var(--muted-foreground)]">{record.date}</dd>}
-                </div>
-              );
-            })}
-          </dl>
-        )}
-        <button type="button" onClick={() => { setEditing(undefined); setShowInput(true); }} className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--brand)] px-4 py-3 text-base font-bold text-[var(--brand-foreground)] transition-colors hover:bg-[var(--brand-pressed)]"><Plus size={20} aria-hidden />성장 기록 추가</button>
-      </section>
-
+    <div className="@container space-y-3 pb-8">
       {notice && <p role="status" className="rounded-2xl bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-900 dark:bg-blue-950/50 dark:text-blue-200">{notice}</p>}
 
-      <section aria-labelledby="growth-chart-title" className="surface-card p-5">
-        <h2 id="growth-chart-title" className="mb-4 text-xl font-bold tracking-tight text-[var(--foreground)]">성장 변화</h2>
-        <div className="grid grid-cols-3 gap-1 rounded-2xl bg-[var(--surface-bg)] p-1 @max-[16rem]:grid-cols-1" role="group" aria-label="성장 항목 선택">
-          {(["height", "weight", "head"] as ChartType[]).map((type) => {
-            const Icon = chartConfig[type].icon;
-            return <button key={type} type="button" aria-pressed={chartType === type} onClick={() => setChartType(type)} className={cn("flex min-h-12 min-w-0 items-center justify-center gap-1 rounded-xl px-1 py-2 text-sm font-semibold transition-colors", chartType === type ? "bg-[var(--card)] text-[var(--brand)] shadow-sm" : "text-[var(--muted-foreground)]")}><Icon size={16} className="shrink-0" aria-hidden />{chartConfig[type].label}</button>;
-          })}
+      <section data-growth-chart aria-labelledby="growth-chart-title" className="surface-card min-w-0 p-4">
+        <h2 id="growth-chart-title" className="sr-only">성장 변화</h2>
+        <div className="flex items-center justify-between gap-2">
+          <div data-growth-metric={chartType} className="min-w-0">
+            <p className="text-base font-semibold">최근 {config.label}</p>
+            {latestMetric ? <>
+              <p className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5 font-bold leading-tight tracking-tight tabular-nums text-[var(--brand)]">
+                <span className="text-[2rem]">{latestMetric[config.key]}</span>
+                <span className="text-base font-medium text-[var(--muted-foreground)]">{config.unit}</span>
+              </p>
+              <p className="mt-1 flex flex-wrap gap-x-2 text-sm leading-snug text-[var(--muted-foreground)]">
+                <time dateTime={latestMetric.date} className="whitespace-nowrap">{latestMetric.date}</time>
+                {trend !== null && <span>이전보다 <strong className="font-semibold text-[var(--foreground)]">{trend > 0 ? "+" : ""}{trend}{config.unit}</strong></span>}
+              </p>
+            </> : <p className="mt-1 break-words text-sm leading-relaxed text-[var(--muted-foreground)]">아직 {config.label} 기록이 없어요.</p>}
+          </div>
+          <Image src="/images/redesign/ruler.webp" alt="" width={100} height={100} className="record-illustration shrink-0" />
         </div>
-        <div role="group" aria-label="성장 참고 기준 선택" className="mt-3 flex flex-wrap gap-2">
-          {([{ key: "male", label: "남아 기준" }, { key: "female", label: "여아 기준" }, { key: "both", label: "두 기준 비교" }] as const).map((item) => <button type="button" key={item.key} aria-pressed={genderMode === item.key} onClick={() => setGenderMode(item.key)} className={cn("min-h-12 min-w-0 max-w-full break-words rounded-xl border px-3 py-2 text-sm font-semibold transition-colors", genderMode === item.key ? "border-[var(--brand)] bg-[var(--accent-soft)] text-[var(--brand)]" : "border-transparent text-[var(--muted-foreground)] hover:bg-[var(--surface-bg)]")}>{item.label}</button>)}
-        </div>
-        {latestMetric ? <div className="my-4 flex flex-wrap items-end justify-between gap-2 rounded-2xl bg-[var(--surface-bg)] p-4"><div><p className="text-sm text-[var(--muted-foreground)]">최근 {config.label} · {latestMetric.date}</p><p className="mt-1 text-2xl font-bold tracking-tight tabular-nums text-[var(--foreground)]">{latestMetric[config.key]}<span className="ml-1 text-base font-medium">{config.unit}</span></p></div>{trend !== null && <p className="pb-1 text-sm font-medium text-[var(--muted-foreground)]">이전보다 <span className="font-bold text-[var(--foreground)]">{trend > 0 ? "+" : ""}{trend}{config.unit}</span></p>}</div> : <p className="my-4 rounded-2xl bg-[var(--surface-bg)] p-4 text-sm leading-6 text-[var(--muted-foreground)]">아직 {config.label} 기록이 없어요. 아래 그래프는 참고 기준이에요.</p>}
-        <div role="img" aria-label={`${profile?.name || "아기"}의 ${config.label} 변화. 가로축 월령, 세로축 ${config.unit}. 측정한 값은 아래 기록 목록에서도 확인할 수 있어요.`}>
-          <ResponsiveContainer width="100%" height={248}>
-            <ComposedChart data={chartData} margin={{ top: 8, right: 8, left: -8, bottom: 6 }} accessibilityLayer>
+        {(latestMetric || showReference) && <div className="mt-2" role="img" aria-label={`${profile?.name || "아기"}의 ${config.label} 변화. 가로축 월령, 세로축 ${config.unit}. 측정한 값은 아래 기록 목록에서도 확인할 수 있어요.`}>
+          <ResponsiveContainer width="100%" height={166}>
+            <ComposedChart data={plottedData} margin={{ top: 8, right: 10, left: -8, bottom: 2 }} accessibilityLayer>
+              <defs>
+                <linearGradient id={fillId} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--brand)" stopOpacity={0.22} />
+                  <stop offset="100%" stopColor="var(--brand)" stopOpacity={0.02} />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-              <XAxis dataKey="month" tick={{ fontSize: 14, fill: isDark ? "#d6d3d1" : "#57534e" }} tickFormatter={(value) => `${value}개월`} tickLine={false} minTickGap={12} />
-              <YAxis width={52} unit={config.unit} tick={{ fontSize: 14, fill: isDark ? "#d6d3d1" : "#57534e" }} tickLine={false} axisLine={false} domain={["auto", "auto"]} />
-              <Tooltip formatter={(value, name) => [Array.isArray(value) ? value.join(" ~ ") + config.unit : `${value}${config.unit}`, name]} labelFormatter={(label) => `${label}개월`} contentStyle={{ borderRadius: 12, backgroundColor: "var(--card)", color: "var(--foreground)", borderColor: "var(--border)", fontSize: 14 }} />
-              {(genderMode === "male" || genderMode === "both") && <><Area dataKey="maleBand" stroke="none" fill="#3b82f6" fillOpacity={0.12} name="남아 참고 범위" /><Line dataKey="male" name="남아 중앙값" type="monotone" stroke="#2563eb" strokeWidth={2} dot={false} strokeDasharray="3 4" /></>}
-              {(genderMode === "female" || genderMode === "both") && <><Area dataKey="femaleBand" stroke="none" fill="#db2777" fillOpacity={0.1} name="여아 참고 범위" /><Line dataKey="female" name="여아 중앙값" type="monotone" stroke="#db2777" strokeWidth={2} dot={false} strokeDasharray="5 3" /></>}
-              <Line dataKey="baby" name="우리 아기 측정값" type="linear" stroke="var(--brand)" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} connectNulls />
+              <XAxis dataKey="month" tick={{ fontSize: 12, fill: isDark ? "#BDC5DA" : "#687086" }} tickFormatter={(value) => `${value}개월`} tickLine={false} minTickGap={12} />
+              <YAxis width={48} unit={config.unit} tick={{ fontSize: 12, fill: isDark ? "#BDC5DA" : "#687086" }} tickLine={false} axisLine={false} domain={["auto", "auto"]} />
+              <Tooltip formatter={(value, name) => [Array.isArray(value) ? value.join(" ~ ") + config.unit : `${value}${config.unit}`, name]} labelFormatter={(label) => `${label}개월`} contentStyle={{ borderRadius: 12, backgroundColor: "var(--card)", color: "var(--foreground)", borderColor: "var(--border)", fontSize: 13 }} />
+              {showReference && (genderMode === "male" || genderMode === "both") && <><Area dataKey="maleBand" stroke="none" fill="#3b82f6" fillOpacity={0.12} name="남아 참고 범위" isAnimationActive={false} /><Line dataKey="male" name="남아 중앙값" type="monotone" stroke="#2563eb" strokeWidth={2} dot={false} strokeDasharray="3 4" isAnimationActive={false} /></>}
+              {showReference && (genderMode === "female" || genderMode === "both") && <><Area dataKey="femaleBand" stroke="none" fill="#db2777" fillOpacity={0.1} name="여아 참고 범위" isAnimationActive={false} /><Line dataKey="female" name="여아 중앙값" type="monotone" stroke="#db2777" strokeWidth={2} dot={false} strokeDasharray="5 3" isAnimationActive={false} /></>}
+              {latestMetric && <Area dataKey="baby" name="우리 아기 측정값" type="linear" stroke="var(--brand)" strokeWidth={2.5} fill={`url(#${fillId})`} dot={{ r: 3.5, strokeWidth: 2, fill: "var(--card)" }} connectNulls isAnimationActive={false} />}
             </ComposedChart>
           </ResponsiveContainer>
+        </div>}
+        {showReference && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--muted-foreground)]">
+          {latestMetric && <span className="flex items-center gap-1.5"><span className="w-5 border-t-2 border-[var(--brand)]" aria-hidden />우리 아기</span>}
+          {genderMode !== "female" && <span className="flex items-center gap-1.5"><span className="w-5 border-t-2 border-dashed border-blue-600" aria-hidden />남아 중앙값</span>}
+          {genderMode !== "male" && <span className="flex items-center gap-1.5"><span className="w-5 border-t-2 border-dashed border-pink-600" aria-hidden />여아 중앙값</span>}
+        </div>}
+        <div className="mt-2 flex flex-wrap gap-1 border-t border-[var(--border)] pt-2" role="group" aria-label="성장 항목 선택">
+          {(["height", "weight", "head"] as ChartType[]).map((type) => (
+            <button key={type} type="button" aria-pressed={chartType === type} onClick={() => setChartType(type)} className={cn("min-h-11 flex-1 whitespace-nowrap rounded-xl px-2 py-1.5 text-sm font-semibold transition-colors motion-reduce:transition-none", chartType === type ? "bg-[var(--accent-soft)] text-[var(--brand)]" : "text-[var(--muted-foreground)] hover:bg-[var(--surface-muted)]")}>{chartConfig[type].label}</button>
+          ))}
         </div>
-        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm text-stone-700 dark:text-stone-200">
-          <span className="flex items-center gap-1.5"><span aria-hidden="true" className="relative h-2 w-5"><span className="absolute top-1/2 h-0.5 w-5 -translate-y-1/2 bg-blue-700 dark:bg-blue-300" /><span className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-blue-700 dark:bg-blue-300" /></span>우리 아기</span>
-          {genderMode !== "female" && <span className="flex items-center gap-1.5"><span className="w-5 border-t-2 border-dashed border-blue-600" />남아 중앙값</span>}
-          {genderMode !== "male" && <span className="flex items-center gap-1.5"><span className="w-5 border-t-2 border-dashed border-pink-600" />여아 중앙값</span>}
-        </div>
-        <p className="mt-3 text-sm text-stone-600 dark:text-stone-300">옅은 영역은 WHO 참고 범위(3~97백분위)예요. 월령별로 마지막 측정값을 표시해요.</p>
       </section>
 
+      <button type="button" onClick={() => { setEditing(undefined); setShowInput(true); }} className="flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--brand)] px-4 py-2.5 text-base font-semibold text-[var(--brand-foreground)] transition-colors hover:bg-[var(--brand-pressed)] motion-reduce:transition-none"><Plus size={19} aria-hidden />성장 기록 추가</button>
+
       <section aria-labelledby="measurement-history-title">
-        <details className="group" data-measurement-history>
-        <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-1 py-3 [&::-webkit-details-marker]:hidden">
-          <h2 id="measurement-history-title" className="text-xl font-bold tracking-tight text-[var(--foreground)]">측정 기록 <span className="ml-1 text-base font-medium text-[var(--muted-foreground)]">{measurements.length}건</span></h2>
-          <ChevronDown size={19} aria-hidden className="shrink-0 text-[var(--brand)] transition-transform group-open:rotate-180 motion-reduce:transition-none" />
+        <details className="group record-disclosure surface-card" data-measurement-history>
+        <summary className="flex min-h-12 cursor-pointer items-center gap-2.5 rounded-2xl px-4 py-2.5">
+          <ClipboardList size={18} aria-hidden className="shrink-0 text-[var(--brand)]" />
+          <h2 id="measurement-history-title" className="min-w-0 flex-1 text-base font-semibold">측정 기록 <span className="font-medium text-[var(--muted-foreground)]">{measurements.length}건</span></h2>
+          <ChevronDown size={17} aria-hidden className="shrink-0 text-[var(--muted-foreground)] transition-transform group-open:rotate-180 motion-reduce:transition-none" />
         </summary>
-        <div className="space-y-3 pt-3">
-        {measurements.length === 0 ? <p className="surface-card p-5 text-base leading-relaxed text-[var(--muted-foreground)]">아직 측정 기록이 없어요. 위의 ‘성장 기록 추가’로 첫 기록을 남겨보세요.</p> : (
-          <ul className="space-y-3">
+        <div className="space-y-3 border-t border-[var(--border)] px-4 py-3">
+        {measurements.length === 0 ? <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">아직 측정 기록이 없어요. 위의 ‘성장 기록 추가’로 첫 기록을 남겨보세요.</p> : (
+          <ul className="divide-y divide-[var(--border)]">
             {visibleRecords.map((record) => (
-              <li key={record.id} className="surface-card p-5">
+              <li key={record.id} className="py-3 first:pt-0 last:pb-0">
                 <p className="flex flex-wrap items-center gap-2 text-base font-bold text-[var(--foreground)]">{record.date} <span className="rounded-lg bg-[var(--surface-bg)] px-2 py-1 text-sm font-medium text-[var(--muted-foreground)]">{record.month}개월</span></p>
                 <dl className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-base text-stone-700 dark:text-stone-200">
                   {record.height !== undefined && <div className="flex gap-1"><dt>키</dt><dd className="font-semibold">{record.height}cm</dd></div>}
@@ -184,15 +181,30 @@ export default function GrowthChart({ currentMonth }: GrowthChartProps) {
         </details>
       </section>
 
-      <details className="surface-card px-5 py-3 text-[var(--foreground)]">
-        <summary className="min-h-12 cursor-pointer py-3 text-base font-semibold">WHO 참고 기준과 비교 보기</summary>
-        <p className="mt-2 text-sm leading-relaxed">WHO 영유아 성장 기준(WHO Child Growth Standards)을 바탕으로 한 참고값이에요. 백분위는 제공된 3·50·97백분위 사이를 단순 추정한 값이에요.</p>
+      <details data-growth-reference className="group record-disclosure surface-card" onToggle={(event) => setShowReference(event.currentTarget.open)}>
+        <summary className="flex min-h-12 cursor-pointer items-center gap-2.5 rounded-2xl px-4 py-2.5 text-base font-semibold">
+          <BookOpen size={18} aria-hidden className="shrink-0 text-[var(--brand)]" />
+          <span className="min-w-0 flex-1">WHO 참고 기준과 비교 보기</span>
+          <ChevronDown size={17} aria-hidden className="shrink-0 text-[var(--muted-foreground)] transition-transform group-open:rotate-180 motion-reduce:transition-none" />
+        </summary>
+        <div className="border-t border-[var(--border)] px-4 py-3">
+        <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">WHO 성장 기준의 중앙값과 3~97백분위 참고 범위를 보여줘요. 성장 상태는 여러 번의 측정값과 아기의 상태를 함께 살펴요. 그래프에는 월령별 마지막 측정값을 표시해요.</p>
+        <div role="group" aria-label="성장 참고 기준 선택" className="mt-3 flex flex-wrap gap-1.5">
+          {([{ key: "male", label: "남아 기준" }, { key: "female", label: "여아 기준" }, { key: "both", label: "두 기준 비교" }] as const).map((item) => <button type="button" key={item.key} aria-pressed={genderMode === item.key} onClick={() => setGenderMode(item.key)} className={cn("min-h-11 min-w-0 max-w-full break-words rounded-xl border px-3 py-1.5 text-sm font-semibold transition-colors motion-reduce:transition-none", genderMode === item.key ? "border-[var(--brand)] bg-[var(--accent-soft)] text-[var(--brand)]" : "border-[var(--border)] text-[var(--muted-foreground)] hover:bg-[var(--surface-bg)]")}>{item.label}</button>)}
+        </div>
         {genderMode === "both" ? <p className="mt-3 text-sm">남아 또는 여아 기준을 선택하면 마지막 측정값과 비교할 수 있어요.</p> : <dl className="mt-4 space-y-3">{(["height", "weight", "head"] as ChartType[]).map((type) => {
           const item = chartConfig[type]; const record = measurements.find((entry) => entry[item.key] !== undefined); if (!record) return null;
           const value = record[item.key]!; const median = referenceValue(type, genderMode, record.month); const range = growthRanges[genderMode][type][record.month]; if (!median || !range) return null;
-          return <div key={type} className="border-t border-stone-100 pt-3 dark:border-[var(--border)]"><dt className="font-semibold">{item.label} · {record.month}개월 {genderMode === "male" ? "남아" : "여아"} 기준</dt><dd className="mt-1 text-sm leading-relaxed">측정 {value}{item.unit} · 중앙값 {median}{item.unit} · 추정 {percentile(value, range.p3, median, range.p97)}백분위</dd></div>;
+          return <div key={type} className="border-t border-stone-100 pt-3 dark:border-[var(--border)]"><dt className="font-semibold">{item.label} · {record.month}개월 {genderMode === "male" ? "남아" : "여아"} 기준</dt><dd className="mt-1 text-sm leading-relaxed">측정 {value}{item.unit} · 중앙값 {median}{item.unit} · 참고 범위 {range.p3}~{range.p97}{item.unit}</dd></div>;
         })}</dl>}
+        </div>
       </details>
+
+      <Link href="/growth?tab=vaccination" className="flex min-h-12 items-center gap-2.5 rounded-2xl bg-[var(--surface-peach)] px-4 py-2.5 text-base font-semibold">
+        <Syringe size={18} aria-hidden className="shrink-0 text-[var(--art-peach-ink)]" />
+        <span className="min-w-0 flex-1">예방접종 일정 확인</span>
+        <ChevronRight size={17} aria-hidden className="shrink-0 text-[var(--muted-foreground)]" />
+      </Link>
 
       {showInput && profile && <MeasurementInput key={`${profile.id}-${activeEditing?.id || "new"}`} currentMonth={currentMonth} initialMeasurement={activeEditing} onClose={closeInput} onSaved={(edited) => setNotice(edited ? "수정한 기록을 이 기기에 저장했어요." : "새 기록을 이 기기에 저장했어요.")} />}
     </div>

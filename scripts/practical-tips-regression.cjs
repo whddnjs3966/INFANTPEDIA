@@ -13,5 +13,36 @@ await check('retired random medical tips cannot reappear through saved legacy ID
 await check('all 133 schedule descriptions resolve to the same sourced practical tips',()=>{assert.equal(s.dailySchedules.length,13);assert.equal(s.dailySchedules.reduce((n,s)=>n+s.items.length,0),133);for(const schedule of s.dailySchedules)for(const item of schedule.items){const t=p.getPracticalTip(item.practicalKey);assert.ok(t);assert.ok(t.minMonth<=schedule.month);assert.ok(item.tip.includes(t.caution));}for(let m=0;m<4;m++){assert.equal(s.getScheduleForMonth(m).mode,'responsive');assert.equal(s.getScheduleForMonth(m).wakeUp,'—');}});
 await check('unsafe legacy sleep objects and routine night-weaning advice are absent from the rewritten tips',()=>{const text=p.practicalTips.map(p.practicalContent).join('\n');assert.ok(!/인형을 도입|인형이나 블랭킷을 사용|밤중 수유를 끊을|수면교육의 골든타임|물을 주거나 토닥|옆으로 눕혀 재워/.test(text));assert.ok(p.getPracticalTip('transfer').caution.includes('소파'));assert.ok(p.getPracticalTip('texture').caution.includes('이동 중'));});
 await check('new practical titles are searchable offline and keep source and direct destination',async()=>{const result=await api.searchContentWithStatus('입가로',{currentMonth:2}),t=result.results.find(t=>t.id==='practical:bottle-flow');assert.ok(t);assert.equal(t.content,p.practicalContent(p.getPracticalTip('bottle-flow')));assert.ok(t.href.includes('month=2&tip=bottle-flow'));assert.equal('review' in t.evidence,false);});
-await check('all meal-plan notes avoid rigid food order and preserve explicit food safety; five-month plans are not published',()=>{const meal=load('src/lib/data/meal-plan-data');assert.equal(meal.mealPlans.length,8);assert.equal(meal.getMealPlanForMonth(5),undefined);for(const plan of meal.mealPlans){assert.ok(plan.description.includes('월령만으로'));assert.ok(plan.tips.some(t=>t.includes('통견과류')));assert.ok(!/소고기를 빨리|50~80ml 정도가 적당|10~15회 반복|400~500ml로 전환/.test(plan.tips.join('')));if(plan.month<12){assert.ok(plan.tips.some(t=>t.includes('꿀을 먹이지')));for(const day of plan.weeklyPlan)for(const meal of day.meals)assert.ok(!meal.menu.includes('+ 우유'));}}});
+await check('all 126 published meals have ingredient-specific guidance and no pre-first-birthday milk drink',()=>{
+  const {getMealPlanForMonth,getMealSafety,mealPlans,mealPlanEvidence,mealPlanSafety}=load('src/lib/data/meal-plan-data');
+  assert.equal(getMealPlanForMonth(5),undefined);
+  assert.equal(mealPlans.map(plan=>plan.month).join(','),'6,7,8,9,10,11,12');
+  assert.match(mealPlanSafety.preparation,/통견과류/);
+  assert.match(mealPlanSafety.underOne,/첫돌 전.*꿀/);
+  assert.ok(mealPlanEvidence.sources.length>=5);
+  let count=0;
+  for(const plan of mealPlans){
+    assert.equal(plan.weeklyPlan.map(day=>day.day).join(''),'월화수목금토일');
+    for(const day of plan.weeklyPlan) for(const meal of day.meals){
+      count++;
+      assert.ok(meal.ingredients.length,meal.menu);
+      assert.equal(meal.ingredients.length,new Set(meal.ingredients).size,meal.menu);
+      const safety=getMealSafety(meal);
+      assert.ok(safety.prep.every(Boolean)&&safety.prep.length,meal.menu);
+      assert.ok(!/\d\s*(?:ml|g)/i.test(JSON.stringify(meal)),meal.menu);
+      if(plan.month<12) assert.ok(!meal.ingredients.includes('살균 전지우유(컵)'),meal.menu);
+      if(/달걀|옴렛/.test(meal.menu)) assert.ok(safety.allergens.includes('달걀'),meal.menu);
+      if(/두부/.test(meal.menu)) assert.ok(safety.allergens.includes('대두'),meal.menu);
+      if(/대구|연어/.test(meal.menu)) assert.ok(safety.allergens.includes('생선')&&safety.prep.some(tip=>tip.includes('가시')),meal.menu);
+      if(/새우/.test(meal.menu)) assert.ok(safety.allergens.includes('갑각류')&&safety.prep.some(tip=>tip.includes('꼬리')),meal.menu);
+      if(/식빵|파스타/.test(meal.menu)) assert.ok(safety.allergens.includes('밀')&&safety.checkLabel,meal.menu);
+      if(/치즈|우유/.test(meal.menu)) assert.ok(safety.allergens.includes('우유'),meal.menu);
+    }
+  }
+  assert.equal(count,126);
+  const cooked=mealPlans.find(plan=>plan.month===10).weeklyPlan[5].meals[0];
+  assert.ok(cooked.ingredients.includes('우유(조리용)'));
+  const drink=mealPlans.find(plan=>plan.month===12).weeklyPlan[0].meals[0];
+  assert.ok(drink.ingredients.includes('살균 전지우유(컵)'));
+});
 console.log(count+' practical content checks passed (not clinical certification).');})().catch(e=>{console.error(e);process.exitCode=1});

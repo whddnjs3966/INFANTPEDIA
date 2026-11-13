@@ -122,42 +122,42 @@
   "screenshots": [
     {
       "src": "/screenshots/home.png",
-      "sizes": "1080x1920",
+      "sizes": "382x821",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "홈 화면 - 우리 아기 대시보드"
     },
     {
       "src": "/screenshots/encyclopedia.png",
-      "sizes": "1080x1920",
+      "sizes": "382x821",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "백과사전 - 월령별 육아 정보"
     },
     {
       "src": "/screenshots/growth.png",
-      "sizes": "1080x1920",
+      "sizes": "381x819",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "성장 그래프 - WHO 기준 비교"
     },
     {
       "src": "/screenshots/vaccination.png",
-      "sizes": "1080x1920",
+      "sizes": "382x818",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "예방접종 - KDCA 기준 접종 관리"
     },
     {
       "src": "/screenshots/tips.png",
-      "sizes": "1080x1920",
+      "sizes": "377x819",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "육아 꿀팁 - 월령별 노하우"
     },
     {
       "src": "/screenshots/dark-mode.png",
-      "sizes": "1080x1920",
+      "sizes": "379x817",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "다크 모드 - 야간 수유 시 편안한 화면"

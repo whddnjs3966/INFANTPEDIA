@@ -1,39 +1,10 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { authorizeLocalAdmin } from "@/lib/supabase/local-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
-import crypto from "crypto";
-
-const ADMIN_ID = "admin";
-const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || "infantpedia-admin-secret-key-2026";
-const COOKIE_NAME = "admin_session";
-
-async function verifyAdmin(): Promise<boolean> {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get(COOKIE_NAME)?.value;
-    if (!token) return false;
-
-    const decoded = Buffer.from(token, "base64").toString("utf-8");
-    const parts = decoded.split(":");
-    if (parts.length !== 3) return false;
-
-    const [id, timestamp, signature] = parts;
-    const payload = `${id}:${timestamp}`;
-    const hmac = crypto.createHmac("sha256", SESSION_SECRET);
-    hmac.update(payload);
-    const expectedSignature = hmac.digest("hex");
-
-    void timestamp;
-    return signature === expectedSignature && id === ADMIN_ID;
-  } catch {
-    return false;
-  }
-}
 
 export async function GET() {
-  if (!(await verifyAdmin())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await authorizeLocalAdmin();
+  if (auth instanceof NextResponse) return auth;
 
   try {
     const supabase = createAdminClient();

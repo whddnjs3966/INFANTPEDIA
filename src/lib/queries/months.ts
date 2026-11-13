@@ -1,4 +1,5 @@
 import { practicalTips, practicalContent, practicalEvidence } from "../data/practical-tips-data";
+import { activityReleaseCorrections } from '../data/activity-release-corrections';
 import { reviewedPublicContent } from '../utils/reviewed-public-content';
 import type { HealthEvidence, HealthFAQItem } from '../data/health-faq-data';
 import { supabase } from '../supabase';
@@ -99,11 +100,13 @@ async function searchLocalGuides(keyword: string, currentMonth: number): Promise
     }
     const feedingGuide = feeding.getFeedingGuideForMonth(month);
     if (feedingGuide) {
-      candidates.push({id:`feeding-summary-${month}`,title:`${month}개월 수유 가이드`,content:`수유 형태: ${feedingGuide.feedingType}\n1회 수유량: ${feedingGuide.perFeedAmount}\n하루 총량: ${feedingGuide.dailyTotal}\n횟수: ${feedingGuide.frequency}\n간격: ${feedingGuide.interval}\n\n트림 안내\n${feedingGuide.burpingTips.join('\n')}`,category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month]});
+      candidates.push({id:`feeding-summary-${month}`,title:`${month}개월 수유 가이드`,content:[feedingGuide.feedingType,...feedingGuide.feedingCues,`트림 안내\n${feedingGuide.burpingTips.join('\n')}`].join('\n\n'),category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month],evidence:feeding.feedingCueEvidence});
       for (const [index,issue] of feedingGuide.troubleshooting.entries()) candidates.push({id:`feeding-${month}-${index}`,title:issue.issue,content:issue.solution,category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month]});
       for(const position of feedingGuide.positions)candidates.push({id:`feeding-position-${position.id}`,title:`수유 자세 · ${position.name}`,content:`${position.description}\n\n${position.suitableFor}`,category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month]});
-      candidates.push({id:`feeding-storage-${month}`,title:'모유 보관 가이드',content:`실온: ${feedingGuide.breastMilkStorage.roomTemp}\n냉장: ${feedingGuide.breastMilkStorage.fridge}\n냉동: ${feedingGuide.breastMilkStorage.freezer}\n해동: ${feedingGuide.breastMilkStorage.thawing}`,category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month]});
-      candidates.push({id:`feeding-bottle-${month}`,title:'젖병 소독과 관리',content:feedingGuide.bottleCleaning.map(step=>`${step.title}\n${step.description}`).join('\n\n'),category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month]});
+      for (const [kind, topic] of Object.entries(feeding.milkSafety)) {
+        candidates.push({id:`feeding-${kind === 'breastMilk' ? 'storage' : 'formula'}-${month}`,title:kind === 'breastMilk' ? '모유 보관 가이드' : topic.title,content:topic.entries.map(({label,text})=>`${label}\n${text}`).join('\n\n'),category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month],evidence:topic.evidence});
+      }
+      candidates.push({id:`feeding-bottle-${month}`,title:'젖병 소독과 관리',content:feedingGuide.bottleCleaning.map(step=>`${step.title}\n${step.description}`).join('\n\n'),category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month],evidence:feeding.bottleCleaningEvidence});
       candidates.push({id:`feeding-mixed-${month}`,title:'혼합수유 팁',content:feedingGuide.mixedFeedingTips.join('\n\n'),category:'feeding',month_id:month,source:'guides',href:guideHref('feeding',month),applicableMonths:[month]});
     }
   }
@@ -121,10 +124,16 @@ async function searchLocalGuides(keyword: string, currentMonth: number): Promise
   for (const [index,stage] of foodGuide.stages.entries()) {
     const months = Array.from({length:stage.endMonth-stage.startMonth+1},(_,i)=>i+stage.startMonth).filter(m=>m<=12);
     const month = preferredMonth(months);
-    candidates.push({id:`babyfood-stage-${index}`,title:`이유식 ${stage.stage}`,content:[stage.description,`형태: ${stage.texture}`,`횟수: ${stage.frequency}`,`양: ${stage.amount}`,`추천 재료: ${stage.newIngredients.map(i=>i.name).join(', ')}`,...stage.cookingTips,...stage.cautionPoints].join('\n\n'),category:'food',month_id:month,source:'guides',href:guideHref('babyfood',month),applicableMonths:months});
+    const details = stage.startMonth < 6 ? [] : [`형태: ${stage.texture}`, `식사 기회: ${stage.frequency}`, `재료 예시: ${stage.newIngredients.map(ingredient => ingredient.name).join(', ')}`, ...stage.cookingTips, ...stage.cautionPoints];
+    candidates.push({id:`babyfood-stage-${index}`,title:stage.startMonth < 6 ? stage.stage : `이유식 ${stage.stage}`,content:[stage.description,...details].join('\n\n'),category:'food',month_id:month,source:'guides',href:guideHref('babyfood',month),applicableMonths:months,evidence:food.solidFoodEvidence});
   }
-  candidates.push({id:'babyfood-allergy',title:foodGuide.allergyGuide.title,content:[foodGuide.allergyGuide.description,`주의 식품: ${foodGuide.allergyGuide.highRiskFoods.join(', ')}`,foodGuide.allergyGuide.testingMethod,...foodGuide.allergyGuide.emergencySigns].join('\n\n'),category:'food',month_id:currentMonth,source:'guides',href:guideHref('babyfood',currentMonth),applicableMonths:[]});
-  candidates.push({id:'babyfood-general',title:'이유식 기본 안내',content:foodGuide.generalTips.join('\n\n'),category:'food',month_id:currentMonth,source:'guides',href:guideHref('babyfood',currentMonth),applicableMonths:[]});
+  const foodMonth = Math.max(currentMonth, 6);
+  const foodMonths = [6, 7, 8, 9, 10, 11, 12];
+  const allergy = foodGuide.allergyGuide;
+  candidates.push({id:'babyfood-allergy',title:allergy.title,content:[allergy.emergencyAction,...allergy.emergencySigns,allergy.description,`주의 식품: ${allergy.highRiskFoods.join(', ')}`,allergy.introduction,allergy.higherRisk].join('\n\n'),category:'food',month_id:currentMonth,source:'guides',href:guideHref('babyfood',foodMonth),applicableMonths:[],evidence:allergy.evidence});
+  const storage = food.babyFoodStorage;
+  candidates.push({id:'babyfood-storage',title:storage.title,content:storage.entries.map(({label,text})=>`${label}\n${text}`).join('\n\n'),category:'food',month_id:foodMonth,source:'guides',href:guideHref('babyfood',foodMonth),applicableMonths:foodMonths,evidence:storage.evidence});
+  candidates.push({id:'babyfood-general',title:'이유식 기본 안내',content:foodGuide.generalTips.join('\n\n'),category:'food',month_id:currentMonth,source:'guides',href:guideHref('babyfood',foodMonth),applicableMonths:[],evidence:food.solidFoodEvidence});
 
   for (const tip of practicalTips) {
     const months = Array.from({length: 13 - tip.minMonth}, (_, i) => i + tip.minMonth);
@@ -156,16 +165,26 @@ export async function searchContentWithStatus(keyword: string, options: { signal
   const timeout=setTimeout(abortRemote,6000);
   // Quote PostgREST filter values so commas/parentheses in user text stay literal.
   const pattern=JSON.stringify(`%${trimmed.replace(/[\\%_]/g,'\\$&')}%`);
-  let activitiesQuery=supabase.from('activities').select('*').or(`title.ilike.${pattern},content.ilike.${pattern}`).limit(100);
+  const needle=trimmed.toLocaleLowerCase('ko');
+  const matchesText=(text: string)=>text.toLocaleLowerCase('ko').includes(needle);
+  const revisedIds=activityReleaseCorrections.filter(row=>matchesText(row.title)||matchesText(row.after)).map(row=>row.id);
+  const activityFilter=`title.ilike.${pattern},content.ilike.${pattern}${revisedIds.length ? `,id.in.(${revisedIds.join(',')})` : ''}`;
+  let activitiesQuery=supabase.from('activities').select('*').or(activityFilter).limit(100);
   let tipsQuery=supabase.from('parenting_tips').select('*').or(`title.ilike.${pattern},content.ilike.${pattern}`).limit(100);
   activitiesQuery=activitiesQuery.abortSignal(remoteController.signal);tipsQuery=tipsQuery.abortSignal(remoteController.signal);
-  const priority=(r:SearchResult)=>(r.title.toLocaleLowerCase("ko").includes(trimmed.toLocaleLowerCase("ko"))?2:0)+(!r.applicableMonths?.length||r.applicableMonths.includes(currentMonth)?1:0);
+  const priority=(r:SearchResult)=>(matchesText(r.title)?2:0)+(!r.applicableMonths?.length||r.applicableMonths.includes(currentMonth)?1:0);
   const compare=(a:SearchResult,b:SearchResult)=>priority(b)-priority(a);
   const localTask=searchLocalGuides(trimmed,currentMonth).then(results=>{results.sort(compare);if(!options.signal?.aborted)options.onLocalResults?.(results);return results;});
   const request=Promise.all([activitiesQuery,tipsQuery,localTask]);
   const [activitiesResult,tipsResult,local]=await request.finally(()=>{clearTimeout(timeout);options.signal?.removeEventListener('abort',abortRemote);});
   if(options.signal?.aborted)throw new DOMException('Aborted','AbortError');
-  const activityResults:SearchResult[]=(activitiesResult.data||[]).map(item=>({...reviewedPublicContent('activities',item),source:'activities' as const,applicableMonths:[item.month_id],href:`${guideHref('encyclopedia',item.month_id)}&entry=${item.id}`}));
+  const activityResults: SearchResult[] = [];
+  for (const item of activitiesResult.data || []) {
+    const row = reviewedPublicContent('activities', item);
+    // A newer editorial revision may be returned by ID but should still match the search term.
+    if (revisedIds.includes(row.id) && ![item.title, item.content, row.title, row.content].some(matchesText)) continue;
+    activityResults.push({ ...row, source: 'activities', applicableMonths: [row.month_id], href: `${guideHref('encyclopedia', row.month_id)}&entry=${row.id}` });
+  }
   const tipTabs:Record<string,string>={sleeping:'sleep',sleep_tips:'sleep',feeding:'feeding',feeding_tips:'feeding',crying:'health',crying_tips:'health',outing:'activities',outing_tips:'activities'};
   const tips:SearchResult[]=(tipsResult.data||[]).map(item=>({...reviewedPublicContent('parenting_tips',item),source:'parenting_tips' as const,applicableMonths:[item.month_id],href:guideHref(tipTabs[item.category]||'encyclopedia',item.month_id)}));
   const results=[...local,...activityResults,...tips].sort(compare);

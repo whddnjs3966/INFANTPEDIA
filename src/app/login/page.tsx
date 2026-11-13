@@ -1,47 +1,43 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, MessageCircle } from "lucide-react";
+import { Suspense, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
-import { ArrowLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
+import "./login.css";
 
-type Provider = "google" | "kakao" | "naver";
+const providers = [
+  { id: "kakao", label: "카카오로 시작하기" },
+  { id: "naver", label: "네이버로 시작하기" },
+  { id: "google", label: "Google로 시작하기" },
+] as const;
 
-const providers: { id: Provider; label: string; color: string; bgColor: string; icon: string }[] = [
-  {
-    id: "kakao",
-    label: "카카오로 시작하기",
-    color: "#191919",
-    bgColor: "#FEE500",
-    icon: "💬",
-  },
-  {
-    id: "naver",
-    label: "네이버로 시작하기",
-    color: "#FFFFFF",
-    bgColor: "#03C75A",
-    icon: "N",
-  },
-  {
-    id: "google",
-    label: "Google로 시작하기",
-    color: "#374151",
-    bgColor: "#FFFFFF",
-    icon: "G",
-  },
-];
+type Provider = (typeof providers)[number]["id"];
+const errorMessages: Record<string, string> = {
+  naver: "네이버 로그인에 실패했어요. 다시 시도해 주세요.",
+  google: "Google 로그인에 실패했어요. 다시 시도해 주세요.",
+  kakao: "카카오 로그인에 실패했어요. 다시 시도해 주세요.",
+  state_mismatch: "보안 검증에 실패했어요. 다시 시도해 주세요.",
+  token: "인증 토큰을 발급하지 못했어요. 다시 시도해 주세요.",
+  profile: "프로필 정보를 불러오지 못했어요. 다시 시도해 주세요.",
+};
+
+function loginError(key: string | null) {
+  if (!key) return null;
+  return Object.hasOwn(errorMessages, key) ? errorMessages[key] : "로그인에 실패했어요. 다시 시도해 주세요.";
+}
+
+function ProviderIcon({ provider }: { provider: Provider }) {
+  return <span aria-hidden="true" className={`login-provider-icon login-provider-${provider}`}>
+    {provider === "google" ? <GoogleIcon /> : provider === "naver" ? "N" : <MessageCircle size={19} fill="currentColor" strokeWidth={1.8} />}
+  </span>;
+}
 
 export default function LoginPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-pink-300 border-t-transparent" />
-        </div>
-      }
-    >
+    <Suspense fallback={<div data-bright-shell className="login-wait" role="status"><span className="login-spinner" aria-hidden />로그인 화면 불러오는 중</div>}>
       <LoginContent />
     </Suspense>
   );
@@ -50,171 +46,89 @@ export default function LoginPage() {
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pending = useRef(false);
   const [loading, setLoading] = useState<Provider | null>(null);
-  const [error, setError] = useState<string | null>(() => {
-    const errorParam = searchParams.get("error");
-    if (!errorParam) return null;
-    const errorMessages: Record<string, string> = {
-      naver: "네이버 로그인에 실패했어요. 다시 시도해주세요.",
-      google: "Google 로그인에 실패했어요. 다시 시도해주세요.",
-      kakao: "카카오 로그인에 실패했어요. 다시 시도해주세요.",
-      state_mismatch: "보안 검증에 실패했어요. 다시 시도해주세요.",
-      token: "인증 토큰 발급에 실패했어요. 다시 시도해주세요.",
-      profile: "프로필 정보를 불러오지 못했어요. 다시 시도해주세요.",
-    };
-    return errorMessages[errorParam] || "로그인에 실패했어요. 다시 시도해주세요.";
-  });
+  const [error, setError] = useState<string | null>(() => loginError(searchParams.get("error")));
 
-  const handleSignIn = async (provider: Provider) => {
+  async function handleSignIn(provider: Provider) {
+    if (pending.current) return;
+    pending.current = true;
     setLoading(provider);
     setError(null);
 
-    if (provider === "naver") {
-      // Naver uses custom API route (not Supabase built-in)
-      window.location.assign("/api/auth/naver");
-      return;
+    try {
+      if (provider === "naver") {
+        // Use a full navigation for the OAuth redirect and state cookie.
+        window.location.assign(new URL("/api/auth/naver", window.location.origin));
+        return;
+      }
+
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
+      if (!error) return;
+    } catch {
+      // An unavailable authentication service should allow the user to retry.
     }
 
-    const supabase = createClient();
-    const redirectTo = `${window.location.origin}/auth/callback`;
-
-    const result = await supabase.auth.signInWithOAuth({
-      provider,
-      options: { redirectTo },
-    });
-
-    if (result.error) {
-      setError(result.error.message);
-      setLoading(null);
-    }
-  };
+    pending.current = false;
+    setLoading(null);
+    setError(loginError(provider));
+  }
 
   return (
-    <div className="flex min-h-screen flex-col px-6 pt-8 pb-12">
-      {/* Back button */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        onClick={() => router.back()}
-        className="mb-8 flex w-fit items-center gap-1 text-sm text-stone-400 dark:text-stone-500"
-      >
-        <ArrowLeft size={16} />
-        돌아가기
-      </motion.button>
+    <div data-bright-shell data-login-redesign className="login-page">
+      <header className="login-hero">
+        <button type="button" className="login-back" onClick={() => {
+          if (window.history.length > 1) router.back();
+          else router.replace("/");
+        }}>
+          <ArrowLeft size={19} aria-hidden />돌아가기
+        </button>
+        <Image src="/images/login/cloud-book.webp" alt="" width={540} height={430} sizes="(max-width: 350px) 190px, 244px" preload className="login-hero-art" />
+        <h1>InfantPedia</h1>
+        <p>아기의 성장을 한눈에</p>
+      </header>
 
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-12 text-center"
-      >
-        <div className="mb-4 text-5xl">👶</div>
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-          InfantPedia
-        </h1>
-        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          로그인하면 기기를 바꿔도<br />
-          데이터가 안전하게 유지돼요
-        </p>
-      </motion.div>
+      <section className="login-methods" aria-labelledby="login-methods-title">
+        <h2 id="login-methods-title" className="sr-only">로그인</h2>
+        <div className="login-providers">
+          {providers.map(({ id, label }) => (
+            <button
+              key={id}
+              type="button"
+              disabled={loading !== null}
+              aria-busy={loading === id}
+              className="login-provider"
+              onClick={() => void handleSignIn(id)}
+            >
+              <ProviderIcon provider={id} />
+              <span className="login-provider-label">{label}</span>
+              {loading === id && <span className="login-spinner" aria-hidden />}
+            </button>
+          ))}
+        </div>
+        {loading && <p className="login-status" role="status">로그인 페이지로 연결 중이에요.</p>}
+        {error && <p className="login-error" role="alert">{error}</p>}
+        <div className="login-guest">
+          <Link href="/" className="login-skip">로그인 없이 사용하기</Link>
+          <p>이 기기에 저장된 아기 기록도 볼 수 있어요.</p>
+        </div>
 
-      {/* Benefits */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="mb-10 space-y-3"
-      >
-        {[
-          { emoji: "🔄", text: "기기 변경 시 데이터 자동 동기화" },
-          { emoji: "☁️", text: "클라우드에 안전하게 백업" },
-          { emoji: "👨‍👩‍👧", text: "가족과 쉽게 데이터 공유" },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-3 rounded-xl bg-white/60 px-4 py-3 dark:bg-[var(--surface-muted)]/60"
-          >
-            <span className="text-lg">{item.emoji}</span>
-            <span className="text-sm text-gray-600 dark:text-gray-300">{item.text}</span>
-          </div>
-        ))}
-      </motion.div>
-
-      {/* Social login buttons */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="space-y-3"
-      >
-        {providers.map((p) => (
-          <motion.button
-            key={p.id}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => handleSignIn(p.id)}
-            disabled={loading !== null}
-            className={cn(
-              "flex h-12 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold transition-opacity",
-              loading !== null && loading !== p.id && "opacity-50",
-              p.id === "google" && "border border-gray-200 dark:border-gray-600"
-            )}
-            style={{
-              backgroundColor: p.bgColor,
-              color: p.color,
-            }}
-          >
-            {loading === p.id ? (
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-            ) : (
-              <>
-                {p.id === "naver" ? (
-                  <span className="text-base font-black">{p.icon}</span>
-                ) : p.id === "google" ? (
-                  <GoogleIcon />
-                ) : (
-                  <span className="text-base">{p.icon}</span>
-                )}
-                {p.label}
-              </>
-            )}
-          </motion.button>
-        ))}
-      </motion.div>
-
-      {/* Error */}
-      {error && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mt-4 text-center text-xs text-red-500"
-        >
-          {error}
-        </motion.p>
-      )}
-
-      {/* Skip */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        onClick={() => router.back()}
-        className="mx-auto mt-6 text-xs text-gray-400 underline dark:text-gray-500"
-      >
-        로그인 없이 사용하기
-      </motion.button>
-
-      {/* Footer */}
-      <p className="mt-auto pt-8 text-center text-[11px] leading-relaxed text-stone-400 dark:text-stone-500">
-        소셜 로그인 시 서비스 이용약관 및<br />
-        개인정보 처리방침에 동의하게 됩니다.
-      </p>
+        <footer className="login-footer">
+          소셜 로그인 시 이용약관과 <Link href="/privacy">개인정보 처리방침</Link>에 동의합니다.
+        </footer>
+      </section>
     </div>
   );
 }
 
+
 function GoogleIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24">
+    <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24">
       <path
         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
         fill="#4285F4"

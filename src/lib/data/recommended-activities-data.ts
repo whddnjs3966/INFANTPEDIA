@@ -372,9 +372,9 @@ const allMonthActivities: MonthActivities[] = [
         id: "act_5_3",
         title: "앉기 연습",
         description:
-          "아기를 앉혀놓고 쿠션으로 지지해 주세요. 앞에 장난감을 놓아 관심을 유지시키세요. 균형을 잡으며 코어 근육이 발달합니다.",
+          "아기가 깨어 있고 편안할 때 낮고 평평한 바닥에서 놀이해요. 앉은 자세가 불안정하면 보호자가 몸통을 받쳐 주세요. 장난감은 쉽게 닿는 곳에 두고 가까이 지켜봐 주세요.",
         duration: "5~10분",
-        materials: ["지지용 쿠션", "장난감"],
+        materials: ["장난감"],
         developmentAreas: ["대근육 발달", "균형 감각"],
         emoji: "🧘",
         difficulty: "easy",

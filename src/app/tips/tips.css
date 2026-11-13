@@ -1,0 +1,210 @@
+/* Compact, illustrated tips while keeping each explanation in its own reading row. */
+.tips-page {
+  padding: max(env(safe-area-inset-top), 16px) 20px 24px;
+  background: var(--surface-bg);
+  color: var(--foreground);
+  line-height: 1.65;
+}
+
+.tips-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px 44px;
+  align-items: center;
+  gap: 8px;
+  min-height: 65px;
+  margin-bottom: 10px;
+}
+
+.tips-header h1 {
+  font-size: 1.375rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: -.35px;
+  overflow-wrap: anywhere;
+}
+
+.tips-header p {
+  margin-top: 2px;
+  font-size: .8125rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+  word-break: keep-all;
+}
+
+.tips-header .header-action {
+  background: transparent;
+  box-shadow: none;
+}
+
+.tips-header .header-action:hover { background: var(--accent-soft); }
+
+.tips-header-art {
+  width: 76px;
+  height: 65px;
+  object-fit: contain;
+  pointer-events: none;
+  animation: tips-hello 620ms ease-out both;
+}
+
+.tips-page [data-month-selector] {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.tips-page [data-month-selector] button { word-break: keep-all; }
+
+.tips-page [data-month-selector] button[aria-expanded] > span:first-child {
+  padding: 2px 9px;
+  border-radius: 10px;
+  background: var(--surface-muted);
+  font-size: 1rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.tips-heading {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -.25px;
+  overflow-wrap: anywhere;
+}
+
+.tips-card {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.tips-pill {
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--foreground);
+  background: var(--card);
+  font-size: .8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  transition: background-color 180ms ease;
+}
+
+.tips-pill:hover { background: var(--surface-muted); }
+
+.tips-pill[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--brand);
+  color: var(--brand-foreground);
+}
+
+.tips-topics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.tips-feature {
+  display: grid;
+  grid-template-columns: 55px minmax(0, 1fr) 17px;
+  gap: 10px;
+  align-items: center;
+  min-height: 78px;
+  padding: 12px;
+  border-radius: 18px;
+  background: var(--surface-lavender);
+  transition: filter 180ms ease;
+}
+
+.tips-feature:hover { filter: brightness(.97); }
+
+.tips-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 55px;
+  padding: 8px 12px;
+  border-radius: 17px;
+  text-align: left;
+  transition: background-color 180ms ease;
+}
+
+.tips-row:hover { background: var(--surface-muted); }
+
+.tips-row[aria-expanded="true"] {
+  background: var(--surface-sky);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.tips-row-title {
+  display: block;
+  min-width: 0;
+  flex: 1;
+  font-size: .9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.tips-detail {
+  border-top: 1px solid var(--border);
+  padding: 12px 14px 14px;
+  overflow-wrap: anywhere;
+}
+
+.tips-detail:not([hidden]) { animation: tips-reveal 200ms ease-out both; }
+
+.tips-chevron {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  transition: transform 200ms ease-out;
+}
+
+button[aria-expanded="true"] > .tips-chevron,
+details[open] > summary > .tips-chevron { transform: rotate(180deg); }
+
+.tips-source > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+}
+
+.tips-source > summary::-webkit-details-marker { display: none; }
+
+.tips-page :is(button, a, summary):focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+@container (max-width: 15rem) {
+  .tips-header { grid-template-columns: minmax(0, 1fr) 44px 44px; gap: 6px; }
+  .tips-header-art { width: 44px; height: 44px; }
+  .tips-topics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tips-feature { grid-template-columns: 40px minmax(0, 1fr) 16px; gap: 7px; }
+  .tips-feature [data-feature-art] { width: 40px; height: 40px; }
+}
+
+@keyframes tips-hello {
+  from { opacity: 0; transform: translateY(5px) rotate(-4deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+@keyframes tips-reveal {
+  from { opacity: .6; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tips-header-art, .tips-detail:not([hidden]) { animation: none; }
+  .tips-row, .tips-pill, .tips-feature, .tips-chevron { transition: none; }
+}

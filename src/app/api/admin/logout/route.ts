@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { authorizeLocalAdmin } from "@/lib/supabase/local-admin";
 
-const COOKIE_NAME = "admin_session";
+export async function POST(request: Request) {
+  const auth = await authorizeLocalAdmin(request);
+  if (auth instanceof NextResponse) return auth;
 
-export async function POST() {
-  const cookieStore = await cookies();
-  cookieStore.delete(COOKIE_NAME);
+  const { error } = await auth.auth.signOut({ scope: "local" });
+  if (error) {
+    return NextResponse.json({ error: "로그아웃하지 못했어요." }, { status: 503 });
+  }
   return NextResponse.json({ success: true });
 }

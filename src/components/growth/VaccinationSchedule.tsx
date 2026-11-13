@@ -3,7 +3,7 @@
 import { useId, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, Pencil, Syringe } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { vaccinations, type Vaccination } from "@/lib/data/growth-data";
+import { isVaccinationDue, vaccinations, type Vaccination } from "@/lib/data/growth-data";
 import { useVaccinationStore, type VaccinationRecord } from "@/lib/store/vaccination-store";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getKoreaDate } from "@/lib/utils/date";
@@ -36,6 +36,8 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
   const id = useId();
   const getRecord = (dose: number) => records.find((record) => record.vaccineId === vaccine.id && record.doseNumber === dose);
   const done = doses.filter((dose) => getRecord(dose.doseNumber)).length;
+  const current = doses.some((dose) => !getRecord(dose.doseNumber) && isVaccinationDue(dose, currentMonth));
+  const status = done === doses.length ? "완료" : current ? "이번 시기" : done ? `${done}회 기록` : doses.every(dose => dose.conditional) ? "조건 확인" : "미완료";
 
   const save = (event: React.FormEvent, doseNumber: number) => {
     event.preventDefault();
@@ -64,30 +66,31 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
   };
 
   return (
-    <section className="@container surface-card overflow-hidden">
+    <section data-vaccine-card={vaccine.id} className="@container surface-card">
       <h3>
-        <button type="button" aria-expanded={open} aria-controls={`${id}-doses`} onClick={() => setOpen(!open)} className="flex min-h-16 w-full items-start gap-3 p-5 text-left transition-colors hover:bg-[var(--surface-bg)] @max-[16rem]:gap-2 @max-[16rem]:px-3">
-          <span className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-2xl bg-[var(--surface-peach)] text-[var(--brand)] @max-[16rem]:hidden"><Syringe size={20} aria-hidden /></span>
-          <span className="min-w-0 flex-1">
-            <span className="block break-words text-lg font-semibold leading-7 tracking-tight text-[var(--foreground)]">{vaccine.name}</span>
-            <span className="mt-1 block break-words text-sm leading-6 text-[var(--muted-foreground)]">{vaccine.nameEn} · {vaccine.description}</span>
-            <span className="mt-3 inline-flex max-w-full break-words rounded-lg bg-[var(--surface-sky)] px-2.5 py-1 text-sm font-semibold leading-6 text-[var(--brand)]">표시된 {doses.length}회 중 {done}회 완료</span>
+        <button id={`${id}-title`} type="button" aria-expanded={open} aria-controls={`${id}-doses`} onClick={() => setOpen(!open)} className={cn("flex min-h-[56px] w-full items-center gap-2.5 px-4 py-2.5 text-left transition-colors motion-reduce:transition-none", open ? "rounded-t-[23px] bg-[var(--surface-sky)]" : "rounded-[23px] hover:bg-[var(--surface-sky)]")}>
+          <span className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5">
+            <span className="min-w-0 break-words text-base font-semibold leading-snug">{vaccine.name}</span>
+            <span className={cn("text-sm font-medium leading-snug", done === doses.length || current ? "text-[var(--brand)]" : "text-[var(--muted-foreground)]")}>{status}</span>
           </span>
-          <ChevronDown size={20} aria-hidden className={cn("mt-3 shrink-0 text-stone-600 transition-transform dark:text-stone-300", open && "rotate-180")} />
+          <ChevronDown size={17} aria-hidden className={cn("shrink-0 text-[var(--muted-foreground)] transition-transform duration-200 motion-reduce:transition-none", open && "rotate-180")} />
         </button>
       </h3>
-      {open && (
-        <div id={`${id}-doses`} className="space-y-3 border-t border-[var(--border)] p-5 @max-[16rem]:p-2">
+        <div id={`${id}-doses`} hidden={!open} role="region" aria-labelledby={`${id}-title`} className="space-y-3 border-t border-[var(--border)] px-4 py-3">
+          <div className="space-y-1 text-sm leading-relaxed text-[var(--muted-foreground)]">
+            <p className="break-words">{vaccine.nameEn} · {vaccine.description}</p>
+            <p>{done}회 기록{doses.some(dose => dose.conditional) ? " · 해당하는 차수만 기록해 주세요." : ` · 표시된 일정 ${doses.length}회`}</p>
+          </div>
           {doses.map((dose) => {
             const record = getRecord(dose.doseNumber);
-            const current = currentMonth >= dose.monthStart && currentMonth <= dose.monthEnd;
+            const current = isVaccinationDue(dose, currentMonth);
             const dateId = `${id}-${dose.doseNumber}-date`;
             return (
-              <div key={dose.doseNumber} className="min-w-0 rounded-2xl bg-[var(--surface-bg)] p-4 @max-[16rem]:p-2">
+              <div key={dose.doseNumber} className="min-w-0 border-t border-[var(--border)] pt-3">
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div>
                     <p className="flex items-center gap-1.5 text-base font-bold text-[var(--foreground)]">{record && <Check size={17} aria-hidden className="text-[var(--brand)]" />}{dose.doseLabel}</p>
-                    <p className="mt-1 text-sm leading-6 text-[var(--muted-foreground)]">{dose.monthStart === dose.monthEnd ? `${dose.monthStart}개월` : `${dose.monthStart}~${dose.monthEnd}개월`}{current && !record ? " · 이번 접종 시기" : ""}</p>
+                    {vaccine.id !== "flu" && <p className="mt-1 text-sm leading-6 text-[var(--muted-foreground)]">{dose.monthStart === dose.monthEnd ? `${dose.monthStart}개월` : `${dose.monthStart}~${dose.monthEnd}개월`}{current && !record ? " · 이번 접종 시기" : ""}</p>}
                     {dose.note && <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{dose.note}</p>}
                     {record && <p className="mt-2 text-sm font-semibold leading-6 text-[var(--brand)]">접종 완료 · {record.completedDate}</p>}
                   </div>
@@ -118,7 +121,6 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
             );
           })}
         </div>
-      )}
     </section>
   );
 }
@@ -132,34 +134,38 @@ export default function VaccinationSchedule({ currentMonth }: VaccinationSchedul
   const profileId = profile?.id;
   const records = useMemo(() => allRecords.filter((record) => !!profileId && (record.babyId === profileId || (!record.babyId && legacyOwnerId === profileId))), [allRecords, profileId, legacyOwnerId]);
   const completed = (vaccineId: string, doseNumber: number) => records.some((record) => record.vaccineId === vaccineId && record.doseNumber === doseNumber);
-  const total = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.length, 0);
-  const done = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter((dose) => completed(vaccine.id, dose.doseNumber)).length, 0);
-  const due = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter((dose) => currentMonth >= dose.monthStart && currentMonth <= dose.monthEnd && !completed(vaccine.id, dose.doseNumber)).length, 0);
+  const total = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter(dose => !dose.conditional).length, 0);
+  const done = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter(dose => !dose.conditional && completed(vaccine.id, dose.doseNumber)).length, 0);
+  const due = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter(dose => isVaccinationDue(dose, currentMonth) && !completed(vaccine.id, dose.doseNumber)).length, 0);
   const groups = vaccinations.map((vaccine) => ({ vaccine, doses: vaccine.doses.filter((dose) => {
     const isDone = completed(vaccine.id, dose.doseNumber);
     if (view === "all") return true;
     if (view === "completed") return isDone;
-    if (view === "remaining") return !isDone;
-    return !isDone && currentMonth >= dose.monthStart && currentMonth <= dose.monthEnd;
+    if (view === "remaining") return !isDone && !dose.conditional;
+    return !isDone && isVaccinationDue(dose, currentMonth);
   }) })).filter((group) => group.doses.length > 0);
 
   if (!profile) return null;
 
   return (
-    <div className="@container space-y-6 pb-8" key={profile.id}>
-      <section aria-labelledby="vaccination-summary-title" className="surface-card p-5">
-        <h2 id="vaccination-summary-title" className="break-words text-xl font-semibold tracking-tight text-[var(--foreground)]">{profile.name}의 접종 기록</h2>
-        <div className="mt-5 flex flex-wrap items-end justify-between gap-3"><div><p className="text-sm text-[var(--muted-foreground)]">이번 월령에 확인할 미완료 접종</p><p className="mt-1 text-base font-medium text-[var(--foreground)]"><strong className="mr-1 text-4xl font-bold leading-tight tracking-tight tabular-nums text-[var(--brand)]">{due}</strong>회</p></div><span className="rounded-xl bg-[var(--accent-soft)] px-3 py-2 text-sm font-semibold text-[var(--brand)]">{currentMonth}개월 기준</span></div>
-        <div className="mt-5 border-t border-[var(--border)] pt-4"><p className="flex flex-wrap justify-between gap-2 text-sm text-[var(--muted-foreground)]"><span>전체 {total}회 중 <strong className="font-semibold text-[var(--foreground)]">{done}회 기록</strong></span><span>{total - done}회 미완료</span></p>
+    <div data-vaccination-redesign className="@container space-y-3 pb-8" key={profile.id}>
+      <section aria-labelledby="vaccination-summary-title" className="surface-card p-4">
+        <div className="flex items-center gap-2.5">
+          <span aria-hidden className="flex size-[36px] shrink-0 items-center justify-center rounded-xl bg-[var(--surface-peach)] text-[var(--art-peach-ink)]"><Syringe size={19} /></span>
+          <h2 id="vaccination-summary-title" className="min-w-0 break-words text-base font-semibold">{profile.name}의 접종 기록</h2>
+        </div>
+        <p className="mt-2 flex flex-wrap items-baseline gap-x-2 text-sm text-[var(--muted-foreground)]">이번 월령에 확인할 접종 <strong className="text-2xl font-bold tabular-nums text-[var(--brand)]">{due}회</strong><span>{currentMonth}개월 기준</span></p>
+        <div className="mt-2 border-t border-[var(--border)] pt-2"><p className="flex flex-wrap justify-between gap-1 text-sm text-[var(--muted-foreground)]"><span>공통 일정 {total}회 중 <strong className="font-semibold text-[var(--foreground)]">{done}회 기록</strong></span><span>{total - done}회 미완료</span></p>
         <div role="progressbar" aria-label="예방접종 기록 진행률" aria-valuenow={done} aria-valuemin={0} aria-valuemax={total} aria-valuetext={`${total}회 중 ${done}회 완료 기록`} className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--surface-muted)]"><div className="h-full rounded-full bg-[var(--brand)]" style={{ width: `${done / total * 100}%` }} /></div></div>
       </section>
       <div role="group" aria-label="예방접종 목록 선택" className="grid grid-cols-4 gap-1 rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] p-1 @max-[16rem]:grid-cols-2">
         {(Object.keys(viewLabels) as View[]).map((key) => <button type="button" key={key} aria-pressed={view === key} onClick={() => { setView(key); setNotice(""); }} className={cn("min-h-12 rounded-xl px-1 text-sm font-bold transition-colors", view === key ? "bg-[var(--card)] text-[var(--brand)] shadow-sm" : "text-[var(--muted-foreground)]")}>{viewLabels[key]}</button>)}
       </div>
-      <p className="text-sm leading-6 text-[var(--muted-foreground)]">백신을 열고 실제 접종일을 기록해 주세요. 일정은 참고 정보이며 실제 접종은 소아과 전문의와 상담하세요.</p>
+      <p className="text-sm leading-6 text-[var(--muted-foreground)]">백신을 열고 실제 접종일을 기록해 주세요. 접종 일정은 아기의 접종 이력과 백신 제품에 따라 달라질 수 있어요.</p>
+      {view !== "all" && <button type="button" onClick={() => { setView("all"); setNotice(""); }} className="min-h-11 max-w-full break-words rounded-lg text-left text-sm font-semibold text-[var(--brand)] underline underline-offset-4">인플루엔자와 제품별 접종 기록 보기</button>}
       {notice && <p role="status" className="rounded-2xl bg-blue-50 p-4 text-sm font-semibold text-blue-900 dark:bg-blue-950/50 dark:text-blue-200">{notice}</p>}
       {groups.length === 0 ? <div className="surface-card p-5"><p className="text-base leading-7 text-[var(--muted-foreground)]">{view === "current" ? "이번 월령에 남은 접종 기록이 없어요." : "이 목록에 표시할 접종 기록이 없어요."}</p><button type="button" onClick={() => setView("all")} className="mt-3 min-h-12 min-w-0 max-w-full break-words rounded-xl bg-[var(--accent-soft)] px-4 py-2 text-base font-semibold text-[var(--brand)]">전체 접종 일정 보기</button></div> : <div className="space-y-3">{groups.map(({ vaccine, doses }) => <VaccineCard key={`${profile.id}-${view}-${vaccine.id}`} vaccine={vaccine} doses={doses} currentMonth={currentMonth} records={records} babyId={profile.id} birthdate={profile.birthdate} onNotice={setNotice} />)}</div>}
-      <p className="text-sm leading-6 text-[var(--muted-foreground)]">질병관리청(KDCA) 국가예방접종 일정 기준 · 기록은 이 기기에 저장돼요.</p>
+      <p className="text-sm leading-6 text-[var(--muted-foreground)]">기록은 이 기기에 저장돼요. <a href="https://nip.kdca.go.kr/irhp/infm/goVcntInfo.do?menuCd=115&menuLv=1" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--brand)] underline underline-offset-4">질병관리청 표준 예방접종 일정표</a></p>
     </div>
   );
 }

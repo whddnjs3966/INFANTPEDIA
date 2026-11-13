@@ -4,10 +4,11 @@ import { Suspense, useEffect, useState } from "react";
 import { RefreshCw, Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getActivities, getMonthInfo } from "@/lib/queries/months";
-import PageHeader from "@/components/layout/PageHeader";
+import GuideArtwork from "@/components/illustrations/GuideArtwork";
 import CategoryAccordion from "@/components/encyclopedia/CategoryAccordion";
 import MonthSelector from "@/components/encyclopedia/MonthSelector";
 import MonthSummaryCard from "@/components/encyclopedia/MonthSummaryCard";
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils";
 
 import ReadingScope from "@/components/reading/ReadingScope";
 import { useReadingPosition } from "@/hooks/useReadingPosition";
+import "./encyclopedia.css";
 
 const GuideLoading = () => <div data-reading-loading><EncyclopediaSkeleton /></div>;
 const MilestoneChecklist = dynamic(() => import("@/components/encyclopedia/MilestoneChecklist"), { ssr: false, loading: GuideLoading });
@@ -28,16 +30,41 @@ const DentalGuide = dynamic(() => import("@/components/encyclopedia/DentalGuide"
 const HealthFAQ = dynamic(() => import("@/components/encyclopedia/HealthFAQ"), { ssr: false, loading: GuideLoading });
 
 const topics = [
-  { id: "encyclopedia", label: "월령별 요약" },
-  { id: "milestone", label: "발달 체크" },
-  { id: "activities", label: "추천 놀이" },
-  { id: "babyfood", label: "이유식" },
-  { id: "sleep", label: "수면" },
-  { id: "feeding", label: "수유" },
-  { id: "dental", label: "치아" },
-  { id: "health", label: "건강 FAQ" },
+  { id: "encyclopedia", label: "월령별 요약", art: "calendar" },
+  { id: "milestone", label: "발달 체크", art: "sprout" },
+  { id: "activities", label: "추천 놀이", art: "rattle" },
+  { id: "babyfood", label: "이유식", art: "solids" },
+  { id: "sleep", label: "수면", art: "moon" },
+  { id: "feeding", label: "수유", art: "feeding" },
+  { id: "dental", label: "치아", art: "tooth" },
+  { id: "health", label: "건강 FAQ", art: "thermometer" },
 ] as const;
 type Topic = (typeof topics)[number]["id"];
+type TopicArt = (typeof topics)[number]["art"];
+
+function TopicIllustration({ art }: { art: TopicArt }) {
+  if (art === "feeding" || art === "moon") {
+    return <Image alt="" src={art === "feeding" ? "/images/home/bottle.webp" : "/images/home/moon.webp"} width={48} height={44} className="encyclopedia-topic-art" />;
+  }
+  if (art === "calendar") {
+    return <svg viewBox="0 0 48 44" aria-hidden="true" className="encyclopedia-topic-art">
+      <rect x="8" y="8" width="32" height="31" rx="8" fill="#8DB9F5" />
+      <rect x="11" y="16" width="26" height="20" rx="5" fill="#FFF9ED" />
+      <path d="M17 5v8M31 5v8" stroke="#567CC9" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="17" cy="22" r="2.2" fill="#B5ADEB" /><circle cx="24" cy="22" r="2.2" fill="#F2AC87" /><circle cx="31" cy="22" r="2.2" fill="#96CAE6" />
+      <circle cx="17" cy="29" r="2.2" fill="#96CAE6" /><circle cx="24" cy="29" r="2.2" fill="#B5ADEB" /><circle cx="31" cy="29" r="2.2" fill="#F2AC87" />
+    </svg>;
+  }
+  if (art === "sprout") {
+    return <svg viewBox="0 0 48 44" aria-hidden="true" className="encyclopedia-topic-art">
+      <path d="M24 37V22" stroke="#6AA783" strokeWidth="4" strokeLinecap="round" />
+      <path d="M24 25C11 24 6 15 9 10c8-2 17 4 15 15Z" fill="#A8CF91" />
+      <path d="M24 25c0-14 8-20 16-18 4 8-4 19-16 18Z" fill="#8BBC83" />
+      <path d="m13 13 9 10m5-1 9-11" stroke="#DBF0BA" strokeWidth="1.7" strokeLinecap="round" />
+    </svg>;
+  }
+  return <GuideArtwork kind={art} className="encyclopedia-topic-art" />;
+}
 interface MonthData {
   month: number;
   wake_window_min: number | null;
@@ -133,31 +160,42 @@ function EncyclopediaContent() {
 
   if (!hasContext) return <EncyclopediaSkeleton />;
   return (
-    <ReadingScope key={readingScope} scope={readingScope}><div ref={readingRef} className="min-h-screen dark:bg-[var(--background)]">
-      <PageHeader eyebrow={profile ? `${profile.name}의 월령별 참고 정보` : "아기와 함께 알아가요"} title="육아 백과" action={<Link href={`/search?${searchLinkParams}`} aria-label={`${selectedMonth}개월 육아 정보 검색`} className="header-action"><Search size={19} strokeWidth={1.8} aria-hidden="true" /></Link>} />
-      <div className="space-y-3 px-5 pb-8">
+    <div ref={readingRef} data-encyclopedia-redesign className="@container min-h-screen px-5 pb-8">
+      <header className="encyclopedia-header">
+        <div className="min-w-0">
+          <h1>육아 백과</h1>
+          <p>월령별 육아 가이드</p>
+        </div>
+        <Image src="/images/encyclopedia/book.webp" alt="" width={94} height={80} className="encyclopedia-header-art" />
+        <Link href={`/search?${searchLinkParams}`} aria-label={`${selectedMonth}개월 육아 정보 검색`} className="header-action"><Search size={21} strokeWidth={1.7} aria-hidden="true" /></Link>
+      </header>
+      <div className="space-y-3">
         <MonthSelector selectedMonth={selectedMonth} currentMonth={profile ? currentMonth : undefined} currentAge={Math.max(0, realMonths)} babyName={profile?.name} onSelect={month => navigate({ month })} />
         <div className="@container">
-          <nav aria-label="육아 정보 주제" className="grid grid-cols-4 gap-1 rounded-[22px] bg-[var(--surface-muted)] p-1.5 @max-[18rem]:grid-cols-2">
-            {topics.map(topic => <button key={topic.id} type="button" aria-label={topic.label} aria-pressed={activeTab === topic.id} aria-controls="encyclopedia-topic-content" onClick={() => navigate({ tab: topic.id })} className={cn("min-h-11 min-w-0 rounded-xl px-1 py-2 text-sm font-semibold leading-6 transition-colors", activeTab === topic.id ? "bg-[var(--card)] text-[var(--brand)] shadow-sm" : "text-[var(--muted-foreground)] hover:bg-[var(--card)]")}>
-              {topic.id === "encyclopedia" ? "월령 요약" : topic.label}
+          <nav aria-label="육아 정보 주제" className="encyclopedia-topics">
+            {topics.map(topic => <button key={topic.id} type="button" aria-label={topic.label} aria-pressed={activeTab === topic.id} aria-controls="encyclopedia-topic-content" onClick={() => navigate({ tab: topic.id })} className={cn("encyclopedia-topic", activeTab === topic.id && "encyclopedia-topic-active")}>
+              <TopicIllustration art={topic.art} />
+              <span>{topic.id === "encyclopedia" ? "월령 요약" : topic.label}</span>
             </button>)}
           </nav>
         </div>
         {realMonths > 12 && selectedMonth === 12 && <p className="rounded-xl bg-blue-50 px-4 py-3 text-sm leading-relaxed text-stone-700 dark:bg-blue-950/30 dark:text-stone-200">12개월 이후 정보는 12개월 기준으로 제공돼요.</p>}
+        <ReadingScope key={readingScope} scope={readingScope}>
         <section id="encyclopedia-topic-content" aria-label={`${selectedMonth}개월 ${topicLabel}`} className="space-y-3">
           <p role="status" className="sr-only">{selectedMonth}개월 {topicLabel}을 보고 있어요.</p>
-          <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">{topicLabel}</h2>
+          <h2 className="encyclopedia-heading">{activeTab === "encyclopedia" ? `${selectedMonth}개월, 이렇게 자라요` : topicLabel}</h2>
           {activeTab === "encyclopedia" && <>
             {loading ? <EncyclopediaSkeleton /> : error ? <div role="alert" className="rounded-2xl bg-white p-5 dark:bg-[var(--card)]"><p className="text-base leading-relaxed text-stone-700 dark:text-stone-200">{error}</p><button onClick={() => setRetry(value => value + 1)} className="mt-4 flex min-h-12 items-center gap-2 rounded-xl bg-blue-800 px-4 font-semibold text-white dark:bg-blue-300 dark:text-blue-950"><RefreshCw size={18} aria-hidden="true" />다시 시도</button></div> : <>
-              {monthData && <MonthSummaryCard month={selectedMonth} summary={monthData.summary} reference={[
-                { label: "1회 수유량", value: range(monthData.feed_amount_min, monthData.feed_amount_max, "ml") },
-                { label: "깨어 있는 시간", value: range(monthData.wake_window_min, monthData.wake_window_max, "분") },
-                { label: "총 수면", value: monthData.total_sleep_hours ? `${monthData.total_sleep_hours}시간` : "정보 없음" },
-                { label: "낮잠 횟수", value: monthData.nap_count || "정보 없음" },
-              ]} />}
-              {selectedActivity && <article className="rounded-2xl border border-blue-700 bg-white p-5 dark:border-blue-400 dark:bg-[var(--card)]"><p className="mb-2 text-sm font-semibold text-blue-800 dark:text-blue-300">검색에서 찾은 글</p><h3 className="mb-3 text-lg font-bold">{selectedActivity.title}</h3><FormattedContent content={selectedActivity.content} /></article>}
-              {!monthData && activities.length === 0 ? <p className="rounded-2xl bg-white p-5 text-base text-stone-600 dark:bg-[var(--card)] dark:text-stone-300">이 월령의 요약 정보가 아직 없어요. 위에서 다른 주제를 선택해 주세요.</p> : <div className="-mx-5"><CategoryAccordion activities={activities} isLoading={false} /></div>}
+              {monthData && <MonthSummaryCard month={selectedMonth} summary={monthData.summary} reference={{
+                feeding: [{ label: "1회 수유량", value: range(monthData.feed_amount_min, monthData.feed_amount_max, "ml") }],
+                sleep: [
+                  { label: "깨어 있는 시간", value: range(monthData.wake_window_min, monthData.wake_window_max, "분") },
+                  { label: "총 수면", value: monthData.total_sleep_hours ? `${monthData.total_sleep_hours}시간` : "정보 없음" },
+                  { label: "낮잠 횟수", value: monthData.nap_count || "정보 없음" },
+                ],
+              }} />}
+              {selectedActivity && <article className="surface-card p-4"><p className="mb-2 text-sm font-semibold text-[var(--brand)]">검색에서 찾은 글</p><h3 className="mb-3 text-base font-semibold">{selectedActivity.title}</h3><FormattedContent variant="prose" content={selectedActivity.content} /></article>}
+              {!monthData && activities.length === 0 ? <p className="surface-card p-4 text-base text-[var(--muted-foreground)]">이 월령의 요약 정보가 아직 없어요. 위에서 다른 주제를 선택해 주세요.</p> : <CategoryAccordion activities={activities} isLoading={false} />}
             </>}
           </>}
           {activeTab === "milestone" && <MilestoneChecklist month={selectedMonth} />}
@@ -168,7 +206,8 @@ function EncyclopediaContent() {
           {activeTab === "dental" && <DentalGuide month={selectedMonth} />}
           {activeTab === "health" && <HealthFAQ month={selectedMonth} />}
         </section>
+        </ReadingScope>
       </div>
-    </div></ReadingScope>
+    </div>
   );
 }

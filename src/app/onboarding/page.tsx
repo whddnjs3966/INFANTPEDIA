@@ -120,7 +120,7 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center px-6">
+    <div className="relative flex min-h-screen min-w-0 flex-col items-center justify-center px-4 [overflow-wrap:anywhere] sm:px-6">
       <FloatingDecorations />
 
       <motion.div
@@ -137,7 +137,8 @@ export default function OnboardingPage() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <motion.div
-            className="mb-4 flex items-center gap-3 text-5xl"
+            className="mb-4 flex items-center gap-2 text-[clamp(1.75rem,9vw,3rem)]"
+            aria-hidden="true"
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
@@ -161,7 +162,7 @@ export default function OnboardingPage() {
             {/* New baby form */}
             <motion.form
               onSubmit={handleSubmit}
-              className="rounded-3xl bg-white dark:bg-[var(--surface-muted)] p-6 shadow-lg"
+              className="rounded-3xl bg-white p-4 shadow-lg dark:bg-[var(--surface-muted)] sm:p-6"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
@@ -183,36 +184,38 @@ export default function OnboardingPage() {
 
                 {/* Gender selection */}
                 <div className="space-y-2">
-                  <Label className="text-sm font-semibold text-stone-700 dark:text-stone-200">
+                  <Label id="onboarding-gender" className="text-sm font-semibold text-stone-700 dark:text-stone-200">
                     👧👦 성별
                   </Label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div role="group" aria-labelledby="onboarding-gender" className="grid grid-cols-2 gap-2">
                     <motion.button
                       type="button"
+                      aria-pressed={gender === "male"}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setGender("male")}
                       className={cn(
-                        "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
+                        "flex min-h-12 min-w-0 flex-wrap items-center justify-center gap-1 rounded-xl border-2 px-1 py-2 text-sm font-semibold transition-all",
                         gender === "male"
                           ? "border-blue-300 bg-blue-50 text-blue-700 shadow-sm dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
                           : "border-stone-200 bg-white text-stone-400 dark:border-stone-600 dark:bg-[var(--surface-muted)] dark:text-stone-500"
                       )}
                     >
-                      <span className="text-xl">👦</span>
+                      <span aria-hidden className="text-xl">👦</span>
                       남아
                     </motion.button>
                     <motion.button
                       type="button"
+                      aria-pressed={gender === "female"}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setGender("female")}
                       className={cn(
-                        "flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all",
+                        "flex min-h-12 min-w-0 flex-wrap items-center justify-center gap-1 rounded-xl border-2 px-1 py-2 text-sm font-semibold transition-all",
                         gender === "female"
                           ? "border-pink-300 bg-pink-50 text-pink-700 shadow-sm dark:border-pink-700 dark:bg-pink-900/30 dark:text-pink-400"
                           : "border-stone-200 bg-white text-stone-400 dark:border-stone-600 dark:bg-[var(--surface-muted)] dark:text-stone-500"
                       )}
                     >
-                      <span className="text-xl">👧</span>
+                      <span aria-hidden className="text-xl">👧</span>
                       여아
                     </motion.button>
                   </div>
@@ -245,9 +248,9 @@ export default function OnboardingPage() {
                 <motion.div whileTap={{ scale: 0.97 }}>
                   <Button
                     type="submit"
-                    className="h-12 w-full rounded-xl bg-[var(--brand)] text-base font-bold text-[var(--brand-foreground)] shadow-md active:bg-[var(--brand-pressed)]"
+                    className="h-auto min-h-12 w-full whitespace-normal rounded-xl bg-[var(--brand)] px-2 py-2 text-base font-bold text-[var(--brand-foreground)] shadow-md active:bg-[var(--brand-pressed)]"
                   >
-                    시작하기 🚀
+                    시작하기
                   </Button>
                 </motion.div>
               </div>

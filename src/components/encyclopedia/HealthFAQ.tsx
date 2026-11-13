@@ -1,12 +1,11 @@
 "use client";
 
 import { useId, useMemo, useRef } from "react";
-import { BookOpen, ChevronDown, CircleHelp, Search, ShieldAlert, Stethoscope, X } from "lucide-react";
+import { BookOpen, ChevronDown, CircleHelp, Search, ShieldAlert, SlidersHorizontal, Stethoscope, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getFAQsForMonth, faqCategories, type FAQCategory } from "@/lib/data/health-faq-data";
 import { useReadingValue } from "@/components/reading/ReadingScope";
 import EmphasizedText from "@/components/ui/EmphasizedText";
-import { healthEvidenceView } from "@/lib/utils/health-evidence-view";
 import HealthFAQEvidence from "./HealthFAQEvidence";
 import HealthCareAnswer from "./HealthCareAnswer";
 import EmergencyCareNotice from "./EmergencyCareNotice";
@@ -42,20 +41,23 @@ export default function HealthFAQ({ month }: { month: number }) {
       <label htmlFor={`${id}-search`} className="sr-only">증상이나 궁금한 점 검색</label>
       <div className="relative">
         <Search size={19} aria-hidden className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)]" />
-        <input id={`${id}-search`} type="search" value={query} onChange={e => { setQuery(e.target.value); setOpen(null); }} placeholder="체온, 코막힘, 수유…" className="min-h-12 w-full rounded-xl border border-[var(--border)] bg-[var(--card)] py-3 pl-10 pr-14 text-base" />
+        <input id={`${id}-search`} type="search" value={query} onChange={e => { setQuery(e.target.value); setOpen(null); }} placeholder="체온, 코막힘, 수유…" className="min-h-12 w-full rounded-2xl border border-[var(--border)] bg-[var(--card)] py-2.5 pl-10 pr-12 text-[1rem] [&::-webkit-search-cancel-button]:hidden" />
         {query && <button type="button" aria-label="검색어 지우기" onClick={() => { setQuery(""); setOpen(null); }} className="absolute right-1 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-lg"><X size={18} aria-hidden /></button>}
       </div>
     </div>
 
     <div className="space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
-        <button ref={filterRef} type="button" aria-label={`주제: ${categoryLabel}`} aria-describedby={`${id}-results`} aria-expanded={filtersOpen} aria-controls={`${id}-categories`} onClick={() => setFiltersOpen(value => !value)} className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm font-semibold">
-          주제: {categoryLabel}<span aria-hidden className="font-normal tabular-nums text-[var(--muted-foreground)]">{filtered.length}개</span><ChevronDown size={16} aria-hidden className={cn("shrink-0 text-[var(--muted-foreground)] transition-transform motion-reduce:transition-none", filtersOpen && "rotate-180")} />
+        <button ref={filterRef} type="button" aria-label={`주제: ${categoryLabel}`} aria-describedby={`${id}-results`} aria-expanded={filtersOpen} aria-controls={`${id}-categories`} onClick={() => setFiltersOpen(value => !value)} className="inline-flex min-h-11 max-w-full items-center gap-2 rounded-xl bg-[var(--surface-sky)] px-3 py-2 text-left text-sm font-semibold text-[var(--brand)]">
+          <SlidersHorizontal size={15} aria-hidden className="shrink-0" />
+          <span className="min-w-0 break-words">주제: {categoryLabel}</span>
+          <span aria-hidden className="shrink-0 font-normal tabular-nums text-[var(--muted-foreground)]">{filtered.length}개</span>
+          <ChevronDown size={16} aria-hidden className={cn("shrink-0 transition-transform duration-200 motion-reduce:transition-none", filtersOpen && "rotate-180")} />
         </button>
         <button type="button" aria-pressed={urgentOnly} onClick={() => {
           if (!urgentOnly) { setCategory("all"); setQuery(""); }
           setUrgentOnly(!urgentOnly); setOpen(null); setExpanded({});
-        }} className={cn("min-h-12 rounded-xl px-2 py-2 text-sm font-semibold", urgentOnly ? "bg-rose-50 text-[var(--content-urgent)] dark:bg-rose-950/40" : "text-[var(--muted-foreground)] hover:bg-[var(--surface-muted)]")}>
+        }} className={cn("min-h-11 rounded-xl px-2 py-2 text-sm font-semibold", urgentOnly ? "bg-rose-50 text-[var(--content-urgent)] dark:bg-rose-950/40" : "text-[var(--muted-foreground)] hover:bg-[var(--surface-muted)]")}>
           {urgentOnly ? "전체 분류 보기" : "긴급 상황 질문만"}
         </button>
       </div>
@@ -74,7 +76,7 @@ export default function HealthFAQ({ month }: { month: number }) {
       <p id={`${id}-results`} role="status" aria-live="polite" aria-atomic="true" className="sr-only">{month}개월 · {keyword ? "검색 결과 " : "질문 "}<strong className="font-semibold text-[var(--foreground)]">{filtered.length}개</strong>{category !== "all" && ` · ${categoryLabel}`}</p>
     </div>
 
-    <div className="space-y-5">
+    <div className="space-y-4">
       {!filtered.length ? <div className="rounded-2xl border border-[var(--border)] p-4">
         <p className="font-semibold">해당 조건의 질문이 없어요</p>
         <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">다른 검색어를 쓰거나 주제와 분류를 바꿔보세요.</p>
@@ -86,20 +88,21 @@ export default function HealthFAQ({ month }: { month: number }) {
         const visible = showAll ? items : items.filter((f, index) => index < 2 || f.id === open);
         const Icon = group.icon;
         return <section key={group.key} aria-labelledby={`${id}-${group.key}`} className="space-y-2">
-          <h3 id={`${id}-${group.key}`} className="flex items-center gap-2 text-sm font-semibold"><Icon size={17} aria-hidden className={cn("shrink-0", group.color)} />{group.label} <span className="font-normal tabular-nums text-[var(--muted-foreground)]">{items.length}</span></h3>
+          <h3 id={`${id}-${group.key}`} className="flex flex-wrap items-center gap-x-2 gap-y-1 px-0.5 text-sm font-semibold"><Icon size={16} aria-hidden className={cn("shrink-0", group.color)} />{group.label} <span className="font-normal tabular-nums text-[var(--muted-foreground)]">{items.length}</span></h3>
           {visible.map(faq => {
             const isOpen = open === faq.id;
             const topic = faqCategories.find(c => c.id === faq.category)?.label;
-            const preview = faq.care?.summary ?? (faq.urgency === "emergency" ? faq.answer : null);
-            return <article key={faq.id} data-reading-anchor={`faq:${faq.id}`} className={cn("rounded-2xl border bg-[var(--card)]", isOpen ? "border-[var(--brand)]" : "border-[var(--border)]")}>
-              <h4><button id={`${id}-${faq.id}-question`} type="button" aria-label={faq.question} aria-describedby={`${id}-${faq.id}-status`} aria-expanded={isOpen} aria-controls={`${id}-${faq.id}-answer`} onClick={() => setOpen(isOpen ? null : faq.id)} className="flex min-h-12 w-full items-start gap-3 rounded-2xl px-4 py-3 text-left">
-                <span className="min-w-0 flex-1"><span className="block break-words text-base font-semibold leading-7">{faq.question}</span><span id={`${id}-${faq.id}-status`} className="mt-1 block text-sm font-normal leading-6 text-[var(--muted-foreground)]">{topic}{healthEvidenceView(faq.evidence).compact && ` · ${healthEvidenceView(faq.evidence).compact}`}</span></span>
-                <ChevronDown size={17} aria-hidden className={cn("mt-1 shrink-0 text-[var(--muted-foreground)] transition-transform motion-reduce:transition-none", isOpen && "rotate-180")} />
+            // Immediate safety advice stays visible even while an emergency answer is closed.
+            const preview = faq.urgency === "emergency" ? faq.care?.summary ?? faq.answer : null;
+            return <article key={faq.id} data-reading-anchor={`faq:${faq.id}`} className={cn("rounded-2xl border bg-[var(--card)] shadow-[var(--shadow-card)]", isOpen ? "border-[var(--brand)]/35" : "border-[var(--border)]")}>
+              <h4><button id={`${id}-${faq.id}-question`} type="button" aria-label={faq.question} aria-describedby={topic ? `${id}-${faq.id}-status` : undefined} aria-expanded={isOpen} aria-controls={`${id}-${faq.id}-answer`} onClick={() => setOpen(isOpen ? null : faq.id)} className={cn("flex min-h-12 w-full items-center gap-3 rounded-2xl px-3.5 py-2.5 text-left", isOpen && "rounded-b-none bg-[var(--surface-sky)]")}>
+                <span className="min-w-0 flex-1"><span className="block break-words text-base font-semibold leading-[1.5]">{faq.question}</span>{topic && <span id={`${id}-${faq.id}-status`} className="sr-only">{topic}</span>}</span>
+                <ChevronDown size={16} aria-hidden className={cn("shrink-0 text-[var(--muted-foreground)] transition-transform duration-200 motion-reduce:transition-none", isOpen && "rotate-180 text-[var(--brand)]")} />
               </button></h4>
-              {preview && <div hidden={isOpen} className="px-4 pb-4" data-faq-preview><p className="whitespace-pre-line break-words text-base leading-7"><EmphasizedText text={preview} /></p></div>}
-              <div id={`${id}-${faq.id}-answer`} role="region" aria-labelledby={`${id}-${faq.id}-question`} hidden={!isOpen} className="border-t border-[var(--border)] p-4">
-                <HealthCareAnswer faq={faq} />
-                <p className="mt-4 text-sm leading-6 text-[var(--muted-foreground)]">대상: {faq.applicableMonths.length ? `${faq.applicableMonths.join("·")}개월` : "월령 공통"} · 아기의 현재 상태를 진단하는 결과는 아니에요.</p>
+              {preview && <div hidden={isOpen} className="px-3.5 pb-3" data-faq-preview><p className="whitespace-pre-line break-words border-l-2 border-[var(--content-urgent)] pl-2.5 text-sm leading-[1.65]"><EmphasizedText text={preview} /></p></div>}
+              <div id={`${id}-${faq.id}-answer`} role="region" aria-labelledby={`${id}-${faq.id}-question`} hidden={!isOpen} className={cn("border-t border-[var(--border)] px-3.5 py-4", isOpen && "motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200")}>
+                <HealthCareAnswer faq={faq} compact />
+                <p className="mt-3 break-words text-sm leading-[1.6] text-[var(--muted-foreground)]">{topic && `${topic} · `}대상: {faq.applicableMonths.length ? `${faq.applicableMonths.join("·")}개월` : "월령 공통"} · 아기의 현재 상태를 진단하는 결과는 아니에요.</p>
                 <HealthFAQEvidence evidence={faq.evidence} />
               </div>
             </article>;
@@ -107,7 +110,7 @@ export default function HealthFAQ({ month }: { month: number }) {
           {!keyword && category === "all" && !urgentOnly && items.length > 2 && <button type="button" aria-expanded={!!expanded[group.key]} onClick={() => {
             if (expanded[group.key]) setOpen(null);
             setExpanded(old => ({ ...old, [group.key]: !old[group.key] }));
-          }} className="min-h-12 w-full rounded-xl px-3 text-sm font-semibold text-[var(--brand)] hover:bg-[var(--accent-soft)]">
+          }} className="min-h-11 w-full rounded-xl bg-[var(--surface-sky)] px-3 text-sm font-semibold text-[var(--brand)] hover:bg-[var(--accent-soft)]">
             {expanded[group.key] ? "간단히 보기" : `${group.label} ${items.length}개 모두 보기`}
           </button>}
         </section>;

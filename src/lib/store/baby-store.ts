@@ -95,7 +95,7 @@ export const useBabyStore = create<BabyStore>()(
         set((s) => withProfile({ babies: s.babies, activeBabyId: id })),
 
       setBabyPhoto: (id, dataUrl) =>
-        set((s) => ({ babyPhotos: { ...s.babyPhotos, [id]: dataUrl } })),
+        set((s) => s.babies.some(baby => baby.id === id) ? { babyPhotos: { ...s.babyPhotos, [id]: dataUrl } } : s),
 
       removeBabyPhoto: (id) =>
         set((s) => {

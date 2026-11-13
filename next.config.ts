@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async headers() {
     return [
+      ...["/admin/:path*", "/api/:path*", "/auth/:path*", "/login"].map(source => ({
+        source,
+        headers: [{ key: "Cache-Control", value: "private, no-store" }],
+      })),
       {
         source: "/.well-known/assetlinks.json",
         headers: [

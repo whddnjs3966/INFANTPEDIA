@@ -153,9 +153,9 @@ const milestoneData: MonthMilestones[] = [
   {
     month: 6,
     milestones: [
-      { id: "6_gross_1", domain: "gross_motor", title: "혼자 앉을 수 있어요", description: "지지 없이 혼자 앉아 있을 수 있게 됩니다. 중요한 발달 이정표예요!", emoji: "🎉" },
+      { id: "6_gross_1", domain: "gross_motor", title: "손으로 받치며 앉아요", description: "앉았을 때 손으로 바닥을 짚어 몸을 지탱하는 모습을 볼 수 있어요.", emoji: "🎉" },
       { id: "6_gross_2", domain: "gross_motor", title: "배밀이를 시작해요", description: "엎드린 상태에서 팔과 다리를 이용해 앞으로 움직이려 합니다.", emoji: "🐛" },
-      { id: "6_gross_3", domain: "gross_motor", title: "앉아서 양손을 자유롭게 사용해요", description: "안정적으로 앉아서 양손으로 장난감을 가지고 놀 수 있습니다.", emoji: "🧸" },
+      { id: "6_gross_3", domain: "gross_motor", title: "몸을 받쳐 주면 장난감을 살펴봐요", description: "보호자가 몸통을 받쳐 주면 주변 장난감에 관심을 보일 수 있어요.", emoji: "🧸" },
       { id: "6_gross_4", domain: "gross_motor", title: "잡고 서는 연습을 해요", description: "가구나 양육자 손을 잡고 일어서려고 시도합니다.", emoji: "🧍" },
       { id: "6_fine_1", domain: "fine_motor", title: "손가락으로 집으려 해요", description: "작은 물건을 엄지와 나머지 손가락으로 집으려 시도합니다.", emoji: "🤏" },
       { id: "6_fine_2", domain: "fine_motor", title: "양손에 각각 물건을 잡아요", description: "양손에 하나씩 물건을 잡고 부딪치거나 비교하며 놀 수 있습니다.", emoji: "🤹" },
@@ -172,7 +172,7 @@ const milestoneData: MonthMilestones[] = [
   {
     month: 7,
     milestones: [
-      { id: "7_gross_1", domain: "gross_motor", title: "혼자 앉아서 놀 수 있어요", description: "안정적으로 혼자 앉아 양손을 자유롭게 사용하며 놀 수 있습니다.", emoji: "🧸" },
+      { id: "7_gross_1", domain: "gross_motor", title: "앉아서 균형 잡기를 시도해요", description: "손을 짚거나 몸통을 받쳐 주면 앉은 자세를 유지할 수 있어요. 지지 없이 앉는 시기는 아기마다 달라요.", emoji: "🧸" },
       { id: "7_gross_2", domain: "gross_motor", title: "기기 시작해요", description: "배밀이에서 발전하여 네 발로 기기를 시작합니다. 이동 능력의 큰 발전이에요!", emoji: "🐾" },
       { id: "7_gross_3", domain: "gross_motor", title: "가구를 잡고 일어서요", description: "소파나 테이블을 잡고 스스로 일어설 수 있게 됩니다.", emoji: "🧍" },
       { id: "7_fine_1", domain: "fine_motor", title: "엄지와 검지로 집기 시작해요", description: "핀서 그래스프(pincer grasp)가 발달하기 시작하여 작은 물건을 집을 수 있어요.", emoji: "🤏" },

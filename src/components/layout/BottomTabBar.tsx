@@ -22,6 +22,7 @@ export default function BottomTabBar() {
     <div className="pointer-events-none fixed bottom-0 left-1/2 z-30 w-full max-w-[480px] -translate-x-1/2 pb-safe">
       <nav
         aria-label="주요 메뉴"
+        data-bottom-tabs
         className="pointer-events-auto mx-3 mb-2 rounded-[28px] border border-[var(--border)] bg-[var(--card)]/95 shadow-[0_8px_32px_rgba(31,41,55,0.10)] backdrop-blur-xl"
       >
         <div className="flex items-stretch px-1 py-1">
@@ -40,6 +41,7 @@ export default function BottomTabBar() {
               >
                 {isActive && (
                   <motion.span
+                    data-tab-highlight
                     layoutId={reduceMotion ? undefined : "tab-pill-bg"}
                     className="absolute left-1/2 top-1 h-8 w-12 -translate-x-1/2 rounded-full bg-[var(--accent-soft)]"
                     transition={{ duration: reduceMotion ? 0 : 0.18, ease: "easeOut" }}
@@ -56,7 +58,7 @@ export default function BottomTabBar() {
                     )}
                   />
                 </span>
-                <span className={cn(
+                <span data-tab-label className={cn(
                   "relative z-10 text-sm leading-5",
                   isActive ? "font-bold text-[var(--brand)]" : "font-medium text-[var(--muted-foreground)]"
                 )}>

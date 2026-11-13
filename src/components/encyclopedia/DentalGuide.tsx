@@ -1,11 +1,10 @@
 "use client";
 
 import { useMemo, type ReactNode } from "react";
-import { Check, ChevronDown, Calendar, AlertCircle, ShieldCheck, HelpCircle } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FormattedContent from "@/components/ui/FormattedContent";
-import TopicArtwork from "@/components/illustrations/TopicArtwork";
-import { GuideAccordion, GuideStats } from "./GuidePresentation";
+import { GuideAccordion, GuideContent, GuideStats } from "./GuidePresentation";
 import { getDentalGuide, getMonthlyDentalNote, type ToothInfo } from "@/lib/data/dental-guide-data";
 
 type ToothStatus = "erupted" | "upcoming" | "future";
@@ -44,37 +43,43 @@ export default function DentalGuide({ month }: { month: number }) {
   const eruptedCount = guide.teethTimeline.filter(tooth => getToothStatus(tooth, month) === "erupted").length;
   const upcomingCount = guide.teethTimeline.filter(tooth => getToothStatus(tooth, month) === "upcoming").length;
 
-  return <div className="space-y-4 pb-6 text-base leading-7 text-[var(--foreground)]">
-    <section className="surface-card space-y-4 p-5">
-      <div className="flex items-center gap-3"><TopicArtwork kind="tooth" className="h-[56px] w-[56px]" /><div className="min-w-0"><h3 className="text-lg font-semibold">월령별 치아 참고</h3><p className="text-sm leading-6 text-[var(--muted-foreground)]">참고 예상 {eruptedCount}개{upcomingCount > 0 && ` · 나올 수 있는 이 ${upcomingCount}개`}</p></div></div>
-      <p className="text-sm leading-6 text-[var(--muted-foreground)]">월령별 참고예요. 실제로 난 치아와는 다를 수 있어요.</p>
+  return <GuideContent>
+    <GuideAccordion title="월령별 치아 참고" artwork="tooth">
+      <p className="text-sm text-[var(--muted-foreground)]">월령별 참고예요. 실제로 난 치아와는 다를 수 있어요.</p>
+      <p className="text-sm font-semibold text-[var(--brand)]">참고 예상 {eruptedCount}개{upcomingCount > 0 && ` · 나올 수 있는 이 ${upcomingCount}개`}</p>
       <JawDiagram month={month} />
-      <div className="rounded-2xl bg-[var(--surface-sky)] p-4 text-[var(--foreground)]"><FormattedContent variant="prose" content={monthlyNote} className="text-base leading-7" /></div>
-    </section>
+      <div className="border-t border-[var(--border)] pt-3"><FormattedContent variant="prose" content={monthlyNote} /></div>
+    </GuideAccordion>
 
-    <GuideAccordion title="유치가 나는 시기" readingKey="유치 발달 타임라인" description="순서·시기·치아 수" icon={<Calendar size={20} />} artwork="record">
+    <GuideAccordion title="유치가 나는 시기" readingKey="유치 발달 타임라인" artwork="record">
       <ol className="divide-y divide-[var(--border)]">{uniqueTimeline.map(item => { const match = item.eruptionMonth.match(/(\d+)~(\d+)/), start = match ? parseInt(match[1], 10) : 999, end = match ? parseInt(match[2], 10) : 999; const current = month >= start && month < end; return <li key={item.order} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0"><span aria-hidden className={cn("mt-0.5 flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full text-sm font-semibold", current ? "bg-[var(--surface-sky)] text-[var(--brand)]" : "bg-[var(--surface-muted)] text-[var(--muted-foreground)]")}>{item.order}</span><div className="min-w-0 flex-1"><p className="break-words font-semibold">{item.name}</p><p className={cn("mt-1 text-sm leading-6", current ? "font-medium text-[var(--brand)]" : "text-[var(--muted-foreground)]")}>{item.eruptionMonth} · {item.count}개</p></div></li>; })}</ol>
     </GuideAccordion>
 
-    <GuideAccordion title="이앓이 증상·대처" readingKey="이앓이 증상 & 대처법" description="주요 증상과 대처 방법" icon={<AlertCircle size={20} />} artwork="rattle" defaultOpen={month >= 5 && month <= 10}>
+    <GuideAccordion title="이앓이 증상·대처" readingKey="이앓이 증상 & 대처법" artwork="rattle">
       <section className="space-y-3"><h4 className="text-base font-semibold text-[var(--content-caution)]">주요 증상</h4><ul className="grid gap-2 sm:grid-cols-2">{guide.teethingSymptoms.map(symptom => <li key={symptom} className="flex items-start gap-2.5"><span aria-hidden className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--content-caution)]" /><span>{symptom}</span></li>)}</ul></section>
       <section><h4 className="mb-1 text-base font-semibold">대처법</h4>{guide.teethingRemedies.map(remedy => remedy.title.includes("주의") ? <section key={remedy.title} className="my-3 border-l-2 border-[var(--content-caution)] pl-3"><h5 className="mb-2 text-sm font-semibold text-[var(--content-caution)]">{remedy.title}</h5><FormattedContent variant="prose" content={remedy.description} /></section> : <DetailRow key={remedy.title} title={remedy.title}><FormattedContent variant="prose" content={remedy.description} className="text-base leading-7" /></DetailRow>)}</section>
     </GuideAccordion>
 
-    <GuideAccordion title="양치 가이드" description="시작·횟수·치약·양치 순서" icon={<ShieldCheck size={20} />} artwork="wash">
+    <GuideAccordion title="양치 가이드" artwork="wash" tone="lilac">
       <GuideStats items={[{ label: "시작", value: guide.brushingGuide.startAge }, { label: "횟수", value: guide.brushingGuide.frequency }, { label: "시간", value: guide.brushingGuide.duration }]} />
       <section className="space-y-2 border-l-2 border-[var(--brand)] pl-4"><h4 className="text-base font-semibold text-[var(--brand)]">불소 치약 안내</h4><FormattedContent variant="prose" content={guide.brushingGuide.fluorideNote} className="text-base leading-7" /></section>
       <ol className="space-y-4">{guide.brushingGuide.steps.map(step => <li key={step.step} className="flex items-start gap-3"><span aria-hidden className="mt-0.5 flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full bg-[var(--surface-sky)] text-sm font-semibold text-[var(--brand)]">{step.step}</span><div className="min-w-0 flex-1"><h4 className="font-semibold">{step.title}</h4><p className="mt-1 text-base leading-7 text-[var(--muted-foreground)]">{step.description}</p></div></li>)}</ol>
     </GuideAccordion>
 
-    <GuideAccordion title="치과 방문 가이드" description="첫 방문·정기 검진·확인할 것" icon={<Calendar size={20} />} artwork="thermometer">
+    <GuideAccordion title="치과 방문 가이드" artwork="thermometer">
       <section className="space-y-2"><h4 className="text-base font-semibold text-[var(--brand)]">첫 치과 방문</h4><FormattedContent variant="prose" content={guide.dentalVisit.firstVisit} className="text-base leading-7" /></section>
       <section className="space-y-2"><h4 className="text-base font-semibold text-[var(--brand)]">정기 검진</h4><p>{guide.dentalVisit.frequency}</p></section>
       <section className="space-y-3"><h4 className="text-base font-semibold">검진 시 확인 사항</h4><ul className="space-y-2.5">{guide.dentalVisit.whatToExpect.map(item => <li key={item} className="flex items-start gap-2.5"><Check size={17} aria-hidden className="mt-1 shrink-0 text-[var(--brand)]" /><span>{item}</span></li>)}</ul></section>
     </GuideAccordion>
 
-    <GuideAccordion title="치아 관련 질문" readingKey="자주 묻는 질문 (FAQ)" description={`${guide.commonIssues.length}개 질문 · 궁금한 항목 선택`} icon={<HelpCircle size={20} />} artwork="book"><div>{guide.commonIssues.map(item => <DetailRow key={item.issue} title={item.issue}><FormattedContent variant="prose" content={item.solution} className="text-base leading-7" /></DetailRow>)}</div></GuideAccordion>
-    <details className="border-t border-[var(--border)] text-sm leading-6 text-[var(--muted-foreground)]"><summary className="min-h-11 cursor-pointer py-2.5 font-medium">치아·이앓이 참고 자료</summary><ul>{[{ title: "NHS · 아기 양치", url: "https://www.nhs.uk/baby/babys-development/teething/looking-after-your-babys-teeth/" }, { title: "NHS · 이앓이 증상", url: "https://www.nhs.uk/baby/babys-development/teething/baby-teething-symptoms/" }, { title: "FDA · 이앓이 약·젤 안전", url: "https://www.fda.gov/consumers/consumer-updates/safely-soothing-teething-pain-infants-and-children" }].map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center py-2 text-[var(--brand)] underline">{source.title}<span className="sr-only"> (새 창)</span></a></li>)}</ul></details>
-  </div>;
+    <GuideAccordion title="치아 관련 질문" readingKey="자주 묻는 질문 (FAQ)" artwork="book"><div>{guide.commonIssues.map(item => <DetailRow key={item.issue} title={item.issue}><FormattedContent variant="prose" content={item.solution} className="text-base leading-7" /></DetailRow>)}</div></GuideAccordion>
+    <details className="group border-t border-[var(--border)] text-sm leading-6 text-[var(--muted-foreground)]">
+      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 py-2.5 font-medium [&::-webkit-details-marker]:hidden">
+        치아·이앓이 참고 자료
+        <ChevronDown size={16} aria-hidden className="shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" />
+      </summary>
+      <ul>{[{ title: "NHS · 아기 양치", url: "https://www.nhs.uk/baby/babys-development/teething/looking-after-your-babys-teeth/" }, { title: "NHS · 이앓이 증상", url: "https://www.nhs.uk/baby/babys-development/teething/baby-teething-symptoms/" }, { title: "FDA · 이앓이 약·젤 안전", url: "https://www.fda.gov/consumers/consumer-updates/safely-soothing-teething-pain-infants-and-children" }].map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center py-2 text-[var(--brand)] underline">{source.title}<span className="sr-only"> (새 창)</span></a></li>)}</ul>
+    </details>
+  </GuideContent>;
 }
 

@@ -2,254 +2,62 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, Sparkles, Check, Clock } from "lucide-react";
-import { motion } from "framer-motion";
+import { ChevronDown, ChevronLeft, Sparkles } from "lucide-react";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getAllWonderWeeks } from "@/lib/queries/months";
-import FormattedContent from "@/components/ui/FormattedContent";
-import { cn } from "@/lib/utils";
 
-interface WonderWeekData {
+interface WonderTopic {
   id: number;
   title: string;
-  description: string;
-  start_day: number;
-  end_day: number;
-  week_number: number;
 }
 
 export default function WonderWeeksPage() {
-  const getDaysOld = useBabyStore((s) => s.getDaysOld);
-  const profile = useBabyStore((s) => s.profile);
-  const days = getDaysOld();
-
-  const [weeks, setWeeks] = useState<WonderWeekData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const month = useBabyStore(state => state.getMonthsOld());
+  const [retry, setRetry] = useState(0);
+  const [topics, setTopics] = useState<WonderTopic[] | null>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getAllWonderWeeks();
-        setWeeks((data as WonderWeekData[]) || []);
-      } catch {
-        setError("원더윅스 데이터를 불러오지 못했어요");
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
-
-  if (!profile) return null;
-
-  const currentWeek = weeks.find(
-    (w) => days >= w.start_day && days <= w.end_day
-  );
+    const controller = new AbortController();
+    getAllWonderWeeks({ throwOnError: true, signal: controller.signal })
+      .then(rows => { if (!controller.signal.aborted) setTopics(rows); })
+      .catch(() => { if (!controller.signal.aborted) setFailed(true); });
+    return () => controller.abort();
+  }, [retry]);
 
   return (
-    <div
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--surface-bg)" }}
-    >
-      {/* ── Top bar with back ── */}
-      <header className="pt-safe sticky top-0 z-10 bg-[var(--surface-bg)]/80 backdrop-blur-xl">
-        <div className="flex flex-wrap items-center gap-2 px-5 pt-3 pb-3">
-          <Link
-            href="/"
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/80 dark:bg-[var(--surface-muted)]/80 ring-1 ring-stone-200/80 dark:ring-stone-700/80 text-stone-700 dark:text-stone-200 active:scale-95 transition-transform"
-            aria-label="뒤로"
-          >
-            <ChevronLeft size={18} strokeWidth={2.3} />
-          </Link>
-          <span className="text-sm font-semibold text-[var(--muted-foreground)]">
-            홈
-          </span>
-        </div>
+    <div className="min-h-screen space-y-4 px-5 pb-10 pt-safe [overflow-wrap:anywhere]" style={{ backgroundColor: "var(--surface-bg)" }}>
+      <Link href="/" className="inline-flex min-h-12 items-center gap-1 rounded-xl text-sm font-semibold text-[var(--brand)]"><ChevronLeft size={18} aria-hidden />홈으로</Link>
+      <header className="rounded-3xl bg-[var(--surface-lavender)] p-5">
+        <Sparkles size={21} aria-hidden className="mb-2 text-[var(--brand)]" />
+        <h1 className="text-[1.375rem] font-bold leading-snug">원더윅스 살펴보기</h1>
+        <p className="mt-2 text-base leading-7">원더윅스는 아기의 행동이 일정한 시기에 달라진다는 가설이에요. 발달 변화가 나타나는 시기는 아기마다 다르고, 정해진 주차로 개별 아기의 변화를 예측할 근거는 제한적이에요.</p>
       </header>
 
-      {/* ── Title ── */}
-      <div className="px-5 pt-2 pb-5">
-        <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 px-2.5 py-1">
-          <Sparkles
-            size={13}
-            className="text-[var(--brand)]"
-            strokeWidth={2.4}
-          />
-          <span className="text-sm font-bold uppercase tracking-[0.12em] text-[var(--brand)]">
-            Wonder Weeks
-          </span>
+      <section className="surface-card space-y-2 p-5" aria-labelledby="observe-development">
+        <h2 id="observe-development" className="text-base font-bold">아기의 변화를 관찰해 보세요</h2>
+        <p className="text-base leading-7">평소와 달라진 움직임이나 반응을 짧게 기록해 보세요. 이전에 하던 행동을 잃거나 발달이 걱정되면 소아청소년과에 상담해 주세요.</p>
+        <Link href={`/encyclopedia?tab=milestone&month=${month}`} className="inline-flex min-h-11 items-center rounded-lg text-sm font-semibold text-[var(--brand)] underline underline-offset-4">월령별 발달 관찰 보기</Link>
+      </section>
+
+      <details className="surface-card group px-5">
+        <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-2 py-2 font-semibold">
+          <span>원더윅스에서 소개한 주제</span>
+          <ChevronDown size={18} aria-hidden className="shrink-0 group-open:rotate-180" />
+        </summary>
+        <div className="border-t border-[var(--border)] pb-4 pt-3">
+          {failed ? <div>
+            <p role="status">주제를 불러오지 못했어요.</p>
+            <button type="button" className="min-h-11 text-sm font-semibold text-[var(--brand)]" onClick={() => { setFailed(false); setRetry(value => value + 1); }}>다시 시도</button>
+          </div> : !topics ? <p role="status">주제를 불러오는 중이에요.</p> : topics.length === 0 ? <p>표시할 주제가 없어요.</p> :
+            <ul className="grid gap-2 sm:grid-cols-2">{topics.map(topic => <li key={topic.id} className="rounded-lg bg-[var(--surface-muted)] px-3 py-2 text-sm">{topic.title}</li>)}</ul>}
         </div>
-        <h1 className="text-[1.375rem] font-bold tracking-[-0.02em] text-stone-900 dark:text-stone-50 leading-[1.15]">
-          원더윅스 도약기
-        </h1>
-        <p className="mt-1.5 text-sm font-medium text-[var(--muted-foreground)] leading-snug">
-          아기가 첫 해 동안 겪는 10번의 정신적 도약을 시기별로 확인하세요.
-        </p>
-      </div>
+      </details>
 
-      {/* ── Current period highlight ── */}
-      {currentWeek && (
-        <div className="px-5 mb-6">
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative overflow-hidden rounded-[28px] bg-blue-800 p-5 text-white shadow-[0_8px_24px_rgba(38,102,184,0.25)]"
-          >
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-3xl"
-            />
-            <div className="relative">
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="inline-flex items-center rounded-full bg-white/10 backdrop-blur px-2.5 py-1 text-sm font-black uppercase tracking-[0.15em]">
-                  진행 중
-                </span>
-                <span className="text-sm font-bold text-white/85">
-                  Leap {currentWeek.week_number}
-                </span>
-                <span className="text-white/50">·</span>
-                <span className="text-sm font-semibold tabular-nums text-white/80">
-                  {currentWeek.start_day}~{currentWeek.end_day}일
-                </span>
-              </div>
-              <h2 className="mt-2 text-[1.375rem] font-black tracking-tight leading-tight">
-                {currentWeek.title}
-              </h2>
-              <div className="mt-3 rounded-2xl bg-white/15 backdrop-blur p-4 [&_p]:text-white/95 [&_strong]:text-white">
-                <FormattedContent content={currentWeek.description} />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
-
-      {/* ── Timeline ── */}
-      <div className="px-5">
-        <div className="mb-3 px-1">
-          <h2 className="text-lg font-black tracking-[-0.015em] text-stone-900 dark:text-stone-50 leading-tight">
-            10번의 도약
-          </h2>
-          <p className="mt-0.5 text-sm font-medium text-[var(--muted-foreground)]">
-            생후 약 5주부터 75주까지 · 현재 생후{" "}
-            <span className="tabular-nums font-semibold text-[var(--muted-foreground)]">
-              {days}일
-            </span>
-          </p>
-        </div>
-
-        {loading ? (
-          <div className="space-y-2.5">
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className="h-28 animate-pulse rounded-3xl bg-stone-200/60 dark:bg-[var(--surface-muted)]/60"
-              />
-            ))}
-          </div>
-        ) : error ? (
-          <div className="rounded-3xl bg-white dark:bg-[var(--card)] p-6 text-center elevation-1">
-            <p className="text-sm text-[var(--muted-foreground)]">
-              {error}
-            </p>
-          </div>
-        ) : weeks.length === 0 ? (
-          <div className="rounded-3xl bg-white dark:bg-[var(--card)] p-6 text-center elevation-1">
-            <p className="text-sm text-[var(--muted-foreground)]">
-              아직 원더윅스 정보가 등록되지 않았어요
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-2.5">
-            {weeks.map((w, idx) => {
-              const isPast = days > w.end_day;
-              const isCurrent = days >= w.start_day && days <= w.end_day;
-              // isUpcoming = everything else
-
-              return (
-                <motion.article
-                  key={w.id}
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2, delay: idx * 0.03 }}
-                  className={cn(
-                    "rounded-3xl bg-white dark:bg-[var(--card)] p-5 transition-shadow",
-                    isCurrent
-                      ? "ring-2 ring-[var(--brand)] shadow-[0_6px_20px_rgba(38,102,184,0.15)]"
-                      : "elevation-1"
-                  )}
-                >
-                  <div className="flex items-start gap-3">
-                    {/* Status indicator */}
-                    <div
-                      className={cn(
-                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full",
-                        isPast &&
-                          "bg-stone-100 dark:bg-[var(--surface-muted)] text-[var(--muted-foreground)]",
-                        isCurrent && "bg-[var(--brand)] text-[var(--brand-foreground)]",
-                        !isPast &&
-                          !isCurrent &&
-                          "bg-blue-50 dark:bg-blue-950/40 text-[var(--brand)]"
-                      )}
-                    >
-                      {isPast ? (
-                        <Check size={16} strokeWidth={3} />
-                      ) : isCurrent ? (
-                        <Sparkles size={15} strokeWidth={2.5} />
-                      ) : (
-                        <Clock size={15} strokeWidth={2.3} />
-                      )}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span
-                          className={cn(
-                            "text-sm font-black tabular-nums tracking-[0.1em]",
-                            isPast && "text-[var(--muted-foreground)]",
-                            isCurrent && "text-[var(--brand)]",
-                            !isPast &&
-                              !isCurrent &&
-                              "text-[var(--muted-foreground)]"
-                          )}
-                        >
-                          LEAP {w.week_number}
-                        </span>
-                        <span className="h-px flex-1 bg-stone-200 dark:bg-[var(--surface-muted)]" />
-                        <span
-                          className={cn(
-                            "text-sm font-semibold tabular-nums",
-                            isPast
-                              ? "text-[var(--muted-foreground)]"
-                              : "text-[var(--muted-foreground)]"
-                          )}
-                        >
-                          {w.start_day}~{w.end_day}일
-                        </span>
-                      </div>
-                      <h3
-                        className={cn(
-                          "mt-2 text-base font-bold tracking-tight leading-snug",
-                          isPast
-                            ? "text-[var(--muted-foreground)]"
-                            : "text-stone-900 dark:text-stone-100"
-                        )}
-                      >
-                        {w.title}
-                      </h3>
-                      <div className="mt-2.5">
-                        <FormattedContent content={w.description} />
-                      </div>
-                    </div>
-                  </div>
-                </motion.article>
-              );
-            })}
-          </div>
-        )}
-      </div>
+      <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-[var(--brand)]">
+        <a href="https://pubmed.ncbi.nlm.nih.gov/26971740/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center underline underline-offset-4">원더윅스 가설 관련 논문</a>
+        <a href="https://www.cdc.gov/act-early/milestones/index.html" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center underline underline-offset-4">CDC 발달 관찰 자료</a>
+      </p>
     </div>
   );
 }
-

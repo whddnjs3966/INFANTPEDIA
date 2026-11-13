@@ -118,7 +118,7 @@ export default function FormattedContent({
     return (
       <p
         className={cn(
-          "text-base leading-[1.75] text-[var(--foreground)]",
+          "text-base leading-[1.75] text-[var(--foreground)] [overflow-wrap:anywhere]",
           className
         )}
       >
@@ -127,7 +127,7 @@ export default function FormattedContent({
     );
   }
 
-  if (variant === "prose") return <div className={cn("space-y-2.5", className)}>{sentences.map((sentence, index) => <p key={index} className="break-words text-base leading-7 text-[var(--foreground)]">{highlightText(sentence)}</p>)}</div>;
+  if (variant === "prose") return <div className={cn("space-y-2.5", className)}>{sentences.map((sentence, index) => <p key={index} className="text-base leading-7 text-[var(--foreground)] [overflow-wrap:anywhere]">{highlightText(sentence)}</p>)}</div>;
 
   // Multiple sentences → editorial numbered list
   return (
@@ -140,7 +140,7 @@ export default function FormattedContent({
           >
             {String(idx + 1).padStart(2, "0")}
           </span>
-          <p className="min-w-0 flex-1 break-words text-base leading-[1.75] text-[var(--foreground)]">
+          <p className="min-w-0 flex-1 text-base leading-[1.75] text-[var(--foreground)] [overflow-wrap:anywhere]">
             {highlightText(sentence)}
           </p>
         </li>

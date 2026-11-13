@@ -1,4 +1,5 @@
 import type { HealthEvidence } from "@/lib/data/health-faq-data";
+import { activityReleaseCorrections } from "@/lib/data/activity-release-corrections";
 import { parentingTipRevisions } from "@/lib/data/parenting-tip-revisions";
 import { getPracticalTip, practicalContent, practicalEvidence, type PracticalTip } from "@/lib/data/practical-tips-data";
 
@@ -16,6 +17,17 @@ export const publicContentCorrections = [{
 }];
 
 export function reviewedPublicContent<T extends { id?: number; content?: string; title?: string; month_id?: number; category?: string }>(table: string, row: T): T & { evidence?: HealthEvidence; practical?: PracticalTip } {
+  if (table === "activities") {
+    const revision = activityReleaseCorrections.find(item =>
+      item.id === row.id && item.month === row.month_id && item.category === row.category && (
+        (item.beforeTitle === row.title && (item.before === row.content || (item.id === 27 && item.after === row.content))) ||
+        (item.title === row.title && item.after === row.content)
+      ));
+    if (revision) return {
+      ...row, title: revision.title, content: revision.after,
+      evidence: { sources: [revision.source], checkedOn: "2026-11-13", scope: revision.scope },
+    };
+  }
   const correction = publicContentCorrections.find(c => c.table === table && c.id === row.id && (row.content === c.before || row.content === c.after));
   if (!correction) {
     const revision = table === "parenting_tips" ? parentingTipRevisions.find(item => item.id === row.id && item.before === row.content && item.beforeTitle === row.title && item.month === row.month_id && item.category === row.category) : undefined;

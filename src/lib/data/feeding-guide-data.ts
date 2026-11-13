@@ -1,3 +1,6 @@
+import type { HealthEvidence } from "./health-faq-data";
+import { solidFoodPreparation } from "./baby-food-guide-data";
+
 export interface FeedingPosition {
   id: string;
   name: string;
@@ -23,18 +26,9 @@ export interface FeedingTroubleshooting {
 export interface FeedingGuideData {
   month: number;
   feedingType: string;
-  perFeedAmount: string;
-  dailyTotal: string;
-  frequency: string;
-  interval: string;
+  feedingCues: string[];
   positions: FeedingPosition[];
   burpingTips: string[];
-  breastMilkStorage: {
-    roomTemp: string;
-    fridge: string;
-    freezer: string;
-    thawing: string;
-  };
   bottleCleaning: BottleCleaningStep[];
   mixedFeedingTips: string[];
   troubleshooting: FeedingTroubleshooting[];
@@ -95,21 +89,21 @@ const bottleCleaningSteps: BottleCleaningStep[] = [
     step: 2,
     title: "세척",
     description:
-      "전용 젖병 세정제와 젖병솔을 사용해 구석구석 닦아줍니다. 젖꼭지 구멍까지 꼼꼼히 세척하세요.",
+      "수유할 때마다 씻어요. 손을 씻고 깨끗한 전용 대야에 따뜻한 물과 주방용 세제를 받아 전용 솔로 닦아요. 싱크대 바닥에 부품을 바로 놓지 마세요.",
     emoji: "🧽",
   },
   {
     step: 3,
     title: "헹굼",
     description:
-      "흐르는 물에 세정제가 남지 않도록 충분히 헹굽니다. 잔류 세정제는 아기에게 해로울 수 있습니다.",
+      "깨끗한 흐르는 물로 부품을 충분히 헹궈요. 젖꼭지 구멍으로 물을 통과시켜 찌꺼기가 남지 않게 해요.",
     emoji: "💧",
   },
   {
     step: 4,
     title: "소독",
     description:
-      "끓는 물에 3~5분 또는 전용 소독기를 사용합니다. 젖꼭지는 2~3분이면 충분합니다. 과도한 열소독은 변형을 유발할 수 있습니다.",
+      "세척한 뒤 제품 설명서에 맞는 방법으로 소독해요. CDC는 생후 2개월 미만, 미숙아, 면역력이 약한 아기에게 최소 하루 한 번 소독을 권해요.",
     emoji: "♨️",
   },
   {
@@ -128,19 +122,36 @@ const bottleCleaningSteps: BottleCleaningStep[] = [
   },
 ];
 
-const breastMilkStorage = {
-  roomTemp: "25°C 이하 4시간",
-  fridge: "4°C 이하 4일",
-  freezer: "-18°C 이하 6개월",
-  thawing: "냉장 해동 후 24시간 내 사용",
+const evidence = (scope: string, title: string, url: string): HealthEvidence => ({
+  scope, checkedOn: "2026-11-13", sources: [{ title, url }],
+});
+
+export const feedingCueEvidence = evidence("아기의 배고픔·포만 신호", "CDC · 배고픔과 포만 신호", "https://www.cdc.gov/infant-toddler-nutrition/mealtime/signs-your-child-is-hungry-or-full.html");
+export const bottleCleaningEvidence = evidence("젖병 세척·소독과 영아별 주의사항", "CDC · 젖병 세척과 소독", "https://www.cdc.gov/hygiene/about/clean-sanitize-store-infant-feeding-items.html");
+
+export const milkSafety = {
+  breastMilk: {
+    title: "모유 보관",
+    entries: [
+      { label: "갓 짠 모유", text: "실온 25°C 이하에서 최대 4시간, 냉장 4°C 이하에서 최대 4일이에요. 냉동 −18°C 이하에서는 6개월 이내가 가장 좋아요." },
+      { label: "해동한 모유", text: "냉장실에서 완전히 녹은 시점부터 24시간 안에 사용해요. 실온에 두거나 데운 뒤에는 2시간 안에 사용하고, 해동한 모유는 다시 얼리지 마세요." },
+      { label: "먹다 남긴 모유", text: "아기가 먹기를 마친 시점부터 2시간 안에 사용하고, 시간이 지나면 버려요." },
+    ],
+    evidence: evidence("건강한 아기의 가정 내 유축 모유 보관", "CDC · 모유 보관과 해동", "https://www.cdc.gov/breastfeeding/breast-milk-preparation-and-storage/handling-breastmilk.html"),
+  },
+  formula: {
+    title: "분유 조제·보관",
+    entries: [
+      { label: "조제할 때", text: "손을 씻고 깨끗한 젖병에 안전한 물을 제품 표시량만큼 먼저 넣어요. 제품에 적힌 물과 가루의 비율을 그대로 지키세요. 생후 2개월 미만, 미숙아, 면역력이 약한 아기는 분말 분유를 안전하게 준비하는 방법이나 액상 제품 사용 여부를 의료진과 먼저 상의하세요." },
+      { label: "입을 대기 전", text: "실온에서는 조제 후 2시간 안에 사용해요. 바로 먹이지 않을 분유는 조제 후 곧바로 냉장하고 24시간 안에 사용하세요." },
+      { label: "먹기 시작한 분유", text: "수유를 시작한 뒤 1시간과 조제 후 2시간(실온) 중 먼저 닿는 시한을 지켜요. 먹다 남긴 분유는 버리고 다시 냉장하지 마세요. 데울 때 전자레인지를 쓰지 마세요." },
+    ],
+    evidence: evidence("조제 분유의 안전한 준비·보관과 고위험 영아 주의사항", "CDC · 분유 조제와 보관", "https://www.cdc.gov/infant-toddler-nutrition/formula-feeding/preparation-and-storage.html"),
+  },
 };
 
 interface MonthFeedingConfig {
   feedingType: string;
-  perFeedAmount: string;
-  dailyTotal: string;
-  frequency: string;
-  interval: string;
   mixedFeedingTips: string[];
   troubleshooting: FeedingTroubleshooting[];
   burpingTips: string[];
@@ -157,10 +168,6 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 0개월 (신생아)
   {
     feedingType: "모유/분유",
-    perFeedAmount: "40~80ml",
-    dailyTotal: "400~600ml",
-    frequency: "8~12회",
-    interval: "2~3시간 간격",
     mixedFeedingTips: [
       "초유는 면역력의 핵심이므로 가능하면 생후 1시간 이내에 첫 수유를 시작하세요.",
       "혼합 수유 시 모유를 먼저 먹인 후 분유를 보충하는 것이 좋습니다.",
@@ -212,10 +219,6 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 1개월
   {
     feedingType: "모유/분유",
-    perFeedAmount: "80~120ml",
-    dailyTotal: "560~720ml",
-    frequency: "7~8회",
-    interval: "2.5~3시간 간격",
     mixedFeedingTips: [
       "모유 수유 후 부족한 양만큼 분유를 보충하세요.",
       "유두혼동 방지를 위해 느린 유속의 젖꼭지(SS 사이즈)를 사용하세요.",
@@ -240,7 +243,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "한쪽 젖만 선호해요",
         solution:
-          "거부하는 쪽 젖을 먼저 물려보세요. 풋볼 안기 자세로 바꿔 시도하거나, 아기가 졸릴 때 거부하는 쪽을 물려보는 것도 방법입니다.",
+          "거부하는 쪽 젖을 먼저 물려보세요. 풋볼 안기 자세로 바꿔 시도하거나, 아기가 깨어 있고 편안할 때 다시 시도해 보세요.",
         emoji: "🤔",
         urgency: "info",
       },
@@ -263,13 +266,9 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 2개월
   {
     feedingType: "모유/분유",
-    perFeedAmount: "120~150ml",
-    dailyTotal: "700~900ml",
-    frequency: "6~7회",
-    interval: "3시간 간격",
     mixedFeedingTips: [
       "수유 패턴이 안정되어 혼합 수유가 수월해지는 시기입니다.",
-      "밤중 수유 간격이 늘어나기 시작하므로, 자기 전 충분히 먹여주세요.",
+      "밤에도 아기의 배고픔과 포만 신호에 맞춰 수유해요.",
       "모유를 유축하여 보관하면 다른 보호자도 수유에 참여할 수 있습니다.",
     ],
     burpingTips: baseBurpingTips,
@@ -307,10 +306,6 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 3개월
   {
     feedingType: "모유/분유",
-    perFeedAmount: "150~180ml",
-    dailyTotal: "750~900ml",
-    frequency: "5~6회",
-    interval: "3~3.5시간 간격",
     mixedFeedingTips: [
       "모유 수유가 안정기에 접어드는 시기로, 유축 후 냉동 보관을 시작하기 좋습니다.",
       "3개월 위기(수유 거부)가 올 수 있으니 당황하지 마세요.",
@@ -351,21 +346,17 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 4개월
   {
     feedingType: "모유/분유",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "800~1000ml",
-    frequency: "5~6회",
-    interval: "3.5~4시간 간격",
     mixedFeedingTips: [
       "이유식 시작 징후(목 가누기, 음식에 관심)가 보이면 이유식 준비를 시작하세요.",
       "이유식 시작 전까지는 모유/분유만으로 충분합니다.",
-      "혼합 수유 중이라면 이유식 시작 후 분유를 우선 줄이는 것이 좋습니다.",
+      "이유식을 시작하더라도 모유나 영아용 분유가 첫돌 전까지 주요 영양원이에요.",
     ],
     burpingTips: baseBurpingTips,
     troubleshooting: [
       {
         issue: "수유 간격이 불규칙해요",
         solution:
-          "4개월경부터는 3~4시간 간격으로 규칙적인 수유 스케줄을 만들어가기 좋은 시기입니다. 먹고-놀고-자는 패턴(EAT-PLAY-SLEEP)을 시도해보세요.",
+          "아기가 배고프다는 신호를 보이면 수유하고, 입을 닫거나 고개를 돌리면 멈춰요. 갑자기 잘 못 먹거나 젖은 기저귀가 줄면 소아청소년과에 상담하세요.",
         emoji: "⏰",
         urgency: "info",
       },
@@ -379,7 +370,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "이유식을 시작해도 될까요?",
         solution:
-          "목을 가누고, 받쳐 앉을 수 있으며, 음식에 관심을 보이고, 혀 내밀기 반사가 줄었다면 시작할 수 있습니다. 쌀미음부터 한 숟가락씩 시작하세요.",
+          solidFoodPreparation,
         emoji: "🥄",
         urgency: "info",
       },
@@ -394,22 +385,17 @@ const monthConfigs: MonthFeedingConfig[] = [
   },
   // 5개월
   {
-    feedingType: "모유/분유 (+ 이유식 초기)",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "800~1000ml",
-    frequency: "4~5회",
-    interval: "3.5~4시간 간격",
+    feedingType: "모유/영아용 분유",
     mixedFeedingTips: [
-      "이유식을 시작했다면 모유/분유 수유량은 유지하면서 이유식을 추가하세요.",
-      "이유식은 하루 1회, 1~2숟가락부터 시작합니다.",
-      "이유식 후 모유/분유를 먹여 충분한 영양을 보충하세요.",
+      solidFoodPreparation,
+      "미숙아의 시작 시기나 알레르기 위험이 걱정되면 의료진과 미리 상의하세요.",
     ],
     burpingTips: baseBurpingTips,
     troubleshooting: [
       {
-        issue: "이유식을 먹으면서 모유/분유를 거부해요",
+        issue: "이유식 시작 후 수유를 거부하면 어떻게 하나요?",
         solution:
-          "이유식은 아직 보충식이므로 모유/분유가 주식입니다. 이유식 양을 줄이고 모유/분유를 먼저 먹인 후 이유식을 시도하세요.",
+          "이유식을 시작한 뒤에도 첫돌 전에는 모유나 영아용 분유를 계속 제공해요. 잘 못 먹는 상태가 이어지거나 젖은 기저귀가 줄면 소아청소년과에 상담하세요.",
         emoji: "🥣",
         urgency: "caution",
       },
@@ -439,12 +425,8 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 6개월
   {
     feedingType: "모유/분유 + 이유식 초기",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "700~900ml",
-    frequency: "4~5회",
-    interval: "3.5~4시간 간격",
     mixedFeedingTips: [
-      "이유식 1~2회와 모유/분유 4~5회를 병행합니다.",
+      "모유나 영아용 분유를 이어가면서 아기가 받아들일 만큼 이유식을 제공해요.",
       "이유식이 본격적으로 시작되지만, 모유/분유가 여전히 주요 영양원입니다.",
       "이유식 시간을 정해 규칙적인 식사 습관을 만들어가세요.",
     ],
@@ -453,7 +435,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "밤중 수유가 다시 늘었어요",
         solution:
-          "6개월경 급성장기가 올 수 있습니다. 낮 동안 충분히 먹이고, 이유식 양을 서서히 늘려 밤중 배고픔을 줄여보세요.",
+          "밤중 수유가 늘 수 있어요. 밤에 덜 먹이기 위해 이유식 양을 늘리거나 분유를 묽게 타지 마세요. 먹는 양이나 성장이 걱정되면 의료진과 상담하세요.",
         emoji: "🌙",
         urgency: "info",
       },
@@ -467,7 +449,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "알레르기 반응이 의심돼요",
         solution:
-          "새로운 식재료는 3~5일 간격으로 한 가지씩 시도하세요. 발진, 구토, 설사, 호흡곤란 증상이 있으면 즉시 중단하고 소아과를 방문하세요.",
+          "알레르기를 일으킬 수 있는 재료는 한 번에 한 종류씩 소량부터 제공해요. 반응이 있으면 그 식품을 중단하고 의료진에게 상담하세요. 입술·혀가 붓거나 숨쉬기 어렵거나 축 늘어지면 바로 119에 연락하세요.",
         emoji: "🚨",
         urgency: "warning",
       },
@@ -490,12 +472,8 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 7개월
   {
     feedingType: "모유/분유 + 이유식 중기",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "600~800ml",
-    frequency: "3~4회",
-    interval: "4시간 간격",
     mixedFeedingTips: [
-      "이유식 2회와 모유/분유 3~4회를 병행합니다.",
+      "이유식과 수유를 병행하면서 아기의 반응을 살펴요.",
       "이유식 양이 늘면서 모유/분유 양이 자연스럽게 조금씩 줄어듭니다.",
       "간식(과일 퓌레 등)을 소개하기 시작할 수 있습니다.",
     ],
@@ -525,7 +503,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "모유/분유 양을 얼마나 줄여야 하나요?",
         solution:
-          "이유식 2회를 잘 먹는다면 하루 모유/분유 총량이 700~800ml 정도면 적정합니다. 아기의 성장 곡선을 확인하면서 조절하세요.",
+          "모유나 영아용 분유를 계속 제공하면서 먹는 신호와 성장 경과를 살펴요. 섭취가 부족할까 걱정되면 의료진과 상의하세요.",
         emoji: "📏",
         urgency: "info",
       },
@@ -534,14 +512,10 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 8개월
   {
     feedingType: "모유/분유 + 이유식 중기",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "600~700ml",
-    frequency: "3~4회",
-    interval: "4~4.5시간 간격",
     mixedFeedingTips: [
-      "이유식 2~3회로 늘리면서 모유/분유 횟수를 조절하세요.",
+      "수유를 이어가며 아기의 먹는 연습과 식사 기회를 조금씩 늘려요.",
       "핑거푸드(스틱형 채소, 과일 등)를 소개하여 자기주도 식사를 시작할 수 있습니다.",
-      "모유/분유와 이유식의 비율이 약 6:4 정도가 적절합니다.",
+      "모유나 영아용 분유를 계속 주고, 이유식은 아기가 준비된 질감으로 다양하게 제공해요.",
     ],
     burpingTips: baseBurpingTips,
     troubleshooting: [
@@ -555,7 +529,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "수유 거부기가 왔어요",
         solution:
-          "이유식에 흥미가 생기면서 모유/분유를 거부할 수 있습니다. 이유식에 모유/분유를 섞거나, 졸릴 때 수유해보세요. 하루 총량(600ml 이상)을 확인하세요.",
+          "깨어 있을 때 편안한 환경에서 다시 수유를 시도해요. 거부가 반복되거나 젖은 기저귀가 줄면 소아청소년과에 상담하세요.",
         emoji: "🙅",
         urgency: "caution",
       },
@@ -578,12 +552,8 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 9개월
   {
     feedingType: "모유/분유 + 이유식 후기",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "500~600ml",
-    frequency: "3회",
-    interval: "4~5시간 간격",
     mixedFeedingTips: [
-      "이유식 3회를 규칙적으로 먹이고, 모유/분유 3회를 보충합니다.",
+      "식사 리듬을 만들면서 아기가 보이는 신호에 맞춰 수유도 계속해요.",
       "후기 이유식으로 전환하여 잘게 다진 음식을 시도하세요.",
       "가족 식사 시간에 함께 앉아 먹는 습관을 만들어가세요.",
     ],
@@ -596,7 +566,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "이유식은 잘 먹는데 모유/분유를 안 먹어요",
         solution:
-          "이유식만으로는 칼슘과 지방 섭취가 부족할 수 있습니다. 모유/분유를 하루 최소 400~500ml는 먹이세요. 이유식에 분유를 넣어 조리하는 것도 방법입니다.",
+          "첫돌 전에는 모유나 영아용 분유를 계속 제공해요. 수유 거부가 계속되거나 성장·소변량이 걱정되면 의료진과 상담하세요.",
         emoji: "🍼",
         urgency: "caution",
       },
@@ -626,10 +596,6 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 10개월
   {
     feedingType: "모유/분유 + 이유식 후기",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "500~600ml",
-    frequency: "2~3회",
-    interval: "5시간 간격",
     mixedFeedingTips: [
       "이유식이 주식이 되어가는 시기입니다. 모유/분유는 보충 역할을 합니다.",
       "스스로 숟가락을 잡고 먹으려는 시도를 격려해주세요.",
@@ -674,12 +640,8 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 11개월
   {
     feedingType: "모유/분유 + 이유식 후기",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "400~500ml",
-    frequency: "2~3회",
-    interval: "5~6시간 간격",
     mixedFeedingTips: [
-      "이유식 3회 + 간식 1~2회 + 모유/분유 2~3회가 적절합니다.",
+      "가족 식사에 함께 앉는 기회를 늘리고, 배고픔과 포만 신호에 맞춰 식사와 수유를 이어가요.",
       "성인 식사와 비슷한 형태(잘게 다진 밥, 반찬)로 전환합니다.",
       "젖병에서 컵으로의 전환을 본격적으로 시도하세요.",
     ],
@@ -722,12 +684,8 @@ const monthConfigs: MonthFeedingConfig[] = [
   // 12개월
   {
     feedingType: "유아식 전환 + 생우유",
-    perFeedAmount: "180~210ml",
-    dailyTotal: "300~400ml",
-    frequency: "2~3회",
-    interval: "식사 사이",
     mixedFeedingTips: [
-      "생우유(전지유)를 시작할 수 있습니다. 하루 400~500ml가 적절합니다.",
+      "만 12개월부터 살균한 무가당 전지우유를 컵으로 제공할 수 있어요. 계속 모유 수유를 해도 돼요.",
       "유아식 3회 + 간식 2회를 기본으로, 모유는 원하는 만큼 병행 가능합니다.",
       "젖병을 완전히 끊고 컵으로 전환하는 것을 목표로 하세요.",
       "분유에서 생우유로 전환 시 서서히 비율을 바꿔가세요.",
@@ -740,7 +698,7 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "생우유로 전환 후 설사를 해요",
         solution:
-          "유당불내증일 수 있습니다. 처음에는 소량(50ml)부터 시작하여 서서히 늘려가세요. 증상이 지속되면 소아과에서 검사받으세요.",
+          "우유를 먹은 뒤 설사가 반복되면 먹은 양과 증상을 기록하고, 다시 먹이기 전에 소아청소년과에 상담하세요. 숨쉬기 어렵거나 입술·혀가 붓거나 축 늘어지면 바로 119에 연락하세요.",
         emoji: "🥛",
         urgency: "caution",
       },
@@ -768,12 +726,24 @@ const monthConfigs: MonthFeedingConfig[] = [
       {
         issue: "하루에 우유를 너무 많이 먹어요",
         solution:
-          "우유를 하루 500ml 이상 먹으면 철분 흡수를 방해하여 빈혈이 올 수 있습니다. 400~500ml로 제한하고, 식사를 통해 다양한 영양소를 섭취하게 하세요.",
+          "우유로 식사를 대신하면 철분이 들어 있는 식품을 충분히 먹기 어려워요. 우유는 식사를 대신하지 않도록 주고, 아이에게 맞는 양은 식사와 성장 상태를 보면서 의료진과 상의하세요.",
         emoji: "⚠️",
         urgency: "warning",
       },
     ],
   },
+];
+
+const infantFeedingCues = [
+  "배고파요 · 손을 입으로 가져가거나 젖·젖병 쪽으로 고개를 돌려요.",
+  "배불러요 · 입을 닫거나 고개를 돌리면 쉬거나 수유를 마쳐요.",
+  "신생아가 깨우기 어렵거나 잘 못 먹고 젖은 기저귀가 줄면 진료를 받아요. 출생 후 받은 수유 계획이 있다면 그 안내를 따르세요.",
+];
+
+const complementaryFeedingCues = [
+  "배고파요 · 숟가락이 다가오면 입을 벌리거나 음식 쪽으로 몸을 기울여요.",
+  "배불러요 · 입을 닫거나 고개를 돌리면 억지로 먹이지 않고 마쳐요.",
+  "첫돌 전에는 이유식과 함께 모유나 영아용 분유를 계속 제공해요.",
 ];
 
 const feedingGuideDataMap: Map<number, FeedingGuideData> = new Map();
@@ -783,13 +753,9 @@ for (let m = 0; m <= 12; m++) {
   feedingGuideDataMap.set(m, {
     month: m,
     feedingType: config.feedingType,
-    perFeedAmount: config.perFeedAmount,
-    dailyTotal: config.dailyTotal,
-    frequency: config.frequency,
-    interval: config.interval,
+    feedingCues: m < 6 ? infantFeedingCues : complementaryFeedingCues,
     positions: feedingPositions,
     burpingTips: config.burpingTips,
-    breastMilkStorage,
     bottleCleaning: bottleCleaningSteps,
     mixedFeedingTips: config.mixedFeedingTips,
     troubleshooting: config.troubleshooting,

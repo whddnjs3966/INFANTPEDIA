@@ -1,0 +1,56 @@
+/* Common colors and bottom navigation for the five illustrated main tabs. */
+[data-bright-shell] {
+  --background: #F8FAFF;
+  --surface-bg: #F8FAFF;
+  --foreground: #303344;
+  --card: #FFFFFF;
+  --muted-foreground: #687086;
+  --brand: #3268D5;
+  --brand-foreground: #FFFFFF;
+  --accent-soft: #EAF1FF;
+  --border: #E7ECF6;
+  --surface-muted: #EEF2FA;
+  --surface-sky: #ECF4FF;
+  --surface-peach: #FFF0E8;
+  --surface-lavender: #F0ECFF;
+  --shadow-card: 0 3px 12px rgb(63 85 130 / .045);
+  color: var(--foreground);
+}
+
+.dark [data-bright-shell] {
+  --background: #1D2130;
+  --surface-bg: #1D2130;
+  --foreground: #F5F7FF;
+  --card: #282E40;
+  --muted-foreground: #BDC5DA;
+  --brand: #A6CEFF;
+  --brand-foreground: #172B46;
+  --accent-soft: #304263;
+  --border: #424B61;
+  --surface-muted: #32394F;
+  --surface-sky: #283A54;
+  --surface-peach: #3D302E;
+  --surface-lavender: #39334F;
+  --shadow-card: none;
+}
+
+[data-bright-shell] [data-bottom-tabs] {
+  margin: 0;
+  border-radius: 22px 22px 0 0;
+  border-bottom: 0;
+  background: var(--card);
+  box-shadow: 0 -4px 18px rgb(58 79 122 / .045);
+}
+
+[data-bright-shell] [data-bottom-tabs] [data-tab-highlight] {
+  max-width: calc(100% - 4px);
+}
+
+[data-bright-shell] [data-bottom-tabs] [data-tab-label] {
+  white-space: nowrap;
+  letter-spacing: -.2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-bright-shell] [data-bottom-tabs] a { transition: none; }
+}

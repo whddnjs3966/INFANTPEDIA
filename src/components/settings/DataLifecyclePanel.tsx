@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { ChevronDown, RotateCcw, Trash2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { useAtomicConnectionStore } from "@/lib/store/atomic-connection-store";
@@ -13,9 +14,32 @@ export default function DataLifecyclePanel(){
  const {user}=useAuth(),babies=useBabyStore(s=>s.babies),profile=useBabyStore(s=>s.profile);
  const connection=useAtomicConnectionStore(s=>s.connections.find(c=>c.accountId===user?.id&&c.localBabyId===profile?.id));
  const [target,setTarget]=useState<{id:string;name:string;fingerprint:string}|null>(null),[reset,setReset]=useState(false),[fingerprint,setFingerprint]=useState(''),[confirm,setConfirm]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false),[server,setServer]=useState<DeletePreview|null>(null);
- return <div className="space-y-5"><section className="surface-card space-y-4 p-5"><h3 className="text-base font-bold">이 기기의 아기와 기록 삭제</h3><p className="text-sm leading-6 text-[var(--muted-foreground)]">프로필·성장·접종·관찰·사진·메모와 이 아기의 연결 요청을 이 브라우저에서 삭제해요. 서버 백업이나 다른 기기 기록은 삭제하지 않아요. 이미 전송한 요청은 서버에서 완료될 수 있어요.</p>{babies.map(b=><div key={b.id} className="flex items-center justify-between gap-3 border-t border-[var(--border)] pt-3"><span className="min-w-0 break-words font-semibold">{b.name}</span><Button variant="outline" className="min-h-12 shrink-0" aria-label={`${b.name} 기기 기록 삭제`} onClick={()=>{setTarget({id:b.id,name:b.name,fingerprint:localDataFingerprint()});setConfirm('');setError('');}}>기기에서 삭제</Button></div>)}</section>
- {connection&&isBackupLifecycleEnabled()&&<section className="surface-card space-y-3 p-5"><h3 className="text-base font-bold">현재 아기의 서버 백업 삭제</h3><p className="text-sm leading-6">소유자만 삭제할 수 있어요. 가족의 서버 접근도 사라지며 이 기기의 기록은 유지해요.</p><Button variant="outline" className="min-h-12 w-full" disabled={busy} onClick={async()=>{setBusy(true);setError('');const p=await previewServerBabyDelete(connection);setBusy(false);if('error'in p)setError(p.error);else{setServer(p);setConfirm('');}}}>서버 삭제 범위 확인</Button></section>}
- <section className="surface-card space-y-3 p-5"><h3 className="text-base font-bold">이 기기 전체 초기화</h3><p className="text-sm leading-6">모든 아기와 기록·사진·메모·관찰·백업 요청을 이 브라우저에서 삭제해요. 서버 백업과 로그인 계정은 유지해요.</p><Button variant="outline" className="min-h-12 w-full" onClick={()=>{setReset(true);setFingerprint(localDataFingerprint());setConfirm('');setError('');}}>기기 초기화 범위 확인</Button></section><AccountDeletion/>
+ return <div className="space-y-3">
+   <details className="settings-card settings-risk">
+     <summary className="settings-risk-trigger"><Trash2 size={17} aria-hidden /><span>이 기기의 아기와 기록 삭제</span><ChevronDown size={16} aria-hidden className="settings-risk-chevron" /></summary>
+     <div className="space-y-3 pt-2">
+       <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">프로필·성장·접종·관찰·사진·메모와 이 아기의 연결 요청을 이 브라우저에서 삭제해요. 서버 백업이나 다른 기기 기록은 삭제하지 않아요. 이미 전송한 요청은 서버에서 완료될 수 있어요.</p>
+       {babies.map(b => <div key={b.id} className="settings-delete-row">
+         <span className="font-semibold">{b.name}</span>
+         <Button variant="outline" aria-label={b.name + " 기기 기록 삭제"} onClick={() => { setTarget({ id:b.id, name:b.name, fingerprint:localDataFingerprint() }); setConfirm(""); setError(""); }}>기기에서 삭제</Button>
+       </div>)}
+     </div>
+   </details>
+   {connection && isBackupLifecycleEnabled() && <details className="settings-card settings-risk">
+     <summary className="settings-risk-trigger"><Trash2 size={17} aria-hidden /><span>현재 아기의 서버 백업 삭제</span><ChevronDown size={16} aria-hidden className="settings-risk-chevron" /></summary>
+     <div className="space-y-3 pt-2">
+       <p className="text-sm leading-relaxed">소유자만 삭제할 수 있어요. 가족의 서버 접근도 사라지며 이 기기의 기록은 유지해요.</p>
+       <Button variant="outline" className="w-full" disabled={busy} onClick={async () => { setBusy(true); setError(""); const p = await previewServerBabyDelete(connection); setBusy(false); if ("error" in p) setError(p.error); else { setServer(p); setConfirm(""); } }}>서버 삭제 범위 확인</Button>
+     </div>
+   </details>}
+   <details className="settings-card settings-risk">
+     <summary className="settings-risk-trigger"><RotateCcw size={17} aria-hidden /><span>이 기기 전체 초기화</span><ChevronDown size={16} aria-hidden className="settings-risk-chevron" /></summary>
+     <div className="space-y-3 pt-2">
+       <p className="text-sm leading-relaxed">모든 아기와 기록·사진·메모·관찰·백업 요청을 이 브라우저에서 삭제해요. 서버 백업과 로그인 계정은 유지해요.</p>
+       <Button variant="outline" className="w-full" onClick={() => { setReset(true); setFingerprint(localDataFingerprint()); setConfirm(""); setError(""); }}>기기 초기화 범위 확인</Button>
+     </div>
+   </details>
+   <AccountDeletion/>
  {error&&!target&&!reset&&!server&&<p role="alert" className="text-sm text-red-700 dark:text-red-300">{error}</p>}
  <Dialog open={!!target||reset||!!server} onOpenChange={open=>{if(!open&&!busy){setTarget(null);setReset(false);setServer(null);setError('');}}}><DialogContent className="rounded-2xl" showCloseButton={!busy}><DialogHeader><DialogTitle>{server?'서버 백업을 삭제할까요?':reset?'이 기기를 초기화할까요?':`${target?.name}의 기기 기록을 삭제할까요?`}</DialogTitle><DialogDescription>{server?`서버 백업과 연결 가족 ${server.members}명의 접근을 삭제해요. 이 기기의 기록은 남으며 다시 자동 전송하지 않아요.`:reset?'이 브라우저의 모든 아기·기록·사진·메모와 대기 요청을 삭제해요. 서버와 다른 기기는 유지해요.':'선택한 아기의 기기 기록과 백업 연결·대기 요청을 삭제해요. 다른 아기와 서버 기록은 유지해요.'} 이 작업은 되돌릴 수 없어요.</DialogDescription></DialogHeader><label htmlFor="data-delete-confirm" className="text-sm font-semibold">확인을 위해 ‘{server?server.name:reset?'전체 삭제':target?.name}’를 입력해 주세요</label><Input id="data-delete-confirm" value={confirm} onChange={e=>setConfirm(e.target.value)} autoComplete="off"/>{error&&<p role="alert" className="text-sm text-red-700 dark:text-red-300">{error}</p>}<DialogFooter><DialogClose disabled={busy} render={<Button variant="outline" className="min-h-12"/>}>취소</DialogClose><Button variant="destructive" className="min-h-12" disabled={busy||confirm!==(server?server.name:reset?'전체 삭제':target?.name)} onClick={async()=>{setBusy(true);setError('');const result=server?await deleteServerBaby(server,confirm):reset?resetLocalData(fingerprint):target?deleteLocalBaby(target.id,target.fingerprint):{error:'대상을 확인해 주세요.'};if(result.error){setError(result.error);setBusy(false);}else window.location.replace(reset?'/onboarding?reset=1':`/settings?dataChanged=${crypto.randomUUID()}#settings-data`);}}>확인한 범위 삭제</Button></DialogFooter></DialogContent></Dialog>
  </div>;
