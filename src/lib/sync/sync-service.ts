@@ -5,6 +5,12 @@ import type { BabyProfile } from '@/lib/store/baby-store';
 import type { Measurement } from '@/lib/store/measurement-store';
 import type { VaccinationRecord } from '@/lib/store/vaccination-store';
 
+function legacyVaccinationKeysAreUnique(records: VaccinationRecord[]) {
+  return new Set(records.map(record => `${record.vaccineId}:${record.doseNumber}`)).size === records.length;
+}
+
+const legacyVaccinationError = '이전 공유 방식으로는 절기별 접종 기록을 보낼 수 없어요. 기기 기록은 유지돼요.';
+
 // Generate a 6-character alphanumeric invite code (cryptographically secure)
 function generateInviteCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -40,6 +46,7 @@ export async function shareBaby(
   creatorEmail?: string
 ): Promise<{ code: string; sharedBabyId: string } | { error: string }> {
   if (isLegacySharingPaused()) return { error: SHARING_PAUSED_MESSAGE };
+  if (!legacyVaccinationKeysAreUnique(vaccinations)) return { error: legacyVaccinationError };
   const deviceId = getDeviceId();
   const MAX_RETRIES = 3;
 
@@ -158,6 +165,7 @@ export async function pushToCloud(
   creatorEmail?: string
 ): Promise<{ error?: string }> {
   if (isLegacySharingPaused()) return { error: SHARING_PAUSED_MESSAGE };
+  if (!legacyVaccinationKeysAreUnique(vaccinations)) return { error: legacyVaccinationError };
   try {
     // Update baby profile
     const { data: savedProfile, error: profileErr } = await supabase

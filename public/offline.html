@@ -1,43 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>오프라인 - 인펀트피디아</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>연결 확인 · InfantPedia</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #FFF8F0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 24px;
-      text-align: center;
-    }
-    .container { max-width: 360px; }
-    .emoji { font-size: 64px; margin-bottom: 16px; }
-    h1 { font-size: 20px; color: #374151; margin-bottom: 8px; }
-    p { font-size: 14px; color: #6B7280; line-height: 1.6; margin-bottom: 24px; }
-    button {
-      background: linear-gradient(135deg, #F472B6, #EC4899);
-      color: white;
-      border: none;
-      border-radius: 16px;
-      padding: 14px 32px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; background: #fafbff; color: #232640; }
+    * { box-sizing: border-box; }
+    body { display: grid; place-items: center; min-height: 100vh; min-height: 100svh; margin: 0; padding: clamp(12px, 5vw, 24px); }
+    main { width: min(100%, 25rem); border-radius: 1.25rem; background: #fff; padding: clamp(16px, 6vw, 28px); box-shadow: 0 12px 30px #252f6c18; overflow-wrap: anywhere; }
+    h1 { margin: 0 0 .5rem; font-size: 1.25rem; line-height: 1.45; }
+    p { margin: 0 0 1rem; font-size: 1rem; line-height: 1.65; }
+    button { min-height: 48px; max-width: 100%; border: 0; border-radius: .75rem; padding: .5em 1em; background: #354cb7; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+    button:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+    @media (prefers-color-scheme: dark) {
+      :root { background: #1d2130; color: #f3f4ff; }
+      main { background: #282e42; }
+      button { background: #bcc8ff; color: #1b2e80; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="emoji">📡</div>
+  <main>
     <h1>인터넷 연결을 확인해 주세요</h1>
-    <p>현재 오프라인 상태입니다.<br>인터넷에 연결된 후 다시 시도해 주세요.</p>
-    <button onclick="location.reload()">다시 시도</button>
-  </div>
+    <p>이 화면을 열려면 인터넷 연결이 필요해요. 연결을 복구한 뒤 다시 시도해 주세요.</p>
+    <button type="button" onclick="location.reload()">다시 시도</button>
+  </main>
 </body>
 </html>

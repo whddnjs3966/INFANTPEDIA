@@ -11,6 +11,8 @@ const notoSansKr = Noto_Sans_KR({
   display: "swap",
 });
 
+const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin : null;
+
 export const metadata: Metadata = {
   title: "InfantPedia - \uc601\uc720\uc544 \uc885\ud569 \ubc31\uacfc\uc0ac\uc804",
   description:
@@ -40,8 +42,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className={cn("font-sans", notoSansKr.variable)} suppressHydrationWarning>
       <head>
-        <link rel="dns-prefetch" href="https://bhqzkvmbkgmltpjumofr.supabase.co" />
-        <link rel="preconnect" href="https://bhqzkvmbkgmltpjumofr.supabase.co" crossOrigin="anonymous" />
+        {supabaseOrigin && <>
+          <link rel="dns-prefetch" href={supabaseOrigin} />
+          <link rel="preconnect" href={supabaseOrigin} crossOrigin="anonymous" />
+        </>}
         <script
           dangerouslySetInnerHTML={{
             __html: `

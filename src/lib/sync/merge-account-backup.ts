@@ -1,4 +1,6 @@
 import { vaccinations } from "@/lib/data/growth-data";
+import type { VaccinationRecord } from "@/lib/store/vaccination-store";
+import { vaccinationRecordKey, vaccinationSeasonSuffix } from "@/lib/utils/vaccination-season";
 import { createClient } from "@/lib/supabase/client";
 import { readAtomicBackup } from "@/lib/sync/atomic-backup";
 import { localBackupSnapshot,snapshotSignature,isAtomicRegistrationEnabled,registrationOperations } from "@/lib/sync/register-local-backup";
@@ -34,15 +36,15 @@ export async function previewExistingRestore(accountId:string,localBabyId:string
  if(!await auth(accountId)||fingerprint()!==before||!safeTarget(accountId,localBabyId,summary.baby_id))return changed;
  return{accountId,localBabyId,summary,local,remote:remote.snapshot,revision:remote.revision,fingerprint:before};}catch{return changed;}
 }
-const mKey=(id:string)=>`measurement:${id}`,vKey=(id:string,dose:number)=>`vaccination:${id}:${dose}`;
+const mKey=(id:string)=>`measurement:${id}`,vKey=(record:VaccinationRecord)=>`vaccination:${vaccinationRecordKey(record)}`;
 export function defaultMergeChoices(p:ExistingRestorePreview,replace=false):MergeChoices{
  const records:Record<string,Choice>={};for(const m of p.local.measurements)records[mKey(m.id)]=replace?"omit":"local";for(const m of p.remote.measurements)if(replace||!records[mKey(m.id)])records[mKey(m.id)]="remote";
- for(const v of p.local.vaccinations)records[vKey(v.vaccineId,v.doseNumber)]=replace?"omit":"local";for(const v of p.remote.vaccinations)if(replace||!records[vKey(v.vaccineId,v.doseNumber)])records[vKey(v.vaccineId,v.doseNumber)]="remote";
+ for(const v of p.local.vaccinations)records[vKey(v)]=replace?"omit":"local";for(const v of p.remote.vaccinations)if(replace||!records[vKey(v)])records[vKey(v)]="remote";
  return{profile:{name:replace?"remote":"local",birthdate:replace?"remote":"local",gender:replace?"remote":"local"},records};
 }
 export function mergeRows(p:ExistingRestorePreview):MergeRow[]{
  const local=new Map<string,{label:string;value:string}>(),remote=new Map<string,{label:string;value:string}>();
- for(const [snapshot,map] of [[p.local,local],[p.remote,remote]] as const){for(const m of snapshot.measurements)map.set(mKey(m.id),{label:`성장 · ${m.date}`,value:`${m.date} · 키 ${m.height??"—"}cm · 몸무게 ${m.weight??"—"}kg · 머리둘레 ${m.headCircumference??"—"}cm`});for(const v of snapshot.vaccinations)map.set(vKey(v.vaccineId,v.doseNumber),{label:`접종 · ${vaccinations.find(item=>item.id===v.vaccineId)?.name??v.vaccineId} ${v.doseNumber}차`,value:v.completedDate});}
+ for(const [snapshot,map] of [[p.local,local],[p.remote,remote]] as const){for(const m of snapshot.measurements)map.set(mKey(m.id),{label:`성장 · ${m.date}`,value:`${m.date} · 키 ${m.height??"—"}cm · 몸무게 ${m.weight??"—"}kg · 머리둘레 ${m.headCircumference??"—"}cm`});for(const v of snapshot.vaccinations)map.set(vKey(v),{label:`접종 · ${vaccinations.find(item=>item.id===v.vaccineId)?.name??v.vaccineId} ${v.doseNumber}차${vaccinationSeasonSuffix(v)}`,value:v.completedDate});}
  return[...new Set([...local.keys(),...remote.keys()])].sort().map(key=>({key,label:local.get(key)?.label??remote.get(key)!.label,local:local.get(key)?.value??"기록 없음",remote:remote.get(key)?.value??"기록 없음",hasLocal:local.has(key),hasRemote:remote.has(key)}));
 }
 export function mergedSnapshot(p:ExistingRestorePreview,choices:MergeChoices):CloudSnapshot|{error:string}{
@@ -50,7 +52,7 @@ export function mergedSnapshot(p:ExistingRestorePreview,choices:MergeChoices):Cl
  const selected=(key:string,side:"local"|"remote")=>choices.records[key]===side;
  const baby={...p.remote.baby,name:p[choices.profile.name].baby.name,birthdate:p[choices.profile.birthdate].baby.birthdate,gender:p[choices.profile.gender].baby.gender};
  const measurements=[...p.local.measurements.filter(m=>selected(mKey(m.id),"local")),...p.remote.measurements.filter(m=>selected(mKey(m.id),"remote"))];
- const vaccinations=[...p.local.vaccinations.filter(v=>selected(vKey(v.vaccineId,v.doseNumber),"local")),...p.remote.vaccinations.filter(v=>selected(vKey(v.vaccineId,v.doseNumber),"remote"))];
+ const vaccinations=[...p.local.vaccinations.filter(v=>selected(vKey(v),"local")),...p.remote.vaccinations.filter(v=>selected(vKey(v),"remote"))];
  if(mergeRows(p).some(row=>!["local","remote","omit"].includes(choices.records[row.key])||(choices.records[row.key]==="local"&&!row.hasLocal)||(choices.records[row.key]==="remote"&&!row.hasRemote)))return{error:"없는 기록을 선택했어요. 선택 내용을 확인해 주세요."};
  return decodeCloudSnapshot(baby,measurements.map(m=>({id:m.id,baby_id:baby.id,date:m.date,month:m.month,height:m.height,weight:m.weight,head_circumference:m.headCircumference})),vaccinations.map(v=>({baby_id:baby.id,vaccine_id:v.vaccineId,dose_number:v.doseNumber,completed_date:v.completedDate})),baby.id);
 }

@@ -1,8 +1,8 @@
 const CACHE_PREFIX = 'infantpedia-';
-const CACHE_NAME = CACHE_PREFIX + 'v5';
+const CACHE_NAME = CACHE_PREFIX + 'v6';
 const OFFLINE_PAGE = '/offline.html';
 
-const PRIVATE_ROUTE = /^\/(?:api|auth|admin)(?:\/|$)/;
+const PRIVATE_ROUTE = /^\/(?:api|auth|admin|login)(?:\/|$)/;
 const STATIC_ASSET = /^\/_next\/static\/.*\.(?:js|css|woff2?|ttf|otf|png|svg|webp|avif|jpe?g|gif|ico)$/i;
 const ASSET_TYPE = /^(?:text\/css\b|(?:application|text)\/javascript\b|font\/|image\/|application\/(?:font-woff|x-font-))/i;
 

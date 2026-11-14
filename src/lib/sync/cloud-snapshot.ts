@@ -3,6 +3,7 @@ import type { Measurement } from "@/lib/store/measurement-store";
 import type { VaccinationRecord } from "@/lib/store/vaccination-store";
 import { vaccinations as schedule } from "@/lib/data/growth-data";
 import { getCalendarMonthsOld, getKoreaDate, isValidDateOnly } from "@/lib/utils/date";
+import { vaccinationRecordKey } from "@/lib/utils/vaccination-season";
 
 export interface CloudSnapshot {
   baby: { id: string; name: string; birthdate: string; gender: BabyGender };
@@ -29,10 +30,11 @@ export function decodeCloudSnapshot(baby: unknown, measurements: unknown, vaccin
   const decodedVaccinations: VaccinationRecord[] = [];
   for (const v of vaccinations) {
     if (!row(v) || v.baby_id !== baby.id || !text(v.vaccine_id) || !Number.isInteger(v.dose_number) || !validDate(v.completed_date) || !schedule.find(item => item.id === v.vaccine_id)?.doses.some(dose => dose.doseNumber === v.dose_number)) return fail;
-    const key = `${v.vaccine_id}:${v.dose_number}`;
+    const record = { vaccineId: v.vaccine_id, doseNumber: v.dose_number as number, completedDate: v.completed_date };
+    const key = vaccinationRecordKey(record);
     if (doses.has(key)) return fail;
     doses.add(key);
-    decodedVaccinations.push({ vaccineId: v.vaccine_id, doseNumber: v.dose_number as number, completedDate: v.completed_date });
+    decodedVaccinations.push(record);
   }
   return { baby: { id: baby.id, name: baby.name, birthdate, gender: baby.gender as BabyGender }, measurements: decodedMeasurements, vaccinations: decodedVaccinations };
 }

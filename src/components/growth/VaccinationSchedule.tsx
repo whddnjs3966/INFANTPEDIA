@@ -7,6 +7,7 @@ import { isVaccinationDue, vaccinations, type Vaccination } from "@/lib/data/gro
 import { useVaccinationStore, type VaccinationRecord } from "@/lib/store/vaccination-store";
 import { useBabyStore } from "@/lib/store/baby-store";
 import { getKoreaDate } from "@/lib/utils/date";
+import { INFLUENZA_VACCINE_ID, influenzaSeason, influenzaSeasonLabel } from "@/lib/utils/vaccination-season";
 
 interface VaccinationScheduleProps { currentMonth: number }
 type View = "current" | "remaining" | "completed" | "all";
@@ -18,7 +19,7 @@ function isValidDate(value: string) {
   return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 }
 
-function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate, onNotice }: {
+function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate, onNotice, season, seasons, onSeasonChange, completedOnly }: {
   vaccine: Vaccination;
   doses: Vaccination["doses"];
   records: VaccinationRecord[];
@@ -26,6 +27,10 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
   babyId: string;
   birthdate: string;
   onNotice: (message: string) => void;
+  season?: number;
+  seasons?: number[];
+  onSeasonChange?: (season: number) => void;
+  completedOnly?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [editorDose, setEditorDose] = useState<number | null>(null);
@@ -34,10 +39,16 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
   const [error, setError] = useState("");
   const savingRef = useRef(false);
   const id = useId();
-  const getRecord = (dose: number) => records.find((record) => record.vaccineId === vaccine.id && record.doseNumber === dose);
-  const done = doses.filter((dose) => getRecord(dose.doseNumber)).length;
+  const today = getKoreaDate();
+  const seasonStart = season === undefined ? undefined : `${season}-09-01`;
+  const seasonEnd = season === undefined ? undefined : `${season + 1}-08-31`;
+  const minDate = seasonStart && seasonStart > birthdate ? seasonStart : birthdate;
+  const maxDate = seasonEnd && seasonEnd < today ? seasonEnd : today;
+  const getRecord = (dose: number) => records.find((record) => record.vaccineId === vaccine.id && record.doseNumber === dose && (season === undefined || influenzaSeason(record.completedDate) === season));
+  const shownDoses = completedOnly ? doses.filter(dose => getRecord(dose.doseNumber)) : doses;
+  const done = shownDoses.filter((dose) => getRecord(dose.doseNumber)).length;
   const current = doses.some((dose) => !getRecord(dose.doseNumber) && isVaccinationDue(dose, currentMonth));
-  const status = done === doses.length ? "완료" : current ? "이번 시기" : done ? `${done}회 기록` : doses.every(dose => dose.conditional) ? "조건 확인" : "미완료";
+  const status = season !== undefined ? `${done}회 기록` : done === doses.length ? "완료" : current ? "이번 시기" : done ? `${done}회 기록` : doses.every(dose => dose.conditional) ? "조건 확인" : "미완료";
 
   const save = (event: React.FormEvent, doseNumber: number) => {
     event.preventDefault();
@@ -47,7 +58,7 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
     if (date < birthdate) { setError("생년월일 이후의 접종일을 선택해 주세요."); return; }
     savingRef.current = true;
     try {
-      const result = useVaccinationStore.getState().saveVaccination(vaccine.id, doseNumber, date, babyId);
+      const result = useVaccinationStore.getState().saveVaccination(vaccine.id, doseNumber, date, babyId, season);
       if (!result.ok) { setError(result.error || "기록을 확인해 주세요."); return; }
       setEditorDose(null); setError("");
       onNotice(`${vaccine.name} ${doseNumber}차 접종일(${date})을 이 기기에 저장했어요.`);
@@ -58,7 +69,7 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
 
   const remove = (doseNumber: number) => {
     try {
-      const result = useVaccinationStore.getState().removeVaccination(vaccine.id, doseNumber, babyId);
+      const result = useVaccinationStore.getState().removeVaccination(vaccine.id, doseNumber, babyId, season);
       if (!result.ok) { setError(result.error || "기록을 확인해 주세요."); return; }
       setDeleteDose(null); setError("");
       onNotice(`${vaccine.name} ${doseNumber}차 접종 완료 기록을 삭제했어요.`);
@@ -81,7 +92,19 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
             <p className="break-words">{vaccine.nameEn} · {vaccine.description}</p>
             <p>{done}회 기록{doses.some(dose => dose.conditional) ? " · 해당하는 차수만 기록해 주세요." : ` · 표시된 일정 ${doses.length}회`}</p>
           </div>
-          {doses.map((dose) => {
+          {season !== undefined && <div className="space-y-2">
+            <label htmlFor={`${id}-season`} className="block text-sm font-semibold">접종 절기</label>
+            <select id={`${id}-season`} value={season} onChange={event => {
+              onSeasonChange?.(Number(event.target.value));
+              setEditorDose(null);
+              setDeleteDose(null);
+              setError("");
+            }} className="min-h-12 w-full min-w-0 rounded-xl border border-[var(--border)] bg-[var(--card)] px-2 text-sm">
+              {seasons?.map(item => <option key={item} value={item}>{influenzaSeasonLabel(item)}</option>)}
+            </select>
+            <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">접종일을 9월부터 다음 해 8월까지 묶어 보여드려요. 접종 대상과 지원 일정은 <a href="https://nip.kdca.go.kr/irhp/infm/goVcntInfo.do?menuCd=134&menuLv=1" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--brand)] underline">질병관리청</a>에서 확인해 주세요.</p>
+          </div>}
+          {shownDoses.map((dose) => {
             const record = getRecord(dose.doseNumber);
             const current = isVaccinationDue(dose, currentMonth);
             const dateId = `${id}-${dose.doseNumber}-date`;
@@ -94,14 +117,14 @@ function VaccineCard({ vaccine, doses, records, currentMonth, babyId, birthdate,
                     {dose.note && <p className="mt-1 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{dose.note}</p>}
                     {record && <p className="mt-2 text-sm font-semibold leading-6 text-[var(--brand)]">접종 완료 · {record.completedDate}</p>}
                   </div>
-                  <button type="button" aria-label={`${vaccine.name} ${dose.doseLabel} ${record ? "접종일 수정" : "접종 완료 기록"}`} aria-expanded={editorDose === dose.doseNumber} onClick={() => { setEditorDose(dose.doseNumber); setDeleteDose(null); setDate(record?.completedDate || getKoreaDate()); setError(""); }} className={cn("flex min-h-12 min-w-0 max-w-full flex-wrap items-center justify-center gap-1.5 break-words rounded-xl px-3 py-2 text-sm font-semibold transition-colors @max-[16rem]:[&>svg]:hidden", record ? "border border-[var(--border)] bg-[var(--card)] text-[var(--brand)]" : "bg-[var(--brand)] text-[var(--brand-foreground)] hover:bg-[var(--brand-pressed)]")}>
+                  <button type="button" aria-label={`${vaccine.name} ${dose.doseLabel} ${record ? "접종일 수정" : "접종 완료 기록"}`} aria-expanded={editorDose === dose.doseNumber} onClick={() => { setEditorDose(dose.doseNumber); setDeleteDose(null); setDate(record?.completedDate ?? (maxDate === today ? today : "")); setError(""); }} className={cn("flex min-h-12 min-w-0 max-w-full flex-wrap items-center justify-center gap-1.5 break-words rounded-xl px-3 py-2 text-sm font-semibold transition-colors @max-[16rem]:[&>svg]:hidden", record ? "border border-[var(--border)] bg-[var(--card)] text-[var(--brand)]" : "bg-[var(--brand)] text-[var(--brand-foreground)] hover:bg-[var(--brand-pressed)]")}>
                     {record ? <Pencil size={15} aria-hidden /> : <Check size={16} aria-hidden />}{record ? "접종일 수정" : "완료 기록"}
                   </button>
                 </div>
                 {editorDose === dose.doseNumber && (
                   <form onSubmit={(event) => save(event, dose.doseNumber)} noValidate className="mt-4 space-y-3 border-t border-stone-200 pt-3 dark:border-stone-600 @max-[16rem]:-mx-2">
                     <label htmlFor={dateId} className="block text-sm font-semibold text-stone-800 dark:text-stone-200">실제 접종일</label>
-                    <input id={dateId} type="date" min={birthdate} max={getKoreaDate()} value={date} onChange={(event) => { setDate(event.target.value); setError(""); }} aria-invalid={!!error} aria-describedby={error ? `${dateId}-error` : undefined} className="min-h-12 min-w-0 max-w-full w-full rounded-xl border border-stone-300 bg-white px-3 text-base text-stone-900 dark:border-stone-600 dark:bg-[var(--card)] dark:text-stone-100 @max-[16rem]:px-2" />
+                    <input id={dateId} type="date" min={minDate} max={maxDate} value={date} onChange={(event) => { setDate(event.target.value); setError(""); }} aria-invalid={!!error} aria-describedby={error ? `${dateId}-error` : undefined} className="min-h-12 min-w-0 max-w-full w-full rounded-xl border border-stone-300 bg-white px-3 text-base text-stone-900 dark:border-stone-600 dark:bg-[var(--card)] dark:text-stone-100 @max-[16rem]:px-2" />
                     {date && <p className="break-words text-sm leading-6 text-[var(--muted-foreground)]">선택한 날짜: <time dateTime={date}>{date}</time></p>}
                     {error && <p id={`${dateId}-error`} role="alert" className="text-sm font-medium text-red-700 dark:text-red-300">{error}</p>}
                     <div className="flex flex-wrap gap-2">
@@ -131,13 +154,23 @@ export default function VaccinationSchedule({ currentMonth }: VaccinationSchedul
   const allRecords = useVaccinationStore((state) => state.records);
   const [view, setView] = useState<View>("current");
   const [notice, setNotice] = useState("");
+  const [selectedSeason, setSelectedSeason] = useState<number>();
   const profileId = profile?.id;
   const records = useMemo(() => allRecords.filter((record) => !!profileId && (record.babyId === profileId || (!record.babyId && legacyOwnerId === profileId))), [allRecords, profileId, legacyOwnerId]);
+  const currentSeason = influenzaSeason(getKoreaDate())!;
+  const birthSeason = (profile && influenzaSeason(profile.birthdate)) || currentSeason;
+  const recordedSeasons = [...new Set(records.filter(record => record.vaccineId === INFLUENZA_VACCINE_ID).flatMap(record => influenzaSeason(record.completedDate) ?? []))].sort((a, b) => b - a);
+  const seasonOptions = view === "completed" ? recordedSeasons : [...new Set([
+    ...Array.from({ length: Math.max(1, currentSeason - birthSeason + 1) }, (_, index) => currentSeason - index),
+    ...recordedSeasons,
+  ])].sort((a, b) => b - a);
+  const season = selectedSeason !== undefined && seasonOptions.includes(selectedSeason) ? selectedSeason : seasonOptions[0];
   const completed = (vaccineId: string, doseNumber: number) => records.some((record) => record.vaccineId === vaccineId && record.doseNumber === doseNumber);
   const total = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter(dose => !dose.conditional).length, 0);
   const done = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter(dose => !dose.conditional && completed(vaccine.id, dose.doseNumber)).length, 0);
   const due = vaccinations.reduce((sum, vaccine) => sum + vaccine.doses.filter(dose => isVaccinationDue(dose, currentMonth) && !completed(vaccine.id, dose.doseNumber)).length, 0);
   const groups = vaccinations.map((vaccine) => ({ vaccine, doses: vaccine.doses.filter((dose) => {
+    if (vaccine.id === INFLUENZA_VACCINE_ID) return view === "all" || (view === "completed" && recordedSeasons.length > 0);
     const isDone = completed(vaccine.id, dose.doseNumber);
     if (view === "all") return true;
     if (view === "completed") return isDone;
@@ -164,7 +197,8 @@ export default function VaccinationSchedule({ currentMonth }: VaccinationSchedul
       <p className="text-sm leading-6 text-[var(--muted-foreground)]">백신을 열고 실제 접종일을 기록해 주세요. 접종 일정은 아기의 접종 이력과 백신 제품에 따라 달라질 수 있어요.</p>
       {view !== "all" && <button type="button" onClick={() => { setView("all"); setNotice(""); }} className="min-h-11 max-w-full break-words rounded-lg text-left text-sm font-semibold text-[var(--brand)] underline underline-offset-4">인플루엔자와 제품별 접종 기록 보기</button>}
       {notice && <p role="status" className="rounded-2xl bg-blue-50 p-4 text-sm font-semibold text-blue-900 dark:bg-blue-950/50 dark:text-blue-200">{notice}</p>}
-      {groups.length === 0 ? <div className="surface-card p-5"><p className="text-base leading-7 text-[var(--muted-foreground)]">{view === "current" ? "이번 월령에 남은 접종 기록이 없어요." : "이 목록에 표시할 접종 기록이 없어요."}</p><button type="button" onClick={() => setView("all")} className="mt-3 min-h-12 min-w-0 max-w-full break-words rounded-xl bg-[var(--accent-soft)] px-4 py-2 text-base font-semibold text-[var(--brand)]">전체 접종 일정 보기</button></div> : <div className="space-y-3">{groups.map(({ vaccine, doses }) => <VaccineCard key={`${profile.id}-${view}-${vaccine.id}`} vaccine={vaccine} doses={doses} currentMonth={currentMonth} records={records} babyId={profile.id} birthdate={profile.birthdate} onNotice={setNotice} />)}</div>}
+      {groups.length === 0 ? <div className="surface-card p-5"><p className="text-base leading-7 text-[var(--muted-foreground)]">{view === "current" ? "이번 월령에 남은 접종 기록이 없어요." : "이 목록에 표시할 접종 기록이 없어요."}</p><button type="button" onClick={() => setView("all")} className="mt-3 min-h-12 min-w-0 max-w-full break-words rounded-xl bg-[var(--accent-soft)] px-4 py-2 text-base font-semibold text-[var(--brand)]">전체 접종 일정 보기</button></div> : <div className="space-y-3">{groups.map(({ vaccine, doses }) => <VaccineCard key={`${profile.id}-${view}-${vaccine.id}`} vaccine={vaccine} doses={doses} currentMonth={currentMonth} records={records} babyId={profile.id} birthdate={profile.birthdate} onNotice={setNotice}
+        season={vaccine.id === INFLUENZA_VACCINE_ID ? season : undefined} seasons={seasonOptions} onSeasonChange={next => { setSelectedSeason(next); setNotice(""); }} completedOnly={vaccine.id === INFLUENZA_VACCINE_ID && view === "completed"} />)}</div>}
       <p className="text-sm leading-6 text-[var(--muted-foreground)]">기록은 이 기기에 저장돼요. <a href="https://nip.kdca.go.kr/irhp/infm/goVcntInfo.do?menuCd=115&menuLv=1" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--brand)] underline underline-offset-4">질병관리청 표준 예방접종 일정표</a></p>
     </div>
   );

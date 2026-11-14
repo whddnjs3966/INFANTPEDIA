@@ -29,6 +29,7 @@ const observations=load('src/lib/store/milestone-store').useMilestoneStore;
 const vaccinations=load('src/lib/store/vaccination-store').useVaccinationStore;
 const activeProgress=load('src/lib/store/milestone-store').activeMilestoneProgress;
 const dates=load('src/lib/utils/record-date');
+const seasons=load('src/lib/utils/vaccination-season');
 let checks=0;
 function check(name,run){run();checks++;console.log('PASS '+name);}
 baby.getState().addBaby({name:'A',birthdate:'2026-08-29',gender:'male'});
@@ -98,6 +99,34 @@ check('invalid vaccination dates, doses and stale owners do not write',()=>{
   assert.equal(vaccinations.getState().saveVaccination('hepb',1,'2026-10-20',a).ok,false);
   assert.equal(vaccinations.getState().removeVaccination('hepb',1,a).ok,false);
   assert.equal(vaccinations.getState().getRecord('hepb',1).completedDate,'2026-09-02');
+});
+check('influenza doses preserve old dates and update or remove only the selected season',()=>{
+  const initial=vaccinations.getState().records;
+  const profile=baby.getState().profile;
+  const savedBabies=baby.getState().babies;
+  const older={...profile,birthdate:'2025-01-12'};
+  baby.setState({profile:older,babies:savedBabies.map(item=>item.id===older.id?older:item)});
+  const legacy={babyId:older.id,vaccineId:'flu',doseNumber:1,completedDate:'2025-10-10'};
+  vaccinations.setState({records:[...initial,legacy]});
+  const store=vaccinations.getState();
+  try {
+    assert.equal(seasons.influenzaSeason('2026-08-31'),2025);
+    assert.equal(seasons.influenzaSeason('2026-09-01'),2026);
+    assert.equal(seasons.influenzaSeason('2026-02-30'),undefined);
+    assert.equal(store.saveVaccination('flu',1,'2026-10-01',older.id,2026).ok,true);
+    assert.equal(store.saveVaccination('flu',2,'2026-10-29',older.id,2026).ok,true);
+    assert.equal(store.getRecord('flu',1,2025).completedDate,'2025-10-10');
+    assert.equal(store.getRecord('flu',1,2026).completedDate,'2026-10-01');
+    assert.equal(store.saveVaccination('flu',1,'2025-10-12',older.id,2026).ok,false);
+    assert.equal(store.saveVaccination('flu',1,'2025-10-12',older.id,2025).ok,true);
+    assert.equal(store.removeVaccination('flu',1,older.id,2026).ok,true);
+    assert.equal(store.getRecord('flu',1,2026),undefined);
+    assert.equal(store.getRecord('flu',2,2026).completedDate,'2026-10-29');
+    assert.equal(store.getRecord('flu',1,2025).completedDate,'2025-10-12');
+  } finally {
+    baby.setState({profile,babies:savedBabies});
+    vaccinations.setState({records:initial});
+  }
 });
 baby.getState().setActiveBaby(a);
 check('measurement identifiers and ownership cannot be reassigned',()=>{

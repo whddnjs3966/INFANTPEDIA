@@ -19,6 +19,18 @@ async function check(name,action){calls=[];response=receipt(1);await action();ch
  await check('a mismatched acknowledgement is never treated as success',async()=>{for(const data of [{baby_id:baby,revision:9,request_id:request},{baby_id:request,revision:1,request_id:request},{baby_id:baby,revision:1,request_id:baby}]){response={data,error:null};assert.equal((await client.writeAtomicBackup(baby,0,request,snapshot())).kind,'invalid');}});
  await check('invalid local records never reach the RPC',async()=>{const value=snapshot();value.measurements[0].height=-1;assert.equal((await client.writeAtomicBackup(baby,0,request,value)).kind,'invalid');assert.equal(calls.length,0);});
  await check('read validates the complete snapshot and its version',async()=>{const value=snapshot();response={data:{baby_id:baby,revision:4,payload:{baby:value.baby,measurements:[{id:'m1',baby_id:baby,date:'2026-10-29',month:2,height:58.4}],vaccinations:[]}},error:null};const result=await client.readAtomicBackup(baby);assert.equal(result.revision,4);assert.equal(result.snapshot.measurements[0].id,'m1');response.data.payload.measurements[0].baby_id=request;assert.equal((await client.readAtomicBackup(baby)).kind,'invalid');});
+ await check('influenza dates survive RPC serialization and decoding without a new payload field',async()=>{
+  const value=snapshot();
+  value.baby.birthdate='2025-01-01';
+  value.vaccinations=['2025-10-12','2026-10-14'].map(completedDate=>({vaccineId:'flu',doseNumber:1,completedDate}));
+  assert.equal((await client.writeAtomicBackup(baby,0,request,value)).revision,1);
+  const payload=calls[0].args.p_payload;
+  assert.equal(payload.vaccinations.length,2);
+  assert.equal(Object.keys(payload.vaccinations[0]).sort().join(','),'baby_id,completed_date,dose_number,vaccine_id');
+  response={data:{baby_id:baby,revision:1,payload},error:null};
+  const result=await client.readAtomicBackup(baby);
+  assert.equal(JSON.stringify(result.snapshot.vaccinations),JSON.stringify(value.vaccinations));
+ });
  await check('missing membership is returned as permission denial',async()=>{response={data:null,error:{code:'42501'}};assert.equal((await client.readAtomicBackup(baby)).kind,'permission');});
  await check('account-bound automatic writes use the guarded RPC',async()=>{await client.writeAtomicBackup(baby,0,request,snapshot(),'11111111-1111-4111-8111-111111111111');assert.equal(calls[0].name,'write_backup_snapshot_for_account');assert.equal(calls[0].args.p_expected_user_id,'11111111-1111-4111-8111-111111111111');});
  console.log(`${checks} atomic client checks passed (mock RPC, no production writes).`);

@@ -41,6 +41,16 @@ async function check(name,fn){fixture();await fn();checks++;console.log('PASS '+
   ['unknown vaccine dose',()=>responses.shared_vaccinations.data[0].dose_number=99],
   ['duplicate vaccination doses',()=>{responses.shared_vaccinations.data.push({...responses.shared_vaccinations.data[0]});responses.shared_vaccinations.count=2;}],
  ])await check(label+' fails whole snapshot',async()=>{edit();assert.ok((await service.pullFromCloud('shared')).error);});
+ await check('cloud validation distinguishes the same flu dose across season boundaries',async()=>{
+  const baby={...responses.shared_babies.data,birthdate:'2025-01-01'};
+  const flu=completed_date=>({baby_id:baby.id,vaccine_id:'flu',dose_number:1,completed_date});
+  const two=[flu('2026-08-31'),flu('2026-09-01')];
+  const result=decode(baby,[],two,baby.id);
+  assert.equal(result.vaccinations.length,2);
+  assert.equal(result.vaccinations[0].completedDate,'2026-08-31');
+  assert.equal(result.vaccinations[1].completedDate,'2026-09-01');
+  assert.ok(decode(baby,[],[...two,flu('2026-09-02')],baby.id).error);
+ });
  await check('valid genuinely empty server arrays remain distinguishable from failure',async()=>{responses.shared_measurements={data:[],count:0,error:null};responses.shared_vaccinations={data:[],count:0,error:null};const result=await service.pullFromCloud('shared');assert.equal(result.measurements.length,0);assert.equal(result.vaccinations.length,0);});
  await check('local edits and baby switches refuse stale imports without changing records',async()=>{
   baby.getState().addBaby({name:'A',birthdate:'2026-08-29',gender:'male'});const id=baby.getState().profile.id;

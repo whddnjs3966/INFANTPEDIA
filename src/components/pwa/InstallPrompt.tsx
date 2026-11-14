@@ -1,100 +1,97 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Download, X } from "lucide-react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { Download } from "lucide-react";
 
-interface BeforeInstallPromptEvent extends Event {
+interface InstallEvent extends Event {
   prompt(): Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
-export default function InstallPrompt() {
-  const reduceMotion = useReducedMotion();
-  const [deferredPrompt, setDeferredPrompt] =
-    useState<BeforeInstallPromptEvent | null>(null);
-  const [showBanner, setShowBanner] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+type InstallState = {
+  available: boolean;
+  installed: boolean;
+  busy: boolean;
+  message: string;
+  install: () => void;
+};
+
+const InstallContext = createContext<InstallState | null>(null);
+
+export function InstallPromptProvider({ children }: { children: ReactNode }) {
+  const eventRef = useRef<InstallEvent | null>(null);
+  const [available, setAvailable] = useState(false);
+  const [installed, setInstalled] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // Check if already dismissed recently
-    const dismissedAt = localStorage.getItem("pwa-install-dismissed");
-    if (dismissedAt) {
-      const daysSinceDismissed =
-        (Date.now() - parseInt(dismissedAt, 10)) / (1000 * 60 * 60 * 24);
-      if (daysSinceDismissed < 7) {
-        return;
-      }
-    }
-
-    const handler = (e: Event) => {
-      e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setShowBanner(true);
+    const standalone = window.matchMedia("(display-mode: standalone)");
+    const updateDisplay = () => setInstalled(standalone.matches || (navigator as Navigator & { standalone?: boolean }).standalone === true);
+    const ready = (event: Event) => {
+      event.preventDefault();
+      eventRef.current = event as InstallEvent;
+      setAvailable(true);
+      setMessage("");
+    };
+    const complete = () => {
+      eventRef.current = null;
+      setInstalled(true);
+      setAvailable(false);
+      setMessage("");
     };
 
-    window.addEventListener("beforeinstallprompt", handler);
-    return () => window.removeEventListener("beforeinstallprompt", handler);
+    updateDisplay();
+    standalone.addEventListener("change", updateDisplay);
+    window.addEventListener("beforeinstallprompt", ready);
+    window.addEventListener("appinstalled", complete);
+    return () => {
+      standalone.removeEventListener("change", updateDisplay);
+      window.removeEventListener("beforeinstallprompt", ready);
+      window.removeEventListener("appinstalled", complete);
+    };
   }, []);
 
-  const handleInstall = async () => {
-    if (!deferredPrompt) return;
-    await deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") {
-      setShowBanner(false);
+  async function install() {
+    const event = eventRef.current;
+    if (!event || busy || installed) return;
+    eventRef.current = null;
+    setAvailable(false);
+    setBusy(true);
+    try {
+      await event.prompt();
+      const { outcome } = await event.userChoice;
+      if (outcome === "accepted") setInstalled(true);
+      else setMessage("설치를 취소했어요. 브라우저 메뉴에서도 다시 설치할 수 있어요.");
+    } catch {
+      setMessage("설치 창을 열지 못했어요. 브라우저 메뉴의 설치 방법을 확인해 주세요.");
+    } finally {
+      setBusy(false);
     }
-    setDeferredPrompt(null);
-  };
+  }
 
-  const handleDismiss = () => {
-    setShowBanner(false);
-    setDismissed(true);
-    localStorage.setItem("pwa-install-dismissed", Date.now().toString());
-  };
+  return <InstallContext.Provider value={{ available, installed, busy, message, install }}>{children}</InstallContext.Provider>;
+}
 
-  if (dismissed || !showBanner) return null;
+export default function InstallPrompt() {
+  const state = useContext(InstallContext);
+  if (!state) return null;
+  const { available, installed, busy, message, install } = state;
 
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
-        transition={{ duration: reduceMotion ? 0 : 0.18 }}
-        className="fixed bottom-20 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2"
-      >
-        <div className="relative overflow-hidden rounded-2xl bg-[var(--card)] p-4 shadow-lg">
-          <button
-            onClick={handleDismiss}
-            className="absolute right-3 top-3 flex min-h-11 min-w-11 items-center justify-center rounded-full p-1 text-[var(--muted-foreground)] active:bg-[var(--surface-muted)]"
-            aria-label="닫기"
-          >
-            <X size={16} />
-          </button>
-
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-100 to-blue-200">
-              <Download size={20} className="text-blue-800" />
-            </div>
-            <div className="min-w-0 flex-1 pr-12">
-              <p className="text-sm font-bold text-[var(--foreground)]">
-                홈 화면에 추가하기
-              </p>
-              <p className="text-xs text-[var(--muted-foreground)]">
-                앱처럼 바로 실행할 수 있어요
-              </p>
-            </div>
-          </div>
-
-          <button
-            onClick={handleInstall}
-            className="mt-3 min-h-11 w-full rounded-xl bg-[var(--brand)] py-2.5 text-sm font-semibold text-[var(--brand-foreground)] active:scale-[0.98]"
-          >
-            설치하기
-          </button>
-        </div>
-      </motion.div>
-    </AnimatePresence>
-  );
+  return <section aria-label="홈 화면에 추가" className="surface-card space-y-2 p-4 [overflow-wrap:anywhere]">
+    <h3 className="flex items-center gap-2 text-base font-semibold"><Download size={18} aria-hidden="true" className="shrink-0 text-[var(--brand)]" />홈 화면에 추가</h3>
+    {installed ? <p className="text-sm leading-6" role="status">이 기기에 설치되어 있어요.</p> : <>
+      {available || busy ? <button type="button" onClick={install} disabled={busy} className="min-h-12 max-w-full rounded-xl bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-[var(--brand-foreground)]">
+        {busy ? "설치 선택을 기다리는 중" : "앱 설치하기"}
+      </button> : null}
+      {message && <p role="status" className="text-sm leading-6 text-[var(--muted-foreground)]">{message}</p>}
+      <details open={!available && !busy} className="text-sm leading-6 text-[var(--muted-foreground)]">
+        <summary className="min-h-11 cursor-pointer py-2.5 font-semibold text-[var(--foreground)]">브라우저 메뉴에서 설치하는 방법</summary>
+        <ul className="list-disc space-y-2 pl-5 pb-2">
+          <li>iPhone의 Safari에서 공유 버튼을 누른 뒤 ‘홈 화면에 추가’를 선택하세요. ‘웹 앱으로 열기’가 보이면 켜고 추가하세요.</li>
+          <li>Android의 Chrome에서 메뉴를 열고 ‘홈 화면에 추가’ 또는 ‘앱 설치’를 선택하세요.</li>
+        </ul>
+      </details>
+    </>}
+  </section>;
 }

@@ -29,6 +29,7 @@ import SharingSection from "@/components/sharing/SharingSection";
 import { useAuth } from "@/hooks/useAuth";
 import StorageOverview from "@/components/settings/StorageOverview";
 import DataLifecyclePanel from "@/components/settings/DataLifecyclePanel";
+import InstallPrompt from "@/components/pwa/InstallPrompt";
 import "./settings.css";
 
 const settingsTabs = [
@@ -343,6 +344,7 @@ export default function SettingsPage() {
             <ChevronRight size={18} className="settings-chevron settings-end" aria-hidden />
           </button>
         </div>
+        <InstallPrompt />
         <div className="settings-reading-art" aria-hidden="true">
           <Image src="/images/home/moon.webp" alt="" width={77} height={71} />
           <Image src="/images/encyclopedia/book.webp" alt="" width={81} height={66} />

@@ -6,6 +6,7 @@ import { localBackupSnapshot, snapshotSignature, durableRegistration, registrati
 import type { CloudSnapshot } from "@/lib/sync/cloud-snapshot";
 import { vaccinations } from "@/lib/data/growth-data";
 import { useAtomicTransferStore, transferKey } from "@/lib/store/atomic-transfer-store";
+import { vaccinationRecordKey, vaccinationSeasonSuffix } from "@/lib/utils/vaccination-season";
 
 export interface RegistrationReview { registration: Registration; local: CloudSnapshot; remote: CloudSnapshot; revision: number; }
 const changed = {error:"계정·아기·기록 또는 서버 버전이 바뀌었어요. 기록을 다시 비교해 주세요."};
@@ -107,7 +108,7 @@ export function registrationDifferences(local: CloudSnapshot, remote: CloudSnaps
     if(value(local)!==value(remote))rows.push({label,local:value(local),remote:value(remote)});
   }
   const measurements=(s:CloudSnapshot)=>new Map(s.measurements.map(m=>[m.id,{label:`성장 기록 · ${m.date}`,value:`${m.date} · 키 ${m.height??"—"}cm · 몸무게 ${m.weight??"—"}kg · 머리둘레 ${m.headCircumference??"—"}cm`}]));
-  const vaccines=(s:CloudSnapshot)=>new Map(s.vaccinations.map(v=>[`${v.vaccineId}:${v.doseNumber}`,{label:`접종 · ${vaccinations.find(item=>item.id===v.vaccineId)?.name??v.vaccineId} ${v.doseNumber}차`,value:v.completedDate}]));
+  const vaccines=(s:CloudSnapshot)=>new Map(s.vaccinations.map(v=>[vaccinationRecordKey(v),{label:`접종 · ${vaccinations.find(item=>item.id===v.vaccineId)?.name??v.vaccineId} ${v.doseNumber}차${vaccinationSeasonSuffix(v)}`,value:v.completedDate}]));
   for(const maps of [[measurements(local),measurements(remote)],[vaccines(local),vaccines(remote)]]) {
     const [a,b]=maps;
     for(const id of [...new Set([...a.keys(),...b.keys()])].sort()) {

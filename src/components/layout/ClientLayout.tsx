@@ -8,6 +8,7 @@ import BottomTabBar from "./BottomTabBar";
 import SyncManager from "@/components/sync/SyncManager";
 import AtomicSyncManager from "@/components/sync/AtomicSyncManager";
 import { useEffect, useSyncExternalStore } from "react";
+import { InstallPromptProvider } from "@/components/pwa/InstallPrompt";
 import { isLocalRestoreBlocked, recoverLocalRestore, subscribeLocalDataSafety, isLocalDocumentStale } from "@/lib/sync/local-restore-journal";
 import "./bright-shell.css";
 
@@ -38,7 +39,7 @@ export default function ClientLayout({
           regs.forEach((reg) => reg.unregister());
         });
         if ("caches" in window) {
-          caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+          caches.keys().then((keys) => keys.filter(key => key.startsWith("infantpedia-")).forEach((key) => caches.delete(key)));
         }
       }
     }
@@ -107,7 +108,7 @@ export default function ClientLayout({
   }
 
   return (
-    <div
+    <InstallPromptProvider><div
       data-bright-shell={illustratedTabs.has(pathname) ? "" : undefined}
       className="mx-auto min-h-screen w-full max-w-[480px]"
       style={{ backgroundColor: "var(--surface-bg)" }}
@@ -119,6 +120,6 @@ export default function ClientLayout({
         {children}
       </main>
       {showTabBar && <BottomTabBar />}
-    </div>
+    </div></InstallPromptProvider>
   );
 }

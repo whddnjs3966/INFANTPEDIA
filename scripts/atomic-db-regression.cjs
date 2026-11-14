@@ -24,6 +24,7 @@ async function check(name, action) { await action(); checks++; console.log('PASS
  await db.exec(fs.readFileSync(path.join(root,'sql/007_atomic_backup.sql'),'utf8'));
  await db.exec(fs.readFileSync(path.join(root,'sql/009_account_bound_backup.sql'),'utf8'));
  await db.exec(fs.readFileSync(path.join(root,'sql/010_list_account_backups.sql'),'utf8'));
+ await db.exec(fs.readFileSync(path.join(root,'sql/013_influenza_backup_seasons.sql'),'utf8'));
  for(const id of users) await db.query('insert into auth.users values($1)',[id]);
  await db.query("insert into public.shared_babies(id,invite_code,name,birthdate,gender,creator_id) values($1,'ABC234','Legacy','2026-08-29','male',$2),($3,'ABC235','Other','2026-08-29','female',$2)",[baby,users[3],second]);
  await db.query("insert into public.backup_memberships values($1,$2,'owner'),($1,$3,'editor'),($1,$4,'reader'),($5,$2,'owner')",[baby,users[0],users[1],users[2],second]);
@@ -63,5 +64,20 @@ async function check(name, action) { await action(); checks++; console.log('PASS
  await check('revocation takes effect before any further write',async()=>{await admin('delete from public.backup_memberships where baby_id=$1 and user_id=$2',[baby,users[0]]);await login(users[0]);await denied(()=>write(2,randomUUID(),payload()),'42501');});
  await check('authorized editor can write through the account-bound RPC',async()=>{await login(users[1]);const result=(await db.query('select public.write_backup_snapshot_for_account($1,2,$2,$3::jsonb,$4) as r',[baby,randomUUID(),JSON.stringify(payload('Guarded write')),users[1]])).rows[0].r;assert.equal(result.revision,3);});
  await check('anonymous execution of the account-bound wrapper is denied',async()=>{await login(null,'anon');await denied(()=>db.query('select public.write_backup_snapshot_for_account($1,3,$2,$3::jsonb,$4)',[baby,randomUUID(),JSON.stringify(payload()),users[1]]),'42501');});
+ await check('two influenza seasons survive a snapshot write; a duplicate in the same season leaves it intact',async()=>{
+   await login(users[1]);
+   const before=await read();
+   const value=payload('Influenza history');
+   value.baby.birthdate='2025-01-01';
+   const flu=date=>({baby_id:baby,vaccine_id:'flu',dose_number:1,completed_date:date});
+   value.vaccinations.push(flu('2026-08-31'),flu('2026-09-01'));
+   const id=randomUUID();
+   assert.equal((await write(before.revision,id,value)).revision,before.revision+1);
+   assert.deepEqual((await read()).payload.vaccinations,value.vaccinations);
+   assert.equal((await write(before.revision,id,value)).revision,before.revision+1);
+   value.vaccinations.push(flu('2026-09-02'));
+   await denied(()=>write(before.revision+1,randomUUID(),value),'22023');
+   assert.equal((await read()).payload.vaccinations.length,3);
+ });
  console.log(`${checks} atomic database checks passed (in-memory PGlite; simulated auth; not multi-session stress).`);
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(async()=>{await db?.close();});

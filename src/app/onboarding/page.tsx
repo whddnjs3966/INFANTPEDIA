@@ -3,6 +3,7 @@
 import { useState } from "react";
 import NextLink from "next/link";
 import { getKoreaDate } from "@/lib/utils/date";
+import { influenzaSeason } from "@/lib/utils/vaccination-season";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useBabyStore, type BabyGender } from "@/lib/store/baby-store";
@@ -107,8 +108,9 @@ export default function OnboardingPage() {
       // Import vaccinations
       for (const v of result.vaccinations) {
         const vacStore = useVaccinationStore.getState();
-        if (!vacStore.isCompleted(v.vaccineId, v.doseNumber)) {
-          vacStore.toggleVaccination(v.vaccineId, v.doseNumber, v.completedDate);
+        const season = influenzaSeason(v.completedDate);
+        if (!vacStore.isCompleted(v.vaccineId, v.doseNumber, season)) {
+          vacStore.saveVaccination(v.vaccineId, v.doseNumber, v.completedDate, newBaby.id, season);
         }
       }
 

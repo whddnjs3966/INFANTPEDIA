@@ -8,6 +8,7 @@ import { useAtomicConnectionStore, ATOMIC_CONNECTION_KEY, type Registration } fr
 import { recordsForBaby } from "@/lib/utils/baby-records";
 import type { CloudSnapshot } from "@/lib/sync/cloud-snapshot";
 import { isLocalRestoreInProgress } from "@/lib/sync/local-restore-journal";
+import { vaccinationRecordKey } from "@/lib/utils/vaccination-season";
 
 // Opt-in for a separately validated environment. Legacy sharing always remains closed.
 export function isAtomicRegistrationEnabled() {
@@ -25,7 +26,7 @@ export function localBackupSnapshot(localBabyId: string, sharedBabyId: string): 
 export function snapshotSignature(snapshot: CloudSnapshot) {
   return JSON.stringify({ baby:snapshot.baby,
     measurements:[...snapshot.measurements].sort((a,b)=>a.id.localeCompare(b.id)).map(m=>[m.id,m.date,m.height??null,m.weight??null,m.headCircumference??null]),
-    vaccinations:[...snapshot.vaccinations].sort((a,b)=>a.vaccineId.localeCompare(b.vaccineId)||a.doseNumber-b.doseNumber).map(v=>[v.vaccineId,v.doseNumber,v.completedDate]),
+    vaccinations:[...snapshot.vaccinations].sort((a,b)=>vaccinationRecordKey(a).localeCompare(vaccinationRecordKey(b))).map(v=>[v.vaccineId,v.doseNumber,v.completedDate]),
   });
 }
 // Verify persistence before sending: a quota/storage failure must never lose retry identity.
